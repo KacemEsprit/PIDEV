@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Patient Dashboard{% endblock %}
+
+{% block body %}
+{% include 'partials/_navigation.html.twig' %}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="d-flex justify-content-end mb-3">
+                        <a href="{{ path('app_logout') }}" class="btn btn-danger">
+                            <i class="fas fa-sign-out-alt"></i> Déconnexion
+                        </a>
+                    </div>
+                    <h1 class="display-4">Je suis Patient</h1>
+                    <p class="lead">Bienvenue {{ user.prenom }} {{ user.nom }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Your Information</h5>
+                    <ul class="list-unstyled">
+                        <li><strong>Email:</strong> {{ user.email }}</li>
+                        <li><strong>Phone:</strong> {{ user.tel }}</li>
+                        <li><strong>Address:</strong> {{ user.adresse }}</li>
+                        <li><strong>Role:</strong> Patient</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Quick Actions</h5>
+                    <div class="list-group">
+                        <a href="#" class="list-group-item list-group-item-action">Book Appointment</a>
+                        <a href="#" class="list-group-item list-group-item-action">View Medical History</a>
+                        <a href="#" class="list-group-item list-group-item-action">Update Profile</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

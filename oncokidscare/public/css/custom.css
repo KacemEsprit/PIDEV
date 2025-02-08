@@ -1,0 +1,403 @@
+/* Global color variables */
+:root {
+    --hospital-blue: #e0f3f8;
+    --healing-green: #d0efdc;
+    --comfort-gray: #f5f5f5;
+    --alert-orange: #ffb366;
+    --medical-teal: #2d7a7a;
+}
+
+/* Body and general styles */
+body {
+    background-color: var(--comfort-gray);
+    font-family: 'Nunito', sans-serif;
+}
+
+/* Primary elements */
+.bg-primary,
+.btn-primary,
+.nav-pills .nav-link.active,
+.page-item.active .page-link {
+    background-color: var(--medical-teal) !important;
+    border-color: var(--medical-teal) !important;
+}
+
+/* Secondary elements */
+.bg-secondary,
+.btn-secondary {
+    background-color: var(--hospital-blue) !important;
+    border-color: var(--hospital-blue) !important;
+}
+
+/* Light backgrounds */
+.bg-light {
+    background-color: var(--comfort-gray) !important;
+}
+
+/* Alert and danger elements */
+.bg-danger,
+.btn-danger,
+.alert-danger {
+    background-color: var(--alert-orange) !important;
+    border-color: var(--alert-orange) !important;
+}
+
+/* Text colors */
+.text-primary {
+    color: var(--medical-teal) !important;
+}
+
+.text-secondary {
+    color: var(--hospital-blue) !important;
+}
+
+/* Links */
+a {
+    color: var(--medical-teal);
+}
+
+a:hover {
+    color: var(--medical-teal);
+    opacity: 0.8;
+}
+
+/* Navbar */
+.navbar {
+    background-color: var(--hospital-blue) !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: var(--medical-teal) !important;
+}
+
+.navbar-light .navbar-nav .nav-link:hover,
+.navbar-light .navbar-nav .nav-link.active {
+    color: var(--medical-teal) !important;
+    opacity: 0.8;
+}
+
+.navbar-brand {
+    color: var(--medical-teal) !important;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.nav-link {
+    color: var(--medical-teal) !important;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--alert-orange) !important;
+    transform: translateY(-2px);
+}
+
+/* Cards */
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    background-color: white;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+}
+
+.card-header {
+    background-color: var(--hospital-blue);
+    border-bottom: none;
+    border-radius: 15px 15px 0 0 !important;
+}
+
+.card-body {
+    padding: 2rem;
+}
+
+/* Buttons */
+.btn {
+    border-radius: 25px;
+    padding: 0.5rem 1.5rem;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn-primary {
+    background-color: var(--medical-teal);
+    border-color: var(--medical-teal);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--medical-teal);
+    opacity: 0.9;
+}
+
+.btn-secondary {
+    background-color: var(--hospital-blue);
+    border-color: var(--hospital-blue);
+    color: var(--medical-teal);
+}
+
+.btn-danger {
+    background-color: var(--alert-orange);
+    border-color: var(--alert-orange);
+}
+
+/* Forms */
+.form-control:focus {
+    border-color: var(--medical-teal);
+    box-shadow: 0 0 0 0.2rem rgba(45, 122, 122, 0.25);
+}
+
+.form-control {
+    border-radius: 10px;
+    border: 2px solid var(--hospital-blue);
+    padding: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+/* Tables */
+.table thead th {
+    background-color: var(--hospital-blue);
+    color: var(--medical-teal);
+    border-bottom: none;
+}
+
+.table-hover tbody tr:hover {
+    background-color: var(--healing-green);
+}
+
+/* List groups */
+.list-group-item {
+    background-color: var(--hospital-blue);
+    border: none;
+    margin-bottom: 5px;
+    border-radius: 10px !important;
+    color: var(--medical-teal);
+}
+
+.list-group-item:hover {
+    background-color: var(--healing-green);
+}
+
+/* Footer */
+.footer {
+    background-color: var(--medical-teal);
+    color: white;
+}
+
+.footer a {
+    color: var(--hospital-blue);
+}
+
+.footer a:hover {
+    color: var(--healing-green);
+}
+
+/* Badges */
+.badge-primary {
+    background-color: var(--medical-teal);
+}
+
+.badge-secondary {
+    background-color: var(--hospital-blue);
+    color: var(--medical-teal);
+}
+
+.badge-danger {
+    background-color: var(--alert-orange);
+}
+
+/* Alerts */
+.alert-primary {
+    background-color: var(--hospital-blue);
+    border-color: var(--medical-teal);
+    color: var(--medical-teal);
+}
+
+.alert-danger {
+    background-color: var(--alert-orange);
+    border-color: var(--alert-orange);
+    color: white;
+}
+
+/* Progress bars */
+.progress-bar {
+    background-color: var(--medical-teal);
+}
+
+/* Pagination */
+.page-link {
+    color: var(--medical-teal);
+}
+
+.page-item.active .page-link {
+    background-color: var(--medical-teal);
+    border-color: var(--medical-teal);
+}
+
+/* Custom components */
+.info-card {
+    background-color: var(--hospital-blue);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.info-card:hover {
+    background-color: var(--healing-green);
+    transform: translateY(-5px);
+}
+
+/* Animations */
+.fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(20px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+/* Header and hero sections */
+.header-section {
+    background-color: var(--hospital-blue);
+    padding: 3rem 0;
+}
+
+/* Navigation pills */
+.nav-pills .nav-link {
+    color: var(--medical-teal);
+    border-radius: 8px;
+    margin: 0 5px;
+}
+
+.nav-pills .nav-link:hover {
+    background-color: var(--healing-green);
+}
+
+.nav-pills .nav-link.active {
+    background-color: var(--medical-teal);
+    color: white;
+}
+
+/* Modals */
+.modal-header {
+    background-color: var(--hospital-blue);
+    border-bottom: none;
+}
+
+.modal-title {
+    color: var(--medical-teal);
+}
+
+/* Spinners and loading indicators */
+.spinner-border.text-primary {
+    color: var(--medical-teal) !important;
+}
+
+/* Tooltips */
+.tooltip-inner {
+    background-color: var(--medical-teal);
+}
+
+.bs-tooltip-top .arrow::before {
+    border-top-color: var(--medical-teal);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--comfort-gray);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--medical-teal);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--medical-teal);
+    opacity: 0.8;
+}
+
+/* Dashboard Elements */
+.display-4 {
+    color: var(--medical-teal);
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.lead {
+    color: #666;
+}
+
+/* Quick Actions */
+.quick-actions {
+    background-color: var(--hospital-blue);
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+    color: var(--medical-teal);
+}
+
+.quick-actions:hover {
+    background-color: var(--healing-green);
+    transform: translateX(5px);
+}
+
+/* Child-friendly elements */
+.card-title {
+    font-size: 1.5rem;
+    color: var(--medical-teal);
+    margin-bottom: 1.5rem;
+}
+
+/* Stats and Info Cards */
+.stats-card {
+    background-color: var(--hospital-blue);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.stats-card:hover {
+    background-color: var(--healing-green);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .card {
+        margin-bottom: 1rem;
+    }
+    
+    .display-4 {
+        font-size: 2rem;
+    }
+    
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+}
