@@ -1,0 +1,299 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<!-- Style personnalisé pour la sidebar -->
+<style>
+  /* Fixe la hauteur maximale de la sidebar et active le défilement */
+  #patient-list {
+    max-height: 600px; /* Ajustez selon la hauteur de la zone de rapport */
+    overflow-y: auto;
+  }
+  /* Style de chaque item patient */
+  .patient-item {
+    display: block;
+    padding: 10px 15px;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s, border-color 0.3s;
+    text-decoration: none;
+    color: inherit;
+  }
+  .patient-item:hover {
+    background-color: #f8f9fa;
+  }
+  .patient-item.active {
+    background-color: #e9f7fe;
+    border-color: #007bff;
+  }
+  /* Style pour l'avatar circulaire */
+  .patient-avatar {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin-right: 15px;
+    border-radius: 50%;
+    border: 2px solid #007bff;
+  }
+</style>
+
+<!-- En-tête de page -->
+<div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+  <div class="container py-5">
+    <h1 class="display-3 text-white mb-3 animated slideInDown">Rapports d'État Patients</h1>
+    <nav aria-label="breadcrumb animated slideInDown">
+      <ol class="breadcrumb text-uppercase mb-0">
+        <li class="breadcrumb-item"><a class="text-white" href="{{ path('app_home') }}">Accueil</a></li>
+        <li class="breadcrumb-item text-primary active" aria-current="page">Rapport d'État</li>
+      </ol>
+    </nav>
+  </div>
+</div>
+
+<!-- Contenu principal -->
+<div class="container py-5">
+  <div class="row">
+    <!-- Sidebar : Liste des Patients avec barre de recherche -->
+    <div class="col-md-4">
+      <!-- Barre de recherche professionnelle avec icône -->
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text bg-primary text-white" id="basic-addon1" style="border: none;">
+            <i class="fas fa-search"></i>
+          </span>
+        </div>
+        <input type="text" id="patient-search" class="form-control" placeholder="Rechercher un patient" aria-label="Rechercher" aria-describedby="basic-addon1" style="border: none;">
+      </div>
+      
+      
+
+      <!-- Liste des patients -->
+      <div class="list-group" id="patient-list">
+        <!-- Patient 1 -->
+        <a href="#" class="list-group-item patient-item active" data-target="#report1">
+          <div class="d-flex align-items-center">
+            <img src="{{ asset('img/avatar1.jpg') }}" alt="John Doe" class="patient-avatar">
+            <div>
+              <h6 class="mb-0">John Doe</h6>
+              <small class="text-muted">45 ans</small>
+            </div>
+          </div>
+        </a>
+        <!-- Patient 2 -->
+        <a href="#" class="list-group-item patient-item" data-target="#report2">
+          <div class="d-flex align-items-center">
+            <img src="{{ asset('img/avatar1.jpg') }}" alt="Jane Smith" class="patient-avatar">
+            <div>
+              <h6 class="mb-0">Jane Smith</h6>
+              <small class="text-muted">60 ans</small>
+            </div>
+          </div>
+        </a>
+        <!-- Patient 3 -->
+        <a href="#" class="list-group-item patient-item" data-target="#report3">
+          <div class="d-flex align-items-center">
+            <img src="{{ asset('img/avatar1.jpg') }}" alt="Bob Johnson" class="patient-avatar">
+            <div>
+              <h6 class="mb-0">Bob Johnson</h6>
+              <small class="text-muted">50 ans</small>
+            </div>
+          </div>
+        </a>
+        <!-- Patient 4 -->
+        <a href="#" class="list-group-item patient-item" data-target="#report4">
+          <div class="d-flex align-items-center">
+            <img src="{{ asset('img/avatar1.jpg') }}" alt="Alice Martin" class="patient-avatar">
+            <div>
+              <h6 class="mb-0">Alice Martin</h6>
+              <small class="text-muted">35 ans</small>
+            </div>
+          </div>
+        </a>
+        <!-- Patient 5 -->
+        <a href="#" class="list-group-item patient-item" data-target="#report5">
+          <div class="d-flex align-items-center">
+            <img src="{{ asset('img/avatar1.jpg') }}" alt="Michael Brown" class="patient-avatar">
+            <div>
+              <h6 class="mb-0">Michael Brown</h6>
+              <small class="text-muted">55 ans</small>
+            </div>
+          </div>
+        </a>
+        <!-- Patient 6 -->
+        <a href="#" class="list-group-item patient-item" data-target="#report6">
+          <div class="d-flex align-items-center">
+            <img src="{{ asset('img/avatar1.jpg') }}" alt="Sophie Turner" class="patient-avatar">
+            <div>
+              <h6 class="mb-0">Sophie Turner</h6>
+              <small class="text-muted">40 ans</small>
+            </div>
+          </div>
+        </a>
+        <a href="#" class="list-group-item patient-item" data-target="#report6">
+          <div class="d-flex align-items-center">
+            <img src="{{ asset('img/avatar1.jpg') }}" alt="Sophie Turner" class="patient-avatar">
+            <div>
+              <h6 class="mb-0">Sophie Turner</h6>
+              <small class="text-muted">40 ans</small>
+            </div>
+          </div>
+        </a>
+        <a href="#" class="list-group-item patient-item" data-target="#report6">
+          <div class="d-flex align-items-center">
+            <img src="{{ asset('img/avatar1.jpg') }}" alt="Sophie Turner" class="patient-avatar">
+            <div>
+              <h6 class="mb-0">Sophie Turner</h6>
+              <small class="text-muted">40 ans</small>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Zone principale : Affichage du rapport du Patient sélectionné -->
+    <div class="col-md-8">
+      <!-- Rapport pour Patient 1 -->
+      <div id="report1" class="report-content">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h2 class="card-title text-center text-primary mb-4">Rapport Médical de John Doe</h2>
+            <hr>
+            <!-- Informations Générales -->
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <p><strong>Âge :</strong> 45</p>
+              </div>
+              <div class="col-md-6">
+                <p><strong>Sexe :</strong> Homme</p>
+              </div>
+            </div>
+            <p><strong>Date du Rapport :</strong> 2025-01-01</p>
+            <!-- Détails du Traitement -->
+            <p><strong>Traitement :</strong> Chimiothérapie</p>
+            <p><strong>Dose du Médicament :</strong> 50mg</p>
+            <p><strong>Fréquence du Traitement :</strong> Quotidien</p>
+            <!-- Détails du Processus Médical -->
+            <p><strong>Perte de Sang :</strong> 200ml</p>
+            <p><strong>Temps d'Opération :</strong> 90 min</p>
+            <p><strong>Complications :</strong> Aucune</p>
+            <p><strong>Durée de Séance :</strong> 30 min</p>
+            <!-- Autres Détails Médicaux -->
+            <p><strong>Filtration du Sang :</strong> Normale</p>
+            <p><strong>Créatinine :</strong> 1.2 mg/dL</p>
+            <p><strong>Score de Glasgow :</strong> 15</p>
+            <p><strong>Respiration Assistée :</strong> Non</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Rapport pour Patient 2 -->
+      <div id="report2" class="report-content" style="display:none;">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h2 class="card-title text-center text-primary mb-4">Rapport Médical de Jane Smith</h2>
+            <hr>
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <p><strong>Âge :</strong> 60</p>
+              </div>
+              <div class="col-md-6">
+                <p><strong>Sexe :</strong> Femme</p>
+              </div>
+            </div>
+            <p><strong>Date du Rapport :</strong> 2025-01-02</p>
+            <p><strong>Traitement :</strong> Chirurgie</p>
+            <p><strong>Dose du Médicament :</strong> 30mg</p>
+            <p><strong>Fréquence du Traitement :</strong> Hebdomadaire</p>
+            <p><strong>Perte de Sang :</strong> 150ml</p>
+            <p><strong>Temps d'Opération :</strong> 120 min</p>
+            <p><strong>Complications :</strong> Infection mineure</p>
+            <p><strong>Durée de Séance :</strong> 45 min</p>
+            <p><strong>Filtration du Sang :</strong> Faible</p>
+            <p><strong>Créatinine :</strong> 1.0 mg/dL</p>
+            <p><strong>Score de Glasgow :</strong> 14</p>
+            <p><strong>Respiration Assistée :</strong> Oui</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Rapport pour Patient 3 -->
+      <div id="report3" class="report-content" style="display:none;">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h2 class="card-title text-center text-primary mb-4">Rapport Médical de Bob Johnson</h2>
+            <hr>
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <p><strong>Âge :</strong> 50</p>
+              </div>
+              <div class="col-md-6">
+                <p><strong>Sexe :</strong> Homme</p>
+              </div>
+            </div>
+            <p><strong>Date du Rapport :</strong> 2025-01-03</p>
+            <p><strong>Traitement :</strong> Dialyse</p>
+            <p><strong>Dose du Médicament :</strong> 40mg</p>
+            <p><strong>Fréquence du Traitement :</strong> Mensuel</p>
+            <p><strong>Perte de Sang :</strong> 100ml</p>
+            <p><strong>Temps d'Opération :</strong> 60 min</p>
+            <p><strong>Complications :</strong> Aucune</p>
+            <p><strong>Durée de Séance :</strong> 25 min</p>
+            <p><strong>Filtration du Sang :</strong> Normale</p>
+            <p><strong>Créatinine :</strong> 1.1 mg/dL</p>
+            <p><strong>Score de Glasgow :</strong> 15</p>
+            <p><strong>Respiration Assistée :</strong> Non</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Rapport pour Patient 4, 5, 6... (à ajouter selon le même modèle) -->
+      <!-- ... -->
+    </div> <!-- Fin de la colonne droite -->
+  </div> <!-- Fin de la row -->
+</div> <!-- Fin du container -->
+
+<!-- Script pour basculer entre les rapports et filtrer la liste -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Gestion du clic sur un item patient pour afficher le rapport associé
+  var items = document.querySelectorAll('.patient-item');
+  items.forEach(function(item) {
+    item.addEventListener('click', function(e) {
+      e.preventDefault();
+      // Retirer la classe active de tous les items
+      items.forEach(function(i) { i.classList.remove('active'); });
+      // Ajouter la classe active à l'item cliqué
+      this.classList.add('active');
+      // Cacher tous les rapports
+      document.querySelectorAll('.report-content').forEach(function(report) {
+        report.style.display = 'none';
+      });
+      // Afficher le rapport correspondant avec une animation
+      var target = this.getAttribute('data-target');
+      var report = document.querySelector(target);
+      report.style.display = 'block';
+      report.classList.add('animate__animated', 'animate__fadeIn');
+      setTimeout(function() {
+        report.classList.remove('animate__animated', 'animate__fadeIn');
+      }, 1000);
+    });
+  });
+
+  // Filtrage de la liste des patients
+  var searchInput = document.getElementById('patient-search');
+  searchInput.addEventListener('keyup', function() {
+    var filter = this.value.toUpperCase();
+    var patientItems = document.querySelectorAll('#patient-list .patient-item');
+    patientItems.forEach(function(item) {
+      var text = item.textContent || item.innerText;
+      if (text.toUpperCase().indexOf(filter) > -1) {
+        item.style.display = '';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  });
+});
+</script>
+{% endblock %}

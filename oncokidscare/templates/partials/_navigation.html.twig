@@ -1,0 +1,12 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+    <div class="container">
+        <a class="navbar-brand" href="{{ path('app_home') }}">OncoKidsCare</a>
+        {% if app.user %}
+            <div class="ms-auto">
+                <a href="{{ path('app_logout') }}" class="btn btn-outline-danger">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</nav>
