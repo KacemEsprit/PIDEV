@@ -1,3 +1,4 @@
+composer update
 
 composer install --no-dev --optimize-autoloader
 //////////
