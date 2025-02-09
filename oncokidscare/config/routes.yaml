@@ -3,3 +3,13 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+chatbot_test:
+    path: /chatbot/test
+    controller: App\Controller\ChatbotController::test
+    methods: [GET]
+
+chatbot_message:
+    path: /chatbot/message
+    controller: App\Controller\ChatbotController::message
+    methods: [POST]

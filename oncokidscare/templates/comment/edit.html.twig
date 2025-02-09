@@ -1,0 +1,114 @@
+{% extends 'base_publication.html.twig' %}
+
+{% block title %}Modifier le commentaire{% endblock %}
+
+{% block body %}
+<div class="container" style="max-width: 800px; margin: 2rem auto; padding: 0 1rem;">
+    <div class="edit-comment-container">
+        <h1>Modifier le commentaire</h1>
+
+        {{ form_start(form, {'attr': {'class': 'edit-comment-form'}}) }}
+            <div class="form-group">
+                {{ form_label(form.contenuCom) }}
+                {{ form_widget(form.contenuCom, {
+                    'attr': {
+                        'placeholder': 'Votre commentaire...',
+                        'class': 'form-textarea'
+                    }
+                }) }}
+            </div>
+
+            <div class="form-actions">
+                <a href="{{ path('app_publication_show', {'id': comment.publication.id}) }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Retour
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Enregistrer
+                </button>
+            </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+
+<style>
+.edit-comment-container {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+.edit-comment-container h1 {
+    color: #333;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.edit-comment-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 1rem;
+    border: 2px solid #e0f3f8;
+    border-radius: 8px;
+    resize: vertical;
+}
+
+.form-textarea:focus {
+    border-color: #2d7a7a;
+    box-shadow: 0 0 0 0.2rem rgba(45, 122, 122, 0.25);
+    outline: none;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: #2d7a7a;
+    color: white;
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #236161;
+}
+
+.btn-secondary:hover {
+    background: #5a6268;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+    
+    .edit-comment-container {
+        padding: 1rem;
+    }
+}
+</style>
+{% endblock %}
