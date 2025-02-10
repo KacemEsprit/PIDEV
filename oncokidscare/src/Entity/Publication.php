@@ -52,6 +52,9 @@ class Publication
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?\DateTimeInterface $lastEditDate = null;
 
+    #[ORM\Column(type: 'string', length: 20, options: ['default' => 'pending'])]
+    private string $status = 'pending';
+
     #[ORM\ManyToOne(inversedBy: 'publications')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
@@ -172,7 +175,7 @@ class Publication
     public function addLike(Like $like): self
     {
         if (!$this->likes->contains($like)) {
-            $this->likes->add($like);
+            $this->likes[] = $like;
             $like->setPublication($this);
         }
 
@@ -182,7 +185,6 @@ class Publication
     public function removeLike(Like $like): self
     {
         if ($this->likes->removeElement($like)) {
-            // set the owning side to null (unless already changed)
             if ($like->getPublication() === $this) {
                 $like->setPublication(null);
             }
@@ -190,7 +192,18 @@ class Publication
 
         return $this;
     }
-     public function addImageUrl(string $imageUrl): self
+
+    public function isLikedByUser(User $user): bool
+    {
+        foreach ($this->likes as $like) {
+            if ($like->getUser() === $user) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function addImageUrl(string $imageUrl): self
     {
         if (!in_array($imageUrl, $this->imageUrls, true)) {
             $this->imageUrls[] = $imageUrl;
@@ -202,16 +215,6 @@ class Publication
     public function getLikeCount(): int
     {
         return $this->likes->count();
-    }
-
-    public function isLikedByUser(User $user): bool
-    {
-        foreach ($this->likes as $like) {
-            if ($like->getUser() === $user) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public function getIsModerated(): bool
@@ -244,6 +247,18 @@ class Publication
     public function setLastEditDate(?\DateTimeInterface $lastEditDate): self
     {
         $this->lastEditDate = $lastEditDate;
+        return $this;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
         return $this;
     }
 

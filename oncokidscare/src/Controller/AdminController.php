@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Publication;
 use App\Repository\UserRepository;
+use App\Repository\PublicationRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -31,5 +34,37 @@ class AdminController extends AbstractController
             'patients' => $patients,
             'donateurs' => $donateurs,
         ]);
+    }
+
+    #[Route('/publications', name: 'admin_publications')]
+    public function managePublications(PublicationRepository $publicationRepository): Response
+    {
+        $publications = $publicationRepository->findAll();
+
+        return $this->render('admin/publications.html.twig', [
+            'publications' => $publications,
+        ]);
+    }
+
+    #[Route('/publications/approve/{id}', name: 'admin_publication_approve', methods: ['POST'])]
+    public function approvePublication(Publication $publication, EntityManagerInterface $entityManager): Response
+    {
+        $publication->setStatus('approved');
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Publication approuvée avec succès.');
+
+        return $this->redirectToRoute('admin_publications');
+    }
+
+    #[Route('/publications/reject/{id}', name: 'admin_publication_reject', methods: ['POST'])]
+    public function rejectPublication(Publication $publication, EntityManagerInterface $entityManager): Response
+    {
+        $publication->setStatus('rejected');
+        $entityManager->flush();
+
+        $this->addFlash('warning', 'Publication rejetée.');
+
+        return $this->redirectToRoute('admin_publications');
     }
 }

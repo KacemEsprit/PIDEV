@@ -17,6 +17,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use App\Security\Voter\PublicationVoter;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use App\Entity\Like;
+use App\Repository\LikeRepository;
 
 #[Route('/publication')]
 #[IsGranted('ROLE_USER')]
@@ -145,7 +147,10 @@ class PublicationController extends AbstractController
 
             $user = $this->getUser();
             $publication->setUser($user);
+            $publication->setStatus('pending');
             $publicationRepository->save($publication, true);
+
+            $this->addFlash('info', 'Votre publication a été envoyée aux admins. Veuillez attendre l\'approbation.');
 
             return $this->redirectToRoute('app_publication_index');
         }
@@ -174,7 +179,7 @@ class PublicationController extends AbstractController
             
             if ($imageFiles) {
                 $uploadDir = $this->getParameter('kernel.project_dir') . '/public/uploads/publications';
-                
+
                 foreach ($imageFiles as $imageFile) {
                     $imageUrl = $this->handleImageUpload($imageFile, $uploadDir);
                     if ($imageUrl) {
@@ -185,7 +190,10 @@ class PublicationController extends AbstractController
 
             $user = $this->getUser();
             $publication->setUser($user);
+            $publication->setStatus('pending');
             $publicationRepository->save($publication, true);
+
+            $this->addFlash('info', 'Votre publication a été envoyée aux admins. Veuillez attendre l\'approbation.');
 
             return $this->redirectToRoute('app_publication_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -272,6 +280,33 @@ class PublicationController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}/like', name: 'app_publication_like', methods: ['GET'])]
+    public function like(Publication $publication, EntityManagerInterface $entityManager, LikeRepository $likeRepository): Response
+    {
+        $user = $this->getUser();
+        if (!$user) {
+            throw new AccessDeniedException('Vous devez être connecté pour liker une publication.');
+        }
+
+        $existingLike = $likeRepository->findOneBy([
+            'publication' => $publication,
+            'user' => $user
+        ]);
+
+        if ($existingLike) {
+            $entityManager->remove($existingLike);
+        } else {
+            $like = new Like();
+            $like->setPublication($publication);
+            $like->setUser($user);
+            $entityManager->persist($like);
+        }
+
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_publication_index');
+    }
+
     #[Route('/{id}/delete', name: 'app_publication_delete', methods: ['POST'])]
     #[IsGranted(PublicationVoter::DELETE, subject: 'publication')]
     public function delete(
@@ -308,5 +343,25 @@ class PublicationController extends AbstractController
         }
 
         return $this->redirectToRoute('app_publication_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/approve/{id}', name: 'publication_approve', methods: ['POST'])]
+    #[IsGranted('ROLE_ADMIN')]
+    public function approve(Publication $publication, EntityManagerInterface $entityManager): Response
+    {
+        $publication->setStatus('approved');
+        $entityManager->flush();
+
+        return $this->redirectToRoute('admin_publications');
+    }
+
+    #[Route('/reject/{id}', name: 'publication_reject', methods: ['POST'])]
+    #[IsGranted('ROLE_ADMIN')]
+    public function reject(Publication $publication, EntityManagerInterface $entityManager): Response
+    {
+        $publication->setStatus('rejected');
+        $entityManager->flush();
+
+        return $this->redirectToRoute('admin_publications');
     }
 }

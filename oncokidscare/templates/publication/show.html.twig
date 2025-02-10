@@ -7,23 +7,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         .like-btn {
-            border: none;
-            background: none;
-            cursor: pointer;
-            padding: 5px 10px;
-            color: #666;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .like-btn:hover {
-            color: #ff4b4b;
-            transform: scale(1.1);
-        }
-        .like-btn.liked {
-            color: #ff4b4b;
-        }
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    z-index: 2;
+}
+
+.like-btn i {
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.like-btn.liked i {
+    animation: likeAnimation 0.5s ease;
+}
         .like-count {
             font-size: 0.9em;
             font-weight: 500;
@@ -76,8 +73,9 @@
                     <i class="far fa-clock"></i> {{ publication.datePb|date('d/m/Y H:i') }}
                 </span>
             </div>
-            {% if app.user and publication.user %}
-                {% if app.user.id == publication.user.id or is_granted('ROLE_ADMIN') %}
+ <div class="header-actions">
+        {% if app.user and publication.user %}
+            {% if app.user.id == publication.user.id or is_granted('ROLE_ADMIN') %}
                     <div class="publication-actions">
                         <a href="{{ path('app_publication_edit', {'id': publication.id}) }}" class="btn btn-edit" title="Modifier">
                             <i class="fas fa-edit"></i>
@@ -91,14 +89,15 @@
                     </div>
                 {% endif %}
             {% endif %}
-            {% if is_granted('ROLE_USER') %}
-                <button class="like-btn like-publication-btn {{ app.user and publication.isLikedByUser(app.user.id) ? 'liked' }}"
-                        data-publication-id="{{ publication.id }}">
-                    <i class="{{ app.user and publication.isLikedByUser(app.user.id) ? 'fas' : 'far' }} fa-heart"></i>
-                    <span class="like-count">{{ publication.getLikeCount() }}</span>
-                </button>
-            {% endif %}
-        </div>
+          {% if is_granted('ROLE_USER') %}
+            <button class="like-btn like-publication-btn {{ app.user and publication.isLikedByUser(app.user) ? 'liked' }}"
+                    data-publication-id="{{ publication.id }}">
+                <i class="{{ app.user and publication.isLikedByUser(app.user) ? 'fas' : 'far' }} fa-heart"></i>
+                <span class="like-count">{{ publication.getLikeCount() }}</span>
+            </button>
+        {% endif %}
+    </div>
+</div>
 
         <div class="publication-content">
             {{ publication.contenu|nl2br }}
@@ -244,12 +243,6 @@
     margin-bottom: 2rem;
 }
 
-.publication-header {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 1rem;
-    position: relative;
-}
 
 .user-avatar, .anonymous-avatar {
     width: 40px;
@@ -486,7 +479,20 @@
     position: relative;
     cursor: pointer;
 }
+.publication-header {
+    position: relative;
+    padding-right: 100px; /* Espace pour le bouton like */
+}
 
+.header-actions {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 .more-overlay {
     position: absolute;
     top: 0;
@@ -872,4 +878,35 @@ document.addEventListener('DOMContentLoaded', function() {
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Gestion des likes des publications
+        document.querySelectorAll('.like-publication-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const publicationId = this.dataset.publicationId;
+                const url = `/like/publication/${publicationId}`;
+                
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.liked) {
+                        this.classList.add('liked');
+                        this.innerHTML = `<i class="fas fa-heart"></i> <span class="like-count">${data.likeCount}</span>`;
+                    } else {
+                        this.classList.remove('liked');
+                        this.innerHTML = `<i class="far fa-heart"></i> <span class="like-count">${data.likeCount}</span>`;
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            });
+        });
+    });
+    </script>
 {% endblock %}

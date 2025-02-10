@@ -4,6 +4,12 @@
 
 {% block body %}
 <div class="container" style="max-width: 800px; margin: 2rem auto; padding: 0 1rem;">
+    {% for message in app.flashes('info') %}
+        <div class="toast-message">
+            {{ message }}
+        </div>
+    {% endfor %}
+
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
         <div class="new-publication-form">
             <div class="form-header">
@@ -56,81 +62,97 @@
 
     <div class="publications-list">
         {% for publication in publications %}
-            <div class="publication-card">
-                <div class="publication-header">
-                    {% if publication.isAnonymous %}
-                        <div class="anonymous-avatar">
-                            <i class="fas fa-user-secret"></i>
+            {% if publication.status == 'approved' %}
+                <div class="publication-card">
+                    <div class="publication-header">
+                        {% if publication.isAnonymous %}
+                            <div class="anonymous-avatar">
+                                <i class="fas fa-user-secret"></i>
+                            </div>
+                        {% else %}
+                            <img src="{{ asset('images/img2.png') }}" class="user-avatar" alt="Avatar">
+                        {% endif %}
+                        <div class="publication-info">
+                            <div class="author-name">
+                                {% if publication.isAnonymous %}
+                                    <span class="anonymous-badge">
+                                        <i class="fas fa-user-secret"></i> Anonyme
+                                    </span>
+                                {% else %}
+                                    {{ publication.user.prenom }} {{ publication.user.nom }}
+                                {% endif %}
+                            </div>
+                            <span class="publication-date">
+                                <i class="far fa-clock"></i> {{ publication.datePb|date('d/m/Y H:i') }}
+                            </span>
                         </div>
-                    {% else %}
-                        <img src="{{ asset('images/img2.png') }}" class="user-avatar" alt="Avatar">
-                    {% endif %}
-                    <div class="publication-info">
-                        <div class="author-name">
-                            {% if publication.isAnonymous %}
-                                <span class="anonymous-badge">
-                                    <i class="fas fa-user-secret"></i> Anonyme
-                                </span>
-                            {% else %}
-                                {{ publication.user.prenom }} {{ publication.user.nom }}
+                        {% if app.user and publication.user %}
+                            {% if app.user.id == publication.user.id or is_granted('ROLE_ADMIN') %}
+                                <div class="publication-actions">
+                                    <a href="{{ path('app_publication_edit', {'id': publication.id}) }}" class="btn btn-edit" title="Modifier">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <form method="post" action="{{ path('app_publication_delete', {'id': publication.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette publication ?');" style="display: inline-block;">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ publication.id) }}">
+                                        <button type="submit" class="btn btn-delete" title="Supprimer">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+                                </div>
                             {% endif %}
-                        </div>
-                        <span class="publication-date">
-                            <i class="far fa-clock"></i> {{ publication.datePb|date('d/m/Y H:i') }}
-                        </span>
+                        {% endif %}
                     </div>
-                    {% if app.user and publication.user %}
-                        {% if app.user.id == publication.user.id or is_granted('ROLE_ADMIN') %}
-                            <div class="publication-actions">
-                                <a href="{{ path('app_publication_edit', {'id': publication.id}) }}" class="btn btn-edit" title="Modifier">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <form method="post" action="{{ path('app_publication_delete', {'id': publication.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette publication ?');" style="display: inline-block;">
-                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ publication.id) }}">
-                                    <button type="submit" class="btn btn-delete" title="Supprimer">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
-                                </form>
+
+                    <div class="publication-content">
+                        {{ publication.contenu|nl2br }}
+                        
+                        {% if publication.imageUrls|length > 0 %}
+                            <div class="publication-images {% if publication.imageUrls|length == 1 %}single-image{% elseif publication.imageUrls|length == 2 %}two-images{% endif %}">
+                                {% set maxDisplayImages = 4 %}
+                                {% for imageUrl in publication.imageUrls|slice(0, publication.imageUrls|length > maxDisplayImages ? maxDisplayImages : publication.imageUrls|length) %}
+                                    <div class="publication-image">
+                                        <img src="{{ asset(imageUrl) }}" 
+                                             alt="Image de publication" 
+                                             class="publication-img"
+                                             onclick="openImageModal(this.src)">
+                                    </div>
+                                {% endfor %}
+                                
+                                {% if publication.imageUrls|length > maxDisplayImages %}
+                                    <div class="publication-image more-images" onclick="openImageModal('{{ asset(publication.imageUrls[maxDisplayImages]) }}')">
+                                        <img src="{{ asset(publication.imageUrls[maxDisplayImages]) }}" 
+                                             alt="Image de publication" 
+                                             class="publication-img">
+                                        <div class="more-overlay">
+                                            <span>+{{ publication.imageUrls|length - maxDisplayImages }}</span>
+                                        </div>
+                                    </div>
+                                {% endif %}
                             </div>
                         {% endif %}
-                    {% endif %}
-                </div>
+                    </div>
 
-                <div class="publication-content">
-                    {{ publication.contenu|nl2br }}
-                    
-                    {% if publication.imageUrls|length > 0 %}
-                        <div class="publication-images {% if publication.imageUrls|length == 1 %}single-image{% elseif publication.imageUrls|length == 2 %}two-images{% endif %}">
-                            {% set maxDisplayImages = 4 %}
-                            {% for imageUrl in publication.imageUrls|slice(0, publication.imageUrls|length > maxDisplayImages ? maxDisplayImages : publication.imageUrls|length) %}
-                                <div class="publication-image">
-                                    <img src="{{ asset(imageUrl) }}" 
-                                         alt="Image de publication" 
-                                         class="publication-img"
-                                         onclick="openImageModal(this.src)">
-                                </div>
-                            {% endfor %}
-                            
-                            {% if publication.imageUrls|length > maxDisplayImages %}
-                                <div class="publication-image more-images" onclick="openImageModal('{{ asset(publication.imageUrls[maxDisplayImages]) }}')">
-                                    <img src="{{ asset(publication.imageUrls[maxDisplayImages]) }}" 
-                                         alt="Image de publication" 
-                                         class="publication-img">
-                                    <div class="more-overlay">
-                                        <span>+{{ publication.imageUrls|length - maxDisplayImages }}</span>
-                                    </div>
-                                </div>
+                    <div class="publication-footer">
+                        <div class="action-buttons">
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                <a href="{{ path('app_publication_like', {'id': publication.id}) }}" class="btn btn-link">
+                                    <i class="{% if app.user and publication.isLikedByUser(app.user) %}fas{% else %}far{% endif %} fa-heart"></i>
+                                    <span>{{ publication.likes|length }}</span>
+                                </a>
                             {% endif %}
+                            <a href="{{ path('app_publication_show', {'id': publication.id}) }}" class="btn btn-link">
+                                <i class="far fa-comment"></i> Commenter ({{ publication.comments|length }})
+                            </a>
                         </div>
-                    {% endif %}
+                    </div>
                 </div>
-
-                <div class="publication-footer">
-                    <a href="{{ path('app_publication_show', {'id': publication.id}) }}" class="btn btn-link">
-                        <i class="far fa-comment"></i> Commenter ({{ publication.comments|length }})
-                    </a>
-                </div>
-            </div>
+            {% else %}
+                {% if publication.status == 'pending' %}
+                    <div class="toast-message">
+                        Votre publication est en attente de validation.
+                    </div>
+                {% endif %}
+            {% endif %}
         {% else %}
             <div class="no-publications">
                 <i class="far fa-comment-dots"></i>
@@ -427,6 +449,11 @@
     border-top: 1px solid #e0f3f8;
 }
 
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
 .btn-link {
     color: #2d7a7a;
     text-decoration: none;
@@ -452,6 +479,14 @@
     font-size: 3rem;
     margin-bottom: 1rem;
     color: #2d7a7a;
+}
+
+.toast-message {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .modal {
