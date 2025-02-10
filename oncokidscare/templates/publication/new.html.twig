@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle Publication{% endblock %}
+
+{% block body %}
+    <div class="community-header">
+        <h1>Créer une nouvelle publication</h1>
+        <p class="slogan">"Votre expérience peut aider d'autres patients"</p>
+    </div>
+
+    <div class="hospital-post">
+        {{ form_start(form) }}
+            <div class="form-group">
+                {{ form_label(form.contenu) }}
+                {{ form_widget(form.contenu, {'attr': {'class': 'form-control', 'rows': 5}}) }}
+            </div>
+            <button type="submit" class="submit-btn">
+                <i class="fas fa-share-medical"></i> Publier
+            </button>
+        {{ form_end(form) }}
+
+        <a href="{{ path('app_publication_index') }}" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Retour à la liste
+        </a>
+    </div>
+{% endblock %}

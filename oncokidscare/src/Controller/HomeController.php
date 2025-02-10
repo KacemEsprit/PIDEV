@@ -54,6 +54,7 @@ final class HomeController extends AbstractController
             'controller_name' => 'HomeController',
         ]);
     }
+<<<<<<< HEAD
     #[Route('/rapports', name: 'app_rapports')]
     public function index_rapports(): Response
     {
@@ -61,6 +62,8 @@ final class HomeController extends AbstractController
             'controller_name' => 'HomeController',
         ]);
     }
+=======
+>>>>>>> 854fb939ec2363bc375c4e1fd30ebc88ac826415
 
     #[Route('/testimonial', name: 'app_testimonial')]
     public function index_testimonial(): Response

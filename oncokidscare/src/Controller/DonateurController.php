@@ -21,4 +21,8 @@ class DonateurController extends AbstractController
             'user' => $user,
         ]);
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 854fb939ec2363bc375c4e1fd30ebc88ac826415

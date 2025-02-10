@@ -9,14 +9,21 @@
 
     <!-- Favicon -->
     <link href="{{ asset('img/favicon.ico') }}" rel="icon">
+<<<<<<< HEAD
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+=======
+>>>>>>> 854fb939ec2363bc375c4e1fd30ebc88ac826415
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<<<<<<< HEAD
   
 
+=======
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Roboto:wght@500;700;900&display=swap" rel="stylesheet">
+>>>>>>> 854fb939ec2363bc375c4e1fd30ebc88ac826415
 
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
@@ -45,6 +52,7 @@
     </div>
     <!-- Spinner End -->
 
+<<<<<<< HEAD
     <!-- Topbar Start -->
     <div class="container-fluid bg-light p-0 wow fadeIn" data-wow-delay="0.1s">
         <div class="row gx-0 d-none d-lg-flex">
@@ -74,6 +82,8 @@
     </div>
     <!-- Topbar End -->
 
+=======
+>>>>>>> 854fb939ec2363bc375c4e1fd30ebc88ac826415
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top p-0 wow fadeIn" data-wow-delay="0.1s">
         <a href="{{ path('app_home') }}" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
@@ -87,20 +97,37 @@
                 <a href="{{ path('app_home') }}" class="nav-item nav-link active">Home</a>
                 <a href="{{ path('app_about') }}" class="nav-item nav-link">About</a>
                 <a href="{{ path('app_service') }}" class="nav-item nav-link">Service</a>
+<<<<<<< HEAD
+=======
+                {% if is_granted('ROLE_USER') and (is_granted('ROLE_PATIENT') or is_granted('ROLE_MEDECIN') or is_granted('ROLE_ADMIN')) %}
+                    <a href="{{ path('app_publication_index') }}" class="nav-item nav-link">Publications</a>
+                {% endif %}
+>>>>>>> 854fb939ec2363bc375c4e1fd30ebc88ac826415
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                     <div class="dropdown-menu rounded-0 rounded-bottom m-0">
                         <a href="{{ path('app_feature') }}" class="dropdown-item">Feature</a>
                         <a href="{{ path('app_team') }}" class="dropdown-item">Our Doctor</a>
+<<<<<<< HEAD
                         <a href="{{ path('app_appointment') }}" class="dropdown-item">Rapport Medical</a>
                         <a href="{{ path('app_testimonial') }}" class="dropdown-item">Testimonial</a>
                         <a href="{{ path('app_rapports') }}" class="dropdown-item">Patients Rapports</a>
+=======
+                        <a href="{{ path('app_appointment') }}" class="dropdown-item">Appointment</a>
+                        <a href="{{ path('app_testimonial') }}" class="dropdown-item">Testimonial</a>
+>>>>>>> 854fb939ec2363bc375c4e1fd30ebc88ac826415
                         <a href="{{ path('app_404') }}" class="dropdown-item">404 Page</a>
                     </div>
                 </div>
                 <a href="{{ path('app_contact') }}" class="nav-item nav-link">Contact</a>
                 {% if app.user %}
                     <a href="{{ path('app_logout') }}" class="nav-item nav-link btn btn-danger text-white">Déconnexion</a>
+<<<<<<< HEAD
+=======
+                {% else %}
+                    <a href="{{ path('app_login') }}" class="nav-item nav-link btn btn-primary text-white me-2">Login</a>
+                    <a href="{{ path('app_register') }}" class="nav-item nav-link btn btn-success text-white">Register</a>
+>>>>>>> 854fb939ec2363bc375c4e1fd30ebc88ac826415
                 {% endif %}
             </div>
             <a href="{{ path('app_appointment') }}" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Appointment<i class="fa fa-arrow-right ms-3"></i></a>
