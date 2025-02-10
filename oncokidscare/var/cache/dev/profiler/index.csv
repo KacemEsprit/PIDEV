@@ -463,3 +463,4 @@ b41a9b,127.0.0.1,GET,http://127.0.0.1:8000/login,1739223571,,200,request
 1b6557,127.0.0.1,POST,http://127.0.0.1:8000/login,1739223584,,302,request
 574a42,127.0.0.1,GET,http://127.0.0.1:8000/admin/,1739223585,,200,request
 553f6c,127.0.0.1,GET,http://127.0.0.1:8000/admin/publications,1739223589,,200,request
+3e294b,127.0.0.1,GET,http://127.0.0.1:8000/admin/publications,1739223928,,200,request
