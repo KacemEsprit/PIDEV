@@ -359,6 +359,20 @@
         <argument type="service" id=".service_locator.O2p6Lk7.App\Controller\AdminController"/>
       </call>
     </service>
+    <service id="App\Controller\AdminHomeController" class="App\Controller\AdminHomeController" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+      <tag name="container.service_subscriber"/>
+      <call method="setContainer">
+        <argument type="service" id=".service_locator.O2p6Lk7.App\Controller\AdminHomeController"/>
+      </call>
+    </service>
+    <service id="App\Controller\ChatGroupController" class="App\Controller\ChatGroupController" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+      <tag name="container.service_subscriber"/>
+      <call method="setContainer">
+        <argument type="service" id=".service_locator.O2p6Lk7.App\Controller\ChatGroupController"/>
+      </call>
+    </service>
     <service id="App\Controller\ChatbotController" class="App\Controller\ChatbotController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
@@ -375,11 +389,39 @@
         <argument type="service" id=".service_locator.O2p6Lk7.App\Controller\CommentController"/>
       </call>
     </service>
+    <service id="App\Controller\CompagnieController" class="App\Controller\CompagnieController" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+      <tag name="container.service_subscriber"/>
+      <call method="setContainer">
+        <argument type="service" id=".service_locator.O2p6Lk7.App\Controller\CompagnieController"/>
+      </call>
+    </service>
+    <service id="App\Controller\DonController" class="App\Controller\DonController" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+      <tag name="container.service_subscriber"/>
+      <call method="setContainer">
+        <argument type="service" id=".service_locator.O2p6Lk7.App\Controller\DonController"/>
+      </call>
+    </service>
     <service id="App\Controller\DonateurController" class="App\Controller\DonateurController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
       <call method="setContainer">
         <argument type="service" id=".service_locator.O2p6Lk7.App\Controller\DonateurController"/>
+      </call>
+    </service>
+    <service id="App\Controller\DonateurDashboardController" class="App\Controller\DonateurDashboardController" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+      <tag name="container.service_subscriber"/>
+      <call method="setContainer">
+        <argument type="service" id=".service_locator.O2p6Lk7.App\Controller\DonateurDashboardController"/>
+      </call>
+    </service>
+    <service id="App\Controller\DonationController" class="App\Controller\DonationController" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+      <tag name="container.service_subscriber"/>
+      <call method="setContainer">
+        <argument type="service" id=".service_locator.O2p6Lk7.App\Controller\DonationController"/>
       </call>
     </service>
     <service id="App\Controller\HomeController" class="App\Controller\HomeController" public="true" autowire="true" autoconfigure="true">
@@ -425,7 +467,19 @@
         <argument type="service" id=".service_locator.O2p6Lk7.App\Controller\SecurityController"/>
       </call>
     </service>
+    <service id="App\Form\ChatGroupType" class="App\Form\ChatGroupType" autowire="true" autoconfigure="true">
+      <tag name="form.type"/>
+    </service>
     <service id="App\Form\CommentType" class="App\Form\CommentType" autowire="true" autoconfigure="true">
+      <tag name="form.type"/>
+    </service>
+    <service id="App\Form\CompagnieType" class="App\Form\CompagnieType" autowire="true" autoconfigure="true">
+      <tag name="form.type"/>
+    </service>
+    <service id="App\Form\DonType" class="App\Form\DonType" autowire="true" autoconfigure="true">
+      <tag name="form.type"/>
+    </service>
+    <service id="App\Form\GroupMessageType" class="App\Form\GroupMessageType" autowire="true" autoconfigure="true">
       <tag name="form.type"/>
     </service>
     <service id="App\Form\PublicationType" class="App\Form\PublicationType" autowire="true" autoconfigure="true">
@@ -434,7 +488,27 @@
     <service id="App\Form\RegistrationFormType" class="App\Form\RegistrationFormType" autowire="true" autoconfigure="true">
       <tag name="form.type"/>
     </service>
+    <service id="App\Repository\CampagneRepository" class="App\Repository\CampagneRepository" autowire="true" autoconfigure="true">
+      <tag name="doctrine.repository_service"/>
+      <argument type="service" id="doctrine"/>
+    </service>
+    <service id="App\Repository\ChatGroupRepository" class="App\Repository\ChatGroupRepository" autowire="true" autoconfigure="true">
+      <tag name="doctrine.repository_service"/>
+      <argument type="service" id="doctrine"/>
+    </service>
     <service id="App\Repository\CommentRepository" class="App\Repository\CommentRepository" autowire="true" autoconfigure="true">
+      <tag name="doctrine.repository_service"/>
+      <argument type="service" id="doctrine"/>
+    </service>
+    <service id="App\Repository\CompagnieRepository" class="App\Repository\CompagnieRepository" autowire="true" autoconfigure="true">
+      <tag name="doctrine.repository_service"/>
+      <argument type="service" id="doctrine"/>
+    </service>
+    <service id="App\Repository\DonRepository" class="App\Repository\DonRepository" autowire="true" autoconfigure="true">
+      <tag name="doctrine.repository_service"/>
+      <argument type="service" id="doctrine"/>
+    </service>
+    <service id="App\Repository\GroupMessageRepository" class="App\Repository\GroupMessageRepository" autowire="true" autoconfigure="true">
       <tag name="doctrine.repository_service"/>
       <argument type="service" id="doctrine"/>
     </service>
@@ -488,7 +562,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
       <tag priority="-50" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">controller.argument_value_resolver</tag>
-      <argument type="service" id=".service_locator.Vz4jERX"/>
+      <argument type="service" id=".service_locator.5YwNIds"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">
       <tag priority="-100" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">controller.argument_value_resolver</tag>
@@ -1416,7 +1490,11 @@
         <argument>Symfony\Bridge\Doctrine\Form\Type</argument>
       </argument>
       <argument type="collection">
+        <argument>App\Form\ChatGroupType</argument>
         <argument>App\Form\CommentType</argument>
+        <argument>App\Form\CompagnieType</argument>
+        <argument>App\Form\DonType</argument>
+        <argument>App\Form\GroupMessageType</argument>
         <argument>App\Form\PublicationType</argument>
         <argument>App\Form\RegistrationFormType</argument>
         <argument>Symfony\Component\Form\Extension\Core\Type\FormType</argument>
@@ -3393,7 +3471,7 @@
     </service>
     <service id="argument_resolver.not_tagged_controller" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
       <tag name="controller.argument_value_resolver" priority="-200"/>
-      <argument type="service" id=".service_locator.Vz4jERX"/>
+      <argument type="service" id=".service_locator.5YwNIds"/>
     </service>
     <service id="debug.log_processor" class="Symfony\Bridge\Monolog\Processor\DebugProcessor">
       <tag name="kernel.reset" method="reset"/>
@@ -3882,7 +3960,7 @@
       <argument type="service" id="form.registry"/>
     </service>
     <service id="form.extension" class="Symfony\Component\Form\Extension\DependencyInjection\DependencyInjectionExtension">
-      <argument type="service" id=".service_locator.J3fQigg"/>
+      <argument type="service" id=".service_locator.GLU1RPY"/>
       <argument type="collection">
         <argument key="Symfony\Component\Form\Extension\Core\Type\FormType" type="iterator">
           <argument type="service" id="form.type_extension.form.transformation_failure_handling"/>
@@ -5147,7 +5225,7 @@
     <service id="doctrine.orm.configuration" class="Doctrine\ORM\Configuration" abstract="true"/>
     <service id="doctrine.orm.entity_manager.abstract" class="Doctrine\ORM\EntityManager" lazy="true" abstract="true"/>
     <service id="doctrine.orm.container_repository_factory" class="Doctrine\Bundle\DoctrineBundle\Repository\ContainerRepositoryFactory">
-      <argument type="service" id=".service_locator.vrlFHrb"/>
+      <argument type="service" id=".service_locator.ZbY14sl"/>
     </service>
     <service id="doctrine.orm.manager_configurator.abstract" class="Doctrine\Bundle\DoctrineBundle\ManagerConfigurator" abstract="true">
       <argument type="collection"/>
@@ -7451,15 +7529,33 @@
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\AdminController" class="App\Controller\AdminController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\AdminController" class="App\Controller\AdminController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\AdminController" class="App\Controller\AdminController" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\AdminHomeController" class="App\Controller\AdminHomeController" autowire="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\AdminHomeController" class="App\Controller\AdminHomeController" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Controller\AdminHomeController" class="App\Controller\AdminHomeController" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\ChatGroupController" class="App\Controller\ChatGroupController" autowire="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\ChatGroupController" class="App\Controller\ChatGroupController" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Controller\ChatGroupController" class="App\Controller\ChatGroupController" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\ChatbotController" class="App\Controller\ChatbotController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\ChatbotController" class="App\Controller\ChatbotController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\ChatbotController" class="App\Controller\ChatbotController" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\CommentController" class="App\Controller\CommentController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\CommentController" class="App\Controller\CommentController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\CommentController" class="App\Controller\CommentController" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\CompagnieController" class="App\Controller\CompagnieController" autowire="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\CompagnieController" class="App\Controller\CompagnieController" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Controller\CompagnieController" class="App\Controller\CompagnieController" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\DonController" class="App\Controller\DonController" autowire="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\DonController" class="App\Controller\DonController" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Controller\DonController" class="App\Controller\DonController" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\DonateurController" class="App\Controller\DonateurController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\DonateurController" class="App\Controller\DonateurController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\DonateurController" class="App\Controller\DonateurController" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\DonateurDashboardController" class="App\Controller\DonateurDashboardController" autowire="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\DonateurDashboardController" class="App\Controller\DonateurDashboardController" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Controller\DonateurDashboardController" class="App\Controller\DonateurDashboardController" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\DonationController" class="App\Controller\DonationController" autowire="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\DonationController" class="App\Controller\DonationController" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Controller\DonationController" class="App\Controller\DonationController" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\HomeController" class="App\Controller\HomeController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\HomeController" class="App\Controller\HomeController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\HomeController" class="App\Controller\HomeController" autowire="true" autoconfigure="true" abstract="true"/>
@@ -7478,14 +7574,32 @@
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\SecurityController" class="App\Controller\SecurityController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\SecurityController" class="App\Controller\SecurityController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\SecurityController" class="App\Controller\SecurityController" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\ChatGroupType" class="App\Form\ChatGroupType" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Form\ChatGroupType" class="App\Form\ChatGroupType" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\CommentType" class="App\Form\CommentType" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Form\CommentType" class="App\Form\CommentType" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\CompagnieType" class="App\Form\CompagnieType" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Form\CompagnieType" class="App\Form\CompagnieType" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\DonType" class="App\Form\DonType" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Form\DonType" class="App\Form\DonType" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\GroupMessageType" class="App\Form\GroupMessageType" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Form\GroupMessageType" class="App\Form\GroupMessageType" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\PublicationType" class="App\Form\PublicationType" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Form\PublicationType" class="App\Form\PublicationType" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\RegistrationFormType" class="App\Form\RegistrationFormType" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Form\RegistrationFormType" class="App\Form\RegistrationFormType" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\CampagneRepository" class="App\Repository\CampagneRepository" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Repository\CampagneRepository" class="App\Repository\CampagneRepository" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\ChatGroupRepository" class="App\Repository\ChatGroupRepository" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Repository\ChatGroupRepository" class="App\Repository\ChatGroupRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\CommentRepository" class="App\Repository\CommentRepository" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Repository\CommentRepository" class="App\Repository\CommentRepository" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\CompagnieRepository" class="App\Repository\CompagnieRepository" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Repository\CompagnieRepository" class="App\Repository\CompagnieRepository" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\DonRepository" class="App\Repository\DonRepository" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Repository\DonRepository" class="App\Repository\DonRepository" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\GroupMessageRepository" class="App\Repository\GroupMessageRepository" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Repository\GroupMessageRepository" class="App\Repository\GroupMessageRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\LikeRepository" class="App\Repository\LikeRepository" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Repository\LikeRepository" class="App\Repository\LikeRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\PublicationRepository" class="App\Repository\PublicationRepository" autowire="true" abstract="true"/>
@@ -7938,6 +8052,41 @@
         <argument key="publication" type="service_closure" id=".errored..service_locator.TyGfL3f.App\Entity\Publication"/>
       </argument>
     </service>
+    <service id=".service_locator.2KIFyBM" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="chatGroupRepository" type="service_closure" id="App\Repository\ChatGroupRepository"/>
+      </argument>
+    </service>
+    <service id=".service_locator.9kKwU2t" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="em" type="service_closure" id="doctrine.orm.default_entity_manager"/>
+      </argument>
+    </service>
+    <service id=".service_locator.hOeesGW" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="em" type="service_closure" id="doctrine.orm.default_entity_manager"/>
+        <argument key="group" type="service_closure" id=".errored..service_locator.hOeesGW.App\Entity\ChatGroup"/>
+        <argument key="messageRepository" type="service_closure" id="App\Repository\GroupMessageRepository"/>
+      </argument>
+    </service>
+    <service id=".service_locator.Gz2kAjl" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="em" type="service_closure" id="doctrine.orm.default_entity_manager"/>
+        <argument key="group" type="service_closure" id=".errored..service_locator.Gz2kAjl.App\Entity\ChatGroup"/>
+      </argument>
+    </service>
+    <service id=".service_locator.OfNm3iN" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="em" type="service_closure" id="doctrine.orm.default_entity_manager"/>
+        <argument key="group" type="service_closure" id=".errored..service_locator.OfNm3iN.App\Entity\ChatGroup"/>
+        <argument key="userRepository" type="service_closure" id="App\Repository\UserRepository"/>
+      </argument>
+    </service>
     <service id=".service_locator.C15PbZX" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -7962,6 +8111,66 @@
       <argument type="collection">
         <argument key="comment" type="service_closure" id=".errored..service_locator.sE8VhYE.App\Entity\Comment"/>
         <argument key="entityManager" type="service_closure" id="doctrine.orm.default_entity_manager"/>
+      </argument>
+    </service>
+    <service id=".service_locator.0N7jZFz" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="compagnieRepository" type="service_closure" id="App\Repository\CompagnieRepository"/>
+      </argument>
+    </service>
+    <service id=".service_locator.LNwsF6h" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="entityManager" type="service_closure" id="doctrine.orm.default_entity_manager"/>
+        <argument key="slugger" type="service_closure" id="slugger"/>
+      </argument>
+    </service>
+    <service id=".service_locator.elXdKcM" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="compagnie" type="service_closure" id=".errored..service_locator.elXdKcM.App\Entity\Compagnie"/>
+      </argument>
+    </service>
+    <service id=".service_locator.FiBwT5O" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="compagnie" type="service_closure" id=".errored..service_locator.FiBwT5O.App\Entity\Compagnie"/>
+        <argument key="entityManager" type="service_closure" id="doctrine.orm.default_entity_manager"/>
+      </argument>
+    </service>
+    <service id=".service_locator.CsMkqUa" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="entityManager" type="service_closure" id="doctrine.orm.default_entity_manager"/>
+      </argument>
+    </service>
+    <service id=".service_locator.TRHkncg" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="don" type="service_closure" id=".errored..service_locator.TRHkncg.App\Entity\Don"/>
+      </argument>
+    </service>
+    <service id=".service_locator.dLTLrdo" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="don" type="service_closure" id=".errored..service_locator.dLTLrdo.App\Entity\Don"/>
+        <argument key="entityManager" type="service_closure" id="doctrine.orm.default_entity_manager"/>
+        <argument key="slugger" type="service_closure" id="slugger"/>
+      </argument>
+    </service>
+    <service id=".service_locator.8S_oN2w" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="don" type="service_closure" id=".errored..service_locator.8S_oN2w.App\Entity\Don"/>
+        <argument key="entityManager" type="service_closure" id="doctrine.orm.default_entity_manager"/>
+      </argument>
+    </service>
+    <service id=".service_locator.N4bc6a8" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="compagnieRepository" type="service_closure" id="App\Repository\CompagnieRepository"/>
+        <argument key="donRepository" type="service_closure" id="App\Repository\DonRepository"/>
       </argument>
     </service>
     <service id=".service_locator.iUig0G9" class="Symfony\Component\DependencyInjection\ServiceLocator">
@@ -8007,18 +8216,38 @@
         <argument key="userPasswordHasher" type="service_closure" id="security.user_password_hasher"/>
       </argument>
     </service>
-    <service id=".service_locator.Vz4jERX" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.5YwNIds" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Controller\AdminController::approvePublication" type="service_closure" id=".service_locator.TyGfL3f"/>
         <argument key="App\Controller\AdminController::index" type="service_closure" id=".service_locator.kPUOGb8"/>
         <argument key="App\Controller\AdminController::managePublications" type="service_closure" id=".service_locator.dH_7bkl"/>
         <argument key="App\Controller\AdminController::rejectPublication" type="service_closure" id=".service_locator.TyGfL3f"/>
+        <argument key="App\Controller\ChatGroupController::addMember" type="service_closure" id=".service_locator.OfNm3iN"/>
+        <argument key="App\Controller\ChatGroupController::edit" type="service_closure" id=".service_locator.Gz2kAjl"/>
+        <argument key="App\Controller\ChatGroupController::index" type="service_closure" id=".service_locator.2KIFyBM"/>
+        <argument key="App\Controller\ChatGroupController::join" type="service_closure" id=".service_locator.Gz2kAjl"/>
+        <argument key="App\Controller\ChatGroupController::new" type="service_closure" id=".service_locator.9kKwU2t"/>
+        <argument key="App\Controller\ChatGroupController::removeMember" type="service_closure" id=".service_locator.OfNm3iN"/>
+        <argument key="App\Controller\ChatGroupController::show" type="service_closure" id=".service_locator.hOeesGW"/>
         <argument key="App\Controller\CommentController::delete" type="service_closure" id=".service_locator.sE8VhYE"/>
         <argument key="App\Controller\CommentController::edit" type="service_closure" id=".service_locator.Xz_hH6b"/>
         <argument key="App\Controller\CommentController::index" type="service_closure" id=".service_locator.C15PbZX"/>
         <argument key="App\Controller\CommentController::new" type="service_closure" id=".service_locator.C15PbZX"/>
         <argument key="App\Controller\CommentController::show" type="service_closure" id=".service_locator.hAGYStx"/>
+        <argument key="App\Controller\CompagnieController::delete" type="service_closure" id=".service_locator.FiBwT5O"/>
+        <argument key="App\Controller\CompagnieController::edit" type="service_closure" id=".service_locator.FiBwT5O"/>
+        <argument key="App\Controller\CompagnieController::index" type="service_closure" id=".service_locator.0N7jZFz"/>
+        <argument key="App\Controller\CompagnieController::new" type="service_closure" id=".service_locator.LNwsF6h"/>
+        <argument key="App\Controller\CompagnieController::selectOrCreate" type="service_closure" id=".service_locator.0N7jZFz"/>
+        <argument key="App\Controller\CompagnieController::show" type="service_closure" id=".service_locator.elXdKcM"/>
+        <argument key="App\Controller\DonController::create" type="service_closure" id=".service_locator.CsMkqUa"/>
+        <argument key="App\Controller\DonController::delete" type="service_closure" id=".service_locator.8S_oN2w"/>
+        <argument key="App\Controller\DonController::edit" type="service_closure" id=".service_locator.dLTLrdo"/>
+        <argument key="App\Controller\DonController::index" type="service_closure" id=".service_locator.CsMkqUa"/>
+        <argument key="App\Controller\DonController::new" type="service_closure" id=".service_locator.LNwsF6h"/>
+        <argument key="App\Controller\DonController::show" type="service_closure" id=".service_locator.TRHkncg"/>
+        <argument key="App\Controller\DonateurDashboardController::index" type="service_closure" id=".service_locator.N4bc6a8"/>
         <argument key="App\Controller\LikeController::likeComment" type="service_closure" id=".service_locator.sE8VhYE"/>
         <argument key="App\Controller\LikeController::likePublication" type="service_closure" id=".service_locator.TyGfL3f"/>
         <argument key="App\Controller\PublicationController::approve" type="service_closure" id=".service_locator.TyGfL3f"/>
@@ -8039,11 +8268,31 @@
         <argument key="App\Controller\AdminController:index" type="service_closure" id=".service_locator.kPUOGb8"/>
         <argument key="App\Controller\AdminController:managePublications" type="service_closure" id=".service_locator.dH_7bkl"/>
         <argument key="App\Controller\AdminController:rejectPublication" type="service_closure" id=".service_locator.TyGfL3f"/>
+        <argument key="App\Controller\ChatGroupController:addMember" type="service_closure" id=".service_locator.OfNm3iN"/>
+        <argument key="App\Controller\ChatGroupController:edit" type="service_closure" id=".service_locator.Gz2kAjl"/>
+        <argument key="App\Controller\ChatGroupController:index" type="service_closure" id=".service_locator.2KIFyBM"/>
+        <argument key="App\Controller\ChatGroupController:join" type="service_closure" id=".service_locator.Gz2kAjl"/>
+        <argument key="App\Controller\ChatGroupController:new" type="service_closure" id=".service_locator.9kKwU2t"/>
+        <argument key="App\Controller\ChatGroupController:removeMember" type="service_closure" id=".service_locator.OfNm3iN"/>
+        <argument key="App\Controller\ChatGroupController:show" type="service_closure" id=".service_locator.hOeesGW"/>
         <argument key="App\Controller\CommentController:delete" type="service_closure" id=".service_locator.sE8VhYE"/>
         <argument key="App\Controller\CommentController:edit" type="service_closure" id=".service_locator.Xz_hH6b"/>
         <argument key="App\Controller\CommentController:index" type="service_closure" id=".service_locator.C15PbZX"/>
         <argument key="App\Controller\CommentController:new" type="service_closure" id=".service_locator.C15PbZX"/>
         <argument key="App\Controller\CommentController:show" type="service_closure" id=".service_locator.hAGYStx"/>
+        <argument key="App\Controller\CompagnieController:delete" type="service_closure" id=".service_locator.FiBwT5O"/>
+        <argument key="App\Controller\CompagnieController:edit" type="service_closure" id=".service_locator.FiBwT5O"/>
+        <argument key="App\Controller\CompagnieController:index" type="service_closure" id=".service_locator.0N7jZFz"/>
+        <argument key="App\Controller\CompagnieController:new" type="service_closure" id=".service_locator.LNwsF6h"/>
+        <argument key="App\Controller\CompagnieController:selectOrCreate" type="service_closure" id=".service_locator.0N7jZFz"/>
+        <argument key="App\Controller\CompagnieController:show" type="service_closure" id=".service_locator.elXdKcM"/>
+        <argument key="App\Controller\DonController:create" type="service_closure" id=".service_locator.CsMkqUa"/>
+        <argument key="App\Controller\DonController:delete" type="service_closure" id=".service_locator.8S_oN2w"/>
+        <argument key="App\Controller\DonController:edit" type="service_closure" id=".service_locator.dLTLrdo"/>
+        <argument key="App\Controller\DonController:index" type="service_closure" id=".service_locator.CsMkqUa"/>
+        <argument key="App\Controller\DonController:new" type="service_closure" id=".service_locator.LNwsF6h"/>
+        <argument key="App\Controller\DonController:show" type="service_closure" id=".service_locator.TRHkncg"/>
+        <argument key="App\Controller\DonateurDashboardController:index" type="service_closure" id=".service_locator.N4bc6a8"/>
         <argument key="App\Controller\LikeController:likeComment" type="service_closure" id=".service_locator.sE8VhYE"/>
         <argument key="App\Controller\LikeController:likePublication" type="service_closure" id=".service_locator.TyGfL3f"/>
         <argument key="App\Controller\PublicationController:approve" type="service_closure" id=".service_locator.TyGfL3f"/>
@@ -8217,10 +8466,14 @@
       <argument type="service" id="argument_resolver.query_parameter_value_resolver"/>
       <argument type="service" id="debug.stopwatch"/>
     </service>
-    <service id=".service_locator.J3fQigg" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.GLU1RPY" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
+        <argument key="App\Form\ChatGroupType" type="service_closure" id="App\Form\ChatGroupType"/>
         <argument key="App\Form\CommentType" type="service_closure" id="App\Form\CommentType"/>
+        <argument key="App\Form\CompagnieType" type="service_closure" id="App\Form\CompagnieType"/>
+        <argument key="App\Form\DonType" type="service_closure" id="App\Form\DonType"/>
+        <argument key="App\Form\GroupMessageType" type="service_closure" id="App\Form\GroupMessageType"/>
         <argument key="App\Form\PublicationType" type="service_closure" id="App\Form\PublicationType"/>
         <argument key="App\Form\RegistrationFormType" type="service_closure" id="App\Form\RegistrationFormType"/>
         <argument key="Symfony\Bridge\Doctrine\Form\Type\EntityType" type="service_closure" id="form.type.entity"/>
@@ -8348,10 +8601,15 @@
         <argument key="turbo.doctrine.event_listener" type="service_closure" id="turbo.doctrine.event_listener"/>
       </argument>
     </service>
-    <service id=".service_locator.vrlFHrb" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.ZbY14sl" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
+        <argument key="App\Repository\CampagneRepository" type="service_closure" id="App\Repository\CampagneRepository"/>
+        <argument key="App\Repository\ChatGroupRepository" type="service_closure" id="App\Repository\ChatGroupRepository"/>
         <argument key="App\Repository\CommentRepository" type="service_closure" id="App\Repository\CommentRepository"/>
+        <argument key="App\Repository\CompagnieRepository" type="service_closure" id="App\Repository\CompagnieRepository"/>
+        <argument key="App\Repository\DonRepository" type="service_closure" id="App\Repository\DonRepository"/>
+        <argument key="App\Repository\GroupMessageRepository" type="service_closure" id="App\Repository\GroupMessageRepository"/>
         <argument key="App\Repository\LikeRepository" type="service_closure" id="App\Repository\LikeRepository"/>
         <argument key="App\Repository\PublicationRepository" type="service_closure" id="App\Repository\PublicationRepository"/>
         <argument key="App\Repository\UserRepository" type="service_closure" id="App\Repository\UserRepository"/>
@@ -8742,6 +9000,18 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.O2p6Lk7" method="withContext"/>
     </service>
+    <service id=".service_locator.O2p6Lk7.App\Controller\AdminHomeController" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\AdminHomeController"/>
+      <argument>App\Controller\AdminHomeController</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.O2p6Lk7" method="withContext"/>
+    </service>
+    <service id=".service_locator.O2p6Lk7.App\Controller\ChatGroupController" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\ChatGroupController"/>
+      <argument>App\Controller\ChatGroupController</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.O2p6Lk7" method="withContext"/>
+    </service>
     <service id=".service_locator.O2p6Lk7.App\Controller\ChatbotController" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="App\Controller\ChatbotController"/>
       <argument>App\Controller\ChatbotController</argument>
@@ -8754,9 +9024,33 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.O2p6Lk7" method="withContext"/>
     </service>
+    <service id=".service_locator.O2p6Lk7.App\Controller\CompagnieController" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\CompagnieController"/>
+      <argument>App\Controller\CompagnieController</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.O2p6Lk7" method="withContext"/>
+    </service>
+    <service id=".service_locator.O2p6Lk7.App\Controller\DonController" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\DonController"/>
+      <argument>App\Controller\DonController</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.O2p6Lk7" method="withContext"/>
+    </service>
     <service id=".service_locator.O2p6Lk7.App\Controller\DonateurController" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="App\Controller\DonateurController"/>
       <argument>App\Controller\DonateurController</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.O2p6Lk7" method="withContext"/>
+    </service>
+    <service id=".service_locator.O2p6Lk7.App\Controller\DonateurDashboardController" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\DonateurDashboardController"/>
+      <argument>App\Controller\DonateurDashboardController</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.O2p6Lk7" method="withContext"/>
+    </service>
+    <service id=".service_locator.O2p6Lk7.App\Controller\DonationController" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\DonationController"/>
+      <argument>App\Controller\DonationController</argument>
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.O2p6Lk7" method="withContext"/>
     </service>
@@ -8977,9 +9271,15 @@
         <argument type="collection">
           <argument>App\Kernel</argument>
           <argument>App\Controller\AdminController</argument>
+          <argument>App\Controller\AdminHomeController</argument>
+          <argument>App\Controller\ChatGroupController</argument>
           <argument>App\Controller\ChatbotController</argument>
           <argument>App\Controller\CommentController</argument>
+          <argument>App\Controller\CompagnieController</argument>
+          <argument>App\Controller\DonController</argument>
           <argument>App\Controller\DonateurController</argument>
+          <argument>App\Controller\DonateurDashboardController</argument>
+          <argument>App\Controller\DonationController</argument>
           <argument>App\Controller\HomeController</argument>
           <argument>App\Controller\LikeController</argument>
           <argument>App\Controller\MedecinController</argument>
@@ -9192,6 +9492,15 @@
     <service id=".errored..service_locator.TyGfL3f.App\Entity\Publication" class="App\Entity\Publication">
       <tag name="container.error" message="Cannot autowire service &quot;.service_locator.TyGfL3f&quot;: it needs an instance of &quot;App\Entity\Publication&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
     </service>
+    <service id=".errored..service_locator.hOeesGW.App\Entity\ChatGroup" class="App\Entity\ChatGroup">
+      <tag name="container.error" message="Cannot autowire service &quot;.service_locator.hOeesGW&quot;: it needs an instance of &quot;App\Entity\ChatGroup&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
+    </service>
+    <service id=".errored..service_locator.Gz2kAjl.App\Entity\ChatGroup" class="App\Entity\ChatGroup">
+      <tag name="container.error" message="Cannot autowire service &quot;.service_locator.Gz2kAjl&quot;: it needs an instance of &quot;App\Entity\ChatGroup&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
+    </service>
+    <service id=".errored..service_locator.OfNm3iN.App\Entity\ChatGroup" class="App\Entity\ChatGroup">
+      <tag name="container.error" message="Cannot autowire service &quot;.service_locator.OfNm3iN&quot;: it needs an instance of &quot;App\Entity\ChatGroup&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
+    </service>
     <service id=".errored..service_locator.hAGYStx.App\Entity\Comment" class="App\Entity\Comment">
       <tag name="container.error" message="Cannot autowire service &quot;.service_locator.hAGYStx&quot;: it needs an instance of &quot;App\Entity\Comment&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
     </service>
@@ -9200,6 +9509,21 @@
     </service>
     <service id=".errored..service_locator.sE8VhYE.App\Entity\Comment" class="App\Entity\Comment">
       <tag name="container.error" message="Cannot autowire service &quot;.service_locator.sE8VhYE&quot;: it needs an instance of &quot;App\Entity\Comment&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
+    </service>
+    <service id=".errored..service_locator.elXdKcM.App\Entity\Compagnie" class="App\Entity\Compagnie">
+      <tag name="container.error" message="Cannot autowire service &quot;.service_locator.elXdKcM&quot;: it needs an instance of &quot;App\Entity\Compagnie&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
+    </service>
+    <service id=".errored..service_locator.FiBwT5O.App\Entity\Compagnie" class="App\Entity\Compagnie">
+      <tag name="container.error" message="Cannot autowire service &quot;.service_locator.FiBwT5O&quot;: it needs an instance of &quot;App\Entity\Compagnie&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
+    </service>
+    <service id=".errored..service_locator.TRHkncg.App\Entity\Don" class="App\Entity\Don">
+      <tag name="container.error" message="Cannot autowire service &quot;.service_locator.TRHkncg&quot;: it needs an instance of &quot;App\Entity\Don&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
+    </service>
+    <service id=".errored..service_locator.dLTLrdo.App\Entity\Don" class="App\Entity\Don">
+      <tag name="container.error" message="Cannot autowire service &quot;.service_locator.dLTLrdo&quot;: it needs an instance of &quot;App\Entity\Don&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
+    </service>
+    <service id=".errored..service_locator.8S_oN2w.App\Entity\Don" class="App\Entity\Don">
+      <tag name="container.error" message="Cannot autowire service &quot;.service_locator.8S_oN2w&quot;: it needs an instance of &quot;App\Entity\Don&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
     </service>
     <service id=".errored..service_locator.iUig0G9.App\Entity\Publication" class="App\Entity\Publication">
       <tag name="container.error" message="Cannot autowire service &quot;.service_locator.iUig0G9&quot;: it needs an instance of &quot;App\Entity\Publication&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
@@ -10406,7 +10730,7 @@
     <service id="Psr\Log\LoggerInterface" alias="monolog.logger"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.w7.f4fT" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.Vz4jERX"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.5YwNIds"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.KLVvNIq"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="Psr\Log\LoggerInterface $requestLogger" alias="monolog.logger.request"/>
@@ -10431,13 +10755,17 @@
     <service id=".service_locator.h8Jkkd2" alias="messenger.retry_strategy_locator"/>
     <service id=".service_locator.bJ.4HC5" alias=".service_locator.w7.f4fT"/>
     <service id=".service_locator.n.7.wCW" alias=".service_locator.TyGfL3f"/>
+    <service id=".service_locator.bm45aso" alias=".service_locator.hOeesGW"/>
+    <service id=".service_locator.yXBDPyu" alias=".service_locator.Gz2kAjl"/>
+    <service id=".service_locator.MVWHApc" alias=".service_locator.OfNm3iN"/>
+    <service id=".service_locator.ni7uMIz" alias=".service_locator.N4bc6a8"/>
     <service id=".service_locator.th5i6eU" alias=".service_locator.iUig0G9"/>
     <service id=".service_locator.52JxNpb" alias=".service_locator.1BDjvx9"/>
     <service id=".service_locator.dQiUxUs" alias=".service_locator.BXW8zd5"/>
     <service id=".service_locator.V6D1oJY" alias=".service_locator.e_4zbH4"/>
-    <service id=".service_locator.jKWuT8p" alias=".service_locator.Vz4jERX"/>
+    <service id=".service_locator.CVvVEU." alias=".service_locator.5YwNIds"/>
     <service id=".service_locator.BFrsqsn" alias=".service_locator.F9PKc.7"/>
-    <service id=".service_locator.kFhze_a" alias=".service_locator.J3fQigg"/>
+    <service id=".service_locator.LVxTuro" alias=".service_locator.GLU1RPY"/>
     <service id=".service_locator.XtmiKbi" alias=".service_locator.MfxSDRP"/>
     <service id=".service_locator.O24_MAy" alias=".service_locator.yY.p4P7"/>
     <service id=".service_locator.jUv.zyj" alias=".service_locator.O2p6Lk7"/>
@@ -10464,10 +10792,24 @@
     <service id=".service_locator.025Wi8b" alias=".service_locator.kPUOGb8"/>
     <service id=".service_locator.4UW8Cbs" alias=".service_locator.dH_7bkl"/>
     <service id=".service_locator.8pXpDI7" alias=".service_locator.TyGfL3f"/>
+    <service id=".service_locator.EPa_xhx" alias=".service_locator.2KIFyBM"/>
+    <service id=".service_locator.gaTSUXr" alias=".service_locator.9kKwU2t"/>
+    <service id=".service_locator.w.lYNAF" alias=".service_locator.hOeesGW"/>
+    <service id=".service_locator.OZ8m2G1" alias=".service_locator.Gz2kAjl"/>
+    <service id=".service_locator.eCB.056" alias=".service_locator.OfNm3iN"/>
     <service id=".service_locator.lboLcqS" alias=".service_locator.C15PbZX"/>
     <service id=".service_locator.jvkdxbJ" alias=".service_locator.hAGYStx"/>
     <service id=".service_locator.5IsqsLt" alias=".service_locator.Xz_hH6b"/>
     <service id=".service_locator.kXuNxP5" alias=".service_locator.sE8VhYE"/>
+    <service id=".service_locator.uH_G8LR" alias=".service_locator.0N7jZFz"/>
+    <service id=".service_locator.lUJI3Z8" alias=".service_locator.LNwsF6h"/>
+    <service id=".service_locator.K7vCwQL" alias=".service_locator.elXdKcM"/>
+    <service id=".service_locator.5IOpeaI" alias=".service_locator.FiBwT5O"/>
+    <service id=".service_locator.9e2t_lq" alias=".service_locator.CsMkqUa"/>
+    <service id=".service_locator.w3ZehTF" alias=".service_locator.TRHkncg"/>
+    <service id=".service_locator.HwMM78K" alias=".service_locator.dLTLrdo"/>
+    <service id=".service_locator.Q1RtfZS" alias=".service_locator.8S_oN2w"/>
+    <service id=".service_locator.W3tohKh" alias=".service_locator.N4bc6a8"/>
     <service id=".service_locator.fG6rZGG" alias=".service_locator.iUig0G9"/>
     <service id=".service_locator.FBAkYy6" alias=".service_locator.md.U7iW"/>
     <service id=".service_locator.ftB.Q1V" alias=".service_locator.1BDjvx9"/>

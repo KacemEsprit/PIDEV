@@ -101,31 +101,29 @@
 
         <div class="publication-content">
             {{ publication.contenu|nl2br }}
-            
-            {% if publication.imageUrls|length > 0 %}
-                <div class="publication-images {% if publication.imageUrls|length == 1 %}single-image{% elseif publication.imageUrls|length == 2 %}two-images{% endif %}">
-                    {% set maxDisplayImages = 4 %}
-                    {% for imageUrl in publication.imageUrls|slice(0, publication.imageUrls|length > maxDisplayImages ? maxDisplayImages : publication.imageUrls|length) %}
-                        <div class="publication-image">
-                            <img src="{{ asset(imageUrl) }}" 
-                                 alt="Image de publication" 
-                                 class="publication-img"
-                                 onclick="openImageModal(this.src)">
-                        </div>
-                    {% endfor %}
-                    
-                    {% if publication.imageUrls|length > maxDisplayImages %}
-                        <div class="publication-image more-images" onclick="openImageModal('{{ asset(publication.imageUrls[maxDisplayImages]) }}')">
-                            <img src="{{ asset(publication.imageUrls[maxDisplayImages]) }}" 
-                                 alt="Image de publication" 
-                                 class="publication-img">
-                            <div class="more-overlay">
-                                <span>+{{ publication.imageUrls|length - maxDisplayImages }}</span>
-                            </div>
-                        </div>
-                    {% endif %}
+          {% if publication.imageUrls|length > 0 %}
+    <div class="publication-images">
+        {% for imageUrl in publication.imageUrls|slice(0, 3) %}
+            <div class="publication-image">
+                <img src="{{ asset(imageUrl) }}" 
+                     alt="Image de publication" 
+                     class="publication-img"
+                     onclick="openImageModal(this.src)">
+            </div>
+        {% endfor %}
+        
+        {% if publication.imageUrls|length > 3 %}
+            <div class="publication-image more-images" onclick="openImageModal('{{ asset(publication.imageUrls[3]) }}')">
+                <img src="{{ asset(publication.imageUrls[3]) }}" 
+                     alt="Image de publication" 
+                     class="publication-img">
+                <div class="more-overlay">
+                    <span>+{{ publication.imageUrls|length - 3 }}</span>
                 </div>
-            {% endif %}
+            </div>
+        {% endif %}
+    </div>
+{% endif %}
         </div>
     </div>
 
@@ -142,7 +140,9 @@
                         {{ form_widget(commentForm.contenuCom, {
                             'attr': {
                                 'placeholder': 'Écrivez votre commentaire...',
-                                'class': 'form-control'
+                                'class': 'form-control',
+                                    'maxlength': 120,
+        'oninput': 'this.value = this.value.slice(0, 120)'
                             }
                         }) }}
                     </div>
@@ -182,9 +182,9 @@
                             {% endif %}
                         {% endif %}
                         {% if is_granted('ROLE_USER') %}
-                            <button class="like-btn like-comment-btn {{ app.user and comment.isLikedByUser(app.user.id) ? 'liked' }}"
+<button class="like-btn like-comment-btn {{ app.user and comment.isLikedByUser(app.user) ? 'liked' }}"
                                     data-comment-id="{{ comment.id }}">
-                                <i class="{{ app.user and comment.isLikedByUser(app.user.id) ? 'fas' : 'far' }} fa-heart"></i>
+                                <i class="{{ app.user and comment.isLikedByUser(app.user) ? 'fas' : 'far' }} fa-heart"></i>
                                 <span class="like-count">{{ comment.getLikeCount() }}</span>
                             </button>
                         {% endif %}
@@ -236,11 +236,14 @@
 }
 
 .publication-card {
-    background: white;
+  background: white;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 1.5rem;
     margin-bottom: 2rem;
+    word-wrap: break-word; 
+    overflow-wrap: break-word;
+}
 }
 
 
@@ -307,8 +310,10 @@
 }
 
 .publication-content {
-    margin: 1rem 0;
-    white-space: pre-line;
+   margin: 1rem 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
 }
 
 .comments-section {
@@ -390,9 +395,17 @@
 
 .comment-content {
     margin-left: calc(40px + 1rem);
-    white-space: pre-line;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
 }
-
+/* Pour gérer les éléments de type code ou URL longs */
+pre, code, a {
+    max-width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
 .no-comments {
     text-align: center;
     padding: 3rem;
@@ -430,9 +443,12 @@
 }
 
 .publication-images {
-    display: grid;
+  display: grid;
     gap: 0.5rem;
     margin-top: 1rem;
+    grid-template-columns: repeat(3, 1fr); /* Affiche 3 images par défaut */
+    max-height: 300px; /* Limite la hauteur de la grille */
+    overflow: hidden;
 }
 
 .publication-images.single-image {
@@ -454,10 +470,11 @@
 }
 
 .publication-image {
-    position: relative;
-    padding-top: 100%; /* 1:1 Aspect Ratio */
+   position: relative;
+    padding-top: 100%;
     overflow: hidden;
-    border-radius: 12px;
+    border-radius: 8px;
+    max-height: 200px;
 }
 
 .publication-img {
@@ -509,7 +526,7 @@
 }
 
 .modal {
-    display: none;
+      display: none;
     position: fixed;
     z-index: 1000;
     top: 0;
@@ -521,11 +538,12 @@
 }
 
 .modal-content {
-    position: relative;
+     position: relative;
     margin: auto;
     display: block;
-    max-width: 90%;
-    max-height: 90vh;
+    max-width: 80%;
+    max-height: 80vh;
+    object-fit: contain;
 }
 
 .modal img {
@@ -533,7 +551,42 @@
     height: 100%;
     object-fit: contain;
 }
+.modal-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 15px;
+    cursor: pointer;
+    border-radius: 50%;
+    border: none;
+    font-size: 24px;
+    transition: background 0.3s ease;
+}
 
+.modal-nav:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.modal-prev {
+    left: 20px;
+}
+
+.modal-next {right: 20px;
+}
+
+.modal-counter {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 5px 15px;
+    border-radius: 15px;
+    font-size: 14px;
+}
 .close {
     position: absolute;
     top: 15px;
@@ -726,9 +779,15 @@
     font-size: 0.9em;
 }
 </style>
-
 <script>
+let currentImageIndex = 0;
+let images = [];
+
 function openImageModal(src) {
+    // Récupérer toutes les images de la publication
+    images = Array.from(document.querySelectorAll('.publication-img')).map(img => img.src);
+    currentImageIndex = images.indexOf(src);
+    
     var modal = document.createElement('div');
     modal.className = 'modal';
     
@@ -740,31 +799,73 @@ function openImageModal(src) {
     closeBtn.className = 'close';
     closeBtn.innerHTML = '&times;';
     
+    var prevBtn = document.createElement('button');
+    prevBtn.className = 'modal-nav modal-prev';
+    prevBtn.innerHTML = '&#10094;';
+    
+    var nextBtn = document.createElement('button');
+    nextBtn.className = 'modal-nav modal-next';
+    nextBtn.innerHTML = '&#10095;';
+    
+    var counter = document.createElement('div');
+    counter.className = 'modal-counter';
+    updateCounter(counter);
+    
     modal.appendChild(img);
     modal.appendChild(closeBtn);
+    modal.appendChild(prevBtn);
+    modal.appendChild(nextBtn);
+    modal.appendChild(counter);
     document.body.appendChild(modal);
     
     setTimeout(() => modal.style.display = 'flex', 0);
     document.body.style.overflow = 'hidden';
     
+    // Navigation
+    prevBtn.onclick = function(e) {
+        e.stopPropagation();
+        currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+        img.src = images[currentImageIndex];
+        updateCounter(counter);
+    }
+    
+    nextBtn.onclick = function(e) {
+        e.stopPropagation();
+        currentImageIndex = (currentImageIndex + 1) % images.length;
+        img.src = images[currentImageIndex];
+        updateCounter(counter);
+    }
+    
+    // Fermeture
     closeBtn.onclick = function() {
-        document.body.removeChild(modal);
-        document.body.style.overflow = 'auto';
+        closeModal(modal);
     }
     
     modal.onclick = function(e) {
         if (e.target === modal) {
-            document.body.removeChild(modal);
-            document.body.style.overflow = 'auto';
+            closeModal(modal);
         }
     }
     
+    // Navigation avec les flèches du clavier
     document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && document.contains(modal)) {
-            document.body.removeChild(modal);
-            document.body.style.overflow = 'auto';
+        if (e.key === 'ArrowLeft') {
+            prevBtn.click();
+        } else if (e.key === 'ArrowRight') {
+            nextBtn.click();
+        } else if (e.key === 'Escape') {
+            closeModal(modal);
         }
     });
+}
+
+function updateCounter(counter) {
+    counter.textContent = `${currentImageIndex + 1} / ${images.length}`;
+}
+
+function closeModal(modal) {
+    document.body.removeChild(modal);
+    document.body.style.overflow = 'auto';
 }
 
 // Chatbot JavaScript
@@ -874,39 +975,4 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-
-{% endblock %}
-{% block javascripts %}
-    {{ parent() }}
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Gestion des likes des publications
-        document.querySelectorAll('.like-publication-btn').forEach(button => {
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                const publicationId = this.dataset.publicationId;
-                const url = `/like/publication/${publicationId}`;
-                
-                fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.liked) {
-                        this.classList.add('liked');
-                        this.innerHTML = `<i class="fas fa-heart"></i> <span class="like-count">${data.likeCount}</span>`;
-                    } else {
-                        this.classList.remove('liked');
-                        this.innerHTML = `<i class="far fa-heart"></i> <span class="like-count">${data.likeCount}</span>`;
-                    }
-                })
-                .catch(error => console.error('Error:', error));
-            });
-        });
-    });
-    </script>
 {% endblock %}

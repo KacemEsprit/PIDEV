@@ -1,8 +1,12 @@
-O:41:"Symfony\Component\AssetMapper\MappedAsset":12:{s:10:"sourcePath";s:42:"D:\PIDEV\oncokidscare\assets\css\style.css";s:10:"publicPath";s:54:"/assets/css/style-6d87ee8af89a640bcc5a967497b57d4f.css";s:23:"publicPathWithoutDigest";s:21:"/assets/css/style.css";s:15:"publicExtension";s:3:"css";s:7:"content";s:9562:"/********** Template CSS **********/
+O:41:"Symfony\Component\AssetMapper\MappedAsset":12:{s:10:"sourcePath";s:42:"D:\PIDEV\oncokidscare\assets\css\style.css";s:10:"publicPath";s:54:"/assets/css/style-880283aa77241b42d579f746e4a666fa.css";s:23:"publicPathWithoutDigest";s:21:"/assets/css/style.css";s:15:"publicExtension";s:3:"css";s:7:"content";s:9698:"/********** Template CSS **********/
 :root {
-    --primary: #0463FA;
-    --light: #EFF5FF;
-    --dark: #1B2C51;
+    --primary: #FF6B6B;     
+    --secondary: #4ECDC4;   
+    --light: #F7F9FC;       
+    --dark: #2C3E50;        
+    --accent1: #FFD93D;     
+    --accent2: #95E1D3;     
+    --accent3: #A8E6CF;     
 }
 
 .fw-medium {
@@ -516,4 +520,4 @@ O:41:"Symfony\Component\AssetMapper\MappedAsset":12:{s:10:"sourcePath";s:42:"D:\
 
 .footer .copyright a:hover {
     color: var(--primary);
-}";s:6:"digest";s:32:"6d87ee8af89a640bcc5a967497b57d4f";s:13:"isPredigested";b:0;s:8:"isVendor";b:0;s:55:" Symfony\Component\AssetMapper\MappedAsset dependencies";a:1:{i:0;O:41:"Symfony\Component\AssetMapper\MappedAsset":12:{s:10:"sourcePath";s:48:"D:\PIDEV\oncokidscare\assets\img\header-page.jpg";s:10:"publicPath";s:60:"/assets/img/header-page-53c1c7cc8ce5b8cce0cea541443a2452.jpg";s:23:"publicPathWithoutDigest";s:27:"/assets/img/header-page.jpg";s:15:"publicExtension";s:3:"jpg";s:7:"content";N;s:6:"digest";s:32:"53c1c7cc8ce5b8cce0cea541443a2452";s:13:"isPredigested";b:0;s:8:"isVendor";b:0;s:55:" Symfony\Component\AssetMapper\MappedAsset dependencies";a:0:{}s:59:" Symfony\Component\AssetMapper\MappedAsset fileDependencies";a:0:{}s:60:" Symfony\Component\AssetMapper\MappedAsset javaScriptImports";a:0:{}s:11:"logicalPath";s:19:"img/header-page.jpg";}}s:59:" Symfony\Component\AssetMapper\MappedAsset fileDependencies";a:0:{}s:60:" Symfony\Component\AssetMapper\MappedAsset javaScriptImports";a:0:{}s:11:"logicalPath";s:13:"css/style.css";}
+}";s:6:"digest";s:32:"880283aa77241b42d579f746e4a666fa";s:13:"isPredigested";b:0;s:8:"isVendor";b:0;s:55:" Symfony\Component\AssetMapper\MappedAsset dependencies";a:1:{i:0;O:41:"Symfony\Component\AssetMapper\MappedAsset":12:{s:10:"sourcePath";s:48:"D:\PIDEV\oncokidscare\assets\img\header-page.jpg";s:10:"publicPath";s:60:"/assets/img/header-page-53c1c7cc8ce5b8cce0cea541443a2452.jpg";s:23:"publicPathWithoutDigest";s:27:"/assets/img/header-page.jpg";s:15:"publicExtension";s:3:"jpg";s:7:"content";N;s:6:"digest";s:32:"53c1c7cc8ce5b8cce0cea541443a2452";s:13:"isPredigested";b:0;s:8:"isVendor";b:0;s:55:" Symfony\Component\AssetMapper\MappedAsset dependencies";a:0:{}s:59:" Symfony\Component\AssetMapper\MappedAsset fileDependencies";a:0:{}s:60:" Symfony\Component\AssetMapper\MappedAsset javaScriptImports";a:0:{}s:11:"logicalPath";s:19:"img/header-page.jpg";}}s:59:" Symfony\Component\AssetMapper\MappedAsset fileDependencies";a:0:{}s:60:" Symfony\Component\AssetMapper\MappedAsset javaScriptImports";a:0:{}s:11:"logicalPath";s:13:"css/style.css";}

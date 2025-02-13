@@ -46,6 +46,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank]
     private ?string $adresse = null;
 
+    
+  
+    #[ORM\Column(length: 20, nullable: true)]
+    private ?string $donateurType = null;
+
     #[ORM\Column(length: 20)]
     private ?string $role = null;
 
@@ -60,12 +65,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Like::class, orphanRemoval: true)]
     private Collection $likes;
+    
+
+    #[ORM\ManyToMany(targetEntity: ChatGroup::class, mappedBy: 'members')]
+    private Collection $chatGroups;
+
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: ChatGroup::class)]
+    private Collection $ownedGroups;
 
     public function __construct()
     {
         $this->publications = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->likes = new ArrayCollection();
+        $this->chatGroups = new ArrayCollection();
+        $this->ownedGroups = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -92,6 +107,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPrenom(string $prenom): static
     {
         $this->prenom = $prenom;
+        return $this;
+    }
+   
+      public function getDonateurType(): ?string
+    {
+        return $this->donateurType;
+    }
+
+    public function setDonateurType(?string $donateurType): static
+    {
+        $this->donateurType = $donateurType;
         return $this;
     }
 
@@ -175,7 +201,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getRoles(): array
     {
-        return [$this->role];
+        // Tous les utilisateurs ont au minimum ROLE_USER
+        $roles = ['ROLE_USER'];
+        
+        // Ajouter le rôle spécifique de l'utilisateur
+        if ($this->role) {
+            $roles[] = $this->role;
+        }
+
+        return array_unique($roles);
     }
 
     public function eraseCredentials(): void
@@ -271,6 +305,60 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             }
         }
 
+        return $this;
+    }
+
+
+    /**
+     * @return Collection<int, ChatGroup>
+     */
+    public function getChatGroups(): Collection
+    {
+        return $this->chatGroups;
+    }
+
+    public function addChatGroup(ChatGroup $chatGroup): static
+    {
+        if (!$this->chatGroups->contains($chatGroup)) {
+            $this->chatGroups->add($chatGroup);
+            $chatGroup->addMember($this);
+        }
+        return $this;
+    }
+
+    public function removeChatGroup(ChatGroup $chatGroup): static
+    {
+        if ($this->chatGroups->removeElement($chatGroup)) {
+            $chatGroup->removeMember($this);
+        }
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ChatGroup>
+     */
+    public function getOwnedGroups(): Collection
+    {
+        return $this->ownedGroups;
+    }
+
+    public function addOwnedGroup(ChatGroup $ownedGroup): static
+    {
+        if (!$this->ownedGroups->contains($ownedGroup)) {
+            $this->ownedGroups->add($ownedGroup);
+            $ownedGroup->setOwner($this);
+        }
+        return $this;
+    }
+
+    public function removeOwnedGroup(ChatGroup $ownedGroup): static
+    {
+        if ($this->ownedGroups->removeElement($ownedGroup)) {
+            // set the owning side to null (unless already changed)
+            if ($ownedGroup->getOwner() === $this) {
+                $ownedGroup->setOwner(null);
+            }
+        }
         return $this;
     }
 }

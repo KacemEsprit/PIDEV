@@ -13,3 +13,7 @@ chatbot_message:
     path: /chatbot/message
     controller: App\Controller\ChatbotController::message
     methods: [POST]
+admin_pharmacie_index:
+    path: /admin/pharmacie
+    controller: App\Controller\AdminController::pharmacie
+    methods: [GET]

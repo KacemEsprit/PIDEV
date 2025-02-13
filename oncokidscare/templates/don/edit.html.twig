@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier le Don{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Modifier le Don</h1>
+
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label == 'error' ? 'danger' : label }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        {{ form_start(form) }}
+            <div class="row">
+                <div class="col-md-6">
+                    {{ form_row(form.compagnies) }}
+                    {{ form_row(form.type_don) }}
+                    {{ form_row(form.montant) }}
+                    {{ form_row(form.description_materiel) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_row(form.mode_paiement) }}
+                    {{ form_row(form.preuve_don) }}
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <a href="{{ path('app_don_index') }}" class="btn btn-secondary">Retour à la liste</a>
+        {{ form_end(form) }}
+
+        {{ include('don/_delete_form.html.twig') }}
+    </div>
+{% endblock %}

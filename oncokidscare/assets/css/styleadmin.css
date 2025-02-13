@@ -1,10 +1,13 @@
 /********** Template CSS **********/
 :root {
-    --primary: #009CFF;
-    --light: #F3F6F9;
-    --dark: #191C24;
+    --primary: #FF6B6B;      /* Rouge doux/corail - couleur principale chaleureuse */
+    --secondary: #4ECDC4;    /* Turquoise apaisant */
+    --light: #F7F9FC;       /* Blanc cassé doux */
+    --dark: #2C3E50;        /* Bleu foncé sobre */
+    --accent1: #FFD93D;     /* Jaune chaleureux */
+    --accent2: #95E1D3;     /* Vert menthe apaisant */
+    --accent3: #A8E6CF;     /* Vert pastel doux */
 }
-
 .back-to-top {
     position: fixed;
     display: none;

@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails du Don{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Détails du Don</h1>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Informations générales</h5>
+                        <p><strong>Type de don:</strong> {{ don.typeDon }}</p>
+                        {% if don.montant %}
+                            <p><strong>Montant:</strong> {{ don.montant }} €</p>
+                        {% endif %}
+                        <p><strong>Date:</strong> {{ don.dateDon|date('d/m/Y H:i') }}</p>
+                        <p><strong>Statut:</strong> 
+                            <span class="badge {% if don.statut == 'En attente' %}bg-warning{% elseif don.statut == 'Validé' %}bg-success{% else %}bg-danger{% endif %}">
+                                {{ don.statut }}
+                            </span>
+                        </p>
+                        <p><strong>Mode de paiement:</strong> {{ don.modePaiement }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Détails supplémentaires</h5>
+                        {% if don.descriptionMateriel %}
+                            <p><strong>Description du matériel:</strong> {{ don.descriptionMateriel }}</p>
+                        {% endif %}
+                        
+                        {% if don.preuveDon %}
+                            <p><strong>Preuve de don:</strong> {{ don.preuveDon }}</p>
+                        {% endif %}
+                        
+                        <p><strong>Donateur:</strong> {{ don.donateur.email }}</p>
+                        
+                        <p><strong>Compagnies:</strong></p>
+                        {% if don.compagnies|length > 0 %}
+                            <ul class="list-unstyled">
+                                {% for compagnie in don.compagnies %}
+                                    <li>{{ compagnie.nom }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p class="text-muted">Aucune compagnie associée</p>
+                        {% endif %}
+
+                        {% if don.campagne %}
+                            <p><strong>Campagne:</strong> {{ don.campagne.titre }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-3">
+            <a href="{{ path('app_don_edit', {'id': don.id}) }}" class="btn btn-warning">Modifier</a>
+            <a href="{{ path('app_don_index') }}" class="btn btn-secondary">Retour à la liste</a>
+            {{ include('don/_delete_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}

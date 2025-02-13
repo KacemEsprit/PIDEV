@@ -11,18 +11,25 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class SecurityController extends AbstractController
 {
     #[Route(path: '/login', name: 'app_login')]
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    public function login(AuthenticationUtils $authenticationUtils, SessionInterface $session): Response
     {
         // Redirect if already logged in
         if ($this->getUser()) {
             /** @var User $user */
             $user = $this->getUser();
             
-            // Redirect based on role
+            // Spécial handling for companies
+            if ($user->getRole() === User::ROLE_DONATEUR && $user->getDonateurType() === 'compagnie') {
+                // Redirect to company selection page
+                return $this->redirectToRoute('app_compagnie_select_or_create');
+            }
+            
+            // Regular role-based redirect
             return match ($user->getRole()) {
                 User::ROLE_ADMIN => $this->redirectToRoute('app_admin_index'),
                 User::ROLE_MEDECIN => $this->redirectToRoute('app_medecin_dashboard'),
@@ -55,10 +62,14 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Only allow registration as PATIENT or DONATEUR
+            // Récupérer le rôle sélectionné
             $role = $form->get('role')->getData();
-            if (!in_array($role, [User::ROLE_PATIENT, User::ROLE_DONATEUR])) {
-                throw new \InvalidArgumentException('Invalid role for registration');
+            $user->setRole($role);
+
+            // Récupérer le type de donateur depuis la requête
+            $donateurType = $request->request->get('donateurType');
+            if ($role === User::ROLE_DONATEUR && $donateurType) {
+                $user->setDonateurType($donateurType);
             }
 
             // encode the plain password
@@ -72,10 +83,7 @@ class SecurityController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // Add a flash message
-            $this->addFlash('success', 'Your account has been created. Please log in.');
-
-            // Redirect to login page after registration
+            $this->addFlash('success', 'Votre compte a été créé avec succès!');
             return $this->redirectToRoute('app_login');
         }
 

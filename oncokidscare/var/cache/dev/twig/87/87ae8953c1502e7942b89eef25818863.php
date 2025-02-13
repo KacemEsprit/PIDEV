@@ -249,21 +249,17 @@ class __TwigTemplate_4a57e0fcfa57c34ece8526e836eadb58 extends Template
         // line 96
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"), "html", null, true);
         yield "\"></script>
-    <script src=\"";
-        // line 97
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("js/likes.js"), "html", null, true);
-        yield "\"></script>
 
     <!-- Template Javascript -->
     <script src=\"";
-        // line 100
+        // line 99
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("js/main.js"), "html", null, true);
         yield "\"></script>
 
     ";
-        // line 102
+        // line 101
         yield from $this->unwrap()->yieldBlock('javascripts', $context, $blocks);
-        // line 103
+        // line 102
         yield "
     <!-- Font Awesome -->
     <script src=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js\"></script>
@@ -348,7 +344,7 @@ class __TwigTemplate_4a57e0fcfa57c34ece8526e836eadb58 extends Template
         yield from [];
     }
 
-    // line 102
+    // line 101
     /**
      * @return iterable<null|scalar|\Stringable>
      */
@@ -391,7 +387,7 @@ class __TwigTemplate_4a57e0fcfa57c34ece8526e836eadb58 extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  352 => 102,  330 => 84,  319 => 34,  306 => 33,  283 => 5,  267 => 103,  265 => 102,  260 => 100,  254 => 97,  250 => 96,  246 => 95,  242 => 94,  238 => 93,  234 => 92,  230 => 91,  226 => 90,  222 => 89,  216 => 85,  214 => 84,  206 => 79,  203 => 78,  198 => 76,  193 => 75,  187 => 73,  185 => 72,  181 => 71,  175 => 68,  171 => 67,  167 => 66,  163 => 65,  159 => 64,  154 => 61,  148 => 59,  146 => 58,  142 => 57,  138 => 56,  134 => 55,  123 => 47,  109 => 35,  107 => 33,  102 => 31,  96 => 28,  90 => 25,  86 => 24,  82 => 23,  67 => 11,  58 => 5,  52 => 1,);
+        return array (  348 => 101,  326 => 84,  315 => 34,  302 => 33,  279 => 5,  263 => 102,  261 => 101,  256 => 99,  250 => 96,  246 => 95,  242 => 94,  238 => 93,  234 => 92,  230 => 91,  226 => 90,  222 => 89,  216 => 85,  214 => 84,  206 => 79,  203 => 78,  198 => 76,  193 => 75,  187 => 73,  185 => 72,  181 => 71,  175 => 68,  171 => 67,  167 => 66,  163 => 65,  159 => 64,  154 => 61,  148 => 59,  146 => 58,  142 => 57,  138 => 56,  134 => 55,  123 => 47,  109 => 35,  107 => 33,  102 => 31,  96 => 28,  90 => 25,  86 => 24,  82 => 23,  67 => 11,  58 => 5,  52 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -492,7 +488,6 @@ class __TwigTemplate_4a57e0fcfa57c34ece8526e836eadb58 extends Template
     <script src=\"{{ asset('lib/tempusdominus/js/moment.min.js') }}\"></script>
     <script src=\"{{ asset('lib/tempusdominus/js/moment-timezone.min.js') }}\"></script>
     <script src=\"{{ asset('lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}\"></script>
-    <script src=\"{{ asset('js/likes.js') }}\"></script>
 
     <!-- Template Javascript -->
     <script src=\"{{ asset('js/main.js') }}\"></script>

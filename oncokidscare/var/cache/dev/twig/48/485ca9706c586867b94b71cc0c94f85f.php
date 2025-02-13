@@ -108,24 +108,24 @@ class __TwigTemplate_80aac6c77f02f69ca83971f4e4a9b440 extends Template
             <div class=\"form-group\">
                 ";
         // line 12
-        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 12, $this->source); })()), "contenu", [], "any", false, false, false, 12), 'widget', ["attr" => ["placeholder" => "Que voulez-vous partager ?", "class" => "form-textarea"]]);
-        // line 17
+        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 12, $this->source); })()), "contenu", [], "any", false, false, false, 12), 'widget', ["attr" => ["placeholder" => "Que voulez-vous partager ?", "class" => "form-textarea", "maxlength" => 120, "oninput" => "this.value = this.value.slice(0, 120)", "style" => "height: auto; min-height: 100px; overflow-y: auto;"]]);
+        // line 20
         yield "
             </div>
             
             <div class=\"form-group\">
                 ";
-        // line 21
-        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 21, $this->source); })()), "imageFiles", [], "any", false, false, false, 21), 'widget', ["attr" => ["class" => "form-control", "accept" => "image/*"]]);
-        // line 26
+        // line 24
+        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 24, $this->source); })()), "imageFiles", [], "any", false, false, false, 24), 'widget', ["attr" => ["class" => "form-control", "accept" => "image/*"]]);
+        // line 29
         yield "
             </div>
 
             <div class=\"form-group\">
                 <label class=\"anonymous-toggle\">
                     ";
-        // line 31
-        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 31, $this->source); })()), "isAnonymous", [], "any", false, false, false, 31), 'widget');
+        // line 34
+        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 34, $this->source); })()), "isAnonymous", [], "any", false, false, false, 34), 'widget');
         yield "
                     <span class=\"toggle-slider\"></span>
                     <span class=\"anonymous-label\">
@@ -136,7 +136,7 @@ class __TwigTemplate_80aac6c77f02f69ca83971f4e4a9b440 extends Template
 
             <div class=\"form-actions\">
                 <a href=\"";
-        // line 40
+        // line 43
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_publication_index");
         yield "\" class=\"btn btn-secondary\">
                     <i class=\"fas fa-arrow-left\"></i> Retour
@@ -146,27 +146,27 @@ class __TwigTemplate_80aac6c77f02f69ca83971f4e4a9b440 extends Template
                 </button>
             </div>
         ";
-        // line 47
-        yield         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 47, $this->source); })()), 'form_end');
+        // line 50
+        yield         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 50, $this->source); })()), 'form_end');
         yield "
     </div>
 
     ";
-        // line 50
-        if ((Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, (isset($context["publication"]) || array_key_exists("publication", $context) ? $context["publication"] : (function () { throw new RuntimeError('Variable "publication" does not exist.', 50, $this->source); })()), "imageUrls", [], "any", false, false, false, 50)) > 0)) {
-            // line 51
+        // line 53
+        if ((Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, (isset($context["publication"]) || array_key_exists("publication", $context) ? $context["publication"] : (function () { throw new RuntimeError('Variable "publication" does not exist.', 53, $this->source); })()), "imageUrls", [], "any", false, false, false, 53)) > 0)) {
+            // line 54
             yield "        <div class=\"current-images\">
             <h3>Images actuelles</h3>
             <div class=\"images-grid\">
                 ";
-            // line 54
+            // line 57
             $context['_parent'] = $context;
-            $context['_seq'] = CoreExtension::ensureTraversable(CoreExtension::getAttribute($this->env, $this->source, (isset($context["publication"]) || array_key_exists("publication", $context) ? $context["publication"] : (function () { throw new RuntimeError('Variable "publication" does not exist.', 54, $this->source); })()), "imageUrls", [], "any", false, false, false, 54));
+            $context['_seq'] = CoreExtension::ensureTraversable(CoreExtension::getAttribute($this->env, $this->source, (isset($context["publication"]) || array_key_exists("publication", $context) ? $context["publication"] : (function () { throw new RuntimeError('Variable "publication" does not exist.', 57, $this->source); })()), "imageUrls", [], "any", false, false, false, 57));
             foreach ($context['_seq'] as $context["_key"] => $context["imageUrl"]) {
-                // line 55
+                // line 58
                 yield "                    <div class=\"image-item\">
                         <img src=\"";
-                // line 56
+                // line 59
                 yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl($context["imageUrl"]), "html", null, true);
                 yield "\" alt=\"Image actuelle\" class=\"current-image\">
                     </div>
@@ -175,12 +175,12 @@ class __TwigTemplate_80aac6c77f02f69ca83971f4e4a9b440 extends Template
             $_parent = $context['_parent'];
             unset($context['_seq'], $context['_key'], $context['imageUrl'], $context['_parent']);
             $context = array_intersect_key($context, $_parent) + $_parent;
-            // line 59
+            // line 62
             yield "            </div>
         </div>
     ";
         }
-        // line 62
+        // line 65
         yield "</div>
 
 <style>
@@ -376,7 +376,7 @@ class __TwigTemplate_80aac6c77f02f69ca83971f4e4a9b440 extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  184 => 62,  179 => 59,  170 => 56,  167 => 55,  163 => 54,  158 => 51,  156 => 50,  150 => 47,  140 => 40,  128 => 31,  121 => 26,  119 => 21,  113 => 17,  111 => 12,  106 => 10,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
+        return array (  184 => 65,  179 => 62,  170 => 59,  167 => 58,  163 => 57,  158 => 54,  156 => 53,  150 => 50,  140 => 43,  128 => 34,  121 => 29,  119 => 24,  113 => 20,  111 => 12,  106 => 10,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -395,7 +395,10 @@ class __TwigTemplate_80aac6c77f02f69ca83971f4e4a9b440 extends Template
                 {{ form_widget(form.contenu, {
                     'attr': {
                         'placeholder': 'Que voulez-vous partager ?',
-                        'class': 'form-textarea'
+                        'class': 'form-textarea',
+                            'maxlength': 120,
+        'oninput': 'this.value = this.value.slice(0, 120)',
+        'style': 'height: auto; min-height: 100px; overflow-y: auto;'
                     }
                 }) }}
             </div>

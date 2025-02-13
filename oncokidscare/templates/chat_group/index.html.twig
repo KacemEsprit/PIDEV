@@ -1,0 +1,209 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Groupes de discussion{% endblock %}
+
+{% block body %}
+<div class="container" style="max-width: 1200px; margin: 2rem auto; padding: 0 1rem;">
+    <div class="groups-header">
+        <h1>Groupes de discussion</h1>
+        <a href="{{ path('app_chat_group_new') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Créer un groupe privé
+        </a>
+    </div>
+
+    <!-- Groupes publics -->
+    <div class="section-title">
+        <i class="fas fa-globe"></i>
+        <h2>Groupes thématiques</h2>
+    </div>
+    <div class="groups-grid">
+        {% for group in public_groups %}
+            <div class="group-card public-group" style="border-top: 4px solid {{ group.themeColor }}">
+                <div class="group-card-header">
+                    <div class="group-icon">
+                        <i class="fas {{ group.themeIcon }}"></i>
+                    </div>
+                    <h3>{{ group.name }}</h3>
+                </div>
+                
+                <p class="group-description">
+                    {{ group.description }}
+                </p>
+
+                {% if group.guidelines %}
+                    <div class="group-guidelines">
+                        <h4>Règles du groupe :</h4>
+                        {{ group.guidelines|nl2br }}
+                    </div>
+                {% endif %}
+                
+                <div class="group-meta">
+                    <span class="members-count">
+                        <i class="fas fa-users"></i> {{ group.members|length }} membres
+                    </span>
+                    <span class="created-at">
+                        <i class="fas fa-calendar-alt"></i> Créé le {{ group.createdAt|date('d/m/Y') }}
+                    </span>
+                </div>
+
+                <div class="group-actions">
+                    <a href="{{ path('app_chat_group_show', {'id': group.id}) }}" class="btn btn-primary">
+                        <i class="fas fa-comments"></i> Voir les messages
+                    </a>
+                </div>
+            </div>
+        {% else %}
+            <p class="no-groups">Aucun groupe public disponible pour le moment.</p>
+        {% endfor %}
+    </div>
+
+    <!-- Groupes privés -->
+    <div class="section-title">
+        <i class="fas fa-lock"></i>
+        <h2>Mes groupes privés</h2>
+    </div>
+    <div class="groups-grid">
+        {% for group in user_groups|filter(g => not g.isPublic) %}
+            <div class="group-card private-group">
+                <div class="group-card-header">
+                    <h3>{{ group.name }}</h3>
+                    {% if group.owner == app.user %}
+                        <span class="owner-badge">Propriétaire</span>
+                    {% endif %}
+                </div>
+                
+                <p class="group-description">
+                    {{ group.description }}
+                </p>
+                
+                <div class="group-meta">
+                    <span class="members-count">
+                        <i class="fas fa-users"></i> {{ group.members|length }} membres
+                    </span>
+                    <span class="created-at">
+                        <i class="fas fa-calendar-alt"></i> Créé le {{ group.createdAt|date('d/m/Y') }}
+                    </span>
+                </div>
+
+                <div class="group-actions">
+                    <a href="{{ path('app_chat_group_show', {'id': group.id}) }}" class="btn btn-primary">
+                        <i class="fas fa-comments"></i> Voir les messages
+                    </a>
+                    {% if group.owner == app.user %}
+                        <a href="{{ path('app_chat_group_edit', {'id': group.id}) }}" class="btn btn-secondary">
+                            <i class="fas fa-edit"></i> Modifier
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        {% else %}
+            <p class="no-groups">Vous n'êtes membre d'aucun groupe privé.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+.groups-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    margin: 2rem 0 1rem;
+    gap: 0.5rem;
+}
+
+.section-title i {
+    font-size: 1.5rem;
+    color: #666;
+}
+
+.groups-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.group-card {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.group-card-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.group-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.group-icon i {
+    font-size: 1.2rem;
+    color: #666;
+}
+
+.group-description {
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.group-guidelines {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+.group-guidelines h4 {
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: #495057;
+}
+
+.group-meta {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.group-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.owner-badge {
+    background: #28a745;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+.no-groups {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: #666;
+    padding: 2rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+</style>
+{% endblock %}

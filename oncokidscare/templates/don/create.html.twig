@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Faire un Don{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h1 class="h3 mb-0">Faire un Don</h1>
+                </div>
+                <div class="card-body">
+                    {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
+                    
+                    <div class="mb-3">
+                        {{ form_label(form.montant, 'Montant du Don', {'label_attr': {'class': 'form-label'}}) }}
+                        <div class="input-group">
+                            {{ form_widget(form.montant, {'attr': {'class': 'form-control', 'placeholder': 'Entrez le montant'}}) }}
+                            <span class="input-group-text">TND</span>
+                        </div>
+                        {{ form_errors(form.montant) }}
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-heart me-2"></i>Faire le Don
+                        </button>
+                        <a href="{{ path('app_home') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>Retour
+                        </a>
+                    </div>
+
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

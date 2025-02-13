@@ -97,84 +97,30 @@ class __TwigTemplate_4883df7440f3b7d34a263f98382d3d5c extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "body"));
 
         // line 6
-        yield "<nav class=\"navbar navbar-expand-lg navbar-light bg-light\">
-    <div class=\"container\">
-        <a class=\"navbar-brand\" href=\"";
-        // line 8
-        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_home");
-        yield "\">OncoKidsCare</a>
-        <button class=\"navbar-toggler\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#navbarNav\">
-            <span class=\"navbar-toggler-icon\"></span>
-        </button>
-        <div class=\"collapse navbar-collapse\" id=\"navbarNav\">
-            <ul class=\"navbar-nav ms-auto\">
-                ";
-        // line 14
-        if (CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 14, $this->source); })()), "user", [], "any", false, false, false, 14)) {
-            // line 15
-            yield "                    <li class=\"nav-item\">
-                        <a href=\"";
-            // line 16
-            yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath(((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source,             // line 17
-(isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 17, $this->source); })()), "user", [], "any", false, false, false, 17), "isAdmin", [], "any", false, false, false, 17)) ? ("app_admin_index") : (((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source,             // line 18
-(isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 18, $this->source); })()), "user", [], "any", false, false, false, 18), "isMedecin", [], "any", false, false, false, 18)) ? ("app_medecin_dashboard") : (((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source,             // line 19
-(isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 19, $this->source); })()), "user", [], "any", false, false, false, 19), "isPatient", [], "any", false, false, false, 19)) ? ("app_patient_dashboard") : ("app_donateur_dashboard")))))));
-            // line 21
-            yield "\" class=\"nav-link\">Mon Dashboard</a>
-                    </li>
-                    <li class=\"nav-item\">
-                        <a href=\"";
-            // line 24
-            yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_logout");
-            yield "\" class=\"btn btn-danger\">
-                            <i class=\"fas fa-sign-out-alt\"></i> Déconnexion
-                        </a>
-                    </li>
-                ";
-        } else {
-            // line 29
-            yield "                    <li class=\"nav-item\">
-                        <a href=\"";
-            // line 30
-            yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_login");
-            yield "\" class=\"nav-link\">Login</a>
-                    </li>
-                    <li class=\"nav-item\">
-                        <a href=\"";
-            // line 33
-            yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_register");
-            yield "\" class=\"nav-link\">Register</a>
-                    </li>
-                ";
-        }
-        // line 36
-        yield "            </ul>
-        </div>
-    </div>
-</nav>
+        yield "
 
     <!-- Header Start -->
     <div class=\"container-fluid header bg-primary p-0 mb-5\">
         <div class=\"row g-0 align-items-center flex-column-reverse flex-lg-row\">
             <div class=\"col-lg-6 p-5 wow fadeIn\" data-wow-delay=\"0.1s\">
-                <h1 class=\"display-4 text-white mb-5\">Good Health Is The Root Of All Happiness</h1>
+                <h1 class=\"display-4 text-white mb-5\">Ensemble, luttons contre le cancer infantile</h1>
                 <div class=\"row g-4\">
                     <div class=\"col-sm-4\">
                         <div class=\"border-start border-light ps-4\">
-                            <h2 class=\"text-white mb-1\" data-toggle=\"counter-up\">123</h2>
-                            <p class=\"text-light mb-0\">Expert Doctors</p>
+                            <h2 class=\"text-white mb-1\" data-toggle=\"counter-up\">50</h2>
+                            <p class=\"text-light mb-0\">Oncologues Pédiatriques</p>
                         </div>
                     </div>
                     <div class=\"col-sm-4\">
                         <div class=\"border-start border-light ps-4\">
-                            <h2 class=\"text-white mb-1\" data-toggle=\"counter-up\">1234</h2>
-                            <p class=\"text-light mb-0\">Medical Stuff</p>
+                            <h2 class=\"text-white mb-1\" data-toggle=\"counter-up\">200</h2>
+                            <p class=\"text-light mb-0\">Personnel Médical</p>
                         </div>
                     </div>
                     <div class=\"col-sm-4\">
                         <div class=\"border-start border-light ps-4\">
-                            <h2 class=\"text-white mb-1\" data-toggle=\"counter-up\">12345</h2>
-                            <p class=\"text-light mb-0\">Total Patients</p>
+                            <h2 class=\"text-white mb-1\" data-toggle=\"counter-up\">1000</h2>
+                            <p class=\"text-light mb-0\">Jeunes Patients</p>
                         </div>
                     </div>
                 </div>
@@ -183,29 +129,29 @@ class __TwigTemplate_4883df7440f3b7d34a263f98382d3d5c extends Template
                 <div class=\"owl-carousel header-carousel\">
                     <div class=\"owl-carousel-item position-relative\">
                         <img class=\"img-fluid\" src=\"";
-        // line 70
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("img/carousel-1.jpg"), "html", null, true);
+        // line 37
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("img/child-cancer-1.png"), "html", null, true);
         yield "\" alt=\"\">
                         <div class=\"owl-carousel-text\">
-                            <h1 class=\"display-1 text-white mb-0\">Cardiology</h1>
+                            <h1 class=\"display-1 text-white mb-0\">Espoir</h1>
                         </div>
                     </div>
                     <div class=\"owl-carousel-item position-relative\">
                         <img class=\"img-fluid\" src=\"";
-        // line 76
+        // line 43
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("img/carousel-2.jpg"), "html", null, true);
         yield "\" alt=\"\">
                         <div class=\"owl-carousel-text\">
-                            <h1 class=\"display-1 text-white mb-0\">Neurology</h1>
+                            <h1 class=\"display-1 text-white mb-0\">Soins</h1>
                         </div>
                     </div>
                     <div class=\"owl-carousel-item position-relative\">
                         <img class=\"img-fluid\" src=\"";
-        // line 82
+        // line 49
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("img/carousel-3.jpg"), "html", null, true);
         yield "\" alt=\"\">
                         <div class=\"owl-carousel-text\">
-                            <h1 class=\"display-1 text-white mb-0\">Pulmonary</h1>
+                            <h1 class=\"display-1 text-white mb-0\">Soutien</h1>
                         </div>
                     </div>
                 </div>
@@ -225,24 +171,24 @@ class __TwigTemplate_4883df7440f3b7d34a263f98382d3d5c extends Template
             <div class=\"col-lg-6 wow fadeIn\" data-wow-delay=\"0.1s\">
                 <div class=\"d-flex flex-column\">
                     <img class=\"img-fluid rounded w-75 align-self-end\" src=\"";
-        // line 103
+        // line 70
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("img/about-1.jpg"), "html", null, true);
         yield "\" alt=\"\">
                     <img class=\"img-fluid rounded w-50 bg-white pt-3 pe-3\" src=\"";
-        // line 104
+        // line 71
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("img/about-2.jpg"), "html", null, true);
         yield "\" alt=\"\" style=\"margin-top: -25%;\">
                 </div> 
             </div>
             <div class=\"col-lg-6 wow fadeIn\" data-wow-delay=\"0.5s\">
-                <p class=\"d-inline-block border rounded-pill py-1 px-4\">About Us</p>
-                <h1 class=\"mb-4\">Why You Should Trust Us? Get Know About Us!</h1>
-                <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet</p>
-                <p class=\"mb-4\">Stet no et lorem dolor et diam, amet duo ut dolore vero eos. No stet est diam rebum amet diam ipsum. Clita clita labore, dolor duo nonumy clita sit at, sed sit sanctus dolor eos.</p>
-                <p><i class=\"far fa-check-circle text-primary me-3\"></i>Quality health care</p>
-                <p><i class=\"far fa-check-circle text-primary me-3\"></i>Only Qualified Doctors</p>
-                <p><i class=\"far fa-check-circle text-primary me-3\"></i>Medical Research Professionals</p>
-                <a class=\"btn btn-primary rounded-pill py-3 px-5 mt-3\" href=\"\">Read More</a>
+                <p class=\"d-inline-block border rounded-pill py-1 px-4\">A propos de nous</p>
+                <h1 class=\"mb-4\">Pourquoi nous faire confiance pour votre enfant ?</h1>
+                <p>À OncoKidsCare, nous comprenons que soigner les enfants atteints de cancer nécessite bien plus qu'une expertise médicale. Notre approche combine soins médicaux de pointe et soutien psychologique</p>
+                <p class=\"mb-4\">Notre équipe dévouée d'oncologues pédiatriques, d'infirmières et de personnel de soutien travaille ensemble dans un environnement adapté aux enfants.</p>
+                <p><i class=\"far fa-check-circle text-primary me-3\"></i>Soins spécialisés en oncologie pédiatrique</p>
+                <p><i class=\"far fa-check-circle text-primary me-3\"></i>Environnement adapté aux enfants</p>
+                <p><i class=\"far fa-check-circle text-primary me-3\"></i>Soutien aux familles</p>
+                <a class=\"btn btn-primary rounded-pill py-3 px-5 mt-3\" href=\"\">Voir plus</a>
             </div>
         </div>
     </div>
@@ -253,8 +199,8 @@ class __TwigTemplate_4883df7440f3b7d34a263f98382d3d5c extends Template
 <div class=\"container-xxl py-5\">
     <div class=\"container\">
         <div class=\"text-center mx-auto mb-5 wow fadeInUp\" data-wow-delay=\"0.1s\" style=\"max-width: 600px;\">
-            <p class=\"d-inline-block border rounded-pill py-1 px-4\">Services</p>
-            <h1>Health Care Solutions</h1>
+            <p class=\"d-inline-block border rounded-pill py-1 px-4\">Nos services</p>
+            <h1>Soins Spécialisés en Oncologie Pédiatrique</h1>
         </div>
         <div class=\"row g-4\">
             <div class=\"col-lg-4 col-md-6 wow fadeInUp\" data-wow-delay=\"0.1s\">
@@ -384,7 +330,7 @@ class __TwigTemplate_4883df7440f3b7d34a263f98382d3d5c extends Template
             <div class=\"col-lg-6 pe-lg-0 wow fadeIn\" data-wow-delay=\"0.5s\" style=\"min-height: 400px;\">
                 <div class=\"position-relative h-100\">
                     <img class=\"position-absolute img-fluid w-100 h-100\" src=\"";
-        // line 256
+        // line 223
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("img/feature.jpg"), "html", null, true);
         yield "\" style=\"object-fit: cover;\" alt=\"\">
                 </div>
@@ -406,7 +352,7 @@ class __TwigTemplate_4883df7440f3b7d34a263f98382d3d5c extends Template
                     <div class=\"team-item position-relative rounded overflow-hidden\">
                         <div class=\"overflow-hidden\">
                             <img class=\"img-fluid\" src=\"";
-        // line 275
+        // line 242
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("img/team-1.jpg"), "html", null, true);
         yield "\" alt=\"\">
                         </div>
@@ -425,7 +371,7 @@ class __TwigTemplate_4883df7440f3b7d34a263f98382d3d5c extends Template
                     <div class=\"team-item position-relative rounded overflow-hidden\">
                         <div class=\"overflow-hidden\">
                             <img class=\"img-fluid\" src=\"";
-        // line 291
+        // line 258
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("img/team-2.jpg"), "html", null, true);
         yield "\" alt=\"\">
                         </div>
@@ -444,7 +390,7 @@ class __TwigTemplate_4883df7440f3b7d34a263f98382d3d5c extends Template
                     <div class=\"team-item position-relative rounded overflow-hidden\">
                         <div class=\"overflow-hidden\">
                             <img class=\"img-fluid\" src=\"";
-        // line 307
+        // line 274
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("img/team-3.jpg"), "html", null, true);
         yield "\" alt=\"\">
                         </div>
@@ -463,7 +409,7 @@ class __TwigTemplate_4883df7440f3b7d34a263f98382d3d5c extends Template
                     <div class=\"team-item position-relative rounded overflow-hidden\">
                         <div class=\"overflow-hidden\">
                             <img class=\"img-fluid\" src=\"";
-        // line 323
+        // line 290
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("img/team-4.jpg"), "html", null, true);
         yield "\" alt=\"\">
                         </div>
@@ -572,7 +518,7 @@ class __TwigTemplate_4883df7440f3b7d34a263f98382d3d5c extends Template
         <div class=\"owl-carousel testimonial-carousel wow fadeInUp\" data-wow-delay=\"0.1s\">
             <div class=\"testimonial-item text-center\">
                 <img class=\"img-fluid bg-light rounded-circle p-2 mx-auto mb-4\" src=\"";
-        // line 429
+        // line 396
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("img/testimonial-1.jpg"), "html", null, true);
         yield "\" style=\"width: 100px; height: 100px;\">
                 <div class=\"testimonial-text rounded text-center p-4\">
@@ -583,7 +529,7 @@ class __TwigTemplate_4883df7440f3b7d34a263f98382d3d5c extends Template
             </div>
             <div class=\"testimonial-item text-center\">
                 <img class=\"img-fluid bg-light rounded-circle p-2 mx-auto mb-4\" src=\"";
-        // line 437
+        // line 404
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("img/testimonial-2.jpg"), "html", null, true);
         yield "\" style=\"width: 100px; height: 100px;\">
                 <div class=\"testimonial-text rounded text-center p-4\">
@@ -594,7 +540,7 @@ class __TwigTemplate_4883df7440f3b7d34a263f98382d3d5c extends Template
             </div>
             <div class=\"testimonial-item text-center\">
                 <img class=\"img-fluid bg-light rounded-circle p-2 mx-auto mb-4\" src=\"";
-        // line 445
+        // line 412
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("img/testimonial-3.jpg"), "html", null, true);
         yield "\" style=\"width: 100px; height: 100px;\">
                 <div class=\"testimonial-text rounded text-center p-4\">
@@ -640,7 +586,7 @@ class __TwigTemplate_4883df7440f3b7d34a263f98382d3d5c extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  598 => 445,  587 => 437,  576 => 429,  467 => 323,  448 => 307,  429 => 291,  410 => 275,  388 => 256,  233 => 104,  229 => 103,  205 => 82,  196 => 76,  187 => 70,  151 => 36,  145 => 33,  139 => 30,  136 => 29,  128 => 24,  123 => 21,  121 => 19,  120 => 18,  119 => 17,  118 => 16,  115 => 15,  113 => 14,  104 => 8,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
+        return array (  544 => 412,  533 => 404,  522 => 396,  413 => 290,  394 => 274,  375 => 258,  356 => 242,  334 => 223,  179 => 71,  175 => 70,  151 => 49,  142 => 43,  133 => 37,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -650,63 +596,30 @@ class __TwigTemplate_4883df7440f3b7d34a263f98382d3d5c extends Template
 {% block title %}Home - OncoKidsCare{% endblock %}
 
 {% block body %}
-<nav class=\"navbar navbar-expand-lg navbar-light bg-light\">
-    <div class=\"container\">
-        <a class=\"navbar-brand\" href=\"{{ path('app_home') }}\">OncoKidsCare</a>
-        <button class=\"navbar-toggler\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#navbarNav\">
-            <span class=\"navbar-toggler-icon\"></span>
-        </button>
-        <div class=\"collapse navbar-collapse\" id=\"navbarNav\">
-            <ul class=\"navbar-nav ms-auto\">
-                {% if app.user %}
-                    <li class=\"nav-item\">
-                        <a href=\"{{ path(
-                            app.user.isAdmin ? 'app_admin_index' :
-                            app.user.isMedecin ? 'app_medecin_dashboard' :
-                            app.user.isPatient ? 'app_patient_dashboard' :
-                            'app_donateur_dashboard'
-                        ) }}\" class=\"nav-link\">Mon Dashboard</a>
-                    </li>
-                    <li class=\"nav-item\">
-                        <a href=\"{{ path('app_logout') }}\" class=\"btn btn-danger\">
-                            <i class=\"fas fa-sign-out-alt\"></i> Déconnexion
-                        </a>
-                    </li>
-                {% else %}
-                    <li class=\"nav-item\">
-                        <a href=\"{{ path('app_login') }}\" class=\"nav-link\">Login</a>
-                    </li>
-                    <li class=\"nav-item\">
-                        <a href=\"{{ path('app_register') }}\" class=\"nav-link\">Register</a>
-                    </li>
-                {% endif %}
-            </ul>
-        </div>
-    </div>
-</nav>
+
 
     <!-- Header Start -->
     <div class=\"container-fluid header bg-primary p-0 mb-5\">
         <div class=\"row g-0 align-items-center flex-column-reverse flex-lg-row\">
             <div class=\"col-lg-6 p-5 wow fadeIn\" data-wow-delay=\"0.1s\">
-                <h1 class=\"display-4 text-white mb-5\">Good Health Is The Root Of All Happiness</h1>
+                <h1 class=\"display-4 text-white mb-5\">Ensemble, luttons contre le cancer infantile</h1>
                 <div class=\"row g-4\">
                     <div class=\"col-sm-4\">
                         <div class=\"border-start border-light ps-4\">
-                            <h2 class=\"text-white mb-1\" data-toggle=\"counter-up\">123</h2>
-                            <p class=\"text-light mb-0\">Expert Doctors</p>
+                            <h2 class=\"text-white mb-1\" data-toggle=\"counter-up\">50</h2>
+                            <p class=\"text-light mb-0\">Oncologues Pédiatriques</p>
                         </div>
                     </div>
                     <div class=\"col-sm-4\">
                         <div class=\"border-start border-light ps-4\">
-                            <h2 class=\"text-white mb-1\" data-toggle=\"counter-up\">1234</h2>
-                            <p class=\"text-light mb-0\">Medical Stuff</p>
+                            <h2 class=\"text-white mb-1\" data-toggle=\"counter-up\">200</h2>
+                            <p class=\"text-light mb-0\">Personnel Médical</p>
                         </div>
                     </div>
                     <div class=\"col-sm-4\">
                         <div class=\"border-start border-light ps-4\">
-                            <h2 class=\"text-white mb-1\" data-toggle=\"counter-up\">12345</h2>
-                            <p class=\"text-light mb-0\">Total Patients</p>
+                            <h2 class=\"text-white mb-1\" data-toggle=\"counter-up\">1000</h2>
+                            <p class=\"text-light mb-0\">Jeunes Patients</p>
                         </div>
                     </div>
                 </div>
@@ -714,21 +627,21 @@ class __TwigTemplate_4883df7440f3b7d34a263f98382d3d5c extends Template
             <div class=\"col-lg-6 wow fadeIn\" data-wow-delay=\"0.5s\">
                 <div class=\"owl-carousel header-carousel\">
                     <div class=\"owl-carousel-item position-relative\">
-                        <img class=\"img-fluid\" src=\"{{ asset('img/carousel-1.jpg') }}\" alt=\"\">
+                        <img class=\"img-fluid\" src=\"{{ asset('img/child-cancer-1.png') }}\" alt=\"\">
                         <div class=\"owl-carousel-text\">
-                            <h1 class=\"display-1 text-white mb-0\">Cardiology</h1>
+                            <h1 class=\"display-1 text-white mb-0\">Espoir</h1>
                         </div>
                     </div>
                     <div class=\"owl-carousel-item position-relative\">
                         <img class=\"img-fluid\" src=\"{{ asset('img/carousel-2.jpg') }}\" alt=\"\">
                         <div class=\"owl-carousel-text\">
-                            <h1 class=\"display-1 text-white mb-0\">Neurology</h1>
+                            <h1 class=\"display-1 text-white mb-0\">Soins</h1>
                         </div>
                     </div>
                     <div class=\"owl-carousel-item position-relative\">
                         <img class=\"img-fluid\" src=\"{{ asset('img/carousel-3.jpg') }}\" alt=\"\">
                         <div class=\"owl-carousel-text\">
-                            <h1 class=\"display-1 text-white mb-0\">Pulmonary</h1>
+                            <h1 class=\"display-1 text-white mb-0\">Soutien</h1>
                         </div>
                     </div>
                 </div>
@@ -752,14 +665,14 @@ class __TwigTemplate_4883df7440f3b7d34a263f98382d3d5c extends Template
                 </div> 
             </div>
             <div class=\"col-lg-6 wow fadeIn\" data-wow-delay=\"0.5s\">
-                <p class=\"d-inline-block border rounded-pill py-1 px-4\">About Us</p>
-                <h1 class=\"mb-4\">Why You Should Trust Us? Get Know About Us!</h1>
-                <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet</p>
-                <p class=\"mb-4\">Stet no et lorem dolor et diam, amet duo ut dolore vero eos. No stet est diam rebum amet diam ipsum. Clita clita labore, dolor duo nonumy clita sit at, sed sit sanctus dolor eos.</p>
-                <p><i class=\"far fa-check-circle text-primary me-3\"></i>Quality health care</p>
-                <p><i class=\"far fa-check-circle text-primary me-3\"></i>Only Qualified Doctors</p>
-                <p><i class=\"far fa-check-circle text-primary me-3\"></i>Medical Research Professionals</p>
-                <a class=\"btn btn-primary rounded-pill py-3 px-5 mt-3\" href=\"\">Read More</a>
+                <p class=\"d-inline-block border rounded-pill py-1 px-4\">A propos de nous</p>
+                <h1 class=\"mb-4\">Pourquoi nous faire confiance pour votre enfant ?</h1>
+                <p>À OncoKidsCare, nous comprenons que soigner les enfants atteints de cancer nécessite bien plus qu'une expertise médicale. Notre approche combine soins médicaux de pointe et soutien psychologique</p>
+                <p class=\"mb-4\">Notre équipe dévouée d'oncologues pédiatriques, d'infirmières et de personnel de soutien travaille ensemble dans un environnement adapté aux enfants.</p>
+                <p><i class=\"far fa-check-circle text-primary me-3\"></i>Soins spécialisés en oncologie pédiatrique</p>
+                <p><i class=\"far fa-check-circle text-primary me-3\"></i>Environnement adapté aux enfants</p>
+                <p><i class=\"far fa-check-circle text-primary me-3\"></i>Soutien aux familles</p>
+                <a class=\"btn btn-primary rounded-pill py-3 px-5 mt-3\" href=\"\">Voir plus</a>
             </div>
         </div>
     </div>
@@ -770,8 +683,8 @@ class __TwigTemplate_4883df7440f3b7d34a263f98382d3d5c extends Template
 <div class=\"container-xxl py-5\">
     <div class=\"container\">
         <div class=\"text-center mx-auto mb-5 wow fadeInUp\" data-wow-delay=\"0.1s\" style=\"max-width: 600px;\">
-            <p class=\"d-inline-block border rounded-pill py-1 px-4\">Services</p>
-            <h1>Health Care Solutions</h1>
+            <p class=\"d-inline-block border rounded-pill py-1 px-4\">Nos services</p>
+            <h1>Soins Spécialisés en Oncologie Pédiatrique</h1>
         </div>
         <div class=\"row g-4\">
             <div class=\"col-lg-4 col-md-6 wow fadeInUp\" data-wow-delay=\"0.1s\">

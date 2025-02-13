@@ -99,143 +99,405 @@ class __TwigTemplate_ee7ebe0901f3a99a3da2d723533ca874 extends Template
         // line 6
         yield "<style>
     body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #f0f2f5;
+        font-family: 'Poppins', sans-serif;
+        background-color: #f8f9fa;
         margin: 0;
         padding: 0;
     }
     .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
+        max-width: 1400px;
+        margin: 2rem auto;
+        padding: 0 20px;
+    }
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #e9ecef;
+    }
+    h1 {
+        color: #2c3e50;
+        font-size: 1.8rem;
+        font-weight: 600;
+        margin: 0;
     }
     table {
         width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 20px;
+        border-collapse: separate;
+        border-spacing: 0;
         background-color: white;
-        border-radius: 8px;
+        border-radius: 10px;
         overflow: hidden;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
     }
     th, td {
-        padding: 15px;
+        padding: 1rem 1.5rem;
         text-align: left;
-        border-bottom: 1px solid #ddd;
+        border-bottom: 1px solid #edf2f7;
+        vertical-align: middle;
     }
     th {
-        background-color: #3498db;
+        background-color: #4a90e2;
         color: white;
-        font-weight: 600;
+        font-weight: 500;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
     }
-    tr:hover {background-color: #f5f5f5;}
-    .actions {
-        display: flex;
-        gap: 10px;
-    }
-    button {
-        padding: 10px 15px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.2s ease;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    button:hover {
-        background-color: #2980b9;
-        transform: translateY(-2px);
-    }
-    .approve {
-        background-color: #2ecc71;
-        color: white;
-    }
-    .reject {
-        background-color: #e74c3c;
-        color: white;
-    }
-    h1 {
-        color: #333;
-        font-size: 2em;
-        margin-bottom: 20px;
+    tr:hover {
+        background-color: #f8f9ff;
     }
     .publication-content {
-        margin-top: 10px;
-        padding: 10px;
+        max-width: 400px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: #666;
+        font-size: 0.9rem;
+    }
+    .status-badge {
+        padding: 0.4rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+    .status-pending {
+        background-color: #fff3cd;
+        color: #856404;
+    }
+    .actions {
+        display: flex;
+        gap: 8px;
+    }
+    button {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.85rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+    .approve {
+        background-color: #28a745;
+        color: white;
+    }
+    .approve:hover {
+        background-color: #218838;
+    }
+    .reject {
+        background-color: #dc3545;
+        color: white;
+    }
+    .reject:hover {
+        background-color: #c82333;
+    }
+    .author {
+        font-weight: 500;
+        color: #2c3e50;
+    }
+    .filter-buttons {
+        margin-bottom: 2rem;
+        display: flex;
+        gap: 1rem;
+    }
+    
+    .filter-btn {
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        background-color: #f8f9fa;
+        color: #495057;
+        border: 1px solid #dee2e6;
+    }
+    
+    .filter-btn.active {
+        background-color: #4a90e2;
+        color: white;
+        border-color: #4a90e2;
+    }
+    
+    .filter-btn:hover {
+        background-color: #e9ecef;
+    }
+    
+    .filter-btn.active:hover {
+        background-color: #357abd;
+          }
+    
+    .status-approved {
+        background-color: #d4edda;
+        color: #155724;
+    }
+    
+    .status-rejected {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+    }
+
+    .modal-content {
+         position: relative;
         background-color: #fff;
-        border-radius: 5px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin: 5% auto;
+        padding: 2rem;
+        width: 90%;
+        max-width: 800px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+
+    .close-modal {
+        position: absolute;
+        right: 1rem;
+        top: 1rem;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: #666;
+    }
+        .close-modal:hover {
+        color: #333;
+    }
+
+    .publication-content {
+        cursor: pointer;
+    }
+
+    .modal-title {
+        font-size: 1.2rem;
+        color: #2c3e50;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #eee;
+    }
+
+    .modal-body {
+       line-height: 1.6;
+        color: #444;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        padding: 1rem;
+        max-height: calc(80vh - 100px);
+        overflow-y: auto;
+    }
+      .modal-body img {
+        max-width: 100%;
+        height: auto;
+        margin: 1rem 0;
+    }
+
+    .modal-body * {
+        max-width: 100%;
+    }
+.modal-body::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .modal-body::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 4px;
+    }
+
+    .modal-body::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 4px;
+    }
+
+    .modal-body::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+        /* Animation du modal */
+    .modal {
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .modal.show {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .modal-content {
+        transform: translateY(-20px);
+        transition: all 0.3s ease;
+    }
+
+    .modal.show .modal-content {
+        transform: translateY(0);
     }
 </style>
 
 <div class=\"container\">
-    <h1>Gérer les Publications</h1>
-
+    <div class=\"page-header\">
+        <h1>Gestion des Publications</h1>
+    </div>
+   <div class=\"filter-buttons\">
+        <button class=\"filter-btn active\" data-status=\"all\">Toutes</button>
+        <button class=\"filter-btn\" data-status=\"pending\">En Attente</button>
+        <button class=\"filter-btn\" data-status=\"approved\">Approuvées</button>
+        <button class=\"filter-btn\" data-status=\"rejected\">Rejetées</button>
+    </div>
     <table>
         <thead>
             <tr>
                 <th>Auteur</th>
+                <th>Contenu</th>
                 <th>Statut</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            ";
-        // line 88
+             ";
+        // line 277
         $context['_parent'] = $context;
-        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["publications"]) || array_key_exists("publications", $context) ? $context["publications"] : (function () { throw new RuntimeError('Variable "publications" does not exist.', 88, $this->source); })()));
+        $context['_seq'] = CoreExtension::ensureTraversable(Twig\Extension\CoreExtension::sort($this->env, (isset($context["publications"]) || array_key_exists("publications", $context) ? $context["publications"] : (function () { throw new RuntimeError('Variable "publications" does not exist.', 277, $this->source); })()), function ($__a__, $__b__) use ($context, $macros) { $context["a"] = $__a__; $context["b"] = $__b__; return (CoreExtension::getAttribute($this->env, $this->source, (isset($context["b"]) || array_key_exists("b", $context) ? $context["b"] : (function () { throw new RuntimeError('Variable "b" does not exist.', 277, $this->source); })()), "datePb", [], "any", false, false, false, 277) <=> CoreExtension::getAttribute($this->env, $this->source, (isset($context["a"]) || array_key_exists("a", $context) ? $context["a"] : (function () { throw new RuntimeError('Variable "a" does not exist.', 277, $this->source); })()), "datePb", [], "any", false, false, false, 277)); }));
         foreach ($context['_seq'] as $context["_key"] => $context["publication"]) {
-            // line 89
-            yield "            <tr>
-                <td>";
-            // line 90
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "user", [], "any", false, false, false, 90), "nom", [], "any", false, false, false, 90), "html", null, true);
+            // line 278
+            yield "            <tr data-status=\"";
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "status", [], "any", false, false, false, 278), "html", null, true);
+            yield "\">
+                <td>
+                    <span class=\"author\">";
+            // line 280
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "user", [], "any", false, false, false, 280), "nom", [], "any", false, false, false, 280), "html", null, true);
             yield " ";
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "user", [], "any", false, false, false, 90), "prenom", [], "any", false, false, false, 90), "html", null, true);
-            yield "</td>
-                <td>";
-            // line 91
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "status", [], "any", false, false, false, 91), "html", null, true);
-            yield "</td>
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "user", [], "any", false, false, false, 280), "prenom", [], "any", false, false, false, 280), "html", null, true);
+            yield "</span>
+                </td>
+             <td>
+  <div class=\"publication-content\" data-full-content=\"";
+            // line 283
+            yield CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "contenu", [], "any", false, false, false, 283);
+            yield "\">
+    ";
+            // line 284
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::slice($this->env->getCharset(), Twig\Extension\CoreExtension::striptags(CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "contenu", [], "any", false, false, false, 284)), 0, 100), "html", null, true);
+            if ((Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "contenu", [], "any", false, false, false, 284)) > 100)) {
+                yield "...";
+            }
+            // line 285
+            yield "</div>
+</td>
+                <td>
+                    <span class=\"status-badge status-";
+            // line 288
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "status", [], "any", false, false, false, 288), "html", null, true);
+            yield "\">";
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "status", [], "any", false, false, false, 288), "html", null, true);
+            yield "</span>
+                </td>
                 <td class=\"actions\">
                     ";
-            // line 93
-            if ((CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "status", [], "any", false, false, false, 93) == "pending")) {
-                // line 94
+            // line 291
+            if ((CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "status", [], "any", false, false, false, 291) == "pending")) {
+                // line 292
                 yield "                    <form method=\"post\" action=\"";
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("publication_approve", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 94)]), "html", null, true);
-                yield "\">
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("publication_approve", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 292)]), "html", null, true);
+                yield "\" style=\"display: inline;\">
                         <button type=\"submit\" class=\"approve\">Approuver</button>
                     </form>
                     <form method=\"post\" action=\"";
-                // line 97
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("publication_reject", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 97)]), "html", null, true);
-                yield "\">
+                // line 295
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("publication_reject", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 295)]), "html", null, true);
+                yield "\" style=\"display: inline;\">
                         <button type=\"submit\" class=\"reject\">Rejeter</button>
                     </form>
                     ";
             }
-            // line 101
+            // line 299
             yield "                </td>
-            </tr>
-            <tr>
-                <td colspan=\"3\">
-                    <div class=\"publication-content\">
-                        ";
-            // line 106
-            yield Twig\Extension\CoreExtension::nl2br($this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "contenu", [], "any", false, false, false, 106), "html", null, true));
-            yield "
-                    </div>
-                </td>
             </tr>
             ";
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_key'], $context['publication'], $context['_parent']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 111
+        // line 302
         yield "        </tbody>
     </table>
 </div>
+<div class=\"modal\" id=\"contentModal\">
+    <div class=\"modal-content\">
+        <span class=\"close-modal\">&times;</span>
+        <h3 class=\"modal-title\">Contenu de la publication</h3>
+        <div class=\"modal-body\"></div>
+    </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const rows = document.querySelectorAll('tbody tr');
+ const modal = document.getElementById('contentModal');
+    const modalBody = modal.querySelector('.modal-body');
+    const closeModal = modal.querySelector('.close-modal');
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove active class from all buttons
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            // Add active class to clicked button
+            button.classList.add('active');
+
+            const status = button.getAttribute('data-status');
+            
+            rows.forEach(row => {
+                if (status === 'all') {
+                    row.style.display = '';
+                } else {
+                    const rowStatus = row.getAttribute('data-status');
+                    row.style.display = rowStatus === status ? '' : 'none';
+                }
+            });
+        });
+    });
+     // Gestion du modal
+    document.querySelectorAll('.publication-content').forEach(content => {
+        content.addEventListener('click', function() {
+            const fullContent = this.getAttribute('data-full-content');
+            modalBody.innerHTML = fullContent;
+            modal.style.display = 'block';
+            setTimeout(() => {
+                modal.classList.add('show');
+            }, 10);
+        });
+    });
+
+    closeModal.addEventListener('click', function() {
+        modal.classList.remove('show');
+        setTimeout(() => {
+            modal.style.display = 'none';
+        }, 300);
+    });
+       window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+            modal.classList.remove('show');
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 300);
+        }
+    });
+});
+</script>
 ";
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
@@ -267,7 +529,7 @@ class __TwigTemplate_ee7ebe0901f3a99a3da2d723533ca874 extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  236 => 111,  225 => 106,  218 => 101,  211 => 97,  204 => 94,  202 => 93,  197 => 91,  191 => 90,  188 => 89,  184 => 88,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
+        return array (  437 => 302,  429 => 299,  422 => 295,  415 => 292,  413 => 291,  405 => 288,  400 => 285,  395 => 284,  391 => 283,  383 => 280,  377 => 278,  373 => 277,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -279,113 +541,364 @@ class __TwigTemplate_ee7ebe0901f3a99a3da2d723533ca874 extends Template
 {% block body %}
 <style>
     body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #f0f2f5;
+        font-family: 'Poppins', sans-serif;
+        background-color: #f8f9fa;
         margin: 0;
         padding: 0;
     }
     .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
+        max-width: 1400px;
+        margin: 2rem auto;
+        padding: 0 20px;
+    }
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #e9ecef;
+    }
+    h1 {
+        color: #2c3e50;
+        font-size: 1.8rem;
+        font-weight: 600;
+        margin: 0;
     }
     table {
         width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 20px;
+        border-collapse: separate;
+        border-spacing: 0;
         background-color: white;
-        border-radius: 8px;
+        border-radius: 10px;
         overflow: hidden;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
     }
     th, td {
-        padding: 15px;
+        padding: 1rem 1.5rem;
         text-align: left;
-        border-bottom: 1px solid #ddd;
+        border-bottom: 1px solid #edf2f7;
+        vertical-align: middle;
     }
     th {
-        background-color: #3498db;
+        background-color: #4a90e2;
         color: white;
-        font-weight: 600;
+        font-weight: 500;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
     }
-    tr:hover {background-color: #f5f5f5;}
-    .actions {
-        display: flex;
-        gap: 10px;
-    }
-    button {
-        padding: 10px 15px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.2s ease;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    button:hover {
-        background-color: #2980b9;
-        transform: translateY(-2px);
-    }
-    .approve {
-        background-color: #2ecc71;
-        color: white;
-    }
-    .reject {
-        background-color: #e74c3c;
-        color: white;
-    }
-    h1 {
-        color: #333;
-        font-size: 2em;
-        margin-bottom: 20px;
+    tr:hover {
+        background-color: #f8f9ff;
     }
     .publication-content {
-        margin-top: 10px;
-        padding: 10px;
+        max-width: 400px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: #666;
+        font-size: 0.9rem;
+    }
+    .status-badge {
+        padding: 0.4rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+    .status-pending {
+        background-color: #fff3cd;
+        color: #856404;
+    }
+    .actions {
+        display: flex;
+        gap: 8px;
+    }
+    button {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.85rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+    .approve {
+        background-color: #28a745;
+        color: white;
+    }
+    .approve:hover {
+        background-color: #218838;
+    }
+    .reject {
+        background-color: #dc3545;
+        color: white;
+    }
+    .reject:hover {
+        background-color: #c82333;
+    }
+    .author {
+        font-weight: 500;
+        color: #2c3e50;
+    }
+    .filter-buttons {
+        margin-bottom: 2rem;
+        display: flex;
+        gap: 1rem;
+    }
+    
+    .filter-btn {
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        background-color: #f8f9fa;
+        color: #495057;
+        border: 1px solid #dee2e6;
+    }
+    
+    .filter-btn.active {
+        background-color: #4a90e2;
+        color: white;
+        border-color: #4a90e2;
+    }
+    
+    .filter-btn:hover {
+        background-color: #e9ecef;
+    }
+    
+    .filter-btn.active:hover {
+        background-color: #357abd;
+          }
+    
+    .status-approved {
+        background-color: #d4edda;
+        color: #155724;
+    }
+    
+    .status-rejected {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+    }
+
+    .modal-content {
+         position: relative;
         background-color: #fff;
-        border-radius: 5px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin: 5% auto;
+        padding: 2rem;
+        width: 90%;
+        max-width: 800px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+
+    .close-modal {
+        position: absolute;
+        right: 1rem;
+        top: 1rem;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: #666;
+    }
+        .close-modal:hover {
+        color: #333;
+    }
+
+    .publication-content {
+        cursor: pointer;
+    }
+
+    .modal-title {
+        font-size: 1.2rem;
+        color: #2c3e50;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #eee;
+    }
+
+    .modal-body {
+       line-height: 1.6;
+        color: #444;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        padding: 1rem;
+        max-height: calc(80vh - 100px);
+        overflow-y: auto;
+    }
+      .modal-body img {
+        max-width: 100%;
+        height: auto;
+        margin: 1rem 0;
+    }
+
+    .modal-body * {
+        max-width: 100%;
+    }
+.modal-body::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .modal-body::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 4px;
+    }
+
+    .modal-body::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 4px;
+    }
+
+    .modal-body::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+        /* Animation du modal */
+    .modal {
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .modal.show {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .modal-content {
+        transform: translateY(-20px);
+        transition: all 0.3s ease;
+    }
+
+    .modal.show .modal-content {
+        transform: translateY(0);
     }
 </style>
 
 <div class=\"container\">
-    <h1>Gérer les Publications</h1>
-
+    <div class=\"page-header\">
+        <h1>Gestion des Publications</h1>
+    </div>
+   <div class=\"filter-buttons\">
+        <button class=\"filter-btn active\" data-status=\"all\">Toutes</button>
+        <button class=\"filter-btn\" data-status=\"pending\">En Attente</button>
+        <button class=\"filter-btn\" data-status=\"approved\">Approuvées</button>
+        <button class=\"filter-btn\" data-status=\"rejected\">Rejetées</button>
+    </div>
     <table>
         <thead>
             <tr>
                 <th>Auteur</th>
+                <th>Contenu</th>
                 <th>Statut</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            {% for publication in publications %}
-            <tr>
-                <td>{{ publication.user.nom }} {{ publication.user.prenom }}</td>
-                <td>{{ publication.status }}</td>
+             {% for publication in publications|sort((a, b) => b.datePb <=> a.datePb) %}
+            <tr data-status=\"{{ publication.status }}\">
+                <td>
+                    <span class=\"author\">{{ publication.user.nom }} {{ publication.user.prenom }}</span>
+                </td>
+             <td>
+  <div class=\"publication-content\" data-full-content=\"{{ publication.contenu|raw }}\">
+    {{ publication.contenu|striptags|slice(0, 100) }}{% if publication.contenu|length > 100 %}...{% endif %}
+</div>
+</td>
+                <td>
+                    <span class=\"status-badge status-{{ publication.status }}\">{{ publication.status }}</span>
+                </td>
                 <td class=\"actions\">
                     {% if publication.status == 'pending' %}
-                    <form method=\"post\" action=\"{{ path('publication_approve', {'id': publication.id}) }}\">
+                    <form method=\"post\" action=\"{{ path('publication_approve', {'id': publication.id}) }}\" style=\"display: inline;\">
                         <button type=\"submit\" class=\"approve\">Approuver</button>
                     </form>
-                    <form method=\"post\" action=\"{{ path('publication_reject', {'id': publication.id}) }}\">
+                    <form method=\"post\" action=\"{{ path('publication_reject', {'id': publication.id}) }}\" style=\"display: inline;\">
                         <button type=\"submit\" class=\"reject\">Rejeter</button>
                     </form>
                     {% endif %}
-                </td>
-            </tr>
-            <tr>
-                <td colspan=\"3\">
-                    <div class=\"publication-content\">
-                        {{ publication.contenu|nl2br }}
-                    </div>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 </div>
-{% endblock %}
-", "admin/publications.html.twig", "D:\\PIDEV\\oncokidscare\\templates\\admin\\publications.html.twig");
+<div class=\"modal\" id=\"contentModal\">
+    <div class=\"modal-content\">
+        <span class=\"close-modal\">&times;</span>
+        <h3 class=\"modal-title\">Contenu de la publication</h3>
+        <div class=\"modal-body\"></div>
+    </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const rows = document.querySelectorAll('tbody tr');
+ const modal = document.getElementById('contentModal');
+    const modalBody = modal.querySelector('.modal-body');
+    const closeModal = modal.querySelector('.close-modal');
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove active class from all buttons
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            // Add active class to clicked button
+            button.classList.add('active');
+
+            const status = button.getAttribute('data-status');
+            
+            rows.forEach(row => {
+                if (status === 'all') {
+                    row.style.display = '';
+                } else {
+                    const rowStatus = row.getAttribute('data-status');
+                    row.style.display = rowStatus === status ? '' : 'none';
+                }
+            });
+        });
+    });
+     // Gestion du modal
+    document.querySelectorAll('.publication-content').forEach(content => {
+        content.addEventListener('click', function() {
+            const fullContent = this.getAttribute('data-full-content');
+            modalBody.innerHTML = fullContent;
+            modal.style.display = 'block';
+            setTimeout(() => {
+                modal.classList.add('show');
+            }, 10);
+        });
+    });
+
+    closeModal.addEventListener('click', function() {
+        modal.classList.remove('show');
+        setTimeout(() => {
+            modal.style.display = 'none';
+        }, 300);
+    });
+       window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+            modal.classList.remove('show');
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 300);
+        }
+    });
+});
+</script>
+{% endblock %}", "admin/publications.html.twig", "D:\\PIDEV\\oncokidscare\\templates\\admin\\publications.html.twig");
     }
 }

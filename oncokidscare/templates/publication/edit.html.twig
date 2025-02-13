@@ -12,7 +12,10 @@
                 {{ form_widget(form.contenu, {
                     'attr': {
                         'placeholder': 'Que voulez-vous partager ?',
-                        'class': 'form-textarea'
+                        'class': 'form-textarea',
+                            'maxlength': 120,
+        'oninput': 'this.value = this.value.slice(0, 120)',
+        'style': 'height: auto; min-height: 100px; overflow-y: auto;'
                     }
                 }) }}
             </div>

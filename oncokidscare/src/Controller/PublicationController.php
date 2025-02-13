@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Comment;
 use App\Form\CommentType;
 use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Security\Voter\PublicationVoter;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -173,7 +173,6 @@ class PublicationController extends AbstractController
         $publication->setDatePb(new \DateTime());
         $form = $this->createForm(PublicationType::class, $publication);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $imageFiles = $form->get('imageFiles')->getData();
             

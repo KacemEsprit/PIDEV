@@ -139,8 +139,8 @@ class __TwigTemplate_2347e704b52a0a4b612aff4ebe4c8a3d extends Template
                 <div class=\"form-group\">
                     ";
             // line 22
-            yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 22, $this->source); })()), "contenu", [], "any", false, false, false, 22), 'widget', ["attr" => ["placeholder" => "Partagez votre expérience ou posez une question...", "class" => "form-control"]]);
-            // line 27
+            yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 22, $this->source); })()), "contenu", [], "any", false, false, false, 22), 'widget', ["attr" => ["placeholder" => "Partagez votre expérience ou posez une question...", "class" => "form-control", "maxlength" => 120, "oninput" => "this.value = this.value.slice(0, 120)"]]);
+            // line 29
             yield "
                 </div>
                 
@@ -148,9 +148,9 @@ class __TwigTemplate_2347e704b52a0a4b612aff4ebe4c8a3d extends Template
                     <label class=\"file-input-label\">
                         <i class=\"fas fa-camera\"></i> Photos (maximum 5)
                         ";
-            // line 33
-            yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 33, $this->source); })()), "imageFiles", [], "any", false, false, false, 33), 'widget', ["attr" => ["class" => "form-control-file", "accept" => "image/*", "multiple" => true, "data-max-files" => 5]]);
-            // line 40
+            // line 35
+            yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 35, $this->source); })()), "imageFiles", [], "any", false, false, false, 35), 'widget', ["attr" => ["class" => "form-control-file", "accept" => "image/*", "multiple" => true, "data-max-files" => 5]]);
+            // line 42
             yield "
                     </label>
                 </div>
@@ -159,8 +159,8 @@ class __TwigTemplate_2347e704b52a0a4b612aff4ebe4c8a3d extends Template
                     <div class=\"anonymous-option\">
                         <label class=\"anonymous-toggle\">
                             ";
-            // line 47
-            yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 47, $this->source); })()), "isAnonymous", [], "any", false, false, false, 47), 'widget');
+            // line 49
+            yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 49, $this->source); })()), "isAnonymous", [], "any", false, false, false, 49), 'widget');
             yield "
                             <span class=\"toggle-slider\"></span>
                             <span class=\"toggle-label\">
@@ -174,92 +174,92 @@ class __TwigTemplate_2347e704b52a0a4b612aff4ebe4c8a3d extends Template
                     </button>
                 </div>
             ";
-            // line 59
-            yield             $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 59, $this->source); })()), 'form_end');
+            // line 61
+            yield             $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 61, $this->source); })()), 'form_end');
             yield "
         </div>
     ";
         }
-        // line 62
+        // line 64
         yield "
     <div class=\"publications-list\">
         ";
-        // line 64
+        // line 66
         $context['_parent'] = $context;
-        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["publications"]) || array_key_exists("publications", $context) ? $context["publications"] : (function () { throw new RuntimeError('Variable "publications" does not exist.', 64, $this->source); })()));
+        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["publications"]) || array_key_exists("publications", $context) ? $context["publications"] : (function () { throw new RuntimeError('Variable "publications" does not exist.', 66, $this->source); })()));
         $context['_iterated'] = false;
         foreach ($context['_seq'] as $context["_key"] => $context["publication"]) {
-            // line 65
+            // line 67
             yield "            ";
-            if ((CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "status", [], "any", false, false, false, 65) == "approved")) {
-                // line 66
+            if ((CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "status", [], "any", false, false, false, 67) == "approved")) {
+                // line 68
                 yield "                <div class=\"publication-card\">
                     <div class=\"publication-header\">
                         ";
-                // line 68
-                if (CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "isAnonymous", [], "any", false, false, false, 68)) {
-                    // line 69
+                // line 70
+                if (CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "isAnonymous", [], "any", false, false, false, 70)) {
+                    // line 71
                     yield "                            <div class=\"anonymous-avatar\">
                                 <i class=\"fas fa-user-secret\"></i>
                             </div>
                         ";
                 } else {
-                    // line 73
+                    // line 75
                     yield "                            <img src=\"";
                     yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("images/img2.png"), "html", null, true);
                     yield "\" class=\"user-avatar\" alt=\"Avatar\">
                         ";
                 }
-                // line 75
+                // line 77
                 yield "                        <div class=\"publication-info\">
                             <div class=\"author-name\">
                                 ";
-                // line 77
-                if (CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "isAnonymous", [], "any", false, false, false, 77)) {
-                    // line 78
+                // line 79
+                if (CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "isAnonymous", [], "any", false, false, false, 79)) {
+                    // line 80
                     yield "                                    <span class=\"anonymous-badge\">
                                         <i class=\"fas fa-user-secret\"></i> Anonyme
                                     </span>
                                 ";
                 } else {
-                    // line 82
+                    // line 84
                     yield "                                    ";
-                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "user", [], "any", false, false, false, 82), "prenom", [], "any", false, false, false, 82), "html", null, true);
+                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "user", [], "any", false, false, false, 84), "prenom", [], "any", false, false, false, 84), "html", null, true);
                     yield " ";
-                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "user", [], "any", false, false, false, 82), "nom", [], "any", false, false, false, 82), "html", null, true);
+                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "user", [], "any", false, false, false, 84), "nom", [], "any", false, false, false, 84), "html", null, true);
                     yield "
                                 ";
                 }
-                // line 84
+                // line 86
                 yield "                            </div>
                             <span class=\"publication-date\">
                                 <i class=\"far fa-clock\"></i> ";
-                // line 86
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatDate(CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "datePb", [], "any", false, false, false, 86), "d/m/Y H:i"), "html", null, true);
+                // line 88
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatDate(CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "datePb", [], "any", false, false, false, 88), "d/m/Y H:i"), "html", null, true);
                 yield "
                             </span>
                         </div>
                         ";
-                // line 89
-                if ((CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 89, $this->source); })()), "user", [], "any", false, false, false, 89) && CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "user", [], "any", false, false, false, 89))) {
-                    // line 90
+                // line 91
+                if ((CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 91, $this->source); })()), "user", [], "any", false, false, false, 91) && CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "user", [], "any", false, false, false, 91))) {
+                    // line 92
                     yield "                            ";
-                    if (((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 90, $this->source); })()), "user", [], "any", false, false, false, 90), "id", [], "any", false, false, false, 90) == CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "user", [], "any", false, false, false, 90), "id", [], "any", false, false, false, 90)) || $this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("ROLE_ADMIN"))) {
-                        // line 91
+                    if (((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 92, $this->source); })()), "user", [], "any", false, false, false, 92), "id", [], "any", false, false, false, 92) == CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "user", [], "any", false, false, false, 92), "id", [], "any", false, false, false, 92)) || $this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("ROLE_ADMIN"))) {
+                        // line 93
                         yield "                                <div class=\"publication-actions\">
                                     <a href=\"";
-                        // line 92
-                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_publication_edit", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 92)]), "html", null, true);
+                        // line 94
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_publication_edit", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 94)]), "html", null, true);
                         yield "\" class=\"btn btn-edit\" title=\"Modifier\">
                                         <i class=\"fas fa-edit\"></i>
                                     </a>
                                     <form method=\"post\" action=\"";
-                        // line 95
-                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_publication_delete", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 95)]), "html", null, true);
+                        // line 97
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_publication_delete", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 97)]), "html", null, true);
                         yield "\" onsubmit=\"return confirm('Êtes-vous sûr de vouloir supprimer cette publication ?');\" style=\"display: inline-block;\">
                                         <input type=\"hidden\" name=\"_token\" value=\"";
-                        // line 96
-                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderCsrfToken(("delete" . CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 96))), "html", null, true);
+                        // line 98
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderCsrfToken(("delete" . CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 98))), "html", null, true);
                         yield "\">
                                         <button type=\"submit\" class=\"btn btn-delete\" title=\"Supprimer\">
                                             <i class=\"fas fa-trash-alt\"></i>
@@ -268,140 +268,139 @@ class __TwigTemplate_2347e704b52a0a4b612aff4ebe4c8a3d extends Template
                                 </div>
                             ";
                     }
-                    // line 103
+                    // line 105
                     yield "                        ";
                 }
-                // line 104
+                // line 106
                 yield "                    </div>
-
-                    <div class=\"publication-content\">
-                        ";
-                // line 107
-                yield Twig\Extension\CoreExtension::nl2br($this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "contenu", [], "any", false, false, false, 107), "html", null, true));
+<div class=\"publication-content\">
+    ";
+                // line 108
+                yield Twig\Extension\CoreExtension::nl2br($this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "contenu", [], "any", false, false, false, 108), "html", null, true));
                 yield "
-                        
-                        ";
-                // line 109
-                if ((Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "imageUrls", [], "any", false, false, false, 109)) > 0)) {
-                    // line 110
-                    yield "                            <div class=\"publication-images ";
-                    if ((Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "imageUrls", [], "any", false, false, false, 110)) == 1)) {
-                        yield "single-image";
-                    } elseif ((Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "imageUrls", [], "any", false, false, false, 110)) == 2)) {
-                        yield "two-images";
-                    }
-                    yield "\">
-                                ";
+    
+    ";
+                // line 110
+                if ((Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "imageUrls", [], "any", false, false, false, 110)) > 0)) {
                     // line 111
-                    $context["maxDisplayImages"] = 4;
+                    yield "       <div class=\"publication-images\" data-publication-id=\"";
+                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 111), "html", null, true);
+                    yield "\">
+    ";
                     // line 112
-                    yield "                                ";
                     $context['_parent'] = $context;
-                    $context['_seq'] = CoreExtension::ensureTraversable(Twig\Extension\CoreExtension::slice($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "imageUrls", [], "any", false, false, false, 112), 0, (((Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "imageUrls", [], "any", false, false, false, 112)) > (isset($context["maxDisplayImages"]) || array_key_exists("maxDisplayImages", $context) ? $context["maxDisplayImages"] : (function () { throw new RuntimeError('Variable "maxDisplayImages" does not exist.', 112, $this->source); })()))) ? ((isset($context["maxDisplayImages"]) || array_key_exists("maxDisplayImages", $context) ? $context["maxDisplayImages"] : (function () { throw new RuntimeError('Variable "maxDisplayImages" does not exist.', 112, $this->source); })())) : (Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "imageUrls", [], "any", false, false, false, 112))))));
+                    $context['_seq'] = CoreExtension::ensureTraversable(Twig\Extension\CoreExtension::slice($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "imageUrls", [], "any", false, false, false, 112), 0, 3));
                     foreach ($context['_seq'] as $context["_key"] => $context["imageUrl"]) {
                         // line 113
-                        yield "                                    <div class=\"publication-image\">
-                                        <img src=\"";
+                        yield "        <div class=\"publication-image\">
+            <img src=\"";
                         // line 114
                         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl($context["imageUrl"]), "html", null, true);
                         yield "\" 
-                                             alt=\"Image de publication\" 
-                                             class=\"publication-img\"
-                                             onclick=\"openImageModal(this.src)\">
-                                    </div>
-                                ";
+                 alt=\"Image de publication\" 
+                 class=\"publication-img\"
+                 onclick=\"openImageModal(this.src, ";
+                        // line 117
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 117), "html", null, true);
+                        yield ")\">
+        </div>
+    ";
                     }
                     $_parent = $context['_parent'];
                     unset($context['_seq'], $context['_key'], $context['imageUrl'], $context['_parent']);
                     $context = array_intersect_key($context, $_parent) + $_parent;
                     // line 120
-                    yield "                                
-                                ";
+                    yield "    
+    ";
                     // line 121
-                    if ((Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "imageUrls", [], "any", false, false, false, 121)) > (isset($context["maxDisplayImages"]) || array_key_exists("maxDisplayImages", $context) ? $context["maxDisplayImages"] : (function () { throw new RuntimeError('Variable "maxDisplayImages" does not exist.', 121, $this->source); })()))) {
+                    if ((Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "imageUrls", [], "any", false, false, false, 121)) > 3)) {
                         // line 122
-                        yield "                                    <div class=\"publication-image more-images\" onclick=\"openImageModal('";
-                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "imageUrls", [], "any", false, false, false, 122), (isset($context["maxDisplayImages"]) || array_key_exists("maxDisplayImages", $context) ? $context["maxDisplayImages"] : (function () { throw new RuntimeError('Variable "maxDisplayImages" does not exist.', 122, $this->source); })()), [], "array", false, false, false, 122)), "html", null, true);
-                        yield "')\">
-                                        <img src=\"";
+                        yield "        <div class=\"publication-image more-images\" 
+             onclick=\"openImageModal('";
                         // line 123
-                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "imageUrls", [], "any", false, false, false, 123), (isset($context["maxDisplayImages"]) || array_key_exists("maxDisplayImages", $context) ? $context["maxDisplayImages"] : (function () { throw new RuntimeError('Variable "maxDisplayImages" does not exist.', 123, $this->source); })()), [], "array", false, false, false, 123)), "html", null, true);
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "imageUrls", [], "any", false, false, false, 123), 3, [], "array", false, false, false, 123)), "html", null, true);
+                        yield "', ";
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 123), "html", null, true);
+                        yield ")\">
+            <img src=\"";
+                        // line 124
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "imageUrls", [], "any", false, false, false, 124), 3, [], "array", false, false, false, 124)), "html", null, true);
                         yield "\" 
-                                             alt=\"Image de publication\" 
-                                             class=\"publication-img\">
-                                        <div class=\"more-overlay\">
-                                            <span>+";
-                        // line 127
-                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape((Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "imageUrls", [], "any", false, false, false, 127)) - (isset($context["maxDisplayImages"]) || array_key_exists("maxDisplayImages", $context) ? $context["maxDisplayImages"] : (function () { throw new RuntimeError('Variable "maxDisplayImages" does not exist.', 127, $this->source); })())), "html", null, true);
+                 alt=\"Image de publication\" 
+                 class=\"publication-img\">
+            <div class=\"more-overlay\">
+                <span>+";
+                        // line 128
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape((Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "imageUrls", [], "any", false, false, false, 128)) - 3), "html", null, true);
                         yield "</span>
-                                        </div>
-                                    </div>
-                                ";
+            </div>
+        </div>
+    ";
                     }
-                    // line 131
-                    yield "                            </div>
-                        ";
+                    // line 132
+                    yield "</div>
+    ";
                 }
-                // line 133
-                yield "                    </div>
+                // line 134
+                yield "</div>
 
-                    <div class=\"publication-footer\">
-                        <div class=\"action-buttons\">
-                            ";
-                // line 137
+<div class=\"publication-footer\">
+    <div class=\"action-buttons\">
+        ";
+                // line 138
                 if ($this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("IS_AUTHENTICATED_FULLY")) {
-                    // line 138
-                    yield "                                <a href=\"";
-                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_publication_like", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 138)]), "html", null, true);
-                    yield "\" class=\"btn btn-link\">
-                                    <i class=\"";
                     // line 139
-                    if ((CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 139, $this->source); })()), "user", [], "any", false, false, false, 139) && CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "isLikedByUser", [CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 139, $this->source); })()), "user", [], "any", false, false, false, 139)], "method", false, false, false, 139))) {
+                    yield "            <a href=\"";
+                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_publication_like", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 139)]), "html", null, true);
+                    yield "\" class=\"btn btn-link\">
+                <i class=\"";
+                    // line 140
+                    if ((CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 140, $this->source); })()), "user", [], "any", false, false, false, 140) && CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "isLikedByUser", [CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 140, $this->source); })()), "user", [], "any", false, false, false, 140)], "method", false, false, false, 140))) {
                         yield "fas";
                     } else {
                         yield "far";
                     }
                     yield " fa-heart\"></i>
-                                    <span>";
-                    // line 140
-                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "likes", [], "any", false, false, false, 140)), "html", null, true);
+                <span>";
+                    // line 141
+                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "likes", [], "any", false, false, false, 141)), "html", null, true);
                     yield "</span>
-                                </a>
-                            ";
+            </a>
+        ";
                 }
-                // line 143
-                yield "                            <a href=\"";
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_publication_show", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 143)]), "html", null, true);
-                yield "\" class=\"btn btn-link\">
-                                <i class=\"far fa-comment\"></i> Commenter (";
                 // line 144
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "comments", [], "any", false, false, false, 144)), "html", null, true);
+                yield "        <a href=\"";
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_publication_show", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 144)]), "html", null, true);
+                yield "\" class=\"btn btn-link\">
+            <i class=\"far fa-comment\"></i> Commenter (";
+                // line 145
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "comments", [], "any", false, false, false, 145)), "html", null, true);
                 yield ")
-                            </a>
-                        </div>
-                    </div>
+        </a>
+    </div>
+</div>
                 </div>
             ";
             } else {
-                // line 150
+                // line 151
                 yield "                ";
-                if ((CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "status", [], "any", false, false, false, 150) == "pending")) {
-                    // line 151
+                if ((((CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "status", [], "any", false, false, false, 151) == "pending") && CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 151, $this->source); })()), "user", [], "any", false, false, false, 151)) && (CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 151, $this->source); })()), "user", [], "any", false, false, false, 151) == CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "user", [], "any", false, false, false, 151)))) {
+                    // line 152
                     yield "                    <div class=\"toast-message\">
                         Votre publication est en attente de validation.
                     </div>
                 ";
                 }
-                // line 155
+                // line 156
                 yield "            ";
             }
-            // line 156
+            // line 157
             yield "        ";
             $context['_iterated'] = true;
         }
-        // line 162
+        // line 163
         if (!$context['_iterated']) {
-            // line 157
+            // line 158
             yield "            <div class=\"no-publications\">
                 <i class=\"far fa-comment-dots\"></i>
                 <p>Aucune publication pour le moment.</p>
@@ -412,7 +411,7 @@ class __TwigTemplate_2347e704b52a0a4b612aff4ebe4c8a3d extends Template
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_key'], $context['publication'], $context['_parent'], $context['_iterated']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 163
+        // line 164
         yield "    </div>
 </div>
 
@@ -422,6 +421,7 @@ class __TwigTemplate_2347e704b52a0a4b612aff4ebe4c8a3d extends Template
     min-height: 100vh;
     padding-top: 2rem;
 }
+
 
 .new-publication-form {
     background: white;
@@ -459,14 +459,33 @@ class __TwigTemplate_2347e704b52a0a4b612aff4ebe4c8a3d extends Template
 }
 
 .form-control {
-    border: 2px solid #e0f3f8;
+  border: 2px solid #e0f3f8;
     border-radius: 8px;
     padding: 1rem;
     resize: vertical;
     min-height: 100px;
     margin-bottom: 1rem;
+    width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    
 }
-
+.publication-info, 
+.author-name, 
+.publication-date,
+.action-buttons,
+.btn-link {
+    max-width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+/* For handling long URLs or unbreakable content */
+a, pre, code {
+    max-width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
 .form-control:focus {
     border-color: #2d7a7a;
     box-shadow: 0 0 0 0.2rem rgba(45, 122, 122, 0.25);
@@ -563,10 +582,12 @@ class __TwigTemplate_2347e704b52a0a4b612aff4ebe4c8a3d extends Template
 }
 
 .publication-card {
-    background: white;
+ background: white;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 1.5rem;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .publication-header {
@@ -626,14 +647,18 @@ class __TwigTemplate_2347e704b52a0a4b612aff4ebe4c8a3d extends Template
 }
 
 .publication-content {
-    margin: 1rem 0;
-    white-space: pre-line;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
 }
 
 .publication-images {
-    display: grid;
+display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 0.5rem;
     margin-top: 1rem;
+    max-height: 400px;
+    overflow: hidden;
 }
 
 .publication-images.single-image {
@@ -655,16 +680,14 @@ class __TwigTemplate_2347e704b52a0a4b612aff4ebe4c8a3d extends Template
 }
 
 .publication-image {
-    position: relative;
-    padding-top: 100%; /* 1:1 Aspect Ratio */
+  position: relative;
+    aspect-ratio: 1;
+    height: 160px;
+    border-radius: 8px;
     overflow: hidden;
-    border-radius: 12px;
 }
 
 .publication-img {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -758,8 +781,9 @@ class __TwigTemplate_2347e704b52a0a4b612aff4ebe4c8a3d extends Template
     position: relative;
     margin: auto;
     display: block;
-    max-width: 90%;
-    max-height: 90vh;
+    max-width: 80%;
+    max-height: 80vh;
+    object-fit: contain;
 }
 
 .modal img {
@@ -777,7 +801,42 @@ class __TwigTemplate_2347e704b52a0a4b612aff4ebe4c8a3d extends Template
     font-weight: bold;
     cursor: pointer;
 }
+.modal-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 15px;
+    cursor: pointer;
+    border-radius: 50%;
+    border: none;
+    font-size: 24px;
+    transition: background 0.3s ease;
+}
 
+.modal-nav:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.modal-prev {
+    left: 20px;
+}
+
+.modal-next {
+    right: 20px;
+}
+.modal-counter {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 5px 15px;
+    border-radius: 15px;
+    font-size: 14px;
+}
 @media (max-width: 768px) {
     .form-actions {
         flex-direction: column;
@@ -795,14 +854,19 @@ class __TwigTemplate_2347e704b52a0a4b612aff4ebe4c8a3d extends Template
     }
 }
 </style>
-
 <script>
-function openImageModal(src) {
+let currentImageIndex = 0;
+let images = [];
+
+function openImageModal(src, publicationId) {
+    // Récupérer uniquement les images de la publication courante
+    images = Array.from(document.querySelector(`[data-publication-id=\"\${publicationId}\"]`)
+        .querySelectorAll('.publication-img'))
+        .map(img => img.src);
+    currentImageIndex = images.indexOf(src);
+    
     var modal = document.createElement('div');
     modal.className = 'modal';
-    modal.style.display = 'flex';
-    modal.style.justifyContent = 'center';
-    modal.style.alignItems = 'center';
     
     var img = document.createElement('img');
     img.src = src;
@@ -812,30 +876,73 @@ function openImageModal(src) {
     closeBtn.className = 'close';
     closeBtn.innerHTML = '&times;';
     
+    var prevBtn = document.createElement('button');
+    prevBtn.className = 'modal-nav modal-prev';
+    prevBtn.innerHTML = '&#10094;';
+    
+    var nextBtn = document.createElement('button');
+    nextBtn.className = 'modal-nav modal-next';
+    nextBtn.innerHTML = '&#10095;';
+    
+    var counter = document.createElement('div');
+    counter.className = 'modal-counter';
+    updateCounter(counter);
+    
     modal.appendChild(img);
     modal.appendChild(closeBtn);
+    modal.appendChild(prevBtn);
+    modal.appendChild(nextBtn);
+    modal.appendChild(counter);
     document.body.appendChild(modal);
     
+    setTimeout(() => modal.style.display = 'flex', 0);
     document.body.style.overflow = 'hidden';
     
+    // Navigation
+    prevBtn.onclick = function(e) {
+        e.stopPropagation();
+        currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+        img.src = images[currentImageIndex];
+        updateCounter(counter);
+    }
+    
+    nextBtn.onclick = function(e) {
+        e.stopPropagation();
+        currentImageIndex = (currentImageIndex + 1) % images.length;
+        img.src = images[currentImageIndex];
+        updateCounter(counter);
+    }
+    
+    // Fermeture
     closeBtn.onclick = function() {
-        document.body.removeChild(modal);
-        document.body.style.overflow = 'auto';
+        closeModal(modal);
     }
     
     modal.onclick = function(e) {
         if (e.target === modal) {
-            document.body.removeChild(modal);
-            document.body.style.overflow = 'auto';
+            closeModal(modal);
         }
     }
     
+    // Navigation avec les flèches du clavier
     document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && document.contains(modal)) {
-            document.body.removeChild(modal);
-            document.body.style.overflow = 'auto';
+        if (e.key === 'ArrowLeft') {
+            prevBtn.click();
+        } else if (e.key === 'ArrowRight') {
+            nextBtn.click();
+        } else if (e.key === 'Escape') {
+            closeModal(modal);
         }
     });
+}
+
+function updateCounter(counter) {
+    counter.textContent = `\${currentImageIndex + 1} / \${images.length}`;
+}
+
+function closeModal(modal) {
+    document.body.removeChild(modal);
+    document.body.style.overflow = 'auto';
 }
 </script>
 ";
@@ -869,7 +976,7 @@ function openImageModal(src) {
      */
     public function getDebugInfo(): array
     {
-        return array (  416 => 163,  405 => 157,  403 => 162,  399 => 156,  396 => 155,  390 => 151,  387 => 150,  378 => 144,  373 => 143,  367 => 140,  359 => 139,  354 => 138,  352 => 137,  346 => 133,  342 => 131,  335 => 127,  328 => 123,  323 => 122,  321 => 121,  318 => 120,  306 => 114,  303 => 113,  298 => 112,  296 => 111,  287 => 110,  285 => 109,  280 => 107,  275 => 104,  272 => 103,  262 => 96,  258 => 95,  252 => 92,  249 => 91,  246 => 90,  244 => 89,  238 => 86,  234 => 84,  226 => 82,  220 => 78,  218 => 77,  214 => 75,  208 => 73,  202 => 69,  200 => 68,  196 => 66,  193 => 65,  188 => 64,  184 => 62,  178 => 59,  163 => 47,  154 => 40,  152 => 33,  144 => 27,  142 => 22,  137 => 20,  128 => 16,  124 => 14,  122 => 13,  119 => 12,  110 => 9,  107 => 8,  103 => 7,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
+        return array (  415 => 164,  404 => 158,  402 => 163,  398 => 157,  395 => 156,  389 => 152,  386 => 151,  377 => 145,  372 => 144,  366 => 141,  358 => 140,  353 => 139,  351 => 138,  345 => 134,  341 => 132,  334 => 128,  327 => 124,  321 => 123,  318 => 122,  316 => 121,  313 => 120,  304 => 117,  298 => 114,  295 => 113,  291 => 112,  286 => 111,  284 => 110,  279 => 108,  275 => 106,  272 => 105,  262 => 98,  258 => 97,  252 => 94,  249 => 93,  246 => 92,  244 => 91,  238 => 88,  234 => 86,  226 => 84,  220 => 80,  218 => 79,  214 => 77,  208 => 75,  202 => 71,  200 => 70,  196 => 68,  193 => 67,  188 => 66,  184 => 64,  178 => 61,  163 => 49,  154 => 42,  152 => 35,  144 => 29,  142 => 22,  137 => 20,  128 => 16,  124 => 14,  122 => 13,  119 => 12,  110 => 9,  107 => 8,  103 => 7,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -898,7 +1005,9 @@ function openImageModal(src) {
                     {{ form_widget(form.contenu, {
                         'attr': {
                             'placeholder': 'Partagez votre expérience ou posez une question...',
-                            'class': 'form-control'
+                            'class': 'form-control',
+                                'maxlength': 120,
+        'oninput': 'this.value = this.value.slice(0, 120)'
                         }
                     }) }}
                 </div>
@@ -978,52 +1087,51 @@ function openImageModal(src) {
                             {% endif %}
                         {% endif %}
                     </div>
+<div class=\"publication-content\">
+    {{ publication.contenu|nl2br }}
+    
+    {% if publication.imageUrls|length > 0 %}
+       <div class=\"publication-images\" data-publication-id=\"{{ publication.id }}\">
+    {% for imageUrl in publication.imageUrls|slice(0, 3) %}
+        <div class=\"publication-image\">
+            <img src=\"{{ asset(imageUrl) }}\" 
+                 alt=\"Image de publication\" 
+                 class=\"publication-img\"
+                 onclick=\"openImageModal(this.src, {{ publication.id }})\">
+        </div>
+    {% endfor %}
+    
+    {% if publication.imageUrls|length > 3 %}
+        <div class=\"publication-image more-images\" 
+             onclick=\"openImageModal('{{ asset(publication.imageUrls[3]) }}', {{ publication.id }})\">
+            <img src=\"{{ asset(publication.imageUrls[3]) }}\" 
+                 alt=\"Image de publication\" 
+                 class=\"publication-img\">
+            <div class=\"more-overlay\">
+                <span>+{{ publication.imageUrls|length - 3 }}</span>
+            </div>
+        </div>
+    {% endif %}
+</div>
+    {% endif %}
+</div>
 
-                    <div class=\"publication-content\">
-                        {{ publication.contenu|nl2br }}
-                        
-                        {% if publication.imageUrls|length > 0 %}
-                            <div class=\"publication-images {% if publication.imageUrls|length == 1 %}single-image{% elseif publication.imageUrls|length == 2 %}two-images{% endif %}\">
-                                {% set maxDisplayImages = 4 %}
-                                {% for imageUrl in publication.imageUrls|slice(0, publication.imageUrls|length > maxDisplayImages ? maxDisplayImages : publication.imageUrls|length) %}
-                                    <div class=\"publication-image\">
-                                        <img src=\"{{ asset(imageUrl) }}\" 
-                                             alt=\"Image de publication\" 
-                                             class=\"publication-img\"
-                                             onclick=\"openImageModal(this.src)\">
-                                    </div>
-                                {% endfor %}
-                                
-                                {% if publication.imageUrls|length > maxDisplayImages %}
-                                    <div class=\"publication-image more-images\" onclick=\"openImageModal('{{ asset(publication.imageUrls[maxDisplayImages]) }}')\">
-                                        <img src=\"{{ asset(publication.imageUrls[maxDisplayImages]) }}\" 
-                                             alt=\"Image de publication\" 
-                                             class=\"publication-img\">
-                                        <div class=\"more-overlay\">
-                                            <span>+{{ publication.imageUrls|length - maxDisplayImages }}</span>
-                                        </div>
-                                    </div>
-                                {% endif %}
-                            </div>
-                        {% endif %}
-                    </div>
-
-                    <div class=\"publication-footer\">
-                        <div class=\"action-buttons\">
-                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                                <a href=\"{{ path('app_publication_like', {'id': publication.id}) }}\" class=\"btn btn-link\">
-                                    <i class=\"{% if app.user and publication.isLikedByUser(app.user) %}fas{% else %}far{% endif %} fa-heart\"></i>
-                                    <span>{{ publication.likes|length }}</span>
-                                </a>
-                            {% endif %}
-                            <a href=\"{{ path('app_publication_show', {'id': publication.id}) }}\" class=\"btn btn-link\">
-                                <i class=\"far fa-comment\"></i> Commenter ({{ publication.comments|length }})
-                            </a>
-                        </div>
-                    </div>
+<div class=\"publication-footer\">
+    <div class=\"action-buttons\">
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <a href=\"{{ path('app_publication_like', {'id': publication.id}) }}\" class=\"btn btn-link\">
+                <i class=\"{% if app.user and publication.isLikedByUser(app.user) %}fas{% else %}far{% endif %} fa-heart\"></i>
+                <span>{{ publication.likes|length }}</span>
+            </a>
+        {% endif %}
+        <a href=\"{{ path('app_publication_show', {'id': publication.id}) }}\" class=\"btn btn-link\">
+            <i class=\"far fa-comment\"></i> Commenter ({{ publication.comments|length }})
+        </a>
+    </div>
+</div>
                 </div>
             {% else %}
-                {% if publication.status == 'pending' %}
+                {% if publication.status == 'pending' and app.user and app.user == publication.user %}
                     <div class=\"toast-message\">
                         Votre publication est en attente de validation.
                     </div>
@@ -1045,6 +1153,7 @@ function openImageModal(src) {
     min-height: 100vh;
     padding-top: 2rem;
 }
+
 
 .new-publication-form {
     background: white;
@@ -1082,14 +1191,33 @@ function openImageModal(src) {
 }
 
 .form-control {
-    border: 2px solid #e0f3f8;
+  border: 2px solid #e0f3f8;
     border-radius: 8px;
     padding: 1rem;
     resize: vertical;
     min-height: 100px;
     margin-bottom: 1rem;
+    width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    
 }
-
+.publication-info, 
+.author-name, 
+.publication-date,
+.action-buttons,
+.btn-link {
+    max-width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+/* For handling long URLs or unbreakable content */
+a, pre, code {
+    max-width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
 .form-control:focus {
     border-color: #2d7a7a;
     box-shadow: 0 0 0 0.2rem rgba(45, 122, 122, 0.25);
@@ -1186,10 +1314,12 @@ function openImageModal(src) {
 }
 
 .publication-card {
-    background: white;
+ background: white;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 1.5rem;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .publication-header {
@@ -1249,14 +1379,18 @@ function openImageModal(src) {
 }
 
 .publication-content {
-    margin: 1rem 0;
-    white-space: pre-line;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
 }
 
 .publication-images {
-    display: grid;
+display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 0.5rem;
     margin-top: 1rem;
+    max-height: 400px;
+    overflow: hidden;
 }
 
 .publication-images.single-image {
@@ -1278,16 +1412,14 @@ function openImageModal(src) {
 }
 
 .publication-image {
-    position: relative;
-    padding-top: 100%; /* 1:1 Aspect Ratio */
+  position: relative;
+    aspect-ratio: 1;
+    height: 160px;
+    border-radius: 8px;
     overflow: hidden;
-    border-radius: 12px;
 }
 
 .publication-img {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -1381,8 +1513,9 @@ function openImageModal(src) {
     position: relative;
     margin: auto;
     display: block;
-    max-width: 90%;
-    max-height: 90vh;
+    max-width: 80%;
+    max-height: 80vh;
+    object-fit: contain;
 }
 
 .modal img {
@@ -1400,7 +1533,42 @@ function openImageModal(src) {
     font-weight: bold;
     cursor: pointer;
 }
+.modal-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 15px;
+    cursor: pointer;
+    border-radius: 50%;
+    border: none;
+    font-size: 24px;
+    transition: background 0.3s ease;
+}
 
+.modal-nav:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.modal-prev {
+    left: 20px;
+}
+
+.modal-next {
+    right: 20px;
+}
+.modal-counter {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 5px 15px;
+    border-radius: 15px;
+    font-size: 14px;
+}
 @media (max-width: 768px) {
     .form-actions {
         flex-direction: column;
@@ -1418,14 +1586,19 @@ function openImageModal(src) {
     }
 }
 </style>
-
 <script>
-function openImageModal(src) {
+let currentImageIndex = 0;
+let images = [];
+
+function openImageModal(src, publicationId) {
+    // Récupérer uniquement les images de la publication courante
+    images = Array.from(document.querySelector(`[data-publication-id=\"\${publicationId}\"]`)
+        .querySelectorAll('.publication-img'))
+        .map(img => img.src);
+    currentImageIndex = images.indexOf(src);
+    
     var modal = document.createElement('div');
     modal.className = 'modal';
-    modal.style.display = 'flex';
-    modal.style.justifyContent = 'center';
-    modal.style.alignItems = 'center';
     
     var img = document.createElement('img');
     img.src = src;
@@ -1435,30 +1608,73 @@ function openImageModal(src) {
     closeBtn.className = 'close';
     closeBtn.innerHTML = '&times;';
     
+    var prevBtn = document.createElement('button');
+    prevBtn.className = 'modal-nav modal-prev';
+    prevBtn.innerHTML = '&#10094;';
+    
+    var nextBtn = document.createElement('button');
+    nextBtn.className = 'modal-nav modal-next';
+    nextBtn.innerHTML = '&#10095;';
+    
+    var counter = document.createElement('div');
+    counter.className = 'modal-counter';
+    updateCounter(counter);
+    
     modal.appendChild(img);
     modal.appendChild(closeBtn);
+    modal.appendChild(prevBtn);
+    modal.appendChild(nextBtn);
+    modal.appendChild(counter);
     document.body.appendChild(modal);
     
+    setTimeout(() => modal.style.display = 'flex', 0);
     document.body.style.overflow = 'hidden';
     
+    // Navigation
+    prevBtn.onclick = function(e) {
+        e.stopPropagation();
+        currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+        img.src = images[currentImageIndex];
+        updateCounter(counter);
+    }
+    
+    nextBtn.onclick = function(e) {
+        e.stopPropagation();
+        currentImageIndex = (currentImageIndex + 1) % images.length;
+        img.src = images[currentImageIndex];
+        updateCounter(counter);
+    }
+    
+    // Fermeture
     closeBtn.onclick = function() {
-        document.body.removeChild(modal);
-        document.body.style.overflow = 'auto';
+        closeModal(modal);
     }
     
     modal.onclick = function(e) {
         if (e.target === modal) {
-            document.body.removeChild(modal);
-            document.body.style.overflow = 'auto';
+            closeModal(modal);
         }
     }
     
+    // Navigation avec les flèches du clavier
     document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && document.contains(modal)) {
-            document.body.removeChild(modal);
-            document.body.style.overflow = 'auto';
+        if (e.key === 'ArrowLeft') {
+            prevBtn.click();
+        } else if (e.key === 'ArrowRight') {
+            nextBtn.click();
+        } else if (e.key === 'Escape') {
+            closeModal(modal);
         }
     });
+}
+
+function updateCounter(counter) {
+    counter.textContent = `\${currentImageIndex + 1} / \${images.length}`;
+}
+
+function closeModal(modal) {
+    document.body.removeChild(modal);
+    document.body.style.overflow = 'auto';
 }
 </script>
 {% endblock %}", "publication/index.html.twig", "D:\\PIDEV\\oncokidscare\\templates\\publication\\index.html.twig");

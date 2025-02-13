@@ -2,17 +2,102 @@
 
 {% block title %}Nouvelle Publication{% endblock %}
 
-{% block body %}
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .community-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 2rem 0;
+            background: #f8f9fa;
+        }
+
+        .slogan {
+            color: #6c757d;
+            font-style: italic;
+            margin-top: 0.5rem;
+        }
+
+        .hospital-post {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e0f3f8;
+            border-radius: 8px;
+            resize: vertical;
+            min-height: 120px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: pre-wrap;
+        }
+
+        .form-control:focus {
+            border-color: #2d7a7a;
+            box-shadow: 0 0 0 0.2rem rgba(45, 122, 122, 0.25);
+            outline: none;
+        }
+
+        .submit-btn {
+            background: #2d7a7a;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+             gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: #236161;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #2d7a7a;
+            text-decoration: none;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(45, 122, 122, 0.1);
+        }
+    </style>
+{% endblock %}
     <div class="community-header">
         <h1>Créer une nouvelle publication</h1>
         <p class="slogan">"Votre expérience peut aider d'autres patients"</p>
     </div>
+{% block body %}
 
     <div class="hospital-post">
         {{ form_start(form) }}
             <div class="form-group">
                 {{ form_label(form.contenu) }}
-                {{ form_widget(form.contenu, {'attr': {'class': 'form-control', 'rows': 5}}) }}
+                {{ form_widget(form.contenu, {'attr': {
+                    'class': 'form-control',
+                    'rows': 5,
+                    'style': 'max-width: 100%;'
+                }}) }}
             </div>
             <button type="submit" class="submit-btn">
                 <i class="fas fa-share-medical"></i> Publier
