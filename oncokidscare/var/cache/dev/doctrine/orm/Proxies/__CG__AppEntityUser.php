@@ -25,7 +25,6 @@ class User extends \App\Entity\User implements \Doctrine\ORM\Proxy\InternalProxy
         "\0".parent::class."\0".'adresse' => [parent::class, 'adresse', null],
         "\0".parent::class."\0".'chatGroups' => [parent::class, 'chatGroups', null],
         "\0".parent::class."\0".'comments' => [parent::class, 'comments', null],
-        "\0".parent::class."\0".'compagnies' => [parent::class, 'compagnies', null],
         "\0".parent::class."\0".'donateurType' => [parent::class, 'donateurType', null],
         "\0".parent::class."\0".'email' => [parent::class, 'email', null],
         "\0".parent::class."\0".'id' => [parent::class, 'id', null],
@@ -37,11 +36,9 @@ class User extends \App\Entity\User implements \Doctrine\ORM\Proxy\InternalProxy
         "\0".parent::class."\0".'publications' => [parent::class, 'publications', null],
         "\0".parent::class."\0".'role' => [parent::class, 'role', null],
         "\0".parent::class."\0".'tel' => [parent::class, 'tel', null],
-        "\0".parent::class."\0".'telephone' => [parent::class, 'telephone', null],
         'adresse' => [parent::class, 'adresse', null],
         'chatGroups' => [parent::class, 'chatGroups', null],
         'comments' => [parent::class, 'comments', null],
-        'compagnies' => [parent::class, 'compagnies', null],
         'donateurType' => [parent::class, 'donateurType', null],
         'email' => [parent::class, 'email', null],
         'id' => [parent::class, 'id', null],
@@ -53,7 +50,6 @@ class User extends \App\Entity\User implements \Doctrine\ORM\Proxy\InternalProxy
         'publications' => [parent::class, 'publications', null],
         'role' => [parent::class, 'role', null],
         'tel' => [parent::class, 'tel', null],
-        'telephone' => [parent::class, 'telephone', null],
     ];
 
     public function __isInitialized(): bool
