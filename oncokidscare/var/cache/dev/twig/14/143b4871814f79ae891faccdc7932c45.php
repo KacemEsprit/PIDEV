@@ -155,13 +155,26 @@ class __TwigTemplate_2347e704b52a0a4b612aff4ebe4c8a3d extends Template
             yield "
                     </label>
                 </div>
+            </br></br>
 
+        <div class=\"form-group category-select\">
+                <div class=\"input-group\">
+                    <span class=\"input-group-text\">
+                        <i class=\"fas fa-tag\"></i>
+                    </span>
+                    ";
+            // line 52
+            yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 52, $this->source); })()), "category", [], "any", false, false, false, 52), 'widget', ["attr" => ["class" => "form-select custom-select"]]);
+            // line 56
+            yield "
+                </div>
+            </div> 
                 <div class=\"form-actions\">
                     <div class=\"anonymous-option\">
                         <label class=\"anonymous-toggle\">
                             ";
-            // line 49
-            yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 49, $this->source); })()), "isAnonymous", [], "any", false, false, false, 49), 'widget');
+            // line 62
+            yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 62, $this->source); })()), "isAnonymous", [], "any", false, false, false, 62), 'widget');
             yield "
                             <span class=\"toggle-slider\"></span>
                             <span class=\"toggle-label\">
@@ -175,92 +188,142 @@ class __TwigTemplate_2347e704b52a0a4b612aff4ebe4c8a3d extends Template
                     </button>
                 </div>
             ";
-            // line 61
-            yield             $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 61, $this->source); })()), 'form_end');
+            // line 74
+            yield             $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 74, $this->source); })()), 'form_end');
             yield "
         </div>
     ";
         }
-        // line 64
-        yield "
+        // line 77
+        yield "<div class=\"category-filters mb-4\">
+    <div class=\"btn-group\" role=\"group\">
+        <a href=\"";
+        // line 79
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_publication_index");
+        yield "\" 
+           class=\"btn btn-outline-secondary ";
+        // line 80
+        yield (( !CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 80, $this->source); })()), "request", [], "any", false, false, false, 80), "query", [], "any", false, false, false, 80), "get", ["category"], "method", false, false, false, 80)) ? ("active") : (""));
+        yield "\">
+            Toutes
+        </a>
+        ";
+        // line 83
+        $context['_parent'] = $context;
+        $context['_seq'] = CoreExtension::ensureTraversable(["Témoignage", "Question médicale", "Conseil", "Autre"]);
+        foreach ($context['_seq'] as $context["_key"] => $context["category"]) {
+            // line 84
+            yield "            <a href=\"";
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_publication_index", ["category" => $context["category"]]), "html", null, true);
+            yield "\" 
+               class=\"btn btn-outline-secondary ";
+            // line 85
+            yield (((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 85, $this->source); })()), "request", [], "any", false, false, false, 85), "query", [], "any", false, false, false, 85), "get", ["category"], "method", false, false, false, 85) == $context["category"])) ? ("active") : (""));
+            yield "\">
+                ";
+            // line 86
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($context["category"], "html", null, true);
+            yield "
+            </a>
+        ";
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_key'], $context['category'], $context['_parent']);
+        $context = array_intersect_key($context, $_parent) + $_parent;
+        // line 89
+        yield "    </div>    </div>
+
+
     <div class=\"publications-list\">
         ";
-        // line 66
+        // line 93
         $context['_parent'] = $context;
-        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["publications"]) || array_key_exists("publications", $context) ? $context["publications"] : (function () { throw new RuntimeError('Variable "publications" does not exist.', 66, $this->source); })()));
+        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["publications"]) || array_key_exists("publications", $context) ? $context["publications"] : (function () { throw new RuntimeError('Variable "publications" does not exist.', 93, $this->source); })()));
         $context['_iterated'] = false;
         foreach ($context['_seq'] as $context["_key"] => $context["publication"]) {
-            // line 67
+            // line 94
             yield "            ";
-            if ((CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "status", [], "any", false, false, false, 67) == "approved")) {
-                // line 68
+            if ((CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "status", [], "any", false, false, false, 94) == "approved")) {
+                // line 95
                 yield "                <div class=\"publication-card\">
                     <div class=\"publication-header\">
                         ";
-                // line 70
-                if (CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "isAnonymous", [], "any", false, false, false, 70)) {
-                    // line 71
+                // line 97
+                if (CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "isAnonymous", [], "any", false, false, false, 97)) {
+                    // line 98
                     yield "                            <div class=\"anonymous-avatar\">
                                 <i class=\"fas fa-user-secret\"></i>
                             </div>
                         ";
                 } else {
-                    // line 75
+                    // line 102
                     yield "                            <img src=\"";
                     yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("images/img2.png"), "html", null, true);
                     yield "\" class=\"user-avatar\" alt=\"Avatar\">
                         ";
                 }
-                // line 77
+                // line 104
                 yield "                        <div class=\"publication-info\">
+                                <div class=\"d-flex align-items-center gap-2\">
+
                             <div class=\"author-name\">
+                           
+            </div>
                                 ";
-                // line 79
-                if (CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "isAnonymous", [], "any", false, false, false, 79)) {
-                    // line 80
+                // line 110
+                if (CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "isAnonymous", [], "any", false, false, false, 110)) {
+                    // line 111
                     yield "                                    <span class=\"anonymous-badge\">
                                         <i class=\"fas fa-user-secret\"></i> Anonyme
                                     </span>
                                 ";
                 } else {
-                    // line 84
+                    // line 115
                     yield "                                    ";
-                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "user", [], "any", false, false, false, 84), "prenom", [], "any", false, false, false, 84), "html", null, true);
+                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "user", [], "any", false, false, false, 115), "prenom", [], "any", false, false, false, 115), "html", null, true);
                     yield " ";
-                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "user", [], "any", false, false, false, 84), "nom", [], "any", false, false, false, 84), "html", null, true);
+                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "user", [], "any", false, false, false, 115), "nom", [], "any", false, false, false, 115), "html", null, true);
                     yield "
                                 ";
                 }
-                // line 86
-                yield "                            </div>
+                // line 117
+                yield "                                   <span class=\"badge category-badge badge-";
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::replace(Twig\Extension\CoreExtension::lower($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "category", [], "any", false, false, false, 117)), [" " => "-"]), "html", null, true);
+                yield "\">
+                ";
+                // line 118
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "category", [], "any", false, false, false, 118), "html", null, true);
+                yield "
+            </span>
+                            </div>
                             <span class=\"publication-date\">
                                 <i class=\"far fa-clock\"></i> ";
-                // line 88
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatDate(CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "datePb", [], "any", false, false, false, 88), "d/m/Y H:i"), "html", null, true);
+                // line 122
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatDate(CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "datePb", [], "any", false, false, false, 122), "d/m/Y H:i"), "html", null, true);
                 yield "
                             </span>
                         </div>
                         ";
-                // line 91
-                if ((CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 91, $this->source); })()), "user", [], "any", false, false, false, 91) && CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "user", [], "any", false, false, false, 91))) {
-                    // line 92
+                // line 125
+                if ((CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 125, $this->source); })()), "user", [], "any", false, false, false, 125) && CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "user", [], "any", false, false, false, 125))) {
+                    // line 126
                     yield "                            ";
-                    if ((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 92, $this->source); })()), "user", [], "any", false, false, false, 92), "id", [], "any", false, false, false, 92) == CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "user", [], "any", false, false, false, 92), "id", [], "any", false, false, false, 92))) {
-                        // line 93
+                    if ((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 126, $this->source); })()), "user", [], "any", false, false, false, 126), "id", [], "any", false, false, false, 126) == CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "user", [], "any", false, false, false, 126), "id", [], "any", false, false, false, 126))) {
+                        // line 127
                         yield "                                <div class=\"publication-actions\">
                                     <a href=\"";
-                        // line 94
-                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_publication_edit", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 94)]), "html", null, true);
+                        // line 128
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_publication_edit", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 128)]), "html", null, true);
                         yield "\" class=\"btn btn-edit\" title=\"Modifier\">
                                         <i class=\"fas fa-edit\"></i>
                                     </a>
                                     <form method=\"post\" action=\"";
-                        // line 97
-                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_publication_delete", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 97)]), "html", null, true);
+                        // line 131
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_publication_delete", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 131)]), "html", null, true);
                         yield "\" onsubmit=\"return confirm('Êtes-vous sûr de vouloir supprimer cette publication ?');\" style=\"display: inline-block;\">
                                         <input type=\"hidden\" name=\"_token\" value=\"";
-                        // line 98
-                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderCsrfToken(("delete" . CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 98))), "html", null, true);
+                        // line 132
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderCsrfToken(("delete" . CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 132))), "html", null, true);
                         yield "\">
                                         <button type=\"submit\" class=\"btn btn-delete\" title=\"Supprimer\">
                                             <i class=\"fas fa-trash-alt\"></i>
@@ -269,40 +332,40 @@ class __TwigTemplate_2347e704b52a0a4b612aff4ebe4c8a3d extends Template
                                 </div>
                             ";
                     }
-                    // line 105
+                    // line 139
                     yield "                        ";
                 }
-                // line 106
+                // line 140
                 yield "                    </div>
 <div class=\"publication-content\">
     ";
-                // line 108
-                yield Twig\Extension\CoreExtension::nl2br($this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "contenu", [], "any", false, false, false, 108), "html", null, true));
+                // line 142
+                yield Twig\Extension\CoreExtension::nl2br($this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "contenu", [], "any", false, false, false, 142), "html", null, true));
                 yield "
     
     ";
-                // line 110
-                if ((Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "imageUrls", [], "any", false, false, false, 110)) > 0)) {
-                    // line 111
+                // line 144
+                if ((Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "imageUrls", [], "any", false, false, false, 144)) > 0)) {
+                    // line 145
                     yield "       <div class=\"publication-images\" data-publication-id=\"";
-                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 111), "html", null, true);
+                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 145), "html", null, true);
                     yield "\">
     ";
-                    // line 112
+                    // line 146
                     $context['_parent'] = $context;
-                    $context['_seq'] = CoreExtension::ensureTraversable(Twig\Extension\CoreExtension::slice($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "imageUrls", [], "any", false, false, false, 112), 0, 3));
+                    $context['_seq'] = CoreExtension::ensureTraversable(Twig\Extension\CoreExtension::slice($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "imageUrls", [], "any", false, false, false, 146), 0, 3));
                     foreach ($context['_seq'] as $context["_key"] => $context["imageUrl"]) {
-                        // line 113
+                        // line 147
                         yield "        <div class=\"publication-image\">
             <img src=\"";
-                        // line 114
+                        // line 148
                         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl($context["imageUrl"]), "html", null, true);
                         yield "\" 
                  alt=\"Image de publication\" 
                  class=\"publication-img\"
                  onclick=\"openImageModal(this.src, ";
-                        // line 117
-                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 117), "html", null, true);
+                        // line 151
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 151), "html", null, true);
                         yield ")\">
         </div>
     ";
@@ -310,55 +373,55 @@ class __TwigTemplate_2347e704b52a0a4b612aff4ebe4c8a3d extends Template
                     $_parent = $context['_parent'];
                     unset($context['_seq'], $context['_key'], $context['imageUrl'], $context['_parent']);
                     $context = array_intersect_key($context, $_parent) + $_parent;
-                    // line 120
+                    // line 154
                     yield "    
     ";
-                    // line 121
-                    if ((Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "imageUrls", [], "any", false, false, false, 121)) > 3)) {
-                        // line 122
+                    // line 155
+                    if ((Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "imageUrls", [], "any", false, false, false, 155)) > 3)) {
+                        // line 156
                         yield "        <div class=\"publication-image more-images\" 
              onclick=\"openImageModal('";
-                        // line 123
-                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "imageUrls", [], "any", false, false, false, 123), 3, [], "array", false, false, false, 123)), "html", null, true);
+                        // line 157
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "imageUrls", [], "any", false, false, false, 157), 3, [], "array", false, false, false, 157)), "html", null, true);
                         yield "', ";
-                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 123), "html", null, true);
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 157), "html", null, true);
                         yield ")\">
             <img src=\"";
-                        // line 124
-                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "imageUrls", [], "any", false, false, false, 124), 3, [], "array", false, false, false, 124)), "html", null, true);
+                        // line 158
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "imageUrls", [], "any", false, false, false, 158), 3, [], "array", false, false, false, 158)), "html", null, true);
                         yield "\" 
                  alt=\"Image de publication\" 
                  class=\"publication-img\">
             <div class=\"more-overlay\">
                 <span>+";
-                        // line 128
-                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape((Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "imageUrls", [], "any", false, false, false, 128)) - 3), "html", null, true);
+                        // line 162
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape((Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "imageUrls", [], "any", false, false, false, 162)) - 3), "html", null, true);
                         yield "</span>
             </div>
         </div>
     ";
                     }
-                    // line 132
+                    // line 166
                     yield "</div>
     ";
                 }
-                // line 134
+                // line 168
                 yield "</div>
 
 <div class=\"publication-footer\">
     <div class=\"action-buttons\">
         ";
-                // line 138
+                // line 172
                 if ($this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("IS_AUTHENTICATED_FULLY")) {
-                    // line 139
+                    // line 173
                     yield "            <div class=\"like-section d-flex align-items-center\">
                 <a href=\"";
-                    // line 140
-                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_publication_like", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 140)]), "html", null, true);
+                    // line 174
+                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_publication_like", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 174)]), "html", null, true);
                     yield "\" class=\"btn btn-link me-1\">
                     <i class=\"";
-                    // line 141
-                    if ((CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 141, $this->source); })()), "user", [], "any", false, false, false, 141) && CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "isLikedByUser", [CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 141, $this->source); })()), "user", [], "any", false, false, false, 141)], "method", false, false, false, 141))) {
+                    // line 175
+                    if ((CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 175, $this->source); })()), "user", [], "any", false, false, false, 175) && CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "isLikedByUser", [CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 175, $this->source); })()), "user", [], "any", false, false, false, 175)], "method", false, false, false, 175))) {
                         yield "fas";
                     } else {
                         yield "far";
@@ -366,24 +429,24 @@ class __TwigTemplate_2347e704b52a0a4b612aff4ebe4c8a3d extends Template
                     yield " fa-heart\"></i>
                 </a>
                 <span class=\"like-count\" data-bs-toggle=\"modal\" data-bs-target=\"#likesModal";
-                    // line 143
-                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 143), "html", null, true);
+                    // line 177
+                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 177), "html", null, true);
                     yield "\" style=\"cursor: pointer;\">
                     ";
-                    // line 144
-                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "likes", [], "any", false, false, false, 144)), "html", null, true);
+                    // line 178
+                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "likes", [], "any", false, false, false, 178)), "html", null, true);
                     yield "
                 </span>
             </div>
         ";
                 }
-                // line 148
+                // line 182
                 yield "        <a href=\"";
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_publication_show", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 148)]), "html", null, true);
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_publication_show", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 182)]), "html", null, true);
                 yield "\" class=\"btn btn-link\">
             <i class=\"far fa-comment\"></i> Commenter (";
-                // line 149
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "comments", [], "any", false, false, false, 149)), "html", null, true);
+                // line 183
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "comments", [], "any", false, false, false, 183)), "html", null, true);
                 yield ")
         </a>
     </div>
@@ -391,25 +454,25 @@ class __TwigTemplate_2347e704b52a0a4b612aff4ebe4c8a3d extends Template
                 </div>
             ";
             } else {
-                // line 155
+                // line 189
                 yield "                ";
-                if ((((CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "status", [], "any", false, false, false, 155) == "pending") && CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 155, $this->source); })()), "user", [], "any", false, false, false, 155)) && (CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 155, $this->source); })()), "user", [], "any", false, false, false, 155) == CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "user", [], "any", false, false, false, 155)))) {
-                    // line 156
+                if ((((CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "status", [], "any", false, false, false, 189) == "pending") && CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 189, $this->source); })()), "user", [], "any", false, false, false, 189)) && (CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 189, $this->source); })()), "user", [], "any", false, false, false, 189) == CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "user", [], "any", false, false, false, 189)))) {
+                    // line 190
                     yield "                    <div class=\"toast-message\">
                         Votre publication est en attente de validation.
                     </div>
                 ";
                 }
-                // line 160
+                // line 194
                 yield "            ";
             }
-            // line 161
+            // line 195
             yield "        ";
             $context['_iterated'] = true;
         }
-        // line 167
+        // line 201
         if (!$context['_iterated']) {
-            // line 162
+            // line 196
             yield "            <div class=\"no-publications\">
                 <i class=\"far fa-comment-dots\"></i>
                 <p>Aucune publication pour le moment.</p>
@@ -420,56 +483,56 @@ class __TwigTemplate_2347e704b52a0a4b612aff4ebe4c8a3d extends Template
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_key'], $context['publication'], $context['_parent'], $context['_iterated']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 168
+        // line 202
         yield "    </div>
 </div>
 
 <!-- Modal for likes -->
 ";
-        // line 172
+        // line 206
         $context['_parent'] = $context;
-        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["publications"]) || array_key_exists("publications", $context) ? $context["publications"] : (function () { throw new RuntimeError('Variable "publications" does not exist.', 172, $this->source); })()));
+        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["publications"]) || array_key_exists("publications", $context) ? $context["publications"] : (function () { throw new RuntimeError('Variable "publications" does not exist.', 206, $this->source); })()));
         foreach ($context['_seq'] as $context["_key"] => $context["publication"]) {
-            // line 173
+            // line 207
             yield "    ";
-            if ((CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "status", [], "any", false, false, false, 173) == "approved")) {
-                // line 174
+            if ((CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "status", [], "any", false, false, false, 207) == "approved")) {
+                // line 208
                 yield "        <div class=\"modal fade\" id=\"likesModal";
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 174), "html", null, true);
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 208), "html", null, true);
                 yield "\" tabindex=\"-1\" aria-labelledby=\"likesModalLabel";
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 174), "html", null, true);
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 208), "html", null, true);
                 yield "\" aria-hidden=\"true\">
             <div class=\"modal-dialog\">
                 <div class=\"modal-content\">
                     <div class=\"modal-header\">
                         <h5 class=\"modal-title\" id=\"likesModalLabel";
-                // line 178
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 178), "html", null, true);
+                // line 212
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 212), "html", null, true);
                 yield "\">Liste des utilisateurs ayant aimé la publication</h5>
                         <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>
                     </div>
                     <div class=\"modal-body\">
                         ";
-                // line 182
-                if ((Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "likes", [], "any", false, false, false, 182)) > 0)) {
-                    // line 183
+                // line 216
+                if ((Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "likes", [], "any", false, false, false, 216)) > 0)) {
+                    // line 217
                     yield "                            <ul class=\"list-group\">
                                 ";
-                    // line 184
+                    // line 218
                     $context['_parent'] = $context;
-                    $context['_seq'] = CoreExtension::ensureTraversable(CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "likes", [], "any", false, false, false, 184));
+                    $context['_seq'] = CoreExtension::ensureTraversable(CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "likes", [], "any", false, false, false, 218));
                     foreach ($context['_seq'] as $context["_key"] => $context["like"]) {
-                        // line 185
+                        // line 219
                         yield "                                    <li class=\"list-group-item d-flex align-items-center\">
                                         <img src=\"";
-                        // line 186
+                        // line 220
                         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("images/img2.png"), "html", null, true);
                         yield "\" class=\"user-avatar me-2\" alt=\"Avatar\" style=\"width: 30px; height: 30px; border-radius: 50%;\">
                                         <span>";
-                        // line 187
-                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["like"], "user", [], "any", false, false, false, 187), "prenom", [], "any", false, false, false, 187), "html", null, true);
+                        // line 221
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["like"], "user", [], "any", false, false, false, 221), "prenom", [], "any", false, false, false, 221), "html", null, true);
                         yield " ";
-                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["like"], "user", [], "any", false, false, false, 187), "nom", [], "any", false, false, false, 187), "html", null, true);
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["like"], "user", [], "any", false, false, false, 221), "nom", [], "any", false, false, false, 221), "html", null, true);
                         yield "</span>
                                     </li>
                                 ";
@@ -477,15 +540,15 @@ class __TwigTemplate_2347e704b52a0a4b612aff4ebe4c8a3d extends Template
                     $_parent = $context['_parent'];
                     unset($context['_seq'], $context['_key'], $context['like'], $context['_parent']);
                     $context = array_intersect_key($context, $_parent) + $_parent;
-                    // line 190
+                    // line 224
                     yield "                            </ul>
                         ";
                 } else {
-                    // line 192
+                    // line 226
                     yield "                            <p class=\"text-center\">Aucun like pour le moment</p>
                         ";
                 }
-                // line 194
+                // line 228
                 yield "                    </div>
                 </div>
             </div>
@@ -496,11 +559,68 @@ class __TwigTemplate_2347e704b52a0a4b612aff4ebe4c8a3d extends Template
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_key'], $context['publication'], $context['_parent']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 200
+        // line 234
         yield "
 <style>
 
 
+.category-select .input-group-text {
+    background-color: #95E1D3;
+    border: none;
+    color: white;
+    border-radius: 8px 0 0 8px;
+        padding: 0 1rem;
+
+}
+
+.custom-select {
+     border: 2px solid #e0f3f8;
+    border-left: none;
+    border-radius: 0 8px 8px 0;
+    padding: 0.75rem 1.5rem;
+    height: auto;
+    background-image: url(\"data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%2395E1D3' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e\");
+    background-position: right 1rem center;
+    background-repeat: no-repeat;
+    background-size: 16px 12px;
+    appearance: none;
+}
+
+.custom-select:focus {
+ box-shadow: none;
+    border-color: #95E1D3;
+}
+
+.custom-select option {
+    padding: 0.5rem;
+    background: white;
+    color: #333;
+}
+
+.custom-select option:checked {
+    background-color: #95E1D3 !important;
+    color: white;
+}
+
+.custom-select:hover {
+    cursor: pointer;
+}
+.category-badge {
+    font-size: 0.75rem;
+    padding: 0.35em 0.65em;
+    border-radius: 0.25rem;
+}
+
+.badge-témoignage { background-color: #95E1D3; color: white; }
+.badge-question-médicale { background-color: #ff6b6b; color: white; }
+.badge-conseil { background-color: #4ecdc4; color: white; }
+.badge-autre { background-color: #ffe66d; color: black; }
+
+.category-filters .btn.active {
+    background-color: #95E1D3;
+    color: white;
+    border-color: #95E1D3;
+}
 .new-publication-form {
     background: white;
     border-radius: 8px;
@@ -1024,7 +1144,7 @@ function closeModal(modal) {
 }
 </script>
 ";
-        // line 726
+        // line 817
         yield from $this->unwrap()->yieldBlock('stylesheets', $context, $blocks);
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
@@ -1047,7 +1167,7 @@ function closeModal(modal) {
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "stylesheets"));
 
-        // line 727
+        // line 818
         yield from $this->yieldParentBlock("stylesheets", $context, $blocks);
         yield "
 <style>
@@ -1100,7 +1220,7 @@ function closeModal(modal) {
      */
     public function getDebugInfo(): array
     {
-        return array (  1051 => 727,  1028 => 726,  500 => 200,  489 => 194,  485 => 192,  481 => 190,  470 => 187,  466 => 186,  463 => 185,  459 => 184,  456 => 183,  454 => 182,  447 => 178,  437 => 174,  434 => 173,  430 => 172,  424 => 168,  413 => 162,  411 => 167,  407 => 161,  404 => 160,  398 => 156,  395 => 155,  386 => 149,  381 => 148,  374 => 144,  370 => 143,  361 => 141,  357 => 140,  354 => 139,  352 => 138,  346 => 134,  342 => 132,  335 => 128,  328 => 124,  322 => 123,  319 => 122,  317 => 121,  314 => 120,  305 => 117,  299 => 114,  296 => 113,  292 => 112,  287 => 111,  285 => 110,  280 => 108,  276 => 106,  273 => 105,  263 => 98,  259 => 97,  253 => 94,  250 => 93,  247 => 92,  245 => 91,  239 => 88,  235 => 86,  227 => 84,  221 => 80,  219 => 79,  215 => 77,  209 => 75,  203 => 71,  201 => 70,  197 => 68,  194 => 67,  189 => 66,  185 => 64,  179 => 61,  164 => 49,  155 => 42,  153 => 35,  145 => 29,  143 => 22,  138 => 20,  129 => 16,  125 => 14,  123 => 13,  120 => 12,  111 => 9,  108 => 8,  104 => 7,  101 => 6,  88 => 5,  65 => 3,  42 => 1,);
+        return array (  1171 => 818,  1148 => 817,  563 => 234,  552 => 228,  548 => 226,  544 => 224,  533 => 221,  529 => 220,  526 => 219,  522 => 218,  519 => 217,  517 => 216,  510 => 212,  500 => 208,  497 => 207,  493 => 206,  487 => 202,  476 => 196,  474 => 201,  470 => 195,  467 => 194,  461 => 190,  458 => 189,  449 => 183,  444 => 182,  437 => 178,  433 => 177,  424 => 175,  420 => 174,  417 => 173,  415 => 172,  409 => 168,  405 => 166,  398 => 162,  391 => 158,  385 => 157,  382 => 156,  380 => 155,  377 => 154,  368 => 151,  362 => 148,  359 => 147,  355 => 146,  350 => 145,  348 => 144,  343 => 142,  339 => 140,  336 => 139,  326 => 132,  322 => 131,  316 => 128,  313 => 127,  310 => 126,  308 => 125,  302 => 122,  295 => 118,  290 => 117,  282 => 115,  276 => 111,  274 => 110,  266 => 104,  260 => 102,  254 => 98,  252 => 97,  248 => 95,  245 => 94,  240 => 93,  234 => 89,  225 => 86,  221 => 85,  216 => 84,  212 => 83,  206 => 80,  202 => 79,  198 => 77,  192 => 74,  177 => 62,  169 => 56,  167 => 52,  155 => 42,  153 => 35,  145 => 29,  143 => 22,  138 => 20,  129 => 16,  125 => 14,  123 => 13,  120 => 12,  111 => 9,  108 => 8,  104 => 7,  101 => 6,  88 => 5,  65 => 3,  42 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -1149,7 +1269,20 @@ function closeModal(modal) {
                         }) }}
                     </label>
                 </div>
+            </br></br>
 
+        <div class=\"form-group category-select\">
+                <div class=\"input-group\">
+                    <span class=\"input-group-text\">
+                        <i class=\"fas fa-tag\"></i>
+                    </span>
+                    {{ form_widget(form.category, {
+                        'attr': {
+                            'class': 'form-select custom-select'
+                        }
+                    }) }}
+                </div>
+            </div> 
                 <div class=\"form-actions\">
                     <div class=\"anonymous-option\">
                         <label class=\"anonymous-toggle\">
@@ -1168,6 +1301,20 @@ function closeModal(modal) {
             {{ form_end(form) }}
         </div>
     {% endif %}
+<div class=\"category-filters mb-4\">
+    <div class=\"btn-group\" role=\"group\">
+        <a href=\"{{ path('app_publication_index') }}\" 
+           class=\"btn btn-outline-secondary {{ not app.request.query.get('category') ? 'active' }}\">
+            Toutes
+        </a>
+        {% for category in ['Témoignage', 'Question médicale', 'Conseil', 'Autre'] %}
+            <a href=\"{{ path('app_publication_index', {category: category}) }}\" 
+               class=\"btn btn-outline-secondary {{ app.request.query.get('category') == category ? 'active' }}\">
+                {{ category }}
+            </a>
+        {% endfor %}
+    </div>    </div>
+
 
     <div class=\"publications-list\">
         {% for publication in publications %}
@@ -1182,7 +1329,11 @@ function closeModal(modal) {
                             <img src=\"{{ asset('images/img2.png') }}\" class=\"user-avatar\" alt=\"Avatar\">
                         {% endif %}
                         <div class=\"publication-info\">
+                                <div class=\"d-flex align-items-center gap-2\">
+
                             <div class=\"author-name\">
+                           
+            </div>
                                 {% if publication.isAnonymous %}
                                     <span class=\"anonymous-badge\">
                                         <i class=\"fas fa-user-secret\"></i> Anonyme
@@ -1190,6 +1341,9 @@ function closeModal(modal) {
                                 {% else %}
                                     {{ publication.user.prenom }} {{ publication.user.nom }}
                                 {% endif %}
+                                   <span class=\"badge category-badge badge-{{ publication.category|lower|replace({' ': '-'}) }}\">
+                {{ publication.category }}
+            </span>
                             </div>
                             <span class=\"publication-date\">
                                 <i class=\"far fa-clock\"></i> {{ publication.datePb|date('d/m/Y H:i') }}
@@ -1308,6 +1462,63 @@ function closeModal(modal) {
 <style>
 
 
+.category-select .input-group-text {
+    background-color: #95E1D3;
+    border: none;
+    color: white;
+    border-radius: 8px 0 0 8px;
+        padding: 0 1rem;
+
+}
+
+.custom-select {
+     border: 2px solid #e0f3f8;
+    border-left: none;
+    border-radius: 0 8px 8px 0;
+    padding: 0.75rem 1.5rem;
+    height: auto;
+    background-image: url(\"data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%2395E1D3' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e\");
+    background-position: right 1rem center;
+    background-repeat: no-repeat;
+    background-size: 16px 12px;
+    appearance: none;
+}
+
+.custom-select:focus {
+ box-shadow: none;
+    border-color: #95E1D3;
+}
+
+.custom-select option {
+    padding: 0.5rem;
+    background: white;
+    color: #333;
+}
+
+.custom-select option:checked {
+    background-color: #95E1D3 !important;
+    color: white;
+}
+
+.custom-select:hover {
+    cursor: pointer;
+}
+.category-badge {
+    font-size: 0.75rem;
+    padding: 0.35em 0.65em;
+    border-radius: 0.25rem;
+}
+
+.badge-témoignage { background-color: #95E1D3; color: white; }
+.badge-question-médicale { background-color: #ff6b6b; color: white; }
+.badge-conseil { background-color: #4ecdc4; color: white; }
+.badge-autre { background-color: #ffe66d; color: black; }
+
+.category-filters .btn.active {
+    background-color: #95E1D3;
+    color: white;
+    border-color: #95E1D3;
+}
 .new-publication-form {
     background: white;
     border-radius: 8px;

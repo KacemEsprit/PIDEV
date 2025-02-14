@@ -1,4 +1,13 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+<div class="form-group category-select">
+    <div class="input-group">
+        <span class="input-group-text">
+            <i class="fas fa-tag"></i>
+        </span>
+        {{ form_widget(form.category, {
+            'attr': {
+                'class': 'form-select custom-select',
+                'data-style': 'btn-primary'
+            }
+        }) }}
+    </div>
+</div>

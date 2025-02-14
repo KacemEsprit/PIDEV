@@ -112,20 +112,32 @@ class __TwigTemplate_80aac6c77f02f69ca83971f4e4a9b440 extends Template
         // line 20
         yield "
             </div>
-            
+
+            <div class=\"form-group category-select\">
+                <div class=\"input-group\">
+                    <span class=\"input-group-text\">
+                        <i class=\"fas fa-tag\"></i>
+                    </span>
+                    ";
+        // line 28
+        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 28, $this->source); })()), "category", [], "any", false, false, false, 28), 'widget', ["attr" => ["class" => "form-select custom-select"]]);
+        // line 32
+        yield "
+                </div>
+            </div> 
             <div class=\"form-group\">
                 ";
-        // line 24
-        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 24, $this->source); })()), "imageFiles", [], "any", false, false, false, 24), 'widget', ["attr" => ["class" => "form-control", "accept" => "image/*"]]);
-        // line 29
+        // line 36
+        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 36, $this->source); })()), "imageFiles", [], "any", false, false, false, 36), 'widget', ["attr" => ["class" => "form-control", "accept" => "image/*"]]);
+        // line 41
         yield "
             </div>
 
             <div class=\"form-group\">
                 <label class=\"anonymous-toggle\">
                     ";
-        // line 34
-        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 34, $this->source); })()), "isAnonymous", [], "any", false, false, false, 34), 'widget');
+        // line 46
+        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 46, $this->source); })()), "isAnonymous", [], "any", false, false, false, 46), 'widget');
         yield "
                     <span class=\"toggle-slider\"></span>
                     <span class=\"anonymous-label\">
@@ -136,7 +148,7 @@ class __TwigTemplate_80aac6c77f02f69ca83971f4e4a9b440 extends Template
 
             <div class=\"form-actions\">
                 <a href=\"";
-        // line 43
+        // line 55
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_publication_index");
         yield "\" class=\"btn btn-secondary\">
                     <i class=\"fas fa-arrow-left\"></i> Retour
@@ -146,27 +158,27 @@ class __TwigTemplate_80aac6c77f02f69ca83971f4e4a9b440 extends Template
                 </button>
             </div>
         ";
-        // line 50
-        yield         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 50, $this->source); })()), 'form_end');
+        // line 62
+        yield         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 62, $this->source); })()), 'form_end');
         yield "
     </div>
 
     ";
-        // line 53
-        if ((Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, (isset($context["publication"]) || array_key_exists("publication", $context) ? $context["publication"] : (function () { throw new RuntimeError('Variable "publication" does not exist.', 53, $this->source); })()), "imageUrls", [], "any", false, false, false, 53)) > 0)) {
-            // line 54
+        // line 65
+        if ((Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, (isset($context["publication"]) || array_key_exists("publication", $context) ? $context["publication"] : (function () { throw new RuntimeError('Variable "publication" does not exist.', 65, $this->source); })()), "imageUrls", [], "any", false, false, false, 65)) > 0)) {
+            // line 66
             yield "        <div class=\"current-images\">
             <h3>Images actuelles</h3>
             <div class=\"images-grid\">
                 ";
-            // line 57
+            // line 69
             $context['_parent'] = $context;
-            $context['_seq'] = CoreExtension::ensureTraversable(CoreExtension::getAttribute($this->env, $this->source, (isset($context["publication"]) || array_key_exists("publication", $context) ? $context["publication"] : (function () { throw new RuntimeError('Variable "publication" does not exist.', 57, $this->source); })()), "imageUrls", [], "any", false, false, false, 57));
+            $context['_seq'] = CoreExtension::ensureTraversable(CoreExtension::getAttribute($this->env, $this->source, (isset($context["publication"]) || array_key_exists("publication", $context) ? $context["publication"] : (function () { throw new RuntimeError('Variable "publication" does not exist.', 69, $this->source); })()), "imageUrls", [], "any", false, false, false, 69));
             foreach ($context['_seq'] as $context["_key"] => $context["imageUrl"]) {
-                // line 58
+                // line 70
                 yield "                    <div class=\"image-item\">
                         <img src=\"";
-                // line 59
+                // line 71
                 yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl($context["imageUrl"]), "html", null, true);
                 yield "\" alt=\"Image actuelle\" class=\"current-image\">
                     </div>
@@ -175,15 +187,59 @@ class __TwigTemplate_80aac6c77f02f69ca83971f4e4a9b440 extends Template
             $_parent = $context['_parent'];
             unset($context['_seq'], $context['_key'], $context['imageUrl'], $context['_parent']);
             $context = array_intersect_key($context, $_parent) + $_parent;
-            // line 62
+            // line 74
             yield "            </div>
         </div>
     ";
         }
-        // line 65
+        // line 77
         yield "</div>
 
 <style>
+    .category-select .input-group {
+    margin: 1rem 0;
+}
+
+.category-select .input-group-text {
+    background-color: #95E1D3;
+    border: none;
+    color: white;
+    border-radius: 8px 0 0 8px;
+    padding: 0 1rem;
+}
+
+.custom-select {
+    border: 2px solid #e0f3f8;
+    border-left: none;
+    border-radius: 0 8px 8px 0;
+    padding: 0.75rem 1.5rem;
+    height: auto;
+    background-image: url(\"data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%2395E1D3' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e\");
+    background-position: right 1rem center;
+    background-repeat: no-repeat;
+    background-size: 16px 12px;
+    appearance: none;
+}
+
+.custom-select:focus {
+    box-shadow: none;
+    border-color: #95E1D3;
+}
+
+.file-input-label {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: #e0f3f8;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #95E1D3;
+    width: 100%;
+    text-align: center;
+}
+
+.form-control-file {
+    display: none;
+}
 .edit-form-container {
     background: white;
     padding: 2rem;
@@ -193,7 +249,7 @@ class __TwigTemplate_80aac6c77f02f69ca83971f4e4a9b440 extends Template
 }
 
 .edit-form-container h1 {
-    color: #2d7a7a;
+    color: #95E1D3;
     margin-bottom: 1.5rem;
     font-size: 1.5rem;
 }
@@ -211,7 +267,7 @@ class __TwigTemplate_80aac6c77f02f69ca83971f4e4a9b440 extends Template
 
 .form-textarea:focus {
     outline: none;
-    border-color: #2d7a7a;
+    border-color: #95E1D3;
     box-shadow: 0 0 0 2px rgba(45, 122, 122, 0.2);
 }
 
@@ -255,7 +311,7 @@ class __TwigTemplate_80aac6c77f02f69ca83971f4e4a9b440 extends Template
 }
 
 .anonymous-toggle input[type=\"checkbox\"]:checked + .toggle-slider {
-    background: #2d7a7a;
+    background: #95E1D3;
 }
 
 .anonymous-toggle input[type=\"checkbox\"]:checked + .toggle-slider:before {
@@ -290,7 +346,7 @@ class __TwigTemplate_80aac6c77f02f69ca83971f4e4a9b440 extends Template
 }
 
 .btn-primary {
-    background: #2d7a7a;
+    background: #95E1D3;
     color: white;
 }
 
@@ -311,7 +367,7 @@ class __TwigTemplate_80aac6c77f02f69ca83971f4e4a9b440 extends Template
 }
 
 .current-images h3 {
-    color: #2d7a7a;
+    color: #95E1D3;
     margin-bottom: 1rem;
     font-size: 1.2rem;
 }
@@ -376,7 +432,7 @@ class __TwigTemplate_80aac6c77f02f69ca83971f4e4a9b440 extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  184 => 65,  179 => 62,  170 => 59,  167 => 58,  163 => 57,  158 => 54,  156 => 53,  150 => 50,  140 => 43,  128 => 34,  121 => 29,  119 => 24,  113 => 20,  111 => 12,  106 => 10,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
+        return array (  196 => 77,  191 => 74,  182 => 71,  179 => 70,  175 => 69,  170 => 66,  168 => 65,  162 => 62,  152 => 55,  140 => 46,  133 => 41,  131 => 36,  125 => 32,  123 => 28,  113 => 20,  111 => 12,  106 => 10,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -402,7 +458,19 @@ class __TwigTemplate_80aac6c77f02f69ca83971f4e4a9b440 extends Template
                     }
                 }) }}
             </div>
-            
+
+            <div class=\"form-group category-select\">
+                <div class=\"input-group\">
+                    <span class=\"input-group-text\">
+                        <i class=\"fas fa-tag\"></i>
+                    </span>
+                    {{ form_widget(form.category, {
+                        'attr': {
+                            'class': 'form-select custom-select'
+                        }
+                    }) }}
+                </div>
+            </div> 
             <div class=\"form-group\">
                 {{ form_widget(form.imageFiles, {
                     'attr': {
@@ -448,6 +516,50 @@ class __TwigTemplate_80aac6c77f02f69ca83971f4e4a9b440 extends Template
 </div>
 
 <style>
+    .category-select .input-group {
+    margin: 1rem 0;
+}
+
+.category-select .input-group-text {
+    background-color: #95E1D3;
+    border: none;
+    color: white;
+    border-radius: 8px 0 0 8px;
+    padding: 0 1rem;
+}
+
+.custom-select {
+    border: 2px solid #e0f3f8;
+    border-left: none;
+    border-radius: 0 8px 8px 0;
+    padding: 0.75rem 1.5rem;
+    height: auto;
+    background-image: url(\"data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%2395E1D3' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e\");
+    background-position: right 1rem center;
+    background-repeat: no-repeat;
+    background-size: 16px 12px;
+    appearance: none;
+}
+
+.custom-select:focus {
+    box-shadow: none;
+    border-color: #95E1D3;
+}
+
+.file-input-label {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: #e0f3f8;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #95E1D3;
+    width: 100%;
+    text-align: center;
+}
+
+.form-control-file {
+    display: none;
+}
 .edit-form-container {
     background: white;
     padding: 2rem;
@@ -457,7 +569,7 @@ class __TwigTemplate_80aac6c77f02f69ca83971f4e4a9b440 extends Template
 }
 
 .edit-form-container h1 {
-    color: #2d7a7a;
+    color: #95E1D3;
     margin-bottom: 1.5rem;
     font-size: 1.5rem;
 }
@@ -475,7 +587,7 @@ class __TwigTemplate_80aac6c77f02f69ca83971f4e4a9b440 extends Template
 
 .form-textarea:focus {
     outline: none;
-    border-color: #2d7a7a;
+    border-color: #95E1D3;
     box-shadow: 0 0 0 2px rgba(45, 122, 122, 0.2);
 }
 
@@ -519,7 +631,7 @@ class __TwigTemplate_80aac6c77f02f69ca83971f4e4a9b440 extends Template
 }
 
 .anonymous-toggle input[type=\"checkbox\"]:checked + .toggle-slider {
-    background: #2d7a7a;
+    background: #95E1D3;
 }
 
 .anonymous-toggle input[type=\"checkbox\"]:checked + .toggle-slider:before {
@@ -554,7 +666,7 @@ class __TwigTemplate_80aac6c77f02f69ca83971f4e4a9b440 extends Template
 }
 
 .btn-primary {
-    background: #2d7a7a;
+    background: #95E1D3;
     color: white;
 }
 
@@ -575,7 +687,7 @@ class __TwigTemplate_80aac6c77f02f69ca83971f4e4a9b440 extends Template
 }
 
 .current-images h3 {
-    color: #2d7a7a;
+    color: #95E1D3;
     margin-bottom: 1rem;
     font-size: 1.2rem;
 }
@@ -609,7 +721,6 @@ class __TwigTemplate_80aac6c77f02f69ca83971f4e4a9b440 extends Template
     }
 }
 </style>
-{% endblock %}
-", "publication/edit.html.twig", "D:\\PIDEV\\oncokidscare\\templates\\publication\\edit.html.twig");
+{% endblock %}", "publication/edit.html.twig", "D:\\PIDEV\\oncokidscare\\templates\\publication\\edit.html.twig");
     }
 }

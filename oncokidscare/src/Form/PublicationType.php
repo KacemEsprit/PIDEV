@@ -7,11 +7,13 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\All;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Count;
+use Symfony\Component\Validator\Constraints\NotNull;
 
 class PublicationType extends AbstractType
 {
@@ -63,6 +65,23 @@ class PublicationType extends AbstractType
                     'class' => 'anonymous-checkbox'
                 ]
             ])
+            ->add('category', ChoiceType::class, [
+    'label' => 'Catégorie',
+    'choices' => [
+        'Témoignage' => 'Témoignage',
+        'Question médicale' => 'Question médicale',
+        'Conseil' => 'Conseil',
+        'Autre' => 'Autre'
+    ],
+    'placeholder' => 'Choisir une catégorie',
+    'attr' => [
+        'class' => 'form-select',
+        'required' => true
+    ],
+    'constraints' => [
+        new NotNull()
+    ]
+])
         ;
     }
 

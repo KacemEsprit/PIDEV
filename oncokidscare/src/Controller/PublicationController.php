@@ -149,16 +149,21 @@ class PublicationController extends AbstractController
             $publication->setUser($user);
             $publication->setStatus('pending');
             $publicationRepository->save($publication, true);
+    $category = $request->query->get('category');
 
             $this->addFlash('info', 'Votre publication a été envoyée aux admins. Veuillez attendre l\'approbation.');
 
             return $this->redirectToRoute('app_publication_index');
         }
 
-        return $this->render('publication/index.html.twig', [
-            'publications' => $publicationRepository->findAllOrderedByDate(),
-            'form' => $form->createView(),
-        ]);
+$category = $request->query->get('category');
+return $this->render('publication/index.html.twig', [
+    'publications' => $category 
+        ? $publicationRepository->findByCategory($category)
+        : $publicationRepository->findAllOrderedByDate(),
+    'form' => $form->createView(),
+]);
+        
     }
 
     #[Route('/new', name: 'app_publication_new', methods: ['GET', 'POST'])]

@@ -42,7 +42,20 @@
                         }) }}
                     </label>
                 </div>
+            </br></br>
 
+        <div class="form-group category-select">
+                <div class="input-group">
+                    <span class="input-group-text">
+                        <i class="fas fa-tag"></i>
+                    </span>
+                    {{ form_widget(form.category, {
+                        'attr': {
+                            'class': 'form-select custom-select'
+                        }
+                    }) }}
+                </div>
+            </div> 
                 <div class="form-actions">
                     <div class="anonymous-option">
                         <label class="anonymous-toggle">
@@ -61,6 +74,20 @@
             {{ form_end(form) }}
         </div>
     {% endif %}
+<div class="category-filters mb-4">
+    <div class="btn-group" role="group">
+        <a href="{{ path('app_publication_index') }}" 
+           class="btn btn-outline-secondary {{ not app.request.query.get('category') ? 'active' }}">
+            Toutes
+        </a>
+        {% for category in ['Témoignage', 'Question médicale', 'Conseil', 'Autre'] %}
+            <a href="{{ path('app_publication_index', {category: category}) }}" 
+               class="btn btn-outline-secondary {{ app.request.query.get('category') == category ? 'active' }}">
+                {{ category }}
+            </a>
+        {% endfor %}
+    </div>    </div>
+
 
     <div class="publications-list">
         {% for publication in publications %}
@@ -75,7 +102,11 @@
                             <img src="{{ asset('images/img2.png') }}" class="user-avatar" alt="Avatar">
                         {% endif %}
                         <div class="publication-info">
+                                <div class="d-flex align-items-center gap-2">
+
                             <div class="author-name">
+                           
+            </div>
                                 {% if publication.isAnonymous %}
                                     <span class="anonymous-badge">
                                         <i class="fas fa-user-secret"></i> Anonyme
@@ -83,6 +114,9 @@
                                 {% else %}
                                     {{ publication.user.prenom }} {{ publication.user.nom }}
                                 {% endif %}
+                                   <span class="badge category-badge badge-{{ publication.category|lower|replace({' ': '-'}) }}">
+                {{ publication.category }}
+            </span>
                             </div>
                             <span class="publication-date">
                                 <i class="far fa-clock"></i> {{ publication.datePb|date('d/m/Y H:i') }}
@@ -201,6 +235,63 @@
 <style>
 
 
+.category-select .input-group-text {
+    background-color: #95E1D3;
+    border: none;
+    color: white;
+    border-radius: 8px 0 0 8px;
+        padding: 0 1rem;
+
+}
+
+.custom-select {
+     border: 2px solid #e0f3f8;
+    border-left: none;
+    border-radius: 0 8px 8px 0;
+    padding: 0.75rem 1.5rem;
+    height: auto;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%2395E1D3' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+    background-position: right 1rem center;
+    background-repeat: no-repeat;
+    background-size: 16px 12px;
+    appearance: none;
+}
+
+.custom-select:focus {
+ box-shadow: none;
+    border-color: #95E1D3;
+}
+
+.custom-select option {
+    padding: 0.5rem;
+    background: white;
+    color: #333;
+}
+
+.custom-select option:checked {
+    background-color: #95E1D3 !important;
+    color: white;
+}
+
+.custom-select:hover {
+    cursor: pointer;
+}
+.category-badge {
+    font-size: 0.75rem;
+    padding: 0.35em 0.65em;
+    border-radius: 0.25rem;
+}
+
+.badge-témoignage { background-color: #95E1D3; color: white; }
+.badge-question-médicale { background-color: #ff6b6b; color: white; }
+.badge-conseil { background-color: #4ecdc4; color: white; }
+.badge-autre { background-color: #ffe66d; color: black; }
+
+.category-filters .btn.active {
+    background-color: #95E1D3;
+    color: white;
+    border-color: #95E1D3;
+}
 .new-publication-form {
     background: white;
     border-radius: 8px;

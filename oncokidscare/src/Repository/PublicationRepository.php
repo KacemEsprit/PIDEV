@@ -46,4 +46,15 @@ class PublicationRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    public function findByCategory(string $category): array
+{
+    return $this->createQueryBuilder('p')
+        ->andWhere('p.category = :category')
+        ->andWhere('p.status = :status')
+        ->setParameter('category', $category)
+        ->setParameter('status', 'approved')
+        ->orderBy('p.datePb', 'DESC')
+        ->getQuery()
+        ->getResult();
+}
 }

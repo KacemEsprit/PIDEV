@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PublicationRepository::class)]
 class Publication
@@ -31,9 +32,15 @@ class Publication
     #[ORM\Column(type: 'json')]
     private array $imageUrls = [];
 
-    #[ORM\Column(type: 'string', length: 50, nullable: true)]
-    private ?string $category = null;
-
+ #[ORM\Column(length: 50)]
+#[Assert\NotBlank(message: "Veuillez sélectionner une catégorie")]
+#[Assert\Choice([
+    'Témoignage',
+    'Question médicale',
+    'Conseil',
+    'Autre'
+])]
+private ?string $category = null;
     #[ORM\Column(type: 'array', nullable: true)]
     private ?array $tags = [];
 
