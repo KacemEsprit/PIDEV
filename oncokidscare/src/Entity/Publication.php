@@ -17,9 +17,7 @@ class Publication
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $titre = null;
-
+  
     #[ORM\Column(type: Types::TEXT)]
     private ?string $contenu = null;
 
@@ -41,8 +39,6 @@ class Publication
     'Autre'
 ])]
 private ?string $category = null;
-    #[ORM\Column(type: 'array', nullable: true)]
-    private ?array $tags = [];
 
     #[ORM\Column(type: 'integer')]
     private int $viewCount = 0;
@@ -50,14 +46,9 @@ private ?string $category = null;
     #[ORM\OneToMany(mappedBy: 'publication', targetEntity: Like::class, orphanRemoval: true)]
     private Collection $likes;
 
-    #[ORM\Column(type: 'boolean')]
-    private bool $isModerated = false;
 
-    #[ORM\Column(type: 'boolean')]
-    private bool $isPinned = false;
 
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    private ?\DateTimeInterface $lastEditDate = null;
+  
 
     #[ORM\Column(type: 'string', length: 20, options: ['default' => 'pending'])]
     private string $status = 'pending';
@@ -74,7 +65,6 @@ private ?string $category = null;
         $this->comments = new ArrayCollection();
         $this->likes = new ArrayCollection();
         $this->imageUrls = [];
-        $this->tags = [];
         $this->datePb = new \DateTime();
     }
 
@@ -83,16 +73,6 @@ private ?string $category = null;
         return $this->id;
     }
 
-    public function getTitre(): ?string
-    {
-        return $this->titre;
-    }
-
-    public function setTitre(?string $titre): self
-    {
-        $this->titre = $titre;
-        return $this;
-    }
 
     public function getContenu(): ?string
     {
@@ -149,16 +129,7 @@ private ?string $category = null;
         return $this;
     }
 
-    public function getTags(): ?array
-    {
-        return $this->tags;
-    }
 
-    public function setTags(?array $tags): self
-    {
-        $this->tags = $tags;
-        return $this;
-    }
 
     public function getViewCount(): int
     {
@@ -224,38 +195,10 @@ private ?string $category = null;
         return $this->likes->count();
     }
 
-    public function getIsModerated(): bool
-    {
-        return $this->isModerated;
-    }
 
-    public function setIsModerated(bool $isModerated): self
-    {
-        $this->isModerated = $isModerated;
-        return $this;
-    }
 
-    public function getIsPinned(): bool
-    {
-        return $this->isPinned;
-    }
-
-    public function setIsPinned(bool $isPinned): self
-    {
-        $this->isPinned = $isPinned;
-        return $this;
-    }
-
-    public function getLastEditDate(): ?\DateTimeInterface
-    {
-        return $this->lastEditDate;
-    }
-
-    public function setLastEditDate(?\DateTimeInterface $lastEditDate): self
-    {
-        $this->lastEditDate = $lastEditDate;
-        return $this;
-    }
+  
+ 
 
     public function getStatus(): string
     {

@@ -428,3 +428,6 @@ cec6ca,127.0.0.1,GET,http://127.0.0.1:8000/publication/?category=Question%20m%C3
 5734bc,127.0.0.1,GET,http://127.0.0.1:8000/publication/?category=Conseil,1739573995,,200,request
 1c791d,127.0.0.1,GET,http://127.0.0.1:8000/publication/?category=Autre,1739573996,,200,request
 a3d79e,127.0.0.1,GET,http://127.0.0.1:8000/publication/,1739573998,,200,request
+2fa4ce,127.0.0.1,GET,http://127.0.0.1:8000/publication/,1739574054,,200,request
+62869c,127.0.0.1,GET,http://127.0.0.1:8000/groups/,1739574120,,200,request
+748feb,127.0.0.1,GET,http://127.0.0.1:8000/publication/,1739574395,,200,request
