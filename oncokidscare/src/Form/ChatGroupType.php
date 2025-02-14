@@ -41,16 +41,7 @@ class ChatGroupType extends AbstractType
                     'class' => 'form-control'
                 ]
             ])
-            ->add('isPublic', CheckboxType::class, [
-                'label' => 'Groupe public',
-                'required' => false,
-                'attr' => [
-                    'class' => 'form-check-input'
-                ],
-                'label_attr' => [
-                    'class' => 'form-check-label'
-                ]
-            ])
+            
             ->add('members', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => function (User $user) {
