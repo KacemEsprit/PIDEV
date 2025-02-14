@@ -2,110 +2,166 @@
 
 {% block title %}Nouvelle Publication{% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    <style>
-        .community-header {
-            text-align: center;
-            margin-bottom: 2rem;
-            padding: 2rem 0;
-            background: #f8f9fa;
-        }
-
-        .slogan {
-            color: #6c757d;
-            font-style: italic;
-            margin-top: 0.5rem;
-        }
-
-        .hospital-post {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        
-        .form-control {
-            width: 100%;
-            padding: 1rem;
-            border: 2px solid #e0f3f8;
-            border-radius: 8px;
-            resize: vertical;
-            min-height: 120px;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            white-space: pre-wrap;
-        }
-
-        .form-control:focus {
-            border-color: #2d7a7a;
-            box-shadow: 0 0 0 0.2rem rgba(45, 122, 122, 0.25);
-            outline: none;
-        }
-
-        .submit-btn {
-            background: #2d7a7a;
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 4px;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-             gap: 0.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .submit-btn:hover {
-            background: #236161;
-        }
-
-        .back-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: #2d7a7a;
-            text-decoration: none;
-            margin-top: 1rem;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-        }
-
-        .back-btn:hover {
-            background: rgba(45, 122, 122, 0.1);
-        }
-    </style>
-{% endblock %}
-    <div class="community-header">
-        <h1>Créer une nouvelle publication</h1>
-        <p class="slogan">"Votre expérience peut aider d'autres patients"</p>
-    </div>
 {% block body %}
-
-    <div class="hospital-post">
-        {{ form_start(form) }}
-            <div class="form-group">
-                {{ form_label(form.contenu) }}
-                {{ form_widget(form.contenu, {'attr': {
-                    'class': 'form-control',
-                    'rows': 5,
-                    'style': 'max-width: 100%;'
-                }}) }}
+    <div class="container mt-4">
+        <div class="new-publication-form">
+            <div class="form-header">
+                <img src="{{ asset('images/img2.png') }}" class="user-avatar" alt="{{ app.user.prenom }}">
+                <h2>Créer une publication</h2>
             </div>
-            <button type="submit" class="submit-btn">
-                <i class="fas fa-share-medical"></i> Publier
-            </button>
-        {{ form_end(form) }}
 
-        <a href="{{ path('app_publication_index') }}" class="back-btn">
-            <i class="fas fa-arrow-left"></i> Retour à la liste
-        </a>
+            {{ form_start(form, {'attr': {'class': 'publication-form'}}) }}
+                <div class="form-group mb-3">
+                    {{ form_label(form.categorie, 'Catégorie') }}
+                    {{ form_widget(form.categorie, {
+                        'attr': {
+                            'class': 'form-control',
+                            'required': 'required'
+                        }
+                    }) }}
+                    {{ form_errors(form.categorie) }}
+                </div>
+
+                <div class="form-group mb-3">
+                    {{ form_widget(form.contenu, {
+                        'attr': {
+                            'placeholder': 'Partagez votre expérience ou posez une question...',
+                            'class': 'form-control',
+                            'rows': 5,
+                            'required': 'required'
+                        }
+                    }) }}
+                    {{ form_errors(form.contenu) }}
+                </div>
+                
+                <div class="form-group mb-3">
+                    <label class="file-input-label">
+                        <i class="fas fa-camera"></i> Photos (maximum 5)
+                        {{ form_widget(form.imageFiles, {
+                            'attr': {
+                                'class': 'form-control-file',
+                                'accept': 'image/*',
+                                'multiple': true,
+                                'data-max-files': 5
+                            }
+                        }) }}
+                    </label>
+                    {{ form_errors(form.imageFiles) }}
+                </div>
+
+                <div class="form-actions">
+                    <div class="anonymous-option">
+                        <label class="anonymous-toggle">
+                            {{ form_widget(form.isAnonymous) }}
+                            <span class="toggle-slider"></span>
+                            <span class="toggle-label">
+                                <i class="fas fa-user-secret"></i> Publier en anonyme
+                            </span>
+                        </label>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <a href="{{ path('app_publication_index') }}" class="btn btn-secondary me-2">
+                            <i class="fas fa-arrow-left"></i> Retour
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i> Publier
+                        </button>
+                    </div>
+                </div>
+            {{ form_end(form) }}
+        </div>
     </div>
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+.new-publication-form {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.form-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.form-header h2 {
+    margin: 0 0 0 1rem;
+    color: #95E1D3;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.file-input-label {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: #e0f3f8;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #95E1D3;
+}
+
+.file-input-label i {
+    margin-right: 0.5rem;
+}
+
+.form-control-file {
+    display: none;
+}
+
+.anonymous-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.toggle-slider {
+    width: 40px;
+    height: 20px;
+    background: #e0f3f8;
+    border-radius: 20px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.toggle-slider:before {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background: white;
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    transition: all 0.3s ease;
+}
+
+.anonymous-toggle input[type="checkbox"] {
+    display: none;
+}
+
+.anonymous-toggle input[type="checkbox"]:checked + .toggle-slider {
+    background: #95E1D3;
+}
+
+.anonymous-toggle input[type="checkbox"]:checked + .toggle-slider:before {
+    transform: translateX(20px);
+}
+
+.toggle-label {
+    color: #495057;
+}
+</style>
 {% endblock %}
