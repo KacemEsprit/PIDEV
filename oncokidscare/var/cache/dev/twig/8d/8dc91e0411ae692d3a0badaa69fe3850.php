@@ -582,7 +582,7 @@ class __TwigTemplate_080bce27436d91342550f3e04acb7765 extends Template
 
 
 .publication-card {
-  background: white;
+  background: #fefcfc ;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 1.5rem;
@@ -965,7 +965,7 @@ pre, code, a {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    width: 350px;
+    width: 320px;
     background: white;
     border-radius: 15px;
     box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
@@ -1639,7 +1639,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 .publication-card {
-  background: white;
+  background: #fefcfc ;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 1.5rem;
@@ -2022,7 +2022,7 @@ pre, code, a {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    width: 350px;
+    width: 320px;
     background: white;
     border-radius: 15px;
     box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
