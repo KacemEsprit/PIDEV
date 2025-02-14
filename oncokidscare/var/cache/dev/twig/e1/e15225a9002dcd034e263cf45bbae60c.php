@@ -139,7 +139,7 @@ class __TwigTemplate_ee7ebe0901f3a99a3da2d723533ca874 extends Template
         vertical-align: middle;
     }
     th {
-        background-color: #4a90e2;
+        background-color: #95E1D3;
         color: white;
         font-weight: 500;
         text-transform: uppercase;
@@ -218,9 +218,9 @@ class __TwigTemplate_ee7ebe0901f3a99a3da2d723533ca874 extends Template
     }
     
     .filter-btn.active {
-        background-color: #4a90e2;
+        background-color: #95E1D3;
         color: white;
-        border-color: #4a90e2;
+        border-color: #95E1D3;
     }
     
     .filter-btn:hover {
@@ -228,7 +228,7 @@ class __TwigTemplate_ee7ebe0901f3a99a3da2d723533ca874 extends Template
     }
     
     .filter-btn.active:hover {
-        background-color: #357abd;
+        background-color: #198754;
           }
     
     .status-approved {
@@ -581,7 +581,7 @@ document.addEventListener('DOMContentLoaded', function() {
         vertical-align: middle;
     }
     th {
-        background-color: #4a90e2;
+        background-color: #95E1D3;
         color: white;
         font-weight: 500;
         text-transform: uppercase;
@@ -660,9 +660,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     .filter-btn.active {
-        background-color: #4a90e2;
+        background-color: #95E1D3;
         color: white;
-        border-color: #4a90e2;
+        border-color: #95E1D3;
     }
     
     .filter-btn:hover {
@@ -670,7 +670,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     .filter-btn.active:hover {
-        background-color: #357abd;
+        background-color: #198754;
           }
     
     .status-approved {

@@ -32,6 +32,7 @@ class __TwigTemplate_2347e704b52a0a4b612aff4ebe4c8a3d extends Template
         $this->blocks = [
             'title' => [$this, 'block_title'],
             'body' => [$this, 'block_body'],
+            'stylesheets' => [$this, 'block_stylesheets'],
         ];
     }
 
@@ -244,7 +245,7 @@ class __TwigTemplate_2347e704b52a0a4b612aff4ebe4c8a3d extends Template
                 if ((CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 91, $this->source); })()), "user", [], "any", false, false, false, 91) && CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "user", [], "any", false, false, false, 91))) {
                     // line 92
                     yield "                            ";
-                    if (((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 92, $this->source); })()), "user", [], "any", false, false, false, 92), "id", [], "any", false, false, false, 92) == CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "user", [], "any", false, false, false, 92), "id", [], "any", false, false, false, 92)) || $this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("ROLE_ADMIN"))) {
+                    if ((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 92, $this->source); })()), "user", [], "any", false, false, false, 92), "id", [], "any", false, false, false, 92) == CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "user", [], "any", false, false, false, 92), "id", [], "any", false, false, false, 92))) {
                         // line 93
                         yield "                                <div class=\"publication-actions\">
                                     <a href=\"";
@@ -350,31 +351,39 @@ class __TwigTemplate_2347e704b52a0a4b612aff4ebe4c8a3d extends Template
                 // line 138
                 if ($this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("IS_AUTHENTICATED_FULLY")) {
                     // line 139
-                    yield "            <a href=\"";
-                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_publication_like", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 139)]), "html", null, true);
-                    yield "\" class=\"btn btn-link\">
-                <i class=\"";
+                    yield "            <div class=\"like-section d-flex align-items-center\">
+                <a href=\"";
                     // line 140
-                    if ((CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 140, $this->source); })()), "user", [], "any", false, false, false, 140) && CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "isLikedByUser", [CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 140, $this->source); })()), "user", [], "any", false, false, false, 140)], "method", false, false, false, 140))) {
+                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_publication_like", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 140)]), "html", null, true);
+                    yield "\" class=\"btn btn-link me-1\">
+                    <i class=\"";
+                    // line 141
+                    if ((CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 141, $this->source); })()), "user", [], "any", false, false, false, 141) && CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "isLikedByUser", [CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 141, $this->source); })()), "user", [], "any", false, false, false, 141)], "method", false, false, false, 141))) {
                         yield "fas";
                     } else {
                         yield "far";
                     }
                     yield " fa-heart\"></i>
-                <span>";
-                    // line 141
-                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "likes", [], "any", false, false, false, 141)), "html", null, true);
-                    yield "</span>
-            </a>
+                </a>
+                <span class=\"like-count\" data-bs-toggle=\"modal\" data-bs-target=\"#likesModal";
+                    // line 143
+                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 143), "html", null, true);
+                    yield "\" style=\"cursor: pointer;\">
+                    ";
+                    // line 144
+                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "likes", [], "any", false, false, false, 144)), "html", null, true);
+                    yield "
+                </span>
+            </div>
         ";
                 }
-                // line 144
+                // line 148
                 yield "        <a href=\"";
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_publication_show", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 144)]), "html", null, true);
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_publication_show", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 148)]), "html", null, true);
                 yield "\" class=\"btn btn-link\">
             <i class=\"far fa-comment\"></i> Commenter (";
-                // line 145
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "comments", [], "any", false, false, false, 145)), "html", null, true);
+                // line 149
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "comments", [], "any", false, false, false, 149)), "html", null, true);
                 yield ")
         </a>
     </div>
@@ -382,25 +391,25 @@ class __TwigTemplate_2347e704b52a0a4b612aff4ebe4c8a3d extends Template
                 </div>
             ";
             } else {
-                // line 151
+                // line 155
                 yield "                ";
-                if ((((CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "status", [], "any", false, false, false, 151) == "pending") && CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 151, $this->source); })()), "user", [], "any", false, false, false, 151)) && (CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 151, $this->source); })()), "user", [], "any", false, false, false, 151) == CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "user", [], "any", false, false, false, 151)))) {
-                    // line 152
+                if ((((CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "status", [], "any", false, false, false, 155) == "pending") && CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 155, $this->source); })()), "user", [], "any", false, false, false, 155)) && (CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 155, $this->source); })()), "user", [], "any", false, false, false, 155) == CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "user", [], "any", false, false, false, 155)))) {
+                    // line 156
                     yield "                    <div class=\"toast-message\">
                         Votre publication est en attente de validation.
                     </div>
                 ";
                 }
-                // line 156
+                // line 160
                 yield "            ";
             }
-            // line 157
+            // line 161
             yield "        ";
             $context['_iterated'] = true;
         }
-        // line 163
+        // line 167
         if (!$context['_iterated']) {
-            // line 158
+            // line 162
             yield "            <div class=\"no-publications\">
                 <i class=\"far fa-comment-dots\"></i>
                 <p>Aucune publication pour le moment.</p>
@@ -411,16 +420,85 @@ class __TwigTemplate_2347e704b52a0a4b612aff4ebe4c8a3d extends Template
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_key'], $context['publication'], $context['_parent'], $context['_iterated']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 164
+        // line 168
         yield "    </div>
 </div>
 
+<!-- Modal for likes -->
+";
+        // line 172
+        $context['_parent'] = $context;
+        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["publications"]) || array_key_exists("publications", $context) ? $context["publications"] : (function () { throw new RuntimeError('Variable "publications" does not exist.', 172, $this->source); })()));
+        foreach ($context['_seq'] as $context["_key"] => $context["publication"]) {
+            // line 173
+            yield "    ";
+            if ((CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "status", [], "any", false, false, false, 173) == "approved")) {
+                // line 174
+                yield "        <div class=\"modal fade\" id=\"likesModal";
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 174), "html", null, true);
+                yield "\" tabindex=\"-1\" aria-labelledby=\"likesModalLabel";
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 174), "html", null, true);
+                yield "\" aria-hidden=\"true\">
+            <div class=\"modal-dialog\">
+                <div class=\"modal-content\">
+                    <div class=\"modal-header\">
+                        <h5 class=\"modal-title\" id=\"likesModalLabel";
+                // line 178
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "id", [], "any", false, false, false, 178), "html", null, true);
+                yield "\">Liste des utilisateurs ayant aimé la publication</h5>
+                        <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>
+                    </div>
+                    <div class=\"modal-body\">
+                        ";
+                // line 182
+                if ((Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "likes", [], "any", false, false, false, 182)) > 0)) {
+                    // line 183
+                    yield "                            <ul class=\"list-group\">
+                                ";
+                    // line 184
+                    $context['_parent'] = $context;
+                    $context['_seq'] = CoreExtension::ensureTraversable(CoreExtension::getAttribute($this->env, $this->source, $context["publication"], "likes", [], "any", false, false, false, 184));
+                    foreach ($context['_seq'] as $context["_key"] => $context["like"]) {
+                        // line 185
+                        yield "                                    <li class=\"list-group-item d-flex align-items-center\">
+                                        <img src=\"";
+                        // line 186
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("images/img2.png"), "html", null, true);
+                        yield "\" class=\"user-avatar me-2\" alt=\"Avatar\" style=\"width: 30px; height: 30px; border-radius: 50%;\">
+                                        <span>";
+                        // line 187
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["like"], "user", [], "any", false, false, false, 187), "prenom", [], "any", false, false, false, 187), "html", null, true);
+                        yield " ";
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["like"], "user", [], "any", false, false, false, 187), "nom", [], "any", false, false, false, 187), "html", null, true);
+                        yield "</span>
+                                    </li>
+                                ";
+                    }
+                    $_parent = $context['_parent'];
+                    unset($context['_seq'], $context['_key'], $context['like'], $context['_parent']);
+                    $context = array_intersect_key($context, $_parent) + $_parent;
+                    // line 190
+                    yield "                            </ul>
+                        ";
+                } else {
+                    // line 192
+                    yield "                            <p class=\"text-center\">Aucun like pour le moment</p>
+                        ";
+                }
+                // line 194
+                yield "                    </div>
+                </div>
+            </div>
+        </div>
+    ";
+            }
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_key'], $context['publication'], $context['_parent']);
+        $context = array_intersect_key($context, $_parent) + $_parent;
+        // line 200
+        yield "
 <style>
-.container {
-    background-color: #f8f9fa;
-    min-height: 100vh;
-    padding-top: 2rem;
-}
 
 
 .new-publication-form {
@@ -439,7 +517,7 @@ class __TwigTemplate_2347e704b52a0a4b612aff4ebe4c8a3d extends Template
 
 .form-header h2 {
     margin: 0 0 0 1rem;
-    color: #2d7a7a;
+    color: #95E1D3;
     font-size: 1.5rem;
 }
 
@@ -487,7 +565,7 @@ a, pre, code {
     overflow-wrap: break-word;
 }
 .form-control:focus {
-    border-color: #2d7a7a;
+    border-color: #95E1D3;
     box-shadow: 0 0 0 0.2rem rgba(45, 122, 122, 0.25);
 }
 
@@ -497,7 +575,7 @@ a, pre, code {
     background: #e0f3f8;
     border-radius: 4px;
     cursor: pointer;
-    color: #2d7a7a;
+    color: #95E1D3;
 }
 
 .file-input-label i {
@@ -548,7 +626,7 @@ a, pre, code {
 }
 
 .anonymous-toggle input[type=\"checkbox\"]:checked + .toggle-slider {
-    background: #2d7a7a;
+    background: #95E1D3;
 }
 
 .anonymous-toggle input[type=\"checkbox\"]:checked + .toggle-slider:before {
@@ -560,7 +638,7 @@ a, pre, code {
 }
 
 .btn-primary {
-    background: #2d7a7a;
+    background: #95E1D3;
     color: white;
     border: none;
     padding: 0.5rem 1.5rem;
@@ -604,7 +682,7 @@ a, pre, code {
 
 .author-name {
     font-weight: 600;
-    color: #2d7a7a;
+    color: #95E1D3;
     margin-bottom: 0.25rem;
 }
 
@@ -631,7 +709,7 @@ a, pre, code {
 }
 
 .btn-edit {
-    background: #2d7a7a;
+    background: #95E1D3;
 }
 
 .btn-delete {
@@ -731,7 +809,7 @@ display: grid;
 }
 
 .btn-link {
-    color: #2d7a7a;
+    color: #95E1D3;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
@@ -754,7 +832,7 @@ display: grid;
 .no-publications i {
     font-size: 3rem;
     margin-bottom: 1rem;
-    color: #2d7a7a;
+    color: #95E1D3;
 }
 
 .toast-message {
@@ -946,6 +1024,52 @@ function closeModal(modal) {
 }
 </script>
 ";
+        // line 726
+        yield from $this->unwrap()->yieldBlock('stylesheets', $context, $blocks);
+        
+        $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
+
+        
+        $__internal_5a27a8ba21ca79b61932376b2fa922d2->leave($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof);
+
+        yield from [];
+    }
+
+    /**
+     * @return iterable<null|scalar|\Stringable>
+     */
+    public function block_stylesheets(array $context, array $blocks = []): iterable
+    {
+        $macros = $this->macros;
+        $__internal_5a27a8ba21ca79b61932376b2fa922d2 = $this->extensions["Symfony\\Bundle\\WebProfilerBundle\\Twig\\WebProfilerExtension"];
+        $__internal_5a27a8ba21ca79b61932376b2fa922d2->enter($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "stylesheets"));
+
+        $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
+        $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "stylesheets"));
+
+        // line 727
+        yield from $this->yieldParentBlock("stylesheets", $context, $blocks);
+        yield "
+<style>
+    .like-count:hover {
+        text-decoration: underline;
+    }
+    
+    .modal-header {
+        background-color: #95E1D3;
+        color: white;
+    }
+    
+    .list-group-item {
+        border: none;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .list-group-item:last-child {
+        border-bottom: none;
+    }
+</style>
+";
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
 
@@ -976,7 +1100,7 @@ function closeModal(modal) {
      */
     public function getDebugInfo(): array
     {
-        return array (  415 => 164,  404 => 158,  402 => 163,  398 => 157,  395 => 156,  389 => 152,  386 => 151,  377 => 145,  372 => 144,  366 => 141,  358 => 140,  353 => 139,  351 => 138,  345 => 134,  341 => 132,  334 => 128,  327 => 124,  321 => 123,  318 => 122,  316 => 121,  313 => 120,  304 => 117,  298 => 114,  295 => 113,  291 => 112,  286 => 111,  284 => 110,  279 => 108,  275 => 106,  272 => 105,  262 => 98,  258 => 97,  252 => 94,  249 => 93,  246 => 92,  244 => 91,  238 => 88,  234 => 86,  226 => 84,  220 => 80,  218 => 79,  214 => 77,  208 => 75,  202 => 71,  200 => 70,  196 => 68,  193 => 67,  188 => 66,  184 => 64,  178 => 61,  163 => 49,  154 => 42,  152 => 35,  144 => 29,  142 => 22,  137 => 20,  128 => 16,  124 => 14,  122 => 13,  119 => 12,  110 => 9,  107 => 8,  103 => 7,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
+        return array (  1051 => 727,  1028 => 726,  500 => 200,  489 => 194,  485 => 192,  481 => 190,  470 => 187,  466 => 186,  463 => 185,  459 => 184,  456 => 183,  454 => 182,  447 => 178,  437 => 174,  434 => 173,  430 => 172,  424 => 168,  413 => 162,  411 => 167,  407 => 161,  404 => 160,  398 => 156,  395 => 155,  386 => 149,  381 => 148,  374 => 144,  370 => 143,  361 => 141,  357 => 140,  354 => 139,  352 => 138,  346 => 134,  342 => 132,  335 => 128,  328 => 124,  322 => 123,  319 => 122,  317 => 121,  314 => 120,  305 => 117,  299 => 114,  296 => 113,  292 => 112,  287 => 111,  285 => 110,  280 => 108,  276 => 106,  273 => 105,  263 => 98,  259 => 97,  253 => 94,  250 => 93,  247 => 92,  245 => 91,  239 => 88,  235 => 86,  227 => 84,  221 => 80,  219 => 79,  215 => 77,  209 => 75,  203 => 71,  201 => 70,  197 => 68,  194 => 67,  189 => 66,  185 => 64,  179 => 61,  164 => 49,  155 => 42,  153 => 35,  145 => 29,  143 => 22,  138 => 20,  129 => 16,  125 => 14,  123 => 13,  120 => 12,  111 => 9,  108 => 8,  104 => 7,  101 => 6,  88 => 5,  65 => 3,  42 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -1072,7 +1196,7 @@ function closeModal(modal) {
                             </span>
                         </div>
                         {% if app.user and publication.user %}
-                            {% if app.user.id == publication.user.id or is_granted('ROLE_ADMIN') %}
+                            {% if app.user.id == publication.user.id %}
                                 <div class=\"publication-actions\">
                                     <a href=\"{{ path('app_publication_edit', {'id': publication.id}) }}\" class=\"btn btn-edit\" title=\"Modifier\">
                                         <i class=\"fas fa-edit\"></i>
@@ -1119,10 +1243,14 @@ function closeModal(modal) {
 <div class=\"publication-footer\">
     <div class=\"action-buttons\">
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            <a href=\"{{ path('app_publication_like', {'id': publication.id}) }}\" class=\"btn btn-link\">
-                <i class=\"{% if app.user and publication.isLikedByUser(app.user) %}fas{% else %}far{% endif %} fa-heart\"></i>
-                <span>{{ publication.likes|length }}</span>
-            </a>
+            <div class=\"like-section d-flex align-items-center\">
+                <a href=\"{{ path('app_publication_like', {'id': publication.id}) }}\" class=\"btn btn-link me-1\">
+                    <i class=\"{% if app.user and publication.isLikedByUser(app.user) %}fas{% else %}far{% endif %} fa-heart\"></i>
+                </a>
+                <span class=\"like-count\" data-bs-toggle=\"modal\" data-bs-target=\"#likesModal{{ publication.id }}\" style=\"cursor: pointer;\">
+                    {{ publication.likes|length }}
+                </span>
+            </div>
         {% endif %}
         <a href=\"{{ path('app_publication_show', {'id': publication.id}) }}\" class=\"btn btn-link\">
             <i class=\"far fa-comment\"></i> Commenter ({{ publication.comments|length }})
@@ -1147,12 +1275,37 @@ function closeModal(modal) {
     </div>
 </div>
 
+<!-- Modal for likes -->
+{% for publication in publications %}
+    {% if publication.status == 'approved' %}
+        <div class=\"modal fade\" id=\"likesModal{{ publication.id }}\" tabindex=\"-1\" aria-labelledby=\"likesModalLabel{{ publication.id }}\" aria-hidden=\"true\">
+            <div class=\"modal-dialog\">
+                <div class=\"modal-content\">
+                    <div class=\"modal-header\">
+                        <h5 class=\"modal-title\" id=\"likesModalLabel{{ publication.id }}\">Liste des utilisateurs ayant aimé la publication</h5>
+                        <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>
+                    </div>
+                    <div class=\"modal-body\">
+                        {% if publication.likes|length > 0 %}
+                            <ul class=\"list-group\">
+                                {% for like in publication.likes %}
+                                    <li class=\"list-group-item d-flex align-items-center\">
+                                        <img src=\"{{ asset('images/img2.png') }}\" class=\"user-avatar me-2\" alt=\"Avatar\" style=\"width: 30px; height: 30px; border-radius: 50%;\">
+                                        <span>{{ like.user.prenom }} {{ like.user.nom }}</span>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p class=\"text-center\">Aucun like pour le moment</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endfor %}
+
 <style>
-.container {
-    background-color: #f8f9fa;
-    min-height: 100vh;
-    padding-top: 2rem;
-}
 
 
 .new-publication-form {
@@ -1171,7 +1324,7 @@ function closeModal(modal) {
 
 .form-header h2 {
     margin: 0 0 0 1rem;
-    color: #2d7a7a;
+    color: #95E1D3;
     font-size: 1.5rem;
 }
 
@@ -1219,7 +1372,7 @@ a, pre, code {
     overflow-wrap: break-word;
 }
 .form-control:focus {
-    border-color: #2d7a7a;
+    border-color: #95E1D3;
     box-shadow: 0 0 0 0.2rem rgba(45, 122, 122, 0.25);
 }
 
@@ -1229,7 +1382,7 @@ a, pre, code {
     background: #e0f3f8;
     border-radius: 4px;
     cursor: pointer;
-    color: #2d7a7a;
+    color: #95E1D3;
 }
 
 .file-input-label i {
@@ -1280,7 +1433,7 @@ a, pre, code {
 }
 
 .anonymous-toggle input[type=\"checkbox\"]:checked + .toggle-slider {
-    background: #2d7a7a;
+    background: #95E1D3;
 }
 
 .anonymous-toggle input[type=\"checkbox\"]:checked + .toggle-slider:before {
@@ -1292,7 +1445,7 @@ a, pre, code {
 }
 
 .btn-primary {
-    background: #2d7a7a;
+    background: #95E1D3;
     color: white;
     border: none;
     padding: 0.5rem 1.5rem;
@@ -1336,7 +1489,7 @@ a, pre, code {
 
 .author-name {
     font-weight: 600;
-    color: #2d7a7a;
+    color: #95E1D3;
     margin-bottom: 0.25rem;
 }
 
@@ -1363,7 +1516,7 @@ a, pre, code {
 }
 
 .btn-edit {
-    background: #2d7a7a;
+    background: #95E1D3;
 }
 
 .btn-delete {
@@ -1463,7 +1616,7 @@ display: grid;
 }
 
 .btn-link {
-    color: #2d7a7a;
+    color: #95E1D3;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
@@ -1486,7 +1639,7 @@ display: grid;
 .no-publications i {
     font-size: 3rem;
     margin-bottom: 1rem;
-    color: #2d7a7a;
+    color: #95E1D3;
 }
 
 .toast-message {
@@ -1677,6 +1830,28 @@ function closeModal(modal) {
     document.body.style.overflow = 'auto';
 }
 </script>
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .like-count:hover {
+        text-decoration: underline;
+    }
+    
+    .modal-header {
+        background-color: #95E1D3;
+        color: white;
+    }
+    
+    .list-group-item {
+        border: none;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .list-group-item:last-child {
+        border-bottom: none;
+    }
+</style>
+{% endblock %}
 {% endblock %}", "publication/index.html.twig", "D:\\PIDEV\\oncokidscare\\templates\\publication\\index.html.twig");
     }
 }

@@ -89,7 +89,7 @@
                             </span>
                         </div>
                         {% if app.user and publication.user %}
-                            {% if app.user.id == publication.user.id or is_granted('ROLE_ADMIN') %}
+                            {% if app.user.id == publication.user.id %}
                                 <div class="publication-actions">
                                     <a href="{{ path('app_publication_edit', {'id': publication.id}) }}" class="btn btn-edit" title="Modifier">
                                         <i class="fas fa-edit"></i>
@@ -136,10 +136,14 @@
 <div class="publication-footer">
     <div class="action-buttons">
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            <a href="{{ path('app_publication_like', {'id': publication.id}) }}" class="btn btn-link">
-                <i class="{% if app.user and publication.isLikedByUser(app.user) %}fas{% else %}far{% endif %} fa-heart"></i>
-                <span>{{ publication.likes|length }}</span>
-            </a>
+            <div class="like-section d-flex align-items-center">
+                <a href="{{ path('app_publication_like', {'id': publication.id}) }}" class="btn btn-link me-1">
+                    <i class="{% if app.user and publication.isLikedByUser(app.user) %}fas{% else %}far{% endif %} fa-heart"></i>
+                </a>
+                <span class="like-count" data-bs-toggle="modal" data-bs-target="#likesModal{{ publication.id }}" style="cursor: pointer;">
+                    {{ publication.likes|length }}
+                </span>
+            </div>
         {% endif %}
         <a href="{{ path('app_publication_show', {'id': publication.id}) }}" class="btn btn-link">
             <i class="far fa-comment"></i> Commenter ({{ publication.comments|length }})
@@ -164,12 +168,37 @@
     </div>
 </div>
 
+<!-- Modal for likes -->
+{% for publication in publications %}
+    {% if publication.status == 'approved' %}
+        <div class="modal fade" id="likesModal{{ publication.id }}" tabindex="-1" aria-labelledby="likesModalLabel{{ publication.id }}" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="likesModalLabel{{ publication.id }}">Liste des utilisateurs ayant aimé la publication</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {% if publication.likes|length > 0 %}
+                            <ul class="list-group">
+                                {% for like in publication.likes %}
+                                    <li class="list-group-item d-flex align-items-center">
+                                        <img src="{{ asset('images/img2.png') }}" class="user-avatar me-2" alt="Avatar" style="width: 30px; height: 30px; border-radius: 50%;">
+                                        <span>{{ like.user.prenom }} {{ like.user.nom }}</span>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p class="text-center">Aucun like pour le moment</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endfor %}
+
 <style>
-.container {
-    background-color: #f8f9fa;
-    min-height: 100vh;
-    padding-top: 2rem;
-}
 
 
 .new-publication-form {
@@ -188,7 +217,7 @@
 
 .form-header h2 {
     margin: 0 0 0 1rem;
-    color: #2d7a7a;
+    color: #95E1D3;
     font-size: 1.5rem;
 }
 
@@ -236,7 +265,7 @@ a, pre, code {
     overflow-wrap: break-word;
 }
 .form-control:focus {
-    border-color: #2d7a7a;
+    border-color: #95E1D3;
     box-shadow: 0 0 0 0.2rem rgba(45, 122, 122, 0.25);
 }
 
@@ -246,7 +275,7 @@ a, pre, code {
     background: #e0f3f8;
     border-radius: 4px;
     cursor: pointer;
-    color: #2d7a7a;
+    color: #95E1D3;
 }
 
 .file-input-label i {
@@ -297,7 +326,7 @@ a, pre, code {
 }
 
 .anonymous-toggle input[type="checkbox"]:checked + .toggle-slider {
-    background: #2d7a7a;
+    background: #95E1D3;
 }
 
 .anonymous-toggle input[type="checkbox"]:checked + .toggle-slider:before {
@@ -309,7 +338,7 @@ a, pre, code {
 }
 
 .btn-primary {
-    background: #2d7a7a;
+    background: #95E1D3;
     color: white;
     border: none;
     padding: 0.5rem 1.5rem;
@@ -353,7 +382,7 @@ a, pre, code {
 
 .author-name {
     font-weight: 600;
-    color: #2d7a7a;
+    color: #95E1D3;
     margin-bottom: 0.25rem;
 }
 
@@ -380,7 +409,7 @@ a, pre, code {
 }
 
 .btn-edit {
-    background: #2d7a7a;
+    background: #95E1D3;
 }
 
 .btn-delete {
@@ -480,7 +509,7 @@ display: grid;
 }
 
 .btn-link {
-    color: #2d7a7a;
+    color: #95E1D3;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
@@ -503,7 +532,7 @@ display: grid;
 .no-publications i {
     font-size: 3rem;
     margin-bottom: 1rem;
-    color: #2d7a7a;
+    color: #95E1D3;
 }
 
 .toast-message {
@@ -694,4 +723,26 @@ function closeModal(modal) {
     document.body.style.overflow = 'auto';
 }
 </script>
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .like-count:hover {
+        text-decoration: underline;
+    }
+    
+    .modal-header {
+        background-color: #95E1D3;
+        color: white;
+    }
+    
+    .list-group-item {
+        border: none;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .list-group-item:last-child {
+        border-bottom: none;
+    }
+</style>
+{% endblock %}
 {% endblock %}

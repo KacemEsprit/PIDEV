@@ -279,7 +279,7 @@ class __TwigTemplate_080bce27436d91342550f3e04acb7765 extends Template
         if ((CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 110, $this->source); })()), "user", [], "any", false, false, false, 110) && CoreExtension::getAttribute($this->env, $this->source, (isset($context["publication"]) || array_key_exists("publication", $context) ? $context["publication"] : (function () { throw new RuntimeError('Variable "publication" does not exist.', 110, $this->source); })()), "user", [], "any", false, false, false, 110))) {
             // line 111
             yield "            ";
-            if (((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 111, $this->source); })()), "user", [], "any", false, false, false, 111), "id", [], "any", false, false, false, 111) == CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["publication"]) || array_key_exists("publication", $context) ? $context["publication"] : (function () { throw new RuntimeError('Variable "publication" does not exist.', 111, $this->source); })()), "user", [], "any", false, false, false, 111), "id", [], "any", false, false, false, 111)) || $this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("ROLE_ADMIN"))) {
+            if ((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 111, $this->source); })()), "user", [], "any", false, false, false, 111), "id", [], "any", false, false, false, 111) == CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["publication"]) || array_key_exists("publication", $context) ? $context["publication"] : (function () { throw new RuntimeError('Variable "publication" does not exist.', 111, $this->source); })()), "user", [], "any", false, false, false, 111), "id", [], "any", false, false, false, 111))) {
                 // line 112
                 yield "                    <div class=\"publication-actions\">
                         <a href=\"";
@@ -473,7 +473,7 @@ class __TwigTemplate_080bce27436d91342550f3e04acb7765 extends Template
             if ((CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 208, $this->source); })()), "user", [], "any", false, false, false, 208) && CoreExtension::getAttribute($this->env, $this->source, $context["comment"], "user", [], "any", false, false, false, 208))) {
                 // line 209
                 yield "                            ";
-                if (((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 209, $this->source); })()), "user", [], "any", false, false, false, 209), "id", [], "any", false, false, false, 209) == CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["comment"], "user", [], "any", false, false, false, 209), "id", [], "any", false, false, false, 209)) || $this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("ROLE_ADMIN"))) {
+                if ((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 209, $this->source); })()), "user", [], "any", false, false, false, 209), "id", [], "any", false, false, false, 209) == CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["comment"], "user", [], "any", false, false, false, 209), "id", [], "any", false, false, false, 209))) {
                     // line 210
                     yield "                                <div class=\"comment-actions\">
                                     <a href=\"";
@@ -559,11 +559,7 @@ class __TwigTemplate_080bce27436d91342550f3e04acb7765 extends Template
 </div>
 
 <style>
-.container {
-    background-color: #f8f9fa;
-    min-height: 100vh;
-    padding-top: 2rem;
-}
+
 
 .publication-card {
   background: white;
@@ -599,7 +595,7 @@ class __TwigTemplate_080bce27436d91342550f3e04acb7765 extends Template
 
 .author-name {
     font-weight: 600;
-    color: #2d7a7a;
+    color: #95E1D3;
     margin-bottom: 0.25rem;
 }
 
@@ -624,7 +620,7 @@ class __TwigTemplate_080bce27436d91342550f3e04acb7765 extends Template
 }
 
 .btn-edit {
-    background: #2d7a7a;
+    background: #95E1D3;
 }
 
 .btn-delete {
@@ -651,7 +647,7 @@ class __TwigTemplate_080bce27436d91342550f3e04acb7765 extends Template
 }
 
 .comments-title {
-    color: #2d7a7a;
+    color: #95E1D3;
     font-size: 1.25rem;
     margin-bottom: 1.5rem;
     display: flex;
@@ -678,12 +674,12 @@ class __TwigTemplate_080bce27436d91342550f3e04acb7765 extends Template
 }
 
 .form-control:focus {
-    border-color: #2d7a7a;
+    border-color: #95E1D3;
     box-shadow: 0 0 0 0.2rem rgba(45, 122, 122, 0.25);
 }
 
 .btn-primary {
-    background: #2d7a7a;
+    background: #95E1D3;
     color: white;
     border: none;
     padding: 0.5rem 1.5rem;
@@ -748,7 +744,7 @@ pre, code, a {
 .no-comments i {
     font-size: 3rem;
     margin-bottom: 1rem;
-    color: #2d7a7a;
+    color: #95E1D3;
 }
 
 .back-link {
@@ -757,7 +753,7 @@ pre, code, a {
 }
 
 .btn-link {
-    color: #2d7a7a;
+    color: #95E1D3;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
@@ -966,7 +962,7 @@ pre, code, a {
 }
 
 .chatbot-header {
-    background: linear-gradient(45deg, #2d7a7a, #3498db);
+    background: linear-gradient(45deg, #95E1D3, #3498db);
     color: white;
     padding: 15px;
     display: flex;
@@ -1033,7 +1029,7 @@ pre, code, a {
 }
 
 .chatbot-input button {
-    background: #2d7a7a;
+    background: #95E1D3;
     color: white;
     border: none;
     border-radius: 50%;
@@ -1451,7 +1447,7 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
  <div class=\"header-actions\">
         {% if app.user and publication.user %}
-            {% if app.user.id == publication.user.id or is_granted('ROLE_ADMIN') %}
+            {% if app.user.id == publication.user.id %}
                     <div class=\"publication-actions\">
                         <a href=\"{{ path('app_publication_edit', {'id': publication.id}) }}\" class=\"btn btn-edit\" title=\"Modifier\">
                             <i class=\"fas fa-edit\"></i>
@@ -1549,7 +1545,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             </span>
                         </div>
                         {% if app.user and comment.user %}
-                            {% if app.user.id == comment.user.id or is_granted('ROLE_ADMIN') %}
+                            {% if app.user.id == comment.user.id %}
                                 <div class=\"comment-actions\">
                                     <a href=\"{{ path('app_comment_edit', {'id': comment.id}) }}\" class=\"btn btn-edit\" title=\"Modifier\">
                                         <i class=\"fas fa-edit\"></i>
@@ -1605,11 +1601,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <style>
-.container {
-    background-color: #f8f9fa;
-    min-height: 100vh;
-    padding-top: 2rem;
-}
+
 
 .publication-card {
   background: white;
@@ -1645,7 +1637,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 .author-name {
     font-weight: 600;
-    color: #2d7a7a;
+    color: #95E1D3;
     margin-bottom: 0.25rem;
 }
 
@@ -1670,7 +1662,7 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 
 .btn-edit {
-    background: #2d7a7a;
+    background: #95E1D3;
 }
 
 .btn-delete {
@@ -1697,7 +1689,7 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 
 .comments-title {
-    color: #2d7a7a;
+    color: #95E1D3;
     font-size: 1.25rem;
     margin-bottom: 1.5rem;
     display: flex;
@@ -1724,12 +1716,12 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 
 .form-control:focus {
-    border-color: #2d7a7a;
+    border-color: #95E1D3;
     box-shadow: 0 0 0 0.2rem rgba(45, 122, 122, 0.25);
 }
 
 .btn-primary {
-    background: #2d7a7a;
+    background: #95E1D3;
     color: white;
     border: none;
     padding: 0.5rem 1.5rem;
@@ -1794,7 +1786,7 @@ pre, code, a {
 .no-comments i {
     font-size: 3rem;
     margin-bottom: 1rem;
-    color: #2d7a7a;
+    color: #95E1D3;
 }
 
 .back-link {
@@ -1803,7 +1795,7 @@ pre, code, a {
 }
 
 .btn-link {
-    color: #2d7a7a;
+    color: #95E1D3;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
@@ -2012,7 +2004,7 @@ pre, code, a {
 }
 
 .chatbot-header {
-    background: linear-gradient(45deg, #2d7a7a, #3498db);
+    background: linear-gradient(45deg, #95E1D3, #3498db);
     color: white;
     padding: 15px;
     display: flex;
@@ -2079,7 +2071,7 @@ pre, code, a {
 }
 
 .chatbot-input button {
-    background: #2d7a7a;
+    background: #95E1D3;
     color: white;
     border: none;
     border-radius: 50%;
