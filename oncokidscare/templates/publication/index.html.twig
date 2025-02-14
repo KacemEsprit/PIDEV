@@ -4,6 +4,7 @@
 
 {% block body %}
 <div class="container" style="max-width: 800px; margin: 2rem auto; padding: 0 1rem;">
+
     {% for message in app.flashes('info') %}
         <div class="toast-message">
             {{ message }}
@@ -186,11 +187,23 @@
 </div>
                 </div>
             {% else %}
-                {% if publication.status == 'pending' and app.user and app.user == publication.user %}
-                    <div class="toast-message">
-                        Votre publication est en attente de validation.
+                 {% if publication.status == 'pending' and app.user and app.user == publication.user %}
+        <div class="pending-publication-card">
+            <div class="pending-content">
+                <div class="pending-icon">
+                    <i class="fas fa-hourglass-half"></i>
+                </div>
+                <div class="pending-text">
+                    <h3>Publication en cours de modération</h3>
+                    <p>Votre contribution est actuellement examinée par notre équipe.</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
                     </div>
-                {% endif %}
+                    <small>Cette publication sera visible après approbation</small>
+                </div>
+            </div>
+        </div>
+    {% endif %}
             {% endif %}
         {% else %}
             <div class="no-publications">
@@ -234,7 +247,95 @@
 
 <style>
 
+.pending-publication-card {
+    background: #fff3e0;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    border-left: 4px solid #ffb74d;
+    position: relative;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+}
 
+.pending-content {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.pending-icon {
+    background: #ffe0b2;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: pulse 2s infinite;
+}
+
+.pending-icon i {
+    color: #ff9800;
+    font-size: 1.5rem;
+}
+
+.pending-text h3 {
+    color: #ff6d00;
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+}
+
+.pending-text p {
+    color: #666;
+    margin: 0 0 1rem 0;
+    font-size: 0.9rem;
+}
+
+.progress-bar {
+    width: 200px;
+    height: 6px;
+    background: #ffe0b2;
+    border-radius: 3px;
+    overflow: hidden;
+    margin: 0.5rem 0;
+}
+
+.progress-fill {
+    width: 45%;
+    height: 100%;
+    background: #ffb74d;
+    animation: progress 2s ease-in-out infinite;
+}
+
+.pending-text small {
+    color: #999;
+    font-size: 0.8rem;
+    display: block;
+    margin-top: 0.5rem;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@keyframes progress {
+    0% { width: 30%; }
+    50% { width: 60%; }
+    100% { width: 30%; }
+}
+
+@media (max-width: 480px) {
+    .pending-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .progress-bar {
+        width: 100%;
+    }
+}
 .category-select .input-group-text {
     background-color: #95E1D3;
     border: none;
