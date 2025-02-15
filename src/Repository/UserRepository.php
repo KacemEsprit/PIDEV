@@ -20,6 +20,7 @@ class UserRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, User::class);
     }
+<<<<<<< HEAD
     public function findPatients(): array
     {
         return $this->createQueryBuilder('u')
@@ -36,4 +37,6 @@ class UserRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+=======
+>>>>>>> 0ed33a6b (KacemSuivi)
 }

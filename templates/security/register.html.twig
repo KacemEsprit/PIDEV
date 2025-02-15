@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 
+<<<<<<< HEAD
 {% block title %}Register{% endblock %}
 
 {% block body %}
@@ -71,9 +72,155 @@
                     <div class="mt-3 text-center">
                         <p>Already have an account? <a href="{{ path('app_login') }}">Login here</a></p>
                     </div>
+=======
+{% block title %}Inscription | OncoKidsCare{% endblock %}
+
+{% block body %}
+<div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container text-center py-5">
+        <h1 class="display-4 text-white animated slideInDown mb-4">Créer un compte</h1>
+    </div>
+</div>
+
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
+                <div class="d-flex flex-column">
+                    <img class="img-fluid rounded w-100 mx-auto" src="{{ asset('img/register-illustration.png') }}" alt="">
+                    <div class="bg-primary rounded p-4">
+                        <h3 class="text-white mb-4">Pourquoi s'inscrire chez nous ?</h3>
+                        <div class="d-flex mb-4">
+                            <div class="ms-3">
+                                <p class="text-white mb-0">• Prise de rendez-vous facile<br>
+                                   • Accès aux rapports médicaux<br>
+                                   • Portail patient sécurisé<br>
+                                   • Support 24/7</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
+                <div class="bg-light rounded h-100 p-5">
+                    {{ form_start(registrationForm, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    {{ form_widget(registrationForm.nom, {'attr': {'class': 'form-control', 'placeholder': 'Nom de famille'}}) }}
+                                    {{ form_label(registrationForm.nom, 'Nom de famille') }}
+                                    {# Display only custom errors for 'nom' #}
+                                    {% if registrationForm.nom.vars.errors|length > 0 %}
+                                        <div class="text-danger">
+                                            {% for error in registrationForm.nom.vars.errors %}
+                                                {{ error.message }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    {{ form_widget(registrationForm.prenom, {'attr': {'class': 'form-control', 'placeholder': 'Prénom'}}) }}
+                                    {{ form_label(registrationForm.prenom, 'Prénom') }}
+                                    {# Display only custom errors for 'prenom' #}
+                                    {% if registrationForm.prenom.vars.errors|length > 0 %}
+                                        <div class="text-danger">
+                                            {% for error in registrationForm.prenom.vars.errors %}
+                                                {{ error.message }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Email'}}) }}
+                                    {{ form_label(registrationForm.email, 'Email') }}
+                                    {# Display only custom errors for 'email' #}
+                                    {% if registrationForm.email.vars.errors|length > 0 %}
+                                        <div class="text-danger">
+                                            {% for error in registrationForm.email.vars.errors %}
+                                                {{ error.message }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    {{ form_widget(registrationForm.tel, {'attr': {'class': 'form-control', 'placeholder': 'Numéro de téléphone'}}) }}
+                                    {{ form_label(registrationForm.tel, 'Numéro de téléphone') }}
+                                    {# Display only custom errors for 'tel' #}
+                                    {% if registrationForm.tel.vars.errors|length > 0 %}
+                                        <div class="text-danger">
+                                            {% for error in registrationForm.tel.vars.errors %}
+                                                {{ error.message }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    {{ form_widget(registrationForm.adresse, {'attr': {'class': 'form-control', 'placeholder': 'Adresse'}}) }}
+                                    {{ form_label(registrationForm.adresse, 'Adresse') }}
+                                    {# Display only custom errors for 'adresse' #}
+                                    {% if registrationForm.adresse.vars.errors|length > 0 %}
+                                        <div class="text-danger">
+                                            {% for error in registrationForm.adresse.vars.errors %}
+                                                {{ error.message }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    {{ form_widget(registrationForm.role, {'attr': {'class': 'form-select'}}) }}
+                                    {{ form_label(registrationForm.role, 'S\'inscrire en tant que') }}
+                                    {# Display only custom errors for 'role' #}
+                                    {% if registrationForm.role.vars.errors|length > 0 %}
+                                        <div class="text-danger">
+                                            {% for error in registrationForm.role.vars.errors %}
+                                                {{ error.message }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control', 'placeholder': 'Mot de passe'}}) }}
+                                    {{ form_label(registrationForm.plainPassword, 'Mot de passe') }}
+                                    {# Display only custom errors for 'plainPassword' #}
+                                    {% if registrationForm.plainPassword.vars.errors|length > 0 %}
+                                        <div class="text-danger">
+                                            {% for error in registrationForm.plainPassword.vars.errors %}
+                                                {{ error.message }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn-primary w-100 py-3" type="submit">Créer un compte</button>
+                            </div>
+                            <div class="col-12 text-center">
+                                <p class="mb-0">Vous avez déjà un compte ? 
+                                    <a href="{{ path('app_login') }}" class="text-primary">Connectez-vous ici</a>
+                                </p>
+                            </div>
+                        </div>
+                    {{ form_end(registrationForm) }}
+>>>>>>> 0ed33a6b (KacemSuivi)
                 </div>
             </div>
         </div>
     </div>
 </div>
+<<<<<<< HEAD
 {% endblock %}
+=======
+{% endblock %}
+>>>>>>> 0ed33a6b (KacemSuivi)

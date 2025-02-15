@@ -8,8 +8,11 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+<<<<<<< HEAD
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+=======
+>>>>>>> 0ed33a6b (KacemSuivi)
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
@@ -52,6 +55,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+<<<<<<< HEAD
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Publication::class, orphanRemoval: true)]
     private Collection $publications;
 
@@ -81,6 +85,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->rapports = new ArrayCollection();
         $this->rapportDetats = new ArrayCollection();
     }
+=======
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $picture = null;
+>>>>>>> 0ed33a6b (KacemSuivi)
 
     public function getId(): ?int
     {
@@ -187,6 +195,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+<<<<<<< HEAD
+=======
+    public function getPicture(): ?string
+    {
+        return $this->picture;
+    }
+
+    public function setPicture(?string $picture): static
+    {
+        $this->picture = $picture;
+        return $this;
+    }
+
+>>>>>>> 0ed33a6b (KacemSuivi)
     public function getRoles(): array
     {
         return [$this->role];
@@ -201,6 +223,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->email;
     }
+<<<<<<< HEAD
 
     /**
      * @return Collection<int, Publication>
@@ -319,4 +342,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+=======
+>>>>>>> 0ed33a6b (KacemSuivi)
 }

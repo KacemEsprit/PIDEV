@@ -1,5 +1,9 @@
 framework:
+<<<<<<< HEAD
     default_locale: en
+=======
+    default_locale: fr
+>>>>>>> 0ed33a6b (KacemSuivi)
     translator:
         default_path: '%kernel.project_dir%/translations'
         fallbacks:

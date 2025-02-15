@@ -2,7 +2,11 @@
 framework:
     secret: '%env(APP_SECRET)%'
     annotations: false
+<<<<<<< HEAD
     http_method_override: false
+=======
+    http_method_override: true
+>>>>>>> 0ed33a6b (KacemSuivi)
     handle_all_throwables: true
 
     # Enables session support. Note that the session will ONLY be started if you read or write from it.

@@ -59,11 +59,16 @@
     });
 
 
+<<<<<<< HEAD
     // Worldwide Sales Chart
+=======
+    // Worldwide Sales Chart (User Statistics)
+>>>>>>> 0ed33a6b (KacemSuivi)
     var ctx1 = $("#worldwide-sales").get(0).getContext("2d");
     var myChart1 = new Chart(ctx1, {
         type: "bar",
         data: {
+<<<<<<< HEAD
             labels: ["2016", "2017", "2018", "2019", "2020", "2021", "2022"],
             datasets: [{
                     label: "USA",
@@ -84,10 +89,30 @@
             },
         options: {
             responsive: true
+=======
+            labels: ["Donateurs", "Patients", "Médecins", "Admins"],
+            datasets: [{
+                    label: "Total Users",
+                    data: [window.donateursCount, window.patientsCount, window.medecinsCount, window.adminsCount],
+                    backgroundColor: "rgba(0, 156, 255, .7)"
+                }]
+            },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            }
+>>>>>>> 0ed33a6b (KacemSuivi)
         }
     });
 
 
+<<<<<<< HEAD
     // Salse & Revenue Chart
     var ctx2 = $("#salse-revenue").get(0).getContext("2d");
     var myChart2 = new Chart(ctx2, {
@@ -113,6 +138,33 @@
         }
     });
     
+=======
+    // Sales & Revenue Chart (User Distribution)
+    var ctx2 = $("#salse-revenue").get(0).getContext("2d");
+    var myChart2 = new Chart(ctx2, {
+        type: "pie",
+        data: {
+            labels: ["Donateurs", "Patients", "Médecins", "Admins"],
+            datasets: [{
+                data: [window.donateursCount, window.patientsCount, window.medecinsCount, window.adminsCount],
+                backgroundColor: [
+                    "rgba(0, 156, 255, .7)",
+                    "rgba(0, 156, 255, .5)",
+                    "rgba(0, 156, 255, .3)",
+                    "rgba(0, 156, 255, .2)"
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+>>>>>>> 0ed33a6b (KacemSuivi)
 
 
     // Single Line Chart
@@ -204,4 +256,7 @@
 
     
 })(jQuery);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0ed33a6b (KacemSuivi)

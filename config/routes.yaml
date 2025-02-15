@@ -3,6 +3,7 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+<<<<<<< HEAD
 
 chatbot_test:
     path: /chatbot/test
@@ -13,3 +14,5 @@ chatbot_message:
     path: /chatbot/message
     controller: App\Controller\ChatbotController::message
     methods: [POST]
+=======
+>>>>>>> 0ed33a6b (KacemSuivi)

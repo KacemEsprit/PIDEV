@@ -3,8 +3,13 @@
 {% block title %}Donateur Dashboard{% endblock %}
 
 {% block body %}
+<<<<<<< HEAD
 {% include 'partials/_navigation.html.twig' %}
 
+=======
+{# {% include 'partials/_navigation.html.twig' %}
+ #}
+>>>>>>> 0ed33a6b (KacemSuivi)
 <div class="container mt-4">
     <div class="row">
         <div class="col-md-12">
@@ -44,7 +49,11 @@
                     <div class="list-group">
                         <a href="#" class="list-group-item list-group-item-action">Make a New Donation</a>
                         <a href="#" class="list-group-item list-group-item-action">View Donation History</a>
+<<<<<<< HEAD
                         <a href="#" class="list-group-item list-group-item-action">Update Profile</a>
+=======
+                        <a href="{{ path('app_donateur_profile') }}" class="list-group-item list-group-item-action">Update Profile</a>
+>>>>>>> 0ed33a6b (KacemSuivi)
                     </div>
                 </div>
             </div>
