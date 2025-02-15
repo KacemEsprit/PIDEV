@@ -1,9 +1,0 @@
-like_publication:
-    path: /like/publication/{id}
-    controller: App\Controller\LikeController::likePublication
-    methods: [POST]
-
-like_comment:
-    path: /like/comment/{id}
-    controller: App\Controller\LikeController::likeComment
-    methods: [POST]

@@ -1,0 +1,220 @@
+{% if app.flashes|length > 0 %}
+<div class="toast-container">
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="custom-toast {{ label }}" role="alert">
+                <div class="toast-icon">
+                    {% if label == 'success' %}
+                        <i class="fas fa-check-circle"></i>
+                    {% elseif label == 'error' %}
+                        <i class="fas fa-exclamation-circle"></i>
+                    {% endif %}
+                </div>
+                <div class="toast-content">
+                    <div class="toast-title">
+                        {% if label == 'success' %}
+                            Succès !
+                        {% elseif label == 'error' %}
+                            Erreur
+                        {% endif %}
+                    </div>
+                    <div class="toast-message">{{ message }}</div>
+                </div>
+                <button type="button" class="toast-close" aria-label="Fermer">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="toast-progress"></div>
+            </div>
+        {% endfor %}
+    {% endfor %}
+</div>
+
+<style>
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none;
+}
+
+.custom-toast {
+    display: flex;
+    align-items: flex-start;
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    min-width: 300px;
+    max-width: 400px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+    margin-bottom: 10px;
+    position: relative;
+    pointer-events: auto;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 0.3s ease-in-out;
+    overflow: hidden;
+}
+
+.custom-toast.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.custom-toast.dismissing {
+    opacity: 0;
+    transform: translateX(100%);
+}
+
+.custom-toast.success {
+    border-left: 4px solid #10B981;
+    background: linear-gradient(to right, rgba(16, 185, 129, 0.05), white);
+}
+
+.custom-toast.error {
+    border-left: 4px solid #EF4444;
+    background: linear-gradient(to right, rgba(239, 68, 68, 0.05), white);
+}
+
+.toast-icon {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    margin-right: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toast-icon i {
+    font-size: 24px;
+}
+
+.custom-toast.success .toast-icon i {
+    color: #10B981;
+}
+
+.custom-toast.error .toast-icon i {
+    color: #EF4444;
+}
+
+.toast-content {
+    flex-grow: 1;
+    margin-right: 12px;
+}
+
+.toast-title {
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 4px;
+    color: #1F2937;
+}
+
+.toast-message {
+    font-size: 14px;
+    color: #6B7280;
+    line-height: 1.5;
+}
+
+.toast-close {
+    background: transparent;
+    border: none;
+    color: #9CA3AF;
+    cursor: pointer;
+    padding: 4px;
+    font-size: 16px;
+    transition: all 0.2s;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toast-close:hover {
+    color: #4B5563;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.toast-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: #E5E7EB;
+}
+
+.custom-toast.success .toast-progress::before {
+    background: #10B981;
+}
+
+.custom-toast.error .toast-progress::before {
+    background: #EF4444;
+}
+
+.toast-progress::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: #10B981;
+    animation: progress 5s linear forwards;
+}
+
+@keyframes progress {
+    from { width: 100%; }
+    to { width: 0%; }
+}
+
+@media (max-width: 768px) {
+    .toast-container {
+        left: 20px;
+        right: 20px;
+    }
+    
+    .custom-toast {
+        min-width: 0;
+        width: 100%;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const toasts = document.querySelectorAll('.custom-toast');
+    
+    toasts.forEach(toast => {
+        // Supprimer automatiquement après 5 secondes
+        setTimeout(() => {
+            if (toast && toast.parentElement) {
+                toast.classList.add('dismiss');
+                setTimeout(() => {
+                    if (toast && toast.parentElement) {
+                        toast.remove();
+                    }
+                }, 500);
+            }
+        }, 5000);
+
+        // Ajouter l'événement swipe pour fermer
+        let touchstartX = 0;
+        let touchendX = 0;
+        
+        toast.addEventListener('touchstart', e => {
+            touchstartX = e.changedTouches[0].screenX;
+        });
+
+        toast.addEventListener('touchend', e => {
+            touchendX = e.changedTouches[0].screenX;
+            if (touchendX > touchstartX + 50) { // Swipe droite
+                toast.classList.add('dismiss');
+                setTimeout(() => toast.remove(), 300);
+            }
+        });
+    });
+});
+</script>
+{% endif %}

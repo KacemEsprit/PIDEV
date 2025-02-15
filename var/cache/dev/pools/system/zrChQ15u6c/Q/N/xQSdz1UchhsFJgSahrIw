@@ -1,0 +1,3 @@
+<?php //471badab641bc1caedc65bfe85a89d06
+
+return [PHP_INT_MAX, 'lib/counterup/counterup.min.js'];

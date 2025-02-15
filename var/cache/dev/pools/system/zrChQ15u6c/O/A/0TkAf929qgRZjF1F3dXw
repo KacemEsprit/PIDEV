@@ -1,0 +1,3 @@
+<?php //0908cd2525083f9cd9e75acb373ffa9d
+
+return [PHP_INT_MAX, 'lib/easing/easing.min.js'];
