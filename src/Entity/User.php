@@ -38,6 +38,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Email]
     private ?string $email = null;
 
+
     #[ORM\Column(length: 20)]
     #[Assert\NotBlank]
     private ?string $tel = null;
@@ -51,6 +52,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private ?string $password = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $picture = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Publication::class, orphanRemoval: true)]
     private Collection $publications;
@@ -82,6 +86,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->rapportDetats = new ArrayCollection();
     }
 
+    public function getPicture(): ?string
+    {
+        return $this->picture;
+    }
+
+    public function setPicture(?string $picture): static
+    {
+        $this->picture = $picture;
+        return $this;
+    }
     public function getId(): ?int
     {
         return $this->id;

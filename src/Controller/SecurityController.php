@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\LoginFormType;
+
 use App\Form\RegistrationFormType;
 use Flasher\Prime\FlasherInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,16 +17,15 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class SecurityController extends AbstractController
 {
     #[Route(path: '/login', name: 'app_login')]
-    public function login(AuthenticationUtils $authenticationUtils, FlasherInterface $flasher): Response
+    public function login(Request $request, AuthenticationUtils $authenticationUtils, FlasherInterface $flasher): Response
     {
         // Redirect if already logged in
         if ($this->getUser()) {
             /** @var User $user */
             $user = $this->getUser();
-            
+          
             // Add flash message before redirect
-            $flasher->addSuccess('Bienvenue sur votre dashboard, médecin !');
-
+            $flasher->addSuccess('Bienvenue sur votre dashboard !');
 
             // Redirect based on role
             return match ($user->getRole()) {
@@ -35,6 +35,8 @@ class SecurityController extends AbstractController
                 User::ROLE_DONATEUR => $this->redirectToRoute('app_donateur_dashboard'),
                 default => $this->redirectToRoute('app_home'),
             };
+        }
+
         // Create the form
         $form = $this->createForm(LoginFormType::class);
 
@@ -53,7 +55,6 @@ class SecurityController extends AbstractController
             'error' => $error,
         ]);
     }
-}
 
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void

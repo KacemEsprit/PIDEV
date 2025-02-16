@@ -1,15 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<<<<<<< HEAD
-
-<head>
-    <meta charset="utf-8">
-    <title>DASHMIN - Bootstrap Admin Template</title>
-=======
 <head>
     <meta charset="utf-8">
     <title>{% block title %}Welcome!{% endblock %}</title>
->>>>>>> 0ed33a6b (KacemSuivi)
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -31,25 +24,14 @@
     <link href="{{ asset('lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet" />
 
     <!-- Customized Bootstrap Stylesheet -->
-<<<<<<< HEAD
-    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
-=======
     <link href="{{ asset('css/bootstrapadmin.min.css') }}" rel="stylesheet">
->>>>>>> 0ed33a6b (KacemSuivi)
 
     <!-- Template Stylesheet -->
     <link href="{{ asset('css/styleadmin.css') }}" rel="stylesheet">
         {% block css %}{% endblock %}
-<<<<<<< HEAD
-
-</head>
-
-
-=======
         {% block stylesheets %}{% endblock %}
 
 </head>
->>>>>>> 0ed33a6b (KacemSuivi)
 <body>
 <div class="container-fluid position-relative bg-white d-flex p-0">
          <!-- Spinner Start -->
@@ -63,22 +45,11 @@
 <!-- Sidebar Start -->
 <div class="sidebar pe-4 pb-3">
     <nav class="navbar bg-light navbar-light">
-<<<<<<< HEAD
-        <a href="{{ path('app_admin') }}" class="navbar-brand mx-4 mb-3">
-=======
         <a href="{{ path('app_admin_index') }}" class="navbar-brand mx-4 mb-3">
->>>>>>> 0ed33a6b (KacemSuivi)
             <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>DASHMIN</h3>
         </a>
         <div class="d-flex align-items-center ms-4 mb-4">
             <div class="position-relative">
-<<<<<<< HEAD
-                <img class="rounded-circle" src="{{ asset('img/user.jpg') }}" alt="" style="width: 40px; height: 40px;">
-                <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
-            </div>
-            <div class="ms-3">
-                <h6 class="mb-0">Jhon Doe</h6>
-=======
                 {% if app.user and app.user.picture %}
                     <img class="rounded-circle" src="{{ asset('uploads/user_pictures/' ~ app.user.picture) }}" alt="" style="width: 40px; height: 40px;">
                 {% else %}
@@ -88,23 +59,12 @@
             </div>
             <div class="ms-3">
                 <h6 class="mb-0">{{ user.prenom }} {{ user.nom }}</h6>
->>>>>>> 0ed33a6b (KacemSuivi)
                 <span>Admin</span>
             </div>
         </div>
         <div class="navbar-nav w-100">
-<<<<<<< HEAD
-            <a href="{{ path('app_admin') }}" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
-            <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Elements</a>
-                <div class="dropdown-menu bg-transparent border-0">
-                    <a href="{{ path('app_buttons') }}" class="dropdown-item">Buttons</a>
-                    <a href="{{ path('app_typography') }}" class="dropdown-item">Typography</a>
-                    <a href="{{ path('app_other_elements') }}" class="dropdown-item">Other Elements</a>
-                </div>
-=======
             <a href="{{ path('app_admin_index') }}" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
-            <a href="{{ path('app_admin_users') }}" class="nav-item nav-link"><i class="bi bi-people"></i> Gérer Users</a>
+            <a href="{{ path('app_admin_users') }}" class="nav-item nav-link"><i class="bi bi-people"></i> GÃ©rer Users</a>
             <a href="{{ path('app_admin_profile') }}" class="nav-item nav-link"><i class="bi bi-person"></i></i> My Profile</a>
 
             
@@ -115,17 +75,13 @@
                     <a href="{{ path('app_buttons') }}" class="dropdown-item">Buttons</a>
                     <a href="{{ path('app_typography') }}" class="dropdown-item">Typography</a>
                     <a href="{{ path('app_other_elements') }}" class="dropdown-item">Other Elements</a><a href="{{ path('app_buttons') }}" class="dropdown-item">Buttons</a>
->>>>>>> 0ed33a6b (KacemSuivi)
             </div>
             <a href="{{ path('app_widgets') }}" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Widgets</a>
             <a href="{{ path('app_forms') }}" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Forms</a>
             <a href="{{ path('app_tables') }}" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Tables</a>
             <a href="{{ path('app_charts') }}" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Charts</a>
-<<<<<<< HEAD
-=======
             
 
->>>>>>> 0ed33a6b (KacemSuivi)
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Pages</a>
                 <div class="dropdown-menu bg-transparent border-0">
@@ -134,11 +90,7 @@
                     <a href="{{ path('app_404_admin') }}" class="dropdown-item">404 Error</a>
                     <a href="{{ path('app_appointment') }}" class="dropdown-item">Blank Page</a>
                 </div>
-<<<<<<< HEAD
-            </div>
-=======
             </div> #}
->>>>>>> 0ed33a6b (KacemSuivi)
         </div>
     </nav>
 </div>
@@ -147,11 +99,7 @@
  <div class="content">
             <!-- Navbar Start -->
             <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
-<<<<<<< HEAD
-                <a href="{{ path('app_admin') }}" class="navbar-brand d-flex d-lg-none me-4">
-=======
                 <a href="{{ path('app_admin_index') }}" class="navbar-brand d-flex d-lg-none me-4">
->>>>>>> 0ed33a6b (KacemSuivi)
                     <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
                 </a>
                 <a href="#" class="sidebar-toggler flex-shrink-0">
@@ -169,9 +117,6 @@
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
                             <a href="#" class="dropdown-item">
                                 <div class="d-flex align-items-center">
-<<<<<<< HEAD
-                                    <img class="rounded-circle" src="{{ asset('img/user.jpg') }}"alt="" style="width: 40px; height: 40px;">
-=======
                                     <img class="rounded-circle" src="{{ asset('uploads/user_pictures/' ~ app.user.picture) }}"alt="" style="width: 40px; height: 40px;">
                                     <div class="ms-2">
                                         <h6 class="fw-normal mb-0">Kacem send you a message</h6>
@@ -183,7 +128,6 @@
                             <a href="#" class="dropdown-item">
                                 <div class="d-flex align-items-center">
                                     <img class="rounded-circle" src="{{ asset('uploads/user_pictures/' ~ app.user.picture) }}" alt="" style="width: 40px; height: 40px;">
->>>>>>> 0ed33a6b (KacemSuivi)
                                     <div class="ms-2">
                                         <h6 class="fw-normal mb-0">Jhon send you a message</h6>
                                         <small>15 minutes ago</small>
@@ -193,21 +137,7 @@
                             <hr class="dropdown-divider">
                             <a href="#" class="dropdown-item">
                                 <div class="d-flex align-items-center">
-<<<<<<< HEAD
-                                    <img class="rounded-circle" src="{{ asset('img/user.jpg') }}" alt="" style="width: 40px; height: 40px;">
-                                    <div class="ms-2">
-                                        <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                </div>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item">
-                                <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="{{ asset('img/user.jpg') }}" alt="" style="width: 40px; height: 40px;">
-=======
                                     <img class="rounded-circle" src="{{ asset('uploads/user_pictures/' ~ app.user.picture) }}" alt="" style="width: 40px; height: 40px;">
->>>>>>> 0ed33a6b (KacemSuivi)
                                     <div class="ms-2">
                                         <h6 class="fw-normal mb-0">Jhon send you a message</h6>
                                         <small>15 minutes ago</small>
@@ -244,22 +174,16 @@
                     </div>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-<<<<<<< HEAD
-                            <img class="rounded-circle me-lg-2" src="{{ asset('img/user.jpg') }}" alt="" style="width: 40px; height: 40px;">
-                            <span class="d-none d-lg-inline-flex">John Doe</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                            <a href="#" class="dropdown-item">My Profile</a>
-                            <a href="#" class="dropdown-item">Settings</a>
-                            <a href="#" class="dropdown-item">Log Out</a>
-=======
-                            <img class="rounded-circle me-lg-2" src="{{ asset('uploads/user_pictures/' ~ app.user.picture) }}" alt="" style="width: 40px; height: 40px;">
+                                {% if app.user and app.user.picture %}
+                    <img class="rounded-circle" src="{{ asset('uploads/user_pictures/' ~ app.user.picture) }}" alt="" style="width: 40px; height: 40px;">
+                {% else %}
+                    <img class="rounded-circle" src="{{ asset('uploads/user_pictures/default.png') }}" alt="" style="width: 40px; height: 40px;">
+                {% endif %}
                             <span class="d-none d-lg-inline-flex">{{ user.prenom }} {{ user.nom }} </span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
                             <a href="{{ path('app_admin_profile') }}" class="dropdown-item">Mon Profil</a>
-                            <a href="{{ path('app_logout') }}" class="dropdown-item">Se déconnecter</a>
->>>>>>> 0ed33a6b (KacemSuivi)
+                            <a href="{{ path('app_logout') }}" class="dropdown-item">Se dÃ©connecter</a>
                         </div>
                     </div>
                 </div>
@@ -267,44 +191,26 @@
             <!-- Navbar End -->
 
 
-<<<<<<< HEAD
-{% block body %}
-
-{% endblock %}
-=======
     {% block body %}
 
     {% endblock %}
->>>>>>> 0ed33a6b (KacemSuivi)
 
              <!-- Footer Start -->
             <div class="container-fluid pt-4 px-4">
                 <div class="bg-light rounded-top p-4">
                     <div class="row">
                         <div class="col-12 col-sm-6 text-center text-sm-start">
-<<<<<<< HEAD
-                            &copy; <a href="#">Your Site Name</a>, All Right Reserved. 
+                            &copy; <a href="#">OncoKidsCare</a>, Tous droits rÃ©servÃ©s.
                         </div>
                         <div class="col-12 col-sm-6 text-center text-sm-end">
-                            <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                            Designed By <a href="https://htmlcodex.com">HTML Codex</a>
-=======
-                            &copy; <a href="#">OncoKidsCare</a>, Tous droits réservés.
-                        </div>
-                        <div class="col-12 col-sm-6 text-center text-sm-end">
-                            Développé par <a href="#">NovaSpark</a>
->>>>>>> 0ed33a6b (KacemSuivi)
+                            DÃ©veloppÃ© par <a href="#">NovaSpark</a>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- Footer End -->
         </div> 
-<<<<<<< HEAD
-        <!-- Content End -->
-=======
         <!-- Content End --> 
->>>>>>> 0ed33a6b (KacemSuivi)
 
 
         <!-- Back to Top -->
@@ -327,8 +233,6 @@
  <script src="{{ asset('js/admin.js') }}"></script>
  
         {% endblock %}
-<<<<<<< HEAD
-=======
    {#  {% block javascripts %}
         {% if user %}
             <script>
@@ -342,7 +246,6 @@
             </script>
         {% endif %}
     {% endblock %} #}
->>>>>>> 0ed33a6b (KacemSuivi)
 
 </body>
 

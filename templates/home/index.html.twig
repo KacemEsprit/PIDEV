@@ -3,48 +3,6 @@
 {% block title %}Home - OncoKidsCare{% endblock %}
 
 {% block body %}
-<<<<<<< HEAD
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-=======
-{# <nav class="navbar navbar-expand-lg navbar-light bg-light">
->>>>>>> 0ed33a6b (KacemSuivi)
-    <div class="container">
-        <a class="navbar-brand" href="{{ path('app_home') }}">OncoKidsCare</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                {% if app.user %}
-                    <li class="nav-item">
-                        <a href="{{ path(
-                            app.user.isAdmin ? 'app_admin_index' :
-                            app.user.isMedecin ? 'app_medecin_dashboard' :
-                            app.user.isPatient ? 'app_patient_dashboard' :
-                            'app_donateur_dashboard'
-                        ) }}" class="nav-link">Mon Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ path('app_logout') }}" class="btn btn-danger">
-                            <i class="fas fa-sign-out-alt"></i> Déconnexion
-                        </a>
-                    </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a href="{{ path('app_login') }}" class="nav-link">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ path('app_register') }}" class="nav-link">Register</a>
-                    </li>
-                {% endif %}
-            </ul>
-        </div>
-    </div>
-<<<<<<< HEAD
-</nav>
-=======
-</nav> #}
->>>>>>> 0ed33a6b (KacemSuivi)
 
     <!-- Header Start -->
     <div class="container-fluid header bg-primary p-0 mb-5">
