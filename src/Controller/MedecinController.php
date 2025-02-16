@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-<<<<<<< HEAD
+
 use App\Entity\RapportDetat;
 use App\Form\RapportDetatType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,36 +15,22 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Flasher\Prime\FlasherInterface;
-=======
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
->>>>>>> 0ed33a6b (KacemSuivi)
 
 #[Route('/medecin')]
 #[IsGranted('ROLE_MEDECIN')]
 class MedecinController extends AbstractController
 {
     #[Route('/dashboard', name: 'app_medecin_dashboard')]
-<<<<<<< HEAD
     public function dashboard(FlasherInterface $flasher): Response
     {
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
         $flasher->addSuccess('Bienvenue sur votre dashboard, médecin !');
-=======
-    public function dashboard(): Response
-    {
-        /** @var \App\Entity\User $user */
-        $user = $this->getUser();
->>>>>>> 0ed33a6b (KacemSuivi)
         
         return $this->render('medecin/dashboard.html.twig', [
             'user' => $user,
         ]);
     }
-<<<<<<< HEAD
 
     #[Route('/create', name: 'app_create_rapport')]
     public function createRapport(Request $request, EntityManagerInterface $entityManager, UserRepository $userRepo, FlasherInterface $flasher): Response
@@ -203,6 +189,4 @@ class MedecinController extends AbstractController
         return $this->redirectToRoute('app_medecin_rapports');
     }
 
-=======
->>>>>>> 0ed33a6b (KacemSuivi)
 }

@@ -4,11 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-<<<<<<< HEAD
     "content-hash": "aa529b969acf08fd6e6314be24ccd7e4",
-=======
-    "content-hash": "6c956468f964c6c98b6230ee80af4d03",
->>>>>>> 0ed33a6b (KacemSuivi)
     "packages": [
         {
             "name": "composer/semver",
@@ -92,85 +88,6 @@
             "time": "2024-09-19T14:15:21+00:00"
         },
         {
-<<<<<<< HEAD
-=======
-            "name": "doctrine/annotations",
-            "version": "2.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/doctrine/annotations.git",
-                "reference": "901c2ee5d26eb64ff43c47976e114bf00843acf7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/annotations/zipball/901c2ee5d26eb64ff43c47976e114bf00843acf7",
-                "reference": "901c2ee5d26eb64ff43c47976e114bf00843acf7",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/lexer": "^2 || ^3",
-                "ext-tokenizer": "*",
-                "php": "^7.2 || ^8.0",
-                "psr/cache": "^1 || ^2 || ^3"
-            },
-            "require-dev": {
-                "doctrine/cache": "^2.0",
-                "doctrine/coding-standard": "^10",
-                "phpstan/phpstan": "^1.10.28",
-                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.5",
-                "symfony/cache": "^5.4 || ^6.4 || ^7",
-                "vimeo/psalm": "^4.30 || ^5.14"
-            },
-            "suggest": {
-                "php": "PHP 8.0 or higher comes with attributes, a native replacement for annotations"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Doctrine\\Common\\Annotations\\": "lib/Doctrine/Common/Annotations"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Guilherme Blanco",
-                    "email": "guilhermeblanco@gmail.com"
-                },
-                {
-                    "name": "Roman Borschel",
-                    "email": "roman@code-factory.org"
-                },
-                {
-                    "name": "Benjamin Eberlei",
-                    "email": "kontakt@beberlei.de"
-                },
-                {
-                    "name": "Jonathan Wage",
-                    "email": "jonwage@gmail.com"
-                },
-                {
-                    "name": "Johannes Schmitt",
-                    "email": "schmittjoh@gmail.com"
-                }
-            ],
-            "description": "Docblock Annotations Parser",
-            "homepage": "https://www.doctrine-project.org/projects/annotations.html",
-            "keywords": [
-                "annotations",
-                "docblock",
-                "parser"
-            ],
-            "support": {
-                "issues": "https://github.com/doctrine/annotations/issues",
-                "source": "https://github.com/doctrine/annotations/tree/2.0.2"
-            },
-            "time": "2024-09-05T10:17:24+00:00"
-        },
-        {
->>>>>>> 0ed33a6b (KacemSuivi)
             "name": "doctrine/cache",
             "version": "2.2.0",
             "source": {
@@ -1619,7 +1536,6 @@
             "time": "2024-12-05T17:15:07+00:00"
         },
         {
-<<<<<<< HEAD
             "name": "php-flasher/flasher",
             "version": "v1.15.14",
             "source": {
@@ -1986,8 +1902,6 @@
             "time": "2024-03-16T15:25:14+00:00"
         },
         {
-=======
->>>>>>> 0ed33a6b (KacemSuivi)
             "name": "phpdocumentor/reflection-common",
             "version": "2.2.0",
             "source": {
@@ -6698,7 +6612,6 @@
         },
         {
             "name": "symfony/stimulus-bundle",
-<<<<<<< HEAD
             "version": "v2.22.1",
             "source": {
                 "type": "git",
@@ -6709,18 +6622,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/stimulus-bundle/zipball/e13034d428354023c82a1db108d40fdf6cec2d36",
                 "reference": "e13034d428354023c82a1db108d40fdf6cec2d36",
-=======
-            "version": "v2.23.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/stimulus-bundle.git",
-                "reference": "254f4e05cbaa349d4ae68b9b2e6a22995e0887f9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/stimulus-bundle/zipball/254f4e05cbaa349d4ae68b9b2e6a22995e0887f9",
-                "reference": "254f4e05cbaa349d4ae68b9b2e6a22995e0887f9",
->>>>>>> 0ed33a6b (KacemSuivi)
                 "shasum": ""
             },
             "require": {
@@ -6760,11 +6661,7 @@
                 "symfony-ux"
             ],
             "support": {
-<<<<<<< HEAD
                 "source": "https://github.com/symfony/stimulus-bundle/tree/v2.22.1"
-=======
-                "source": "https://github.com/symfony/stimulus-bundle/tree/v2.23.0"
->>>>>>> 0ed33a6b (KacemSuivi)
             },
             "funding": [
                 {
@@ -6780,11 +6677,7 @@
                     "type": "tidelift"
                 }
             ],
-<<<<<<< HEAD
             "time": "2024-12-06T14:30:33+00:00"
-=======
-            "time": "2025-01-16T21:55:09+00:00"
->>>>>>> 0ed33a6b (KacemSuivi)
         },
         {
             "name": "symfony/stopwatch",
@@ -7302,7 +7195,6 @@
         },
         {
             "name": "symfony/ux-turbo",
-<<<<<<< HEAD
             "version": "v2.22.1",
             "source": {
                 "type": "git",
@@ -7313,18 +7205,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/ux-turbo/zipball/97718ea4bca26f0db843c3c0de338d6900c5a002",
                 "reference": "97718ea4bca26f0db843c3c0de338d6900c5a002",
-=======
-            "version": "v2.23.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/ux-turbo.git",
-                "reference": "db96cf04d70a8c820671ce55530e8bf641ada33f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-turbo/zipball/db96cf04d70a8c820671ce55530e8bf641ada33f",
-                "reference": "db96cf04d70a8c820671ce55530e8bf641ada33f",
->>>>>>> 0ed33a6b (KacemSuivi)
                 "shasum": ""
             },
             "require": {
@@ -7393,11 +7273,7 @@
                 "turbo-stream"
             ],
             "support": {
-<<<<<<< HEAD
                 "source": "https://github.com/symfony/ux-turbo/tree/v2.22.1"
-=======
-                "source": "https://github.com/symfony/ux-turbo/tree/v2.23.0"
->>>>>>> 0ed33a6b (KacemSuivi)
             },
             "funding": [
                 {
@@ -7413,11 +7289,7 @@
                     "type": "tidelift"
                 }
             ],
-<<<<<<< HEAD
             "time": "2024-12-05T14:25:02+00:00"
-=======
-            "time": "2025-02-06T08:47:30+00:00"
->>>>>>> 0ed33a6b (KacemSuivi)
         },
         {
             "name": "symfony/validator",

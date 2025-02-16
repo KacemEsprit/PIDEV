@@ -1,11 +1,8 @@
 <?php
-<<<<<<< HEAD
+
 
 namespace App\Controller;
 
-=======
-namespace App\Controller;
->>>>>>> 0ed33a6b (KacemSuivi)
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -58,16 +55,6 @@ final class HomeController extends AbstractController
             'controller_name' => 'HomeController',
         ]);
     }
-<<<<<<< HEAD
-=======
-    #[Route('/rapports', name: 'app_rapports')]
-    public function index_rapports(): Response
-    {
-        return $this->render('home/rapports.html.twig', [
-            'controller_name' => 'HomeController',
-        ]);
-    }
->>>>>>> 0ed33a6b (KacemSuivi)
 
     #[Route('/testimonial', name: 'app_testimonial')]
     public function index_testimonial(): Response

@@ -1,36 +1,21 @@
 <?php
 namespace App\Controller;
 
-<<<<<<< HEAD
 use App\Entity\User;
-use App\Form\RegistrationFormType;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Flasher\Prime\FlasherInterface;
-=======
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use App\Entity\User;
-use App\Form\RegistrationFormType;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Mime\Email;
 use App\Form\LoginFormType;
->>>>>>> 0ed33a6b (KacemSuivi)
+use App\Form\RegistrationFormType;
+use Flasher\Prime\FlasherInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class SecurityController extends AbstractController
 {
     #[Route(path: '/login', name: 'app_login')]
-<<<<<<< HEAD
     public function login(AuthenticationUtils $authenticationUtils, FlasherInterface $flasher): Response
     {
         // Redirect if already logged in
@@ -43,14 +28,6 @@ class SecurityController extends AbstractController
 
 
             // Redirect based on role
-=======
-    public function login(AuthenticationUtils $authenticationUtils, Request $request): Response
-    {
-        // Redirect if the user is already logged in
-        if ($this->getUser()) {
-            /** @var User $user */
-            $user = $this->getUser();
->>>>>>> 0ed33a6b (KacemSuivi)
             return match ($user->getRole()) {
                 User::ROLE_ADMIN => $this->redirectToRoute('app_admin_index'),
                 User::ROLE_MEDECIN => $this->redirectToRoute('app_medecin_dashboard'),
@@ -58,14 +35,6 @@ class SecurityController extends AbstractController
                 User::ROLE_DONATEUR => $this->redirectToRoute('app_donateur_dashboard'),
                 default => $this->redirectToRoute('app_home'),
             };
-        }
-
-<<<<<<< HEAD
-        $error = $authenticationUtils->getLastAuthenticationError();
-        $lastUsername = $authenticationUtils->getLastUsername();
-
-        return $this->render('security/login.html.twig', [
-=======
         // Create the form
         $form = $this->createForm(LoginFormType::class);
 
@@ -80,22 +49,11 @@ class SecurityController extends AbstractController
 
         return $this->render('security/login.html.twig', [
             'loginForm' => $form->createView(),
->>>>>>> 0ed33a6b (KacemSuivi)
             'last_username' => $lastUsername,
             'error' => $error,
         ]);
     }
-
-<<<<<<< HEAD
-    #[Route(path: '/logout', name: 'app_logout')]
-    public function logout(): void
-    {
-        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
-    }
-
-    #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
-=======
+}
 
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void
@@ -104,15 +62,13 @@ class SecurityController extends AbstractController
     }
 
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
->>>>>>> 0ed33a6b (KacemSuivi)
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-<<<<<<< HEAD
             // Only allow registration as PATIENT or DONATEUR
             $role = $form->get('role')->getData();
             if (!in_array($role, [User::ROLE_PATIENT, User::ROLE_DONATEUR])) {
@@ -120,13 +76,6 @@ class SecurityController extends AbstractController
             }
 
             // encode the plain password
-=======
-            $role = $form->get('role')->getData();
-            if (!in_array($role, [User::ROLE_PATIENT, User::ROLE_DONATEUR])) {
-                throw new \InvalidArgumentException('Rôle invalide pour l\'inscription.');
-            }
-
->>>>>>> 0ed33a6b (KacemSuivi)
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
@@ -134,7 +83,6 @@ class SecurityController extends AbstractController
                 )
             );
 
-<<<<<<< HEAD
             $entityManager->persist($user);
             $entityManager->flush();
 
@@ -142,21 +90,6 @@ class SecurityController extends AbstractController
             $this->addFlash('success', 'Your account has been created. Please log in.');
 
             // Redirect to login page after registration
-=======
-            $user->setRole($role);
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            $email = (new Email())
-                ->from('Kacem.benbrahim07@gmail.com')
-                ->to($user->getEmail())
-                ->subject('Bienvenue sur OncoKidsCare !')
-                ->text('Merci de vous être inscrit chez nous.');
-
-            $mailer->send($email);
-
-            $this->addFlash('success', 'Votre compte a été créé. Veuillez vous connecter.');
->>>>>>> 0ed33a6b (KacemSuivi)
             return $this->redirectToRoute('app_login');
         }
 
@@ -164,8 +97,5 @@ class SecurityController extends AbstractController
             'registrationForm' => $form->createView(),
         ]);
     }
-<<<<<<< HEAD
+
 }
-=======
-}
->>>>>>> 0ed33a6b (KacemSuivi)

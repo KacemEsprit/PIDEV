@@ -1,16 +1,4 @@
 {
-<<<<<<< HEAD
-=======
-    "doctrine/annotations": {
-        "version": "2.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "1.10",
-            "ref": "64d8583af5ea57b7afa4aba4b159907f3a148b05"
-        }
-    },
->>>>>>> 0ed33a6b (KacemSuivi)
     "doctrine/doctrine-bundle": {
         "version": "2.13",
         "recipe": {
@@ -38,15 +26,12 @@
             "./migrations/.gitignore"
         ]
     },
-<<<<<<< HEAD
     "php-flasher/flasher-symfony": {
         "version": "v1.15.14"
     },
     "php-flasher/flasher-toastr-symfony": {
         "version": "v1.15.14"
     },
-=======
->>>>>>> 0ed33a6b (KacemSuivi)
     "phpunit/phpunit": {
         "version": "9.6",
         "recipe": {
@@ -314,13 +299,6 @@
             "branch": "main",
             "version": "1.13",
             "ref": "1b3064c2f6b255c2bc2f56461aaeb76b11e07e36"
-<<<<<<< HEAD
         }
-=======
-        },
-        "files": [
-            "./config/packages/vich_uploader.yaml"
-        ]
->>>>>>> 0ed33a6b (KacemSuivi)
     }
 }

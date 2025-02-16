@@ -7,19 +7,13 @@
         "php": ">=8.1",
         "ext-ctype": "*",
         "ext-iconv": "*",
-<<<<<<< HEAD
-=======
         "doctrine/annotations": "*",
->>>>>>> 0ed33a6b (KacemSuivi)
         "doctrine/dbal": "^3",
         "doctrine/doctrine-bundle": "^2.13",
         "doctrine/doctrine-migrations-bundle": "^3.4",
         "doctrine/orm": "^3.3",
-<<<<<<< HEAD
         "php-flasher/flasher-symfony": "^1.15",
         "php-flasher/flasher-toastr-symfony": "^1.15",
-=======
->>>>>>> 0ed33a6b (KacemSuivi)
         "phpdocumentor/reflection-docblock": "^5.6",
         "phpstan/phpdoc-parser": "^2.0",
         "symfony/asset": "6.4.*",

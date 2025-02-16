@@ -21,8 +21,4 @@ class DonateurController extends AbstractController
             'user' => $user,
         ]);
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 0ed33a6b (KacemSuivi)

@@ -1,19 +1,10 @@
-<<<<<<< HEAD
 {% extends 'base.html.twig' %}
-=======
-{# {% extends 'base.html.twig' %}
->>>>>>> 0ed33a6b (KacemSuivi)
 
 {% block title %}Médecin Dashboard{% endblock %}
 
 {% block body %}
-<<<<<<< HEAD
 {% include 'partials/_navigation.html.twig' %}
 
-=======
- {% include 'partials/_navigation.html.twig' %}
- 
->>>>>>> 0ed33a6b (KacemSuivi)
 <div class="container mt-4">
     <div class="row">
         <div class="col-md-12">
@@ -53,18 +44,13 @@
                     <div class="list-group">
                         <a href="#" class="list-group-item list-group-item-action">View Patients</a>
                         <a href="#" class="list-group-item list-group-item-action">Manage Appointments</a>
-<<<<<<< HEAD
                         <a href="{{ path('app_medecin_rapports') }}" class="list-group-item list-group-item-action">Rapports Médicaux</a>
-=======
-                        <a href="#" class="list-group-item list-group-item-action">Medical Records</a>
->>>>>>> 0ed33a6b (KacemSuivi)
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<<<<<<< HEAD
 
 {% for label, messages in app.flashes %}
     {% for message in messages %}
@@ -82,134 +68,3 @@
 {% endfor %}
 
 {% endblock %}
-=======
-{% endblock %}
- #}
-
- {% extends 'base_medecin.html.twig' %}
-
-{% block title %}Tableau de bord - Médecin{% endblock %}
-
-{% block stylesheets %}
-    {{ parent() }}
-{% endblock %}
-
-{% block javascripts %}
-    <script>
-        // Define global variables for charts
-        window.patientsCount = {{ patients|default(0) }};
-        window.appointmentsCount = {{ appointments|default(0) }};
-        window.pendingAppointments = {{ pending_appointments|default(0) }};
-    </script>
-    {{ parent() }}
-{% endblock %}
-
-{% block body %}
-    <!-- Statistics Start -->
-    <div class="container-fluid pt-4 px-4">
-        <div class="row g-4">
-            <div class="col-sm-6 col-xl-3">
-                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                    <i class="fa fa-user-injured fa-3x text-primary"></i>
-                    <div class="ms-3">
-                        <p class="mb-2">Mes Patients</p>
-                        <h6 class="mb-0">{{ patients|default(0) }}</h6>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-xl-3">
-                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                    <i class="fa fa-calendar-check fa-3x text-primary"></i>
-                    <div class="ms-3">
-                        <p class="mb-2">Rendez-vous</p>
-                        <h6 class="mb-0">{{ appointments|default(0) }}</h6>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-xl-3">
-                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                    <i class="fa fa-calendar-day fa-3x text-primary"></i>
-                    <div class="ms-3">
-                        <p class="mb-2">En attente</p>
-                        <h6 class="mb-0">{{ pending_appointments|default(0) }}</h6>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-xl-3">
-                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                    <i class="fa fa-file-medical fa-3x text-primary"></i>
-                    <div class="ms-3">
-                        <p class="mb-2">Dossiers</p>
-                        <h6 class="mb-0">{{ medical_records|default(0) }}</h6>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Statistics End -->
-
-    <!-- Charts Start -->
-    <div class="container-fluid pt-4 px-4">
-        <div class="row g-4">
-            <div class="col-sm-12 col-xl-6">
-                <div class="bg-light text-center rounded p-4">
-                    <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h6 class="mb-0">Rendez-vous par mois</h6>
-                    </div>
-                    <canvas id="appointments-chart"></canvas>
-                </div>
-            </div>
-            <div class="col-sm-12 col-xl-6">
-                <div class="bg-light text-center rounded p-4">
-                    <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h6 class="mb-0">Répartition des patients</h6>
-                    </div>
-                    <canvas id="patients-chart"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Charts End -->
-
-    <!-- Recent Activity Start -->
-    <div class="container-fluid pt-4 px-4">
-        <div class="bg-light text-center rounded p-4">
-            <div class="d-flex align-items-center justify-content-between mb-4">
-                <h6 class="mb-0">Prochains rendez-vous</h6>
-                <a href="#">Voir tout</a>
-            </div>
-            <div class="table-responsive">
-                <table class="table text-start align-middle table-bordered table-hover mb-0">
-                    <thead>
-                        <tr class="text-dark">
-                            <th scope="col">Date</th>
-                            <th scope="col">Patient</th>
-                            <th scope="col">Type</th>
-                            <th scope="col">Statut</th>
-                            <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% if upcoming_appointments is defined and upcoming_appointments|length > 0 %}
-                            {% for appointment in upcoming_appointments %}
-                                <tr>
-                                    <td>{{ appointment.date|date('d/m/Y H:i') }}</td>
-                                    <td>{{ appointment.patient.nom }} {{ appointment.patient.prenom }}</td>
-                                    <td>{{ appointment.type }}</td>
-                                    <td>{{ appointment.status }}</td>
-                                    <td><a class="btn btn-sm btn-primary" href="#">Détails</a></td>
-                                </tr>
-                            {% endfor %}
-                        {% else %}
-                            <tr>
-                                <td colspan="5" class="text-center">Aucun rendez-vous à venir</td>
-                            </tr>
-                        {% endif %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    <!-- Recent Activity End -->
-{% endblock %}
->>>>>>> 0ed33a6b (KacemSuivi)
