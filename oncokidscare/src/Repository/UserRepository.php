@@ -20,4 +20,21 @@ class UserRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, User::class);
     }
+    public function findPatients(): array
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.role LIKE :role')
+            ->setParameter('role', '%ROLE_PATIENT%')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findMedecins(): array
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.role LIKE :role')
+            ->setParameter('role', '%ROLE_MEDECIN%')
+            ->getQuery()
+            ->getResult();
+    }
 }

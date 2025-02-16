@@ -57,7 +57,7 @@
         <a href="{{ path('app_home') }}" class="nav-item nav-link active">Home</a>
         <a href="{{ path('app_about') }}" class="nav-item nav-link">About</a>
         <a href="{{ path('app_service') }}" class="nav-item nav-link">Service</a>
-                   {% if not is_granted('ROLE_MEDECIN') and not is_granted('ROLE_PATIENT') %}
+        {% if not is_granted('ROLE_MEDECIN') and not is_granted('ROLE_PATIENT') %}
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Donation</a>
                 <div class="dropdown-menu rounded-0 rounded-bottom m-0">
@@ -84,6 +84,18 @@
                 <a href="{{ path('app_404') }}" class="dropdown-item">404 Page</a>
             </div>
         </div>
+        {% if is_granted('ROLE_MEDECIN') %}
+        <div class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Traitements</a>
+            <div class="dropdown-menu rounded-0 rounded-bottom m-0">
+                <a href="{{ path('app_create_rapport') }}" class="dropdown-item">Rapport Medical</a>
+                <a href="{{ path('app_medecin_rapports') }}" class="dropdown-item">Liste des Rapports</a>
+            </div>
+        </div>  
+    {% endif %}
+        {% if is_granted('ROLE_PATIENT') %}
+                <a href="{{ path('app_patient_rapports') }}" class="nav-item nav-link">Mes Rapports</a>
+            {% endif %}
         <a href="{{ path('app_contact') }}" class="nav-item nav-link">Contact</a>
         {% if app.user %}
             <a href="{{ path('app_logout') }}" class="nav-item nav-link">Déconnexion</a>
@@ -92,11 +104,13 @@
             <a href="{{ path('app_register') }}" class="nav-item nav-link">Inscription</a>
         {% endif %}
     </div>
+
     <a href="{{ path('app_appointment') }}" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Appointment<i class="fa fa-arrow-right ms-3"></i></a>
 </div>
     </nav>
     <!-- Navbar End -->
 
+  
     {% block body %}{% endblock %}
 
     <!-- Footer Start -->
@@ -170,10 +184,8 @@
     <script src="{{ asset('lib/tempusdominus/js/moment.min.js') }}"></script>
     <script src="{{ asset('lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
     <script src="{{ asset('lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
-
-    <!-- Template Javascript -->
     <script src="{{ asset('js/main.js') }}"></script>
-
+   
     {% block javascript %}{% endblock %}
 </body>
 </html>

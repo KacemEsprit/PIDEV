@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rapport Médical{% endblock %}
+
+{% block body %}
+    <!-- En-tête de la Page -->
+    <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container py-5 text-center">
+            <h1 class="display-4 text-white mb-3 animated slideInDown">
+                <i class="fas fa-user-md me-2"></i> Rapport Médical du Patient
+            </h1>
+        </div>
+    </div>
+
+    <!-- Contenu du Rapport -->
+    <div class="container py-5">
+
+        {% if rapports is defined and rapports|length > 0 %}
+            {% for rapport in rapports %}
+                <div class="card shadow-lg border-0 mb-5">
+                    <div class="card-header bg-primary text-white text-center">
+                        <h4><i class="fas fa-file-medical me-2"></i> Rapport Médical - {{ rapport.dateRapport|date('d/m/Y') }}</h4>
+                    </div>
+                    <div class="card-body px-5 py-4">
+                        
+                        <!-- Informations du Patient -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <h6 class="text-secondary">Informations du Patient</h6>
+                                <table class="table table-bordered">
+                                    <tr><th>Nom</th><td>{{user.nom }}</td></tr>
+                                    <tr><th>Prénom</th><td>{{ user.prenom }}</td></tr>
+                                    <tr><th>Âge</th><td>{{ rapport.age }} ans</td></tr>
+                                    <tr><th>Sexe</th><td>{{ rapport.sexe }}</td></tr>
+                                    <tr><th>Numéro Dossier</th><td>{{ rapport.id }}</td></tr>
+                                </table>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="text-secondary">Informations Médicales</h6>
+                                <table class="table table-bordered">
+                                    <tr><th>Tension Artérielle</th><td>{{ rapport.tensionArterielle }}</td></tr>
+                                    <tr><th>Pouls</th><td>{{ rapport.pouls }} bpm</td></tr>
+                                    <tr><th>Température</th><td>{{ rapport.temperature }}°C</td></tr>
+                                    <tr><th>Saturation O₂</th><td>{{ rapport.saturationOxygene }}%</td></tr>
+                                    <tr><th>IMC</th><td>{{ rapport.imc }}</td></tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Traitement et Diagnostic -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <h6 class="text-secondary">Diagnostic et Évaluation</h6>
+                                <table class="table table-bordered">
+                                    <tr><th>Score de Glasgow</th><td>{{ rapport.scoreGlasgow }}/15</td></tr>
+                                    <tr><th>Filtration Rénale</th><td>{{ rapport.filtrationSang }}</td></tr>
+                                    <tr><th>Créatinine</th><td>{{ rapport.creatinine }}</td></tr>
+                                    <tr><th>Respiration Assistée</th><td>{{ rapport.respirationAssistee ? 'Oui' : 'Non' }}</td></tr>
+                                </table>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="text-secondary">Traitement</h6>
+                                <table class="table table-bordered">
+                                    <tr><th>Traitement</th><td>{{ rapport.traitement }}</td></tr>
+                                    <tr><th>Dose</th><td>{{ rapport.doseMedicament }} mg</td></tr>
+                                    <tr><th>Fréquence</th><td>{{ rapport.frequenceTraitement }}</td></tr>
+                                    <tr><th>Niveau de Douleur</th><td>{{ rapport.niveauDouleur }}/10</td></tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Observations et Signature -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                {% if rapport.complications %}
+                                    <h6 class="text-danger"><i class="fas fa-exclamation-triangle me-2"></i> Complications et Remarques</h6>
+                                    <p class="text-muted">{{ rapport.complications }}</p>
+                                {% endif %}
+                                
+                               
+
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="alert alert-info text-center">
+                <p>Aucun rapport médical disponible.</p>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

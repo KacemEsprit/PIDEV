@@ -97,9 +97,10 @@ class __TwigTemplate_e530d6de2e7bb60fcb5341de412ac58d extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "body"));
 
         // line 6
+        yield " ";
         yield from $this->loadTemplate("partials/_navigation.html.twig", "medecin/dashboard.html.twig", 6)->unwrap()->yield($context);
         // line 7
-        yield "
+        yield " 
 <div class=\"container mt-4\">
     <div class=\"row\">
         <div class=\"col-md-12\">
@@ -194,18 +195,18 @@ class __TwigTemplate_e530d6de2e7bb60fcb5341de412ac58d extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  144 => 33,  140 => 32,  136 => 31,  119 => 19,  111 => 14,  102 => 7,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
+        return array (  145 => 33,  141 => 32,  137 => 31,  120 => 19,  112 => 14,  103 => 7,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
     }
 
     public function getSourceContext(): Source
     {
-        return new Source("{% extends 'base.html.twig' %}
+        return new Source(" {% extends 'base.html.twig' %}
 
 {% block title %}Médecin Dashboard{% endblock %}
 
 {% block body %}
-{% include 'partials/_navigation.html.twig' %}
-
+ {% include 'partials/_navigation.html.twig' %}
+ 
 <div class=\"container mt-4\">
     <div class=\"row\">
         <div class=\"col-md-12\">
@@ -253,6 +254,9 @@ class __TwigTemplate_e530d6de2e7bb60fcb5341de412ac58d extends Template
     </div>
 </div>
 {% endblock %}
-", "medecin/dashboard.html.twig", "D:\\PIDEV\\oncokidscare\\templates\\medecin\\dashboard.html.twig");
+
+
+
+", "medecin/dashboard.html.twig", "C:\\GLEsprit3eme\\Projet_PI\\projet-onco\\PIDEV\\oncokidscare\\templates\\medecin\\dashboard.html.twig");
     }
 }

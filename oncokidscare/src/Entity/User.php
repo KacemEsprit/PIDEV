@@ -73,6 +73,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'owner', targetEntity: ChatGroup::class)]
     private Collection $ownedGroups;
 
+      /**
+     * @var Collection<int, RapportDetat>
+     */
+    #[ORM\OneToMany(targetEntity: RapportDetat::class, mappedBy: 'patient', orphanRemoval: true)]
+    private Collection $rapportDetats;
+
     public function __construct()
     {
         $this->publications = new ArrayCollection();
@@ -80,6 +86,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->likes = new ArrayCollection();
         $this->chatGroups = new ArrayCollection();
         $this->ownedGroups = new ArrayCollection();
+        $this->rapportDetats = new ArrayCollection();
 
     }
 
@@ -359,6 +366,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $ownedGroup->setOwner(null);
             }
         }
+        return $this;
+    }
+    /**
+     * @return Collection<int, RapportDetat>
+     */
+    public function getRapportDetats(): Collection
+    {
+        return $this->rapportDetats;
+    }
+
+    public function addRapportDetat(RapportDetat $rapportDetat): static
+    {
+        if (!$this->rapportDetats->contains($rapportDetat)) {
+            $this->rapportDetats->add($rapportDetat);
+            $rapportDetat->setPatient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRapportDetat(RapportDetat $rapportDetat): static
+    {
+        if ($this->rapportDetats->removeElement($rapportDetat)) {
+            // set the owning side to null (unless already changed)
+            if ($rapportDetat->getPatient() === $this) {
+                $rapportDetat->setPatient(null);
+            }
+        }
+
         return $this;
     }
 }

@@ -34,6 +34,7 @@ class User extends \App\Entity\User implements \Doctrine\ORM\Proxy\InternalProxy
         "\0".parent::class."\0".'password' => [parent::class, 'password', null],
         "\0".parent::class."\0".'prenom' => [parent::class, 'prenom', null],
         "\0".parent::class."\0".'publications' => [parent::class, 'publications', null],
+        "\0".parent::class."\0".'rapportDetats' => [parent::class, 'rapportDetats', null],
         "\0".parent::class."\0".'role' => [parent::class, 'role', null],
         "\0".parent::class."\0".'tel' => [parent::class, 'tel', null],
         'adresse' => [parent::class, 'adresse', null],
@@ -48,6 +49,7 @@ class User extends \App\Entity\User implements \Doctrine\ORM\Proxy\InternalProxy
         'password' => [parent::class, 'password', null],
         'prenom' => [parent::class, 'prenom', null],
         'publications' => [parent::class, 'publications', null],
+        'rapportDetats' => [parent::class, 'rapportDetats', null],
         'role' => [parent::class, 'role', null],
         'tel' => [parent::class, 'tel', null],
     ];
