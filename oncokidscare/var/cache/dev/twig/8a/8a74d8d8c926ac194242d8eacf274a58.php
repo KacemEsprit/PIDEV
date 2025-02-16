@@ -45,21 +45,18 @@ class __TwigTemplate_5cf4f97c110fb1797a9e37a710a50315 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "template", "publication/_form.html.twig"));
 
         // line 1
-        yield         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 1, $this->source); })()), 'form_start');
+        yield "<div class=\"form-group category-select\">
+    <div class=\"input-group\">
+        <span class=\"input-group-text\">
+            <i class=\"fas fa-tag\"></i>
+        </span>
+        ";
+        // line 6
+        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 6, $this->source); })()), "category", [], "any", false, false, false, 6), 'widget', ["attr" => ["class" => "form-select custom-select", "data-style" => "btn-primary"]]);
+        // line 11
         yield "
-    ";
-        // line 2
-        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 2, $this->source); })()), 'widget');
-        yield "
-    <button class=\"btn\">";
-        // line 3
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(((array_key_exists("button_label", $context)) ? (Twig\Extension\CoreExtension::default((isset($context["button_label"]) || array_key_exists("button_label", $context) ? $context["button_label"] : (function () { throw new RuntimeError('Variable "button_label" does not exist.', 3, $this->source); })()), "Save")) : ("Save")), "html", null, true);
-        yield "</button>
-";
-        // line 4
-        yield         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 4, $this->source); })()), 'form_end');
-        yield "
-";
+    </div>
+</div>";
         
         $__internal_5a27a8ba21ca79b61932376b2fa922d2->leave($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof);
 
@@ -90,15 +87,23 @@ class __TwigTemplate_5cf4f97c110fb1797a9e37a710a50315 extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  60 => 4,  56 => 3,  52 => 2,  48 => 1,);
+        return array (  57 => 11,  55 => 6,  48 => 1,);
     }
 
     public function getSourceContext(): Source
     {
-        return new Source("{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class=\"btn\">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
-", "publication/_form.html.twig", "D:\\PIDEV\\oncokidscare\\templates\\publication\\_form.html.twig");
+        return new Source("<div class=\"form-group category-select\">
+    <div class=\"input-group\">
+        <span class=\"input-group-text\">
+            <i class=\"fas fa-tag\"></i>
+        </span>
+        {{ form_widget(form.category, {
+            'attr': {
+                'class': 'form-select custom-select',
+                'data-style': 'btn-primary'
+            }
+        }) }}
+    </div>
+</div>", "publication/_form.html.twig", "D:\\PIDEV\\oncokidscare\\templates\\publication\\_form.html.twig");
     }
 }

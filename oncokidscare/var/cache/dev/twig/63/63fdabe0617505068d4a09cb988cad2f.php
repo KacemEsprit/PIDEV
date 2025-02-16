@@ -83,7 +83,7 @@ class __TwigTemplate_645f424cc3b285e80ae421ab7a2ebe16 extends Template
         yield from [];
     }
 
-    // line 4
+    // line 3
     /**
      * @return iterable<null|scalar|\Stringable>
      */
@@ -96,7 +96,7 @@ class __TwigTemplate_645f424cc3b285e80ae421ab7a2ebe16 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "body"));
 
-        // line 5
+        // line 4
         yield "             <!-- Sale & Revenue Start -->
             <div class=\"container-fluid pt-4 px-4\">
                 <div class=\"row g-4\">
@@ -104,8 +104,11 @@ class __TwigTemplate_645f424cc3b285e80ae421ab7a2ebe16 extends Template
                         <div class=\"bg-light rounded d-flex align-items-center justify-content-between p-4\">
                             <i class=\"fa fa-chart-line fa-3x text-primary\"></i>
                             <div class=\"ms-3\">
-                                <p class=\"mb-2\">Today Sale</p>
-                                <h6 class=\"mb-0\">\$1234</h6>
+                                <p class=\"mb-2\">Donateurs</p>
+                                <h6 class=\"mb-0\">";
+        // line 12
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::length($this->env->getCharset(), (isset($context["donateurs"]) || array_key_exists("donateurs", $context) ? $context["donateurs"] : (function () { throw new RuntimeError('Variable "donateurs" does not exist.', 12, $this->source); })())), "html", null, true);
+        yield "</h6>
                             </div>
                         </div>
                     </div>
@@ -113,8 +116,11 @@ class __TwigTemplate_645f424cc3b285e80ae421ab7a2ebe16 extends Template
                         <div class=\"bg-light rounded d-flex align-items-center justify-content-between p-4\">
                             <i class=\"fa fa-chart-bar fa-3x text-primary\"></i>
                             <div class=\"ms-3\">
-                                <p class=\"mb-2\">Total Sale</p>
-                                <h6 class=\"mb-0\">\$1234</h6>
+                                <p class=\"mb-2\">Patients</p>
+                                <h6 class=\"mb-0\">";
+        // line 21
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::length($this->env->getCharset(), (isset($context["patients"]) || array_key_exists("patients", $context) ? $context["patients"] : (function () { throw new RuntimeError('Variable "patients" does not exist.', 21, $this->source); })())), "html", null, true);
+        yield "</h6>
                             </div>
                         </div>
                     </div>
@@ -122,8 +128,11 @@ class __TwigTemplate_645f424cc3b285e80ae421ab7a2ebe16 extends Template
                         <div class=\"bg-light rounded d-flex align-items-center justify-content-between p-4\">
                             <i class=\"fa fa-chart-area fa-3x text-primary\"></i>
                             <div class=\"ms-3\">
-                                <p class=\"mb-2\">Today Revenue</p>
-                                <h6 class=\"mb-0\">\$1234</h6>
+                                <p class=\"mb-2\">Médecins</p>
+                                <h6 class=\"mb-0\"> ";
+        // line 30
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::length($this->env->getCharset(), (isset($context["medecins"]) || array_key_exists("medecins", $context) ? $context["medecins"] : (function () { throw new RuntimeError('Variable "medecins" does not exist.', 30, $this->source); })())), "html", null, true);
+        yield "</h6>
                             </div>
                         </div>
                     </div>
@@ -131,8 +140,11 @@ class __TwigTemplate_645f424cc3b285e80ae421ab7a2ebe16 extends Template
                         <div class=\"bg-light rounded d-flex align-items-center justify-content-between p-4\">
                             <i class=\"fa fa-chart-pie fa-3x text-primary\"></i>
                             <div class=\"ms-3\">
-                                <p class=\"mb-2\">Total Revenue</p>
-                                <h6 class=\"mb-0\">\$1234</h6>
+                                <p class=\"mb-2\">Admins</p>
+                                <h6 class=\"mb-0\">";
+        // line 39
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::length($this->env->getCharset(), (isset($context["admins"]) || array_key_exists("admins", $context) ? $context["admins"] : (function () { throw new RuntimeError('Variable "admins" does not exist.', 39, $this->source); })())), "html", null, true);
+        yield "</h6>
                             </div>
                         </div>
                     </div>
@@ -252,7 +264,7 @@ class __TwigTemplate_645f424cc3b285e80ae421ab7a2ebe16 extends Template
                             </div>
                             <div class=\"d-flex align-items-center border-bottom py-3\">
                                 <img class=\"rounded-circle flex-shrink-0\" src=\"";
-        // line 159
+        // line 158
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("img/user.jpg"), "html", null, true);
         yield "\" alt=\"\" style=\"width: 40px; height: 40px;\">
                                 <div class=\"w-100 ms-3\">
@@ -265,7 +277,7 @@ class __TwigTemplate_645f424cc3b285e80ae421ab7a2ebe16 extends Template
                             </div>
                             <div class=\"d-flex align-items-center border-bottom py-3\">
                                 <img class=\"rounded-circle flex-shrink-0\" src=\"";
-        // line 169
+        // line 168
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("img/user.jpg"), "html", null, true);
         yield "\" alt=\"\" style=\"width: 40px; height: 40px;\">
                                 <div class=\"w-100 ms-3\">
@@ -278,7 +290,7 @@ class __TwigTemplate_645f424cc3b285e80ae421ab7a2ebe16 extends Template
                             </div>
                             <div class=\"d-flex align-items-center border-bottom py-3\">
                                 <img class=\"rounded-circle flex-shrink-0\" src=\"";
-        // line 179
+        // line 178
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("img/user.jpg"), "html", null, true);
         yield "\" alt=\"\" style=\"width: 40px; height: 40px;\">
                                 <div class=\"w-100 ms-3\">
@@ -291,7 +303,7 @@ class __TwigTemplate_645f424cc3b285e80ae421ab7a2ebe16 extends Template
                             </div>
                             <div class=\"d-flex align-items-center pt-3\">
                                 <img class=\"rounded-circle flex-shrink-0\" src=\"";
-        // line 189
+        // line 188
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("img/user.jpg"), "html", null, true);
         yield "\" alt=\"\" style=\"width: 40px; height: 40px;\">
                                 <div class=\"w-100 ms-3\">
@@ -373,6 +385,134 @@ class __TwigTemplate_645f424cc3b285e80ae421ab7a2ebe16 extends Template
                 </div>
             </div>
             <!-- Widgets End -->
+
+
+<div class=\"container mt-4\">
+    <div class=\"row\">
+        <div class=\"col-md-12\">
+            <div class=\"card main-card\">
+                <div class=\"card-body text-center\">
+                    <div class=\"d-flex justify-content-end mb-3\">
+                        <a href=\"";
+        // line 276
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_logout");
+        yield "\" class=\"btn btn-danger\">
+                            <i class=\"fas fa-sign-out-alt\"></i> Déconnexion
+                        </a>
+                    </div>
+                    <i class=\"fas fa-user-shield icon-large mb-3\"></i>
+                    <h1 class=\"display-4\">Je suis Admin</h1>
+                    <p class=\"lead\">Bienvenue ";
+        // line 282
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, (isset($context["user"]) || array_key_exists("user", $context) ? $context["user"] : (function () { throw new RuntimeError('Variable "user" does not exist.', 282, $this->source); })()), "prenom", [], "any", false, false, false, 282), "html", null, true);
+        yield "  ";
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, (isset($context["user"]) || array_key_exists("user", $context) ? $context["user"] : (function () { throw new RuntimeError('Variable "user" does not exist.', 282, $this->source); })()), "nom", [], "any", false, false, false, 282), "html", null, true);
+        yield "</p>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    
+    <div class=\"row mt-4\">
+        <div class=\"col-md-3\">
+            <div class=\"info-card text-center\">
+                <i class=\"fas fa-user-md icon-large\"></i>
+                <h3>";
+        // line 293
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::length($this->env->getCharset(), (isset($context["medecins"]) || array_key_exists("medecins", $context) ? $context["medecins"] : (function () { throw new RuntimeError('Variable "medecins" does not exist.', 293, $this->source); })())), "html", null, true);
+        yield "</h3>
+                <p>Médecins</p>
+            </div>
+        </div>
+        <div class=\"col-md-3\">
+            <div class=\"info-card text-center\">
+                <i class=\"fas fa-procedures icon-large\"></i>
+                <h3>";
+        // line 300
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::length($this->env->getCharset(), (isset($context["patients"]) || array_key_exists("patients", $context) ? $context["patients"] : (function () { throw new RuntimeError('Variable "patients" does not exist.', 300, $this->source); })())), "html", null, true);
+        yield "</h3>
+                <p>Patients</p>
+            </div>
+        </div>
+        <div class=\"col-md-3\">
+            <div class=\"info-card text-center\">
+                <i class=\"fas fa-hand-holding-heart icon-large\"></i>
+                <h3>";
+        // line 307
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::length($this->env->getCharset(), (isset($context["donateurs"]) || array_key_exists("donateurs", $context) ? $context["donateurs"] : (function () { throw new RuntimeError('Variable "donateurs" does not exist.', 307, $this->source); })())), "html", null, true);
+        yield "</h3>
+                <p>Donateurs</p>
+            </div>
+        </div>
+        <div class=\"col-md-3\">
+            <div class=\"info-card text-center\">
+                <i class=\"fas fa-users-cog icon-large\"></i>
+                <h3>";
+        // line 314
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::length($this->env->getCharset(), (isset($context["admins"]) || array_key_exists("admins", $context) ? $context["admins"] : (function () { throw new RuntimeError('Variable "admins" does not exist.', 314, $this->source); })())), "html", null, true);
+        yield "</h3>
+                <p>Admins</p>
+            </div>
+        </div>
+    </div>
+
+    <div class=\"row mt-4\">
+        <div class=\"col-md-6\">
+            <div class=\"card\">
+                <div class=\"card-body\">
+                    <h5 class=\"card-title\">
+                        <i class=\"fas fa-tasks me-2\"></i>
+                        Actions Rapides
+                    </h5>
+                    <div class=\"list-group\">
+                        <a href=\"#\" class=\"list-group-item list-group-item-action\">
+                            <i class=\"fas fa-user-plus me-2\"></i>
+                            Ajouter un Médecin
+                        </a>
+                        <a href=\"#\" class=\"list-group-item list-group-item-action\">
+                            <i class=\"fas fa-calendar-plus me-2\"></i>
+                            Gérer les Rendez-vous
+                        </a>
+                        <a href=\"#\" class=\"list-group-item list-group-item-action\">
+                            <i class=\"fas fa-chart-line me-2\"></i>
+                            Voir les Statistiques
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class=\"col-md-6\">
+            <div class=\"card\">
+                <div class=\"card-body\">
+                    <h5 class=\"card-title\">
+                        <i class=\"fas fa-bell me-2\"></i>
+                        Notifications Récentes
+                    </h5>
+                    <div class=\"list-group\">
+                        <div class=\"list-group-item\">
+                            <i class=\"fas fa-user-plus me-2\"></i>
+                            Nouveau patient enregistré
+                            <small class=\"text-muted d-block\">Il y a 2 heures</small>
+                        </div>
+                        <div class=\"list-group-item\">
+                            <i class=\"fas fa-calendar-check me-2\"></i>
+                            5 nouveaux rendez-vous aujourd'hui
+                            <small class=\"text-muted d-block\">Il y a 3 heures</small>
+                        </div>
+                        <div class=\"list-group-item\">
+                            <i class=\"fas fa-hand-holding-heart me-2\"></i>
+                            Nouvelle donation reçue
+                            <small class=\"text-muted d-block\">Il y a 5 heures</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 ";
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
@@ -404,14 +544,13 @@ class __TwigTemplate_645f424cc3b285e80ae421ab7a2ebe16 extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  295 => 189,  282 => 179,  269 => 169,  256 => 159,  100 => 5,  87 => 4,  64 => 2,  41 => 1,);
+        return array (  453 => 314,  443 => 307,  433 => 300,  423 => 293,  407 => 282,  398 => 276,  307 => 188,  294 => 178,  281 => 168,  268 => 158,  146 => 39,  134 => 30,  122 => 21,  110 => 12,  100 => 4,  87 => 3,  64 => 2,  41 => 1,);
     }
 
     public function getSourceContext(): Source
     {
         return new Source("{% extends 'base_admin.html.twig' %}
 {% block title %}Admin - OncoKidsCare{% endblock %}
-
 {% block body %}
              <!-- Sale & Revenue Start -->
             <div class=\"container-fluid pt-4 px-4\">
@@ -420,8 +559,8 @@ class __TwigTemplate_645f424cc3b285e80ae421ab7a2ebe16 extends Template
                         <div class=\"bg-light rounded d-flex align-items-center justify-content-between p-4\">
                             <i class=\"fa fa-chart-line fa-3x text-primary\"></i>
                             <div class=\"ms-3\">
-                                <p class=\"mb-2\">Today Sale</p>
-                                <h6 class=\"mb-0\">\$1234</h6>
+                                <p class=\"mb-2\">Donateurs</p>
+                                <h6 class=\"mb-0\">{{ donateurs|length }}</h6>
                             </div>
                         </div>
                     </div>
@@ -429,8 +568,8 @@ class __TwigTemplate_645f424cc3b285e80ae421ab7a2ebe16 extends Template
                         <div class=\"bg-light rounded d-flex align-items-center justify-content-between p-4\">
                             <i class=\"fa fa-chart-bar fa-3x text-primary\"></i>
                             <div class=\"ms-3\">
-                                <p class=\"mb-2\">Total Sale</p>
-                                <h6 class=\"mb-0\">\$1234</h6>
+                                <p class=\"mb-2\">Patients</p>
+                                <h6 class=\"mb-0\">{{ patients|length }}</h6>
                             </div>
                         </div>
                     </div>
@@ -438,8 +577,8 @@ class __TwigTemplate_645f424cc3b285e80ae421ab7a2ebe16 extends Template
                         <div class=\"bg-light rounded d-flex align-items-center justify-content-between p-4\">
                             <i class=\"fa fa-chart-area fa-3x text-primary\"></i>
                             <div class=\"ms-3\">
-                                <p class=\"mb-2\">Today Revenue</p>
-                                <h6 class=\"mb-0\">\$1234</h6>
+                                <p class=\"mb-2\">Médecins</p>
+                                <h6 class=\"mb-0\"> {{ medecins|length }}</h6>
                             </div>
                         </div>
                     </div>
@@ -447,8 +586,8 @@ class __TwigTemplate_645f424cc3b285e80ae421ab7a2ebe16 extends Template
                         <div class=\"bg-light rounded d-flex align-items-center justify-content-between p-4\">
                             <i class=\"fa fa-chart-pie fa-3x text-primary\"></i>
                             <div class=\"ms-3\">
-                                <p class=\"mb-2\">Total Revenue</p>
-                                <h6 class=\"mb-0\">\$1234</h6>
+                                <p class=\"mb-2\">Admins</p>
+                                <h6 class=\"mb-0\">{{ admins|length }}</h6>
                             </div>
                         </div>
                     </div>
@@ -677,6 +816,114 @@ class __TwigTemplate_645f424cc3b285e80ae421ab7a2ebe16 extends Template
                 </div>
             </div>
             <!-- Widgets End -->
+
+
+<div class=\"container mt-4\">
+    <div class=\"row\">
+        <div class=\"col-md-12\">
+            <div class=\"card main-card\">
+                <div class=\"card-body text-center\">
+                    <div class=\"d-flex justify-content-end mb-3\">
+                        <a href=\"{{ path('app_logout') }}\" class=\"btn btn-danger\">
+                            <i class=\"fas fa-sign-out-alt\"></i> Déconnexion
+                        </a>
+                    </div>
+                    <i class=\"fas fa-user-shield icon-large mb-3\"></i>
+                    <h1 class=\"display-4\">Je suis Admin</h1>
+                    <p class=\"lead\">Bienvenue {{ user.prenom }}  {{ user.nom }}</p>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    
+    <div class=\"row mt-4\">
+        <div class=\"col-md-3\">
+            <div class=\"info-card text-center\">
+                <i class=\"fas fa-user-md icon-large\"></i>
+                <h3>{{ medecins|length }}</h3>
+                <p>Médecins</p>
+            </div>
+        </div>
+        <div class=\"col-md-3\">
+            <div class=\"info-card text-center\">
+                <i class=\"fas fa-procedures icon-large\"></i>
+                <h3>{{ patients|length }}</h3>
+                <p>Patients</p>
+            </div>
+        </div>
+        <div class=\"col-md-3\">
+            <div class=\"info-card text-center\">
+                <i class=\"fas fa-hand-holding-heart icon-large\"></i>
+                <h3>{{ donateurs|length }}</h3>
+                <p>Donateurs</p>
+            </div>
+        </div>
+        <div class=\"col-md-3\">
+            <div class=\"info-card text-center\">
+                <i class=\"fas fa-users-cog icon-large\"></i>
+                <h3>{{ admins|length }}</h3>
+                <p>Admins</p>
+            </div>
+        </div>
+    </div>
+
+    <div class=\"row mt-4\">
+        <div class=\"col-md-6\">
+            <div class=\"card\">
+                <div class=\"card-body\">
+                    <h5 class=\"card-title\">
+                        <i class=\"fas fa-tasks me-2\"></i>
+                        Actions Rapides
+                    </h5>
+                    <div class=\"list-group\">
+                        <a href=\"#\" class=\"list-group-item list-group-item-action\">
+                            <i class=\"fas fa-user-plus me-2\"></i>
+                            Ajouter un Médecin
+                        </a>
+                        <a href=\"#\" class=\"list-group-item list-group-item-action\">
+                            <i class=\"fas fa-calendar-plus me-2\"></i>
+                            Gérer les Rendez-vous
+                        </a>
+                        <a href=\"#\" class=\"list-group-item list-group-item-action\">
+                            <i class=\"fas fa-chart-line me-2\"></i>
+                            Voir les Statistiques
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class=\"col-md-6\">
+            <div class=\"card\">
+                <div class=\"card-body\">
+                    <h5 class=\"card-title\">
+                        <i class=\"fas fa-bell me-2\"></i>
+                        Notifications Récentes
+                    </h5>
+                    <div class=\"list-group\">
+                        <div class=\"list-group-item\">
+                            <i class=\"fas fa-user-plus me-2\"></i>
+                            Nouveau patient enregistré
+                            <small class=\"text-muted d-block\">Il y a 2 heures</small>
+                        </div>
+                        <div class=\"list-group-item\">
+                            <i class=\"fas fa-calendar-check me-2\"></i>
+                            5 nouveaux rendez-vous aujourd'hui
+                            <small class=\"text-muted d-block\">Il y a 3 heures</small>
+                        </div>
+                        <div class=\"list-group-item\">
+                            <i class=\"fas fa-hand-holding-heart me-2\"></i>
+                            Nouvelle donation reçue
+                            <small class=\"text-muted d-block\">Il y a 5 heures</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
 ", "admin_home/index.html.twig", "D:\\PIDEV\\oncokidscare\\templates\\admin_home\\index.html.twig");
     }
