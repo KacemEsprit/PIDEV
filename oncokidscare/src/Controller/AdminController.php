@@ -11,6 +11,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use App\Entity\Commande;
+use App\Repository\CommandeRepository;
 
 #[Route('/admin')]
 #[IsGranted('ROLE_ADMIN')]
@@ -66,5 +68,35 @@ class AdminController extends AbstractController
         $this->addFlash('warning', 'Publication rejetée.');
 
         return $this->redirectToRoute('admin_publications');
+    }
+    
+    #[Route('/commandes', name: 'admin_commandes')]
+    public function manageCommandes(CommandeRepository $commandeRepository): Response
+    {
+        $commandes = $commandeRepository->findAll();
+
+        return $this->render('admin/commandes.html.twig', [
+            'commandes' => $commandes,
+        ]);
+    }
+
+    #[Route('/commandes/valider/{id}', name: 'admin_commande_valider', methods: ['POST'])]
+    public function validerCommande(Commande $commande, EntityManagerInterface $entityManager): Response
+    {
+        $commande->setStatus('Validée');
+        $entityManager->flush();
+
+        $this->addFlash('success', 'La commande a été validée avec succès.');
+        return $this->redirectToRoute('admin_commandes');
+    }
+
+    #[Route('/commandes/annuler/{id}', name: 'admin_commande_annuler', methods: ['POST'])]
+    public function annulerCommande(Commande $commande, EntityManagerInterface $entityManager): Response
+    {
+        $commande->setStatus('Annulée');
+        $entityManager->flush();
+
+        $this->addFlash('success', 'La commande a été annulée.');
+        return $this->redirectToRoute('admin_commandes');
     }
 }

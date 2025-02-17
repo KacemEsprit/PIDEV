@@ -1,0 +1,66 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Gestion des Médicaments{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <h1 class="h3 mb-4 text-gray-800">Gestion des Médicaments</h1>
+
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Liste des Médicaments</h6>
+                <a href="{{ path('app_medicament_new') }}" class="btn btn-primary float-right">
+                    <i class="fas fa-plus"></i> Ajouter un médicament
+                </a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Description</th>
+                                <th>Quantité en stock</th>
+                                <th>Prix</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for medicament in medicaments %}
+                            <tr>
+                                <td>{{ medicament.nom }}</td>
+                                <td>{{ medicament.description }}</td>
+                                <td>{{ medicament.quantiteStock }}</td>
+                                <td>{{ medicament.prix|number_format(2, ',', ' ') }} €</td>
+                                <td>
+                                    <a href="{{ path('app_medicament_edit', {'id': medicament.id}) }}" class="btn btn-warning btn-sm">
+                                        <i class="fas fa-edit"></i> Modifier
+                                    </a>
+                                    <form method="post" action="{{ path('app_medicament_delete', {'id': medicament.id}) }}" style="display: inline-block" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce médicament ?');">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ medicament.id) }}">
+                                        <button class="btn btn-danger btn-sm">
+                                            <i class="fas fa-trash"></i> Supprimer
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="5" class="text-center">Aucun médicament trouvé</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

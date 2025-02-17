@@ -1,0 +1,60 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Gestion des Commandes{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Gestion des Commandes</h1>
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Patient</th>
+                    <th>Date</th>
+                    <th>Médicaments</th>
+                    <th>Quantité</th>
+                    <th>Montant</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for commande in commandes %}
+                <tr>
+                    <td>
+                        {{ commande.patient.nom }} {{ commande.patient.prenom }}<br>
+                        <small class="text-muted">{{ commande.patient.email }}</small>
+                    </td>
+                    <td>{{ commande.dateCommande|date('d/m/Y H:i') }}</td>
+                    <td>
+                        <ul>
+    {% for ligneCommande in commande.ligneCommandes %}
+                            <li>{{ ligneCommande.medicament.nom }} ({{ ligneCommande.quantite }})</li>
+                        {% endfor %}
+                        </ul>
+                    </td>
+                    <td>{{ commande.quantiteTotal }}</td>
+                    <td>{{ commande.montantTotal }} €</td>
+                    <td>{{ commande.status }}</td>
+                    <td>
+                        {% if commande.status == 'en_attente' %}
+                            <form method="post" action="{{ path('admin_commande_valider', {'id': commande.id}) }}" style="display: inline;" onsubmit="return confirm('Êtes-vous sûr de vouloir valider cette commande ?');">
+                                <button class="btn btn-success btn-sm">Valider</button>
+                            </form>
+                            <form method="post" action="{{ path('admin_commande_annuler', {'id': commande.id}) }}" style="display: inline;" onsubmit="return confirm('Êtes-vous sûr de vouloir annuler cette commande ?');">
+                                <button class="btn btn-danger btn-sm">Annuler</button>
+                            </form>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

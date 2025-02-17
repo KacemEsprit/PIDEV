@@ -79,6 +79,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: RapportDetat::class, mappedBy: 'patient', orphanRemoval: true)]
     private Collection $rapportDetats;
 
+     /**
+     * @var Collection<int, Commande>
+     */
+    #[ORM\OneToMany(mappedBy: 'patient', targetEntity: Commande::class)]
+    private Collection $commandes;
     public function __construct()
     {
         $this->publications = new ArrayCollection();
@@ -87,6 +92,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->chatGroups = new ArrayCollection();
         $this->ownedGroups = new ArrayCollection();
         $this->rapportDetats = new ArrayCollection();
+        $this->commandes = new ArrayCollection();
 
     }
 
@@ -395,6 +401,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             }
         }
 
+        return $this;
+    }
+    
+    /**
+     * @return Collection<int, Commande>
+     */
+    public function getCommandes(): Collection
+    {
+        return $this->commandes;
+    }
+
+    public function addCommande(Commande $commande): self
+    {
+        if (!$this->commandes->contains($commande)) {
+            $this->commandes->add($commande);
+            $commande->setPatient($this);
+        }
+        return $this;
+    }
+
+    public function removeCommande(Commande $commande): self
+    {
+        if ($this->commandes->removeElement($commande)) {
+            if ($commande->getPatient() === $this) {
+                $commande->setPatient(null);
+            }
+        }
         return $this;
     }
 }

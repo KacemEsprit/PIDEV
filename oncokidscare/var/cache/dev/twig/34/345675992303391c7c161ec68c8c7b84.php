@@ -173,102 +173,127 @@ class __TwigTemplate_76dbbbc178281565daf91038e6d7b2aa extends Template
         }
         // line 71
         yield "
-        ";
+       ";
         // line 72
         if (($this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("ROLE_USER") && (($this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("ROLE_PATIENT") || $this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("ROLE_MEDECIN")) || $this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("ROLE_ADMIN")))) {
             // line 73
-            yield "            <a href=\"";
+            yield "                <!-- Espace Communautaire Dropdown -->
+                <div class=\"nav-item dropdown\">
+                    <a href=\"#\" class=\"nav-link dropdown-toggle\" data-bs-toggle=\"dropdown\">Espace Communautaire</a>
+                    <div class=\"dropdown-menu rounded-0 rounded-bottom m-0\">
+                        <a href=\"";
+            // line 77
             yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_publication_index");
-            yield "\" class=\"nav-item nav-link\">Publications</a>
-            <a href=\"";
-            // line 74
+            yield "\" class=\"dropdown-item\">Publications</a>
+                        <a href=\"";
+            // line 78
             yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_chat_group_index");
-            yield "\" class=\"nav-item nav-link\">Dicussions</a>
+            yield "\" class=\"dropdown-item\">Discussions</a>
+                    </div>
+                </div>
+            ";
+        }
+        // line 82
+        yield "             ";
+        if ($this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("ROLE_PATIENT")) {
+            // line 83
+            yield "            <div class=\"nav-item dropdown\">
+                <a href=\"#\" class=\"nav-link dropdown-toggle\" data-bs-toggle=\"dropdown\">Pharmacie</a>
+                <div class=\"dropdown-menu rounded-0 rounded-bottom m-0\">
+                    <a href=\"";
+            // line 86
+            yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_commande_new");
+            yield "\" class=\"dropdown-item\">Passer commande</a>
+                    <a href=\"";
+            // line 87
+            yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_commande_index");
+            yield "\" class=\"dropdown-item\">Consulter commande</a>
+                </div>
+            </div>
         ";
         }
-        // line 76
-        yield "         
-        <div class=\"nav-item dropdown\">
+        // line 91
+        yield "        <div class=\"nav-item dropdown\">
             <a href=\"#\" class=\"nav-link dropdown-toggle\" data-bs-toggle=\"dropdown\">Pages</a>
             <div class=\"dropdown-menu rounded-0 rounded-bottom m-0\">
                 <a href=\"";
-        // line 80
+        // line 94
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_feature");
         yield "\" class=\"dropdown-item\">Feature</a>
                 <a href=\"";
-        // line 81
+        // line 95
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_team");
         yield "\" class=\"dropdown-item\">Our Doctor</a>
                 <a href=\"";
-        // line 82
+        // line 96
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_appointment");
         yield "\" class=\"dropdown-item\">Appointment</a>
                 <a href=\"";
-        // line 83
+        // line 97
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_testimonial");
         yield "\" class=\"dropdown-item\">Testimonial</a>
                 <a href=\"";
-        // line 84
+        // line 98
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_404");
         yield "\" class=\"dropdown-item\">404 Page</a>
             </div>
         </div>
         ";
-        // line 87
+        // line 101
         if ($this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("ROLE_MEDECIN")) {
-            // line 88
+            // line 102
             yield "        <div class=\"nav-item dropdown\">
             <a href=\"#\" class=\"nav-link dropdown-toggle\" data-bs-toggle=\"dropdown\">Traitements</a>
             <div class=\"dropdown-menu rounded-0 rounded-bottom m-0\">
                 <a href=\"";
-            // line 91
+            // line 105
             yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_create_rapport");
             yield "\" class=\"dropdown-item\">Rapport Medical</a>
                 <a href=\"";
-            // line 92
+            // line 106
             yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_medecin_rapports");
             yield "\" class=\"dropdown-item\">Liste des Rapports</a>
             </div>
         </div>  
     ";
         }
-        // line 96
+        // line 110
         yield "        ";
         if ($this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("ROLE_PATIENT")) {
-            // line 97
+            // line 111
             yield "                <a href=\"";
             yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_patient_rapports");
             yield "\" class=\"nav-item nav-link\">Mes Rapports</a>
             ";
         }
-        // line 99
+        // line 113
         yield "        <a href=\"";
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_contact");
         yield "\" class=\"nav-item nav-link\">Contact</a>
         ";
-        // line 100
-        if (CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 100, $this->source); })()), "user", [], "any", false, false, false, 100)) {
-            // line 101
+        // line 114
+        if (CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 114, $this->source); })()), "user", [], "any", false, false, false, 114)) {
+            // line 115
             yield "            <a href=\"";
             yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_logout");
             yield "\" class=\"nav-item nav-link\">Déconnexion</a>
         ";
         } else {
-            // line 103
+            // line 117
             yield "            <a href=\"";
             yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_login");
             yield "\" class=\"nav-item nav-link\">Connexion</a>
             <a href=\"";
-            // line 104
+            // line 118
             yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_register");
             yield "\" class=\"nav-item nav-link\">Inscription</a>
         ";
         }
-        // line 106
+        // line 120
         yield "    </div>
 
     <a href=\"";
-        // line 108
+        // line 122
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_appointment");
         yield "\" class=\"btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block\">Appointment<i class=\"fa fa-arrow-right ms-3\"></i></a>
 </div>
@@ -277,9 +302,9 @@ class __TwigTemplate_76dbbbc178281565daf91038e6d7b2aa extends Template
 
   
     ";
-        // line 114
+        // line 128
         yield from $this->unwrap()->yieldBlock('body', $context, $blocks);
-        // line 115
+        // line 129
         yield "
     <!-- Footer Start -->
     <div class=\"container-fluid bg-dark text-light footer mt-5 pt-5 wow fadeIn\" data-wow-delay=\"0.1s\">
@@ -345,46 +370,46 @@ class __TwigTemplate_76dbbbc178281565daf91038e6d7b2aa extends Template
     <script src=\"https://code.jquery.com/jquery-3.4.1.min.js\"></script>
     <script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js\"></script>
     <script src=\"";
-        // line 179
+        // line 193
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("lib/wow/wow.min.js"), "html", null, true);
         yield "\"></script>
     <script src=\"";
-        // line 180
+        // line 194
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("lib/easing/easing.min.js"), "html", null, true);
         yield "\"></script>
     <script src=\"";
-        // line 181
+        // line 195
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("lib/waypoints/waypoints.min.js"), "html", null, true);
         yield "\"></script>
     <script src=\"";
-        // line 182
+        // line 196
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("lib/counterup/counterup.min.js"), "html", null, true);
         yield "\"></script> 
     <script src=\"";
-        // line 183
+        // line 197
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("lib/owlcarousel/owl.carousel.min.js"), "html", null, true);
         yield "\"></script>
     <script src=\"";
-        // line 184
+        // line 198
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("lib/tempusdominus/js/moment.min.js"), "html", null, true);
         yield "\"></script>
     <script src=\"";
-        // line 185
+        // line 199
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("lib/tempusdominus/js/moment-timezone.min.js"), "html", null, true);
         yield "\"></script>
     <script src=\"";
-        // line 186
+        // line 200
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"), "html", null, true);
         yield "\"></script>
     <script src=\"";
-        // line 187
+        // line 201
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("js/main.js"), "html", null, true);
         yield "\"></script>
    
     ";
-        // line 189
+        // line 203
         yield from $this->unwrap()->yieldBlock('javascript', $context, $blocks);
-        // line 190
+        // line 204
         yield "</body>
 </html>
 ";
@@ -444,7 +469,7 @@ class __TwigTemplate_76dbbbc178281565daf91038e6d7b2aa extends Template
         yield from [];
     }
 
-    // line 114
+    // line 128
     /**
      * @return iterable<null|scalar|\Stringable>
      */
@@ -466,7 +491,7 @@ class __TwigTemplate_76dbbbc178281565daf91038e6d7b2aa extends Template
         yield from [];
     }
 
-    // line 189
+    // line 203
     /**
      * @return iterable<null|scalar|\Stringable>
      */
@@ -509,7 +534,7 @@ class __TwigTemplate_76dbbbc178281565daf91038e6d7b2aa extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  470 => 189,  448 => 114,  437 => 33,  424 => 32,  401 => 4,  388 => 190,  386 => 189,  381 => 187,  377 => 186,  373 => 185,  369 => 184,  365 => 183,  361 => 182,  357 => 181,  353 => 180,  349 => 179,  283 => 115,  281 => 114,  272 => 108,  268 => 106,  263 => 104,  258 => 103,  252 => 101,  250 => 100,  245 => 99,  239 => 97,  236 => 96,  229 => 92,  225 => 91,  220 => 88,  218 => 87,  212 => 84,  208 => 83,  204 => 82,  200 => 81,  196 => 80,  190 => 76,  185 => 74,  180 => 73,  178 => 72,  175 => 71,  170 => 68,  164 => 66,  162 => 65,  158 => 64,  153 => 61,  151 => 60,  147 => 59,  143 => 58,  139 => 57,  127 => 48,  122 => 46,  108 => 34,  106 => 32,  101 => 30,  95 => 27,  89 => 24,  85 => 23,  81 => 22,  66 => 10,  57 => 4,  52 => 1,);
+        return array (  495 => 203,  473 => 128,  462 => 33,  449 => 32,  426 => 4,  413 => 204,  411 => 203,  406 => 201,  402 => 200,  398 => 199,  394 => 198,  390 => 197,  386 => 196,  382 => 195,  378 => 194,  374 => 193,  308 => 129,  306 => 128,  297 => 122,  293 => 120,  288 => 118,  283 => 117,  277 => 115,  275 => 114,  270 => 113,  264 => 111,  261 => 110,  254 => 106,  250 => 105,  245 => 102,  243 => 101,  237 => 98,  233 => 97,  229 => 96,  225 => 95,  221 => 94,  216 => 91,  209 => 87,  205 => 86,  200 => 83,  197 => 82,  190 => 78,  186 => 77,  180 => 73,  178 => 72,  175 => 71,  170 => 68,  164 => 66,  162 => 65,  158 => 64,  153 => 61,  151 => 60,  147 => 59,  143 => 58,  139 => 57,  127 => 48,  122 => 46,  108 => 34,  106 => 32,  101 => 30,  95 => 27,  89 => 24,  85 => 23,  81 => 22,  66 => 10,  57 => 4,  52 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -585,11 +610,25 @@ class __TwigTemplate_76dbbbc178281565daf91038e6d7b2aa extends Template
             </div>
         {% endif %}
 
-        {% if is_granted('ROLE_USER') and (is_granted('ROLE_PATIENT') or is_granted('ROLE_MEDECIN') or is_granted('ROLE_ADMIN')) %}
-            <a href=\"{{ path('app_publication_index') }}\" class=\"nav-item nav-link\">Publications</a>
-            <a href=\"{{ path('app_chat_group_index') }}\" class=\"nav-item nav-link\">Dicussions</a>
+       {% if is_granted('ROLE_USER') and (is_granted('ROLE_PATIENT') or is_granted('ROLE_MEDECIN') or is_granted('ROLE_ADMIN')) %}
+                <!-- Espace Communautaire Dropdown -->
+                <div class=\"nav-item dropdown\">
+                    <a href=\"#\" class=\"nav-link dropdown-toggle\" data-bs-toggle=\"dropdown\">Espace Communautaire</a>
+                    <div class=\"dropdown-menu rounded-0 rounded-bottom m-0\">
+                        <a href=\"{{ path('app_publication_index') }}\" class=\"dropdown-item\">Publications</a>
+                        <a href=\"{{ path('app_chat_group_index') }}\" class=\"dropdown-item\">Discussions</a>
+                    </div>
+                </div>
+            {% endif %}
+             {% if is_granted('ROLE_PATIENT') %}
+            <div class=\"nav-item dropdown\">
+                <a href=\"#\" class=\"nav-link dropdown-toggle\" data-bs-toggle=\"dropdown\">Pharmacie</a>
+                <div class=\"dropdown-menu rounded-0 rounded-bottom m-0\">
+                    <a href=\"{{ path('app_commande_new') }}\" class=\"dropdown-item\">Passer commande</a>
+                    <a href=\"{{ path('app_commande_index')}}\" class=\"dropdown-item\">Consulter commande</a>
+                </div>
+            </div>
         {% endif %}
-         
         <div class=\"nav-item dropdown\">
             <a href=\"#\" class=\"nav-link dropdown-toggle\" data-bs-toggle=\"dropdown\">Pages</a>
             <div class=\"dropdown-menu rounded-0 rounded-bottom m-0\">
@@ -705,6 +744,6 @@ class __TwigTemplate_76dbbbc178281565daf91038e6d7b2aa extends Template
     {% block javascript %}{% endblock %}
 </body>
 </html>
-", "base.html.twig", "C:\\GLEsprit3eme\\Projet_PI\\projet-onco\\PIDEV\\oncokidscare\\templates\\base.html.twig");
+", "base.html.twig", "D:\\PIDEV\\oncokidscare\\templates\\base.html.twig");
     }
 }

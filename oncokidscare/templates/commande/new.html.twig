@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle Commande{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .medicament-card {
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        .medicament-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .quantite-input {
+            max-width: 100px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Créer une nouvelle commande</h1>
+        <p class="text-muted">Sélectionnez les médicaments et leurs quantités</p>
+
+        {{ form_start(form, {'attr': {'class': 'needs-validation'}}) }}
+            <div class="row">
+                {% for medicament in medicaments %}
+                    <div class="col-md-4">
+                        <div class="card medicament-card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ medicament.nom }}</h5>
+                                <p class="card-text">{{ medicament.description }}</p>
+                                <p class="card-text">
+                                    <strong>Prix : </strong>
+                                    <span class="text-primary">{{ medicament.prix }} €</span>
+                                </p>
+                                <div class="form-group">
+                                    <label>Quantité :</label>
+                                    {{ form_widget(form['quantite_' ~ medicament.id]) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-shopping-cart"></i> Créer la commande
+                </button>
+                <a href="{{ path('app_commande_index') }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Retour à la liste
+                </a>
+            </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %} 
