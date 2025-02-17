@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des compagnies{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Gestion des compagnies</h1>
+
+        <a href="{{ path('admin_company_new') }}" class="btn btn-primary mb-3">Ajouter une nouvelle compagnie</a>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>SIRET</th>
+                    <th>Adresse</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for company in companies %}
+                <tr>
+                    <td>{{ company.name }}</td>
+                    <td>{{ company.siret }}</td>
+                    <td>{{ company.address }}</td>
+                    <td>
+                        {% if company.isValidated %}
+                            <span class="badge bg-success">Validée</span>
+                        {% else %}
+                            <span class="badge bg-warning">En attente</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <a href="{{ path('admin_company_edit', {'id': company.id}) }}" class="btn btn-sm btn-primary">Modifier</a>
+                            {% if not company.isValidated %}
+                                <form method="post" action="{{ path('admin_company_validate', {'id': company.id}) }}" style="display: inline;">
+                                    <button type="submit" class="btn btn-sm btn-success">Valider</button>
+                                </form>
+                            {% endif %}
+                            <form method="post" action="{{ path('admin_company_delete', {'id': company.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette compagnie ?');" style="display: inline;">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ company.id) }}">
+                                <button type="submit" class="btn btn-sm btn-danger">Supprimer</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">Aucune compagnie trouvée</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

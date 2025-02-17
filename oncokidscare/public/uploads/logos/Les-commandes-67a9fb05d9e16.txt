@@ -1,0 +1,28 @@
+composer create-project symfony/skeleton:"6.4.*" Test2
+composer require webapp
+composer require symfony/maker-bundle --dev
+
+Commande de controller:php bin/console make:controller postController
+
+Awel hajaaaaaa
+Commande de BD: php bin/console doctrine:database:create
+
+php bin/console make:migration
+symfony console doctrine:migrations:migrate
+
+
+Commande pour créer les entités : php bin/console make:entity
+
+Commande de migration de entity vers la BD:
+ 1) php bin/console make:migration
+Hedhi bch yasna3ha fl bd: 
+ 2) symfony console doctrine:migrations:migrate
+
+
+Formulaire :
+composer require Symfony/form     /////// 
+bch ththabt tsabou wale: composer show symfony/form
+bch necreati ll form : php bin/console make:form AuthorType
+
+
+update ll base: php bin/console doctrine:schema:update --force

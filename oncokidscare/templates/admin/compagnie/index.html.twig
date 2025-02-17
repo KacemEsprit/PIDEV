@@ -1,0 +1,111 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des compagnies{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Gestion des compagnies</h1>
+
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>SIRET</th>
+                    <th>Adresse</th>
+                    <th>Email</th>
+                    <th>Téléphone</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for compagnie in compagnies %}
+                <tr>
+                    <td>{{ compagnie.nom }}</td>
+                    <td>{{ compagnie.siret }}</td>
+                    <td>{{ compagnie.adresse }}</td>
+                    <td>{{ compagnie.email }}</td>
+                    <td>{{ compagnie.telephone }}</td>
+                    <td>
+                        {% if compagnie.statutValidation == 'validee' %}
+                            <span class="badge bg-success">Validée</span>
+                        {% elseif compagnie.statutValidation == 'rejetee' %}
+                            <span class="badge bg-danger">Rejetée</span>
+                            {% if compagnie.motifRejet %}
+                                <small class="d-block text-muted">Motif : {{ compagnie.motifRejet }}</small>
+                            {% endif %}
+                        {% else %}
+                            <span class="badge bg-warning">En attente</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <a href="{{ path('admin_compagnie_edit', {'id': compagnie.id}) }}" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-edit"></i> Modifier
+                                </a>
+                                
+                                {% if compagnie.statutValidation != 'validee' and compagnie.statutValidation != 'rejetee' %}
+                                    <form action="{{ path('admin_compagnie_validate', {'id': compagnie.id}) }}" method="POST" class="d-inline">
+                                        <button type="submit" class="btn btn-sm btn-success" onclick="return confirm('Êtes-vous sûr de vouloir valider cette compagnie ?')">
+                                            <i class="fas fa-check"></i> Valider
+                                        </button>
+                                    </form>
+                                    
+                                    <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#rejectModal{{ compagnie.id }}">
+                                        <i class="fas fa-ban"></i> Rejeter
+                                    </button>
+                                {% endif %}
+
+                                <!-- Bouton de suppression -->
+                                <form action="{{ path('admin_compagnie_delete', {'id': compagnie.id}) }}" method="POST" class="d-inline" onsubmit="return confirm('Attention ! Cette action est irréversible. Êtes-vous sûr de vouloir supprimer définitivement cette compagnie ?');">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ compagnie.id) }}">
+                                    <button type="submit" class="btn btn-sm btn-danger">
+                                        <i class="fas fa-trash"></i> Supprimer
+                                    </button>
+                                </form>
+
+                                <!-- Modal de rejet -->
+                                <div class="modal fade" id="rejectModal{{ compagnie.id }}" tabindex="-1" aria-labelledby="rejectModalLabel{{ compagnie.id }}" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="rejectModalLabel{{ compagnie.id }}">Rejeter la compagnie {{ compagnie.nom }}</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                                            </div>
+                                            <form action="{{ path('admin_compagnie_reject', {'id': compagnie.id}) }}" method="POST">
+                                                <div class="modal-body">
+                                                    <div class="mb-3">
+                                                        <label for="motif_rejet" class="form-label">Motif du rejet</label>
+                                                        <textarea class="form-control" id="motif_rejet" name="motif_rejet" rows="3" required></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                                    <button type="submit" class="btn btn-warning">Confirmer le rejet</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7" class="text-center">Aucune compagnie trouvée</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
