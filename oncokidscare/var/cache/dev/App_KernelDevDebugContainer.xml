@@ -366,13 +366,6 @@
         <argument type="service" id=".service_locator.O2p6Lk7.App\Controller\AdminHomeController"/>
       </call>
     </service>
-    <service id="App\Controller\Admin\CompagnieController" class="App\Controller\Admin\CompagnieController" public="true" autowire="true" autoconfigure="true">
-      <tag name="controller.service_arguments"/>
-      <tag name="container.service_subscriber"/>
-      <call method="setContainer">
-        <argument type="service" id=".service_locator.O2p6Lk7.App\Controller\Admin\CompagnieController"/>
-      </call>
-    </service>
     <service id="App\Controller\ChatGroupController" class="App\Controller\ChatGroupController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
@@ -617,7 +610,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
       <tag priority="-50" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">controller.argument_value_resolver</tag>
-      <argument type="service" id=".service_locator.2jz4vgM"/>
+      <argument type="service" id=".service_locator.gPbv_VZ"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">
       <tag priority="-100" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">controller.argument_value_resolver</tag>
@@ -3529,7 +3522,7 @@
     </service>
     <service id="argument_resolver.not_tagged_controller" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
       <tag name="controller.argument_value_resolver" priority="-200"/>
-      <argument type="service" id=".service_locator.2jz4vgM"/>
+      <argument type="service" id=".service_locator.gPbv_VZ"/>
     </service>
     <service id="debug.log_processor" class="Symfony\Bridge\Monolog\Processor\DebugProcessor">
       <tag name="kernel.reset" method="reset"/>
@@ -7591,9 +7584,6 @@
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\AdminHomeController" class="App\Controller\AdminHomeController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\AdminHomeController" class="App\Controller\AdminHomeController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\AdminHomeController" class="App\Controller\AdminHomeController" autowire="true" autoconfigure="true" abstract="true"/>
-    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\Admin\CompagnieController" class="App\Controller\Admin\CompagnieController" autowire="true" abstract="true"/>
-    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\Admin\CompagnieController" class="App\Controller\Admin\CompagnieController" autowire="true" abstract="true"/>
-    <service id=".abstract.instanceof.App\Controller\Admin\CompagnieController" class="App\Controller\Admin\CompagnieController" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\ChatGroupController" class="App\Controller\ChatGroupController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\ChatGroupController" class="App\Controller\ChatGroupController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\ChatGroupController" class="App\Controller\ChatGroupController" autowire="true" autoconfigure="true" abstract="true"/>
@@ -8352,21 +8342,22 @@
         <argument key="userPasswordHasher" type="service_closure" id="security.user_password_hasher"/>
       </argument>
     </service>
-    <service id=".service_locator.2jz4vgM" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.gPbv_VZ" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Controller\AdminController::annulerCommande" type="service_closure" id=".service_locator.iR5i4O4"/>
         <argument key="App\Controller\AdminController::approvePublication" type="service_closure" id=".service_locator.TyGfL3f"/>
+        <argument key="App\Controller\AdminController::compagnieEdit" type="service_closure" id=".service_locator.FiBwT5O"/>
+        <argument key="App\Controller\AdminController::compagnieIndex" type="service_closure" id=".service_locator.0N7jZFz"/>
+        <argument key="App\Controller\AdminController::compagniePending" type="service_closure" id=".service_locator.0N7jZFz"/>
+        <argument key="App\Controller\AdminController::compagnieReject" type="service_closure" id=".service_locator.FiBwT5O"/>
+        <argument key="App\Controller\AdminController::compagnieValidate" type="service_closure" id=".service_locator.FiBwT5O"/>
+        <argument key="App\Controller\AdminController::delete" type="service_closure" id=".service_locator.FiBwT5O"/>
         <argument key="App\Controller\AdminController::index" type="service_closure" id=".service_locator.kPUOGb8"/>
         <argument key="App\Controller\AdminController::manageCommandes" type="service_closure" id=".service_locator.RXaRRrV"/>
         <argument key="App\Controller\AdminController::managePublications" type="service_closure" id=".service_locator.dH_7bkl"/>
         <argument key="App\Controller\AdminController::rejectPublication" type="service_closure" id=".service_locator.TyGfL3f"/>
         <argument key="App\Controller\AdminController::validerCommande" type="service_closure" id=".service_locator.iR5i4O4"/>
-        <argument key="App\Controller\Admin\CompagnieController::delete" type="service_closure" id=".service_locator.FiBwT5O"/>
-        <argument key="App\Controller\Admin\CompagnieController::edit" type="service_closure" id=".service_locator.FiBwT5O"/>
-        <argument key="App\Controller\Admin\CompagnieController::index" type="service_closure" id=".service_locator.0N7jZFz"/>
-        <argument key="App\Controller\Admin\CompagnieController::reject" type="service_closure" id=".service_locator.FiBwT5O"/>
-        <argument key="App\Controller\Admin\CompagnieController::validate" type="service_closure" id=".service_locator.FiBwT5O"/>
         <argument key="App\Controller\ChatGroupController::addMember" type="service_closure" id=".service_locator.OfNm3iN"/>
         <argument key="App\Controller\ChatGroupController::edit" type="service_closure" id=".service_locator.Gz2kAjl"/>
         <argument key="App\Controller\ChatGroupController::index" type="service_closure" id=".service_locator.2KIFyBM"/>
@@ -8429,16 +8420,17 @@
         <argument key="kernel::registerContainerConfiguration" type="service_closure" id=".service_locator.y4_Zrx."/>
         <argument key="App\Controller\AdminController:annulerCommande" type="service_closure" id=".service_locator.iR5i4O4"/>
         <argument key="App\Controller\AdminController:approvePublication" type="service_closure" id=".service_locator.TyGfL3f"/>
+        <argument key="App\Controller\AdminController:compagnieEdit" type="service_closure" id=".service_locator.FiBwT5O"/>
+        <argument key="App\Controller\AdminController:compagnieIndex" type="service_closure" id=".service_locator.0N7jZFz"/>
+        <argument key="App\Controller\AdminController:compagniePending" type="service_closure" id=".service_locator.0N7jZFz"/>
+        <argument key="App\Controller\AdminController:compagnieReject" type="service_closure" id=".service_locator.FiBwT5O"/>
+        <argument key="App\Controller\AdminController:compagnieValidate" type="service_closure" id=".service_locator.FiBwT5O"/>
+        <argument key="App\Controller\AdminController:delete" type="service_closure" id=".service_locator.FiBwT5O"/>
         <argument key="App\Controller\AdminController:index" type="service_closure" id=".service_locator.kPUOGb8"/>
         <argument key="App\Controller\AdminController:manageCommandes" type="service_closure" id=".service_locator.RXaRRrV"/>
         <argument key="App\Controller\AdminController:managePublications" type="service_closure" id=".service_locator.dH_7bkl"/>
         <argument key="App\Controller\AdminController:rejectPublication" type="service_closure" id=".service_locator.TyGfL3f"/>
         <argument key="App\Controller\AdminController:validerCommande" type="service_closure" id=".service_locator.iR5i4O4"/>
-        <argument key="App\Controller\Admin\CompagnieController:delete" type="service_closure" id=".service_locator.FiBwT5O"/>
-        <argument key="App\Controller\Admin\CompagnieController:edit" type="service_closure" id=".service_locator.FiBwT5O"/>
-        <argument key="App\Controller\Admin\CompagnieController:index" type="service_closure" id=".service_locator.0N7jZFz"/>
-        <argument key="App\Controller\Admin\CompagnieController:reject" type="service_closure" id=".service_locator.FiBwT5O"/>
-        <argument key="App\Controller\Admin\CompagnieController:validate" type="service_closure" id=".service_locator.FiBwT5O"/>
         <argument key="App\Controller\ChatGroupController:addMember" type="service_closure" id=".service_locator.OfNm3iN"/>
         <argument key="App\Controller\ChatGroupController:edit" type="service_closure" id=".service_locator.Gz2kAjl"/>
         <argument key="App\Controller\ChatGroupController:index" type="service_closure" id=".service_locator.2KIFyBM"/>
@@ -9204,12 +9196,6 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.O2p6Lk7" method="withContext"/>
     </service>
-    <service id=".service_locator.O2p6Lk7.App\Controller\Admin\CompagnieController" class="Symfony\Component\DependencyInjection\ServiceLocator">
-      <tag name="container.service_locator_context" id="App\Controller\Admin\CompagnieController"/>
-      <argument>App\Controller\Admin\CompagnieController</argument>
-      <argument type="service" id="service_container"/>
-      <factory service=".service_locator.O2p6Lk7" method="withContext"/>
-    </service>
     <service id=".service_locator.O2p6Lk7.App\Controller\ChatGroupController" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="App\Controller\ChatGroupController"/>
       <argument>App\Controller\ChatGroupController</argument>
@@ -9488,7 +9474,6 @@
           <argument>App\Kernel</argument>
           <argument>App\Controller\AdminController</argument>
           <argument>App\Controller\AdminHomeController</argument>
-          <argument>App\Controller\Admin\CompagnieController</argument>
           <argument>App\Controller\ChatGroupController</argument>
           <argument>App\Controller\ChatbotController</argument>
           <argument>App\Controller\CommandeController</argument>
@@ -10961,7 +10946,7 @@
     <service id="Psr\Log\LoggerInterface" alias="monolog.logger"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.w7.f4fT" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.2jz4vgM"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.gPbv_VZ"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.KLVvNIq"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="Psr\Log\LoggerInterface $requestLogger" alias="monolog.logger.request"/>
@@ -10997,7 +10982,7 @@
     <service id=".service_locator.52JxNpb" alias=".service_locator.1BDjvx9"/>
     <service id=".service_locator.dQiUxUs" alias=".service_locator.BXW8zd5"/>
     <service id=".service_locator.V6D1oJY" alias=".service_locator.e_4zbH4"/>
-    <service id=".service_locator.RY_YNbS" alias=".service_locator.2jz4vgM"/>
+    <service id=".service_locator.8ewRTvQ" alias=".service_locator.gPbv_VZ"/>
     <service id=".service_locator.BFrsqsn" alias=".service_locator.F9PKc.7"/>
     <service id=".service_locator.vMAOisq" alias=".service_locator.5zPNFDC"/>
     <service id=".service_locator.XtmiKbi" alias=".service_locator.MfxSDRP"/>

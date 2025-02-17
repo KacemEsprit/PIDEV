@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Compagnie;
+use App\Form\CompagnieType;
+use App\Repository\CompagnieRepository;
 use App\Entity\User;
 use App\Entity\Publication;
 use App\Repository\UserRepository;
@@ -13,6 +16,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Entity\Commande;
 use App\Repository\CommandeRepository;
+use Symfony\Component\HttpFoundation\Request;
+
+
 
 #[Route('/admin')]
 #[IsGranted('ROLE_ADMIN')]
@@ -99,4 +105,75 @@ class AdminController extends AbstractController
         $this->addFlash('success', 'La commande a été annulée.');
         return $this->redirectToRoute('admin_commandes');
     }
+    
+    #[Route('/compagnie', name: 'admin_compagnie_index', methods: ['GET'])]
+    public function compagnieIndex(CompagnieRepository $compagnieRepository): Response
+    {
+        return $this->render('admin/compagnie/index.html.twig', [
+            'compagnies' => $compagnieRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/compagnie/{id}/modifier', name: 'admin_compagnie_edit', methods: ['GET', 'POST'])]
+    public function compagnieEdit(Request $request, Compagnie $compagnie, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(CompagnieType::class, $compagnie);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+            $this->addFlash('success', 'La compagnie a été modifiée avec succès.');
+            return $this->redirectToRoute('admin_compagnie_index');
+        }
+
+        return $this->render('admin/compagnie/edit.html.twig', [
+            'compagnie' => $compagnie,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/compagnie/{id}/valider', name: 'admin_compagnie_validate', methods: ['POST'])]
+    public function compagnieValidate(Compagnie $compagnie, EntityManagerInterface $entityManager): Response
+    {
+        $compagnie->setStatutValidation('validee');
+        $entityManager->flush();
+        
+        $this->addFlash('success', 'La compagnie a été validée avec succès.');
+        return $this->redirectToRoute('admin_compagnie_index');
+    }
+
+    #[Route('/compagnie/{id}/rejeter', name: 'admin_compagnie_reject', methods: ['POST'])]
+    public function compagnieReject(Compagnie $compagnie, EntityManagerInterface $entityManager): Response
+    {
+        $compagnie->setStatutValidation('rejetee');
+        $entityManager->flush();
+        
+        $this->addFlash('success', 'La compagnie a été rejetée.');
+        return $this->redirectToRoute('admin_compagnie_index');
+    }
+
+    #[Route('/compagnie/en-attente', name: 'admin_compagnie_pending', methods: ['GET'])]
+    public function compagniePending(CompagnieRepository $compagnieRepository): Response
+    {
+        return $this->render('admin/compagnie/pending.html.twig', [
+            'compagnies' => $compagnieRepository->findBy(['statutValidation' => 'pending']),
+        ]);
+    }
+  #[Route('/compagnie/{id}/supprimer', name: 'admin_compagnie_delete', methods: ['POST'])]
+public function delete(Request $request, Compagnie $compagnie, EntityManagerInterface $entityManager): Response
+{
+    if (!$this->isGranted('ROLE_ADMIN')) {
+        throw $this->createAccessDeniedException('Seuls les administrateurs peuvent supprimer les compagnies.');
+    }
+
+    $token = $request->request->get('_token');
+    if ($this->isCsrfTokenValid('delete'.$compagnie->getId(), $token)) {
+        $entityManager->remove($compagnie);
+        $entityManager->flush();
+        $this->addFlash('success', 'La compagnie a été supprimée avec succès.');
+    }
+
+    return $this->redirectToRoute('admin_compagnie_index');
+}
+
 }

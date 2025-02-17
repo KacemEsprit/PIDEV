@@ -14,13 +14,14 @@ return [
         '/_profiler/phpinfo' => [[['_route' => '_profiler_phpinfo', '_controller' => 'web_profiler.controller.profiler::phpinfoAction'], null, null, null, false, false, null]],
         '/_profiler/xdebug' => [[['_route' => '_profiler_xdebug', '_controller' => 'web_profiler.controller.profiler::xdebugAction'], null, null, null, false, false, null]],
         '/_profiler/open' => [[['_route' => '_profiler_open_file', '_controller' => 'web_profiler.controller.profiler::openAction'], null, null, null, false, false, null]],
-        '/admin/compagnie' => [[['_route' => 'admin_compagnie_index', '_controller' => 'App\\Controller\\Admin\\CompagnieController::index'], null, ['GET' => 0], null, true, false, null]],
         '/admin' => [
             [['_route' => 'app_admin_index', '_controller' => 'App\\Controller\\AdminController::index'], null, null, null, true, false, null],
             [['_route' => 'app_admin', '_controller' => 'App\\Controller\\AdminHomeController::index'], null, null, null, false, false, null],
         ],
         '/admin/publications' => [[['_route' => 'admin_publications', '_controller' => 'App\\Controller\\AdminController::managePublications'], null, null, null, false, false, null]],
         '/admin/commandes' => [[['_route' => 'admin_commandes', '_controller' => 'App\\Controller\\AdminController::manageCommandes'], null, null, null, false, false, null]],
+        '/admin/compagnie' => [[['_route' => 'admin_compagnie_index', '_controller' => 'App\\Controller\\AdminController::compagnieIndex'], null, ['GET' => 0], null, false, false, null]],
+        '/admin/compagnie/en-attente' => [[['_route' => 'admin_compagnie_pending', '_controller' => 'App\\Controller\\AdminController::compagniePending'], null, ['GET' => 0], null, false, false, null]],
         '/dashboard' => [[['_route' => 'app_dashboard', '_controller' => 'App\\Controller\\AdminHomeController::dashboard'], null, null, null, false, false, null]],
         '/elements/buttons' => [[['_route' => 'app_buttons', '_controller' => 'App\\Controller\\AdminHomeController::buttons'], null, null, null, false, false, null]],
         '/elements/typography' => [[['_route' => 'app_typography', '_controller' => 'App\\Controller\\AdminHomeController::typography'], null, null, null, false, false, null]],
@@ -102,21 +103,21 @@ return [
                     .')'
                 .')'
                 .'|/admin/(?'
-                    .'|com(?'
-                        .'|pagnie/([^/]++)/(?'
-                            .'|modifier(*:315)'
-                            .'|valider(*:330)'
-                            .'|rejeter(*:345)'
-                            .'|supprimer(*:362)'
-                        .')'
-                        .'|mandes/(?'
-                            .'|valider/([^/]++)(*:397)'
-                            .'|annuler/([^/]++)(*:421)'
-                        .')'
-                    .')'
                     .'|publications/(?'
-                        .'|approve/([^/]++)(*:463)'
-                        .'|reject/([^/]++)(*:486)'
+                        .'|approve/([^/]++)(*:314)'
+                        .'|reject/([^/]++)(*:337)'
+                    .')'
+                    .'|com(?'
+                        .'|mandes/(?'
+                            .'|valider/([^/]++)(*:378)'
+                            .'|annuler/([^/]++)(*:402)'
+                        .')'
+                        .'|pagnie/([^/]++)/(?'
+                            .'|modifier(*:438)'
+                            .'|valider(*:453)'
+                            .'|rejeter(*:468)'
+                            .'|supprimer(*:485)'
+                        .')'
                     .')'
                     .'|medicament/([^/]++)(?'
                         .'|/edit(*:522)'
@@ -203,14 +204,14 @@ return [
             [['_route' => 'like_comment', '_controller' => 'App\\Controller\\LikeController::likeComment'], ['id'], ['POST' => 0], null, false, true, null],
             [['_route' => 'app_like_comment', '_controller' => 'App\\Controller\\LikeController::likeComment'], ['id'], ['POST' => 0], null, false, true, null],
         ],
-        315 => [[['_route' => 'admin_compagnie_edit', '_controller' => 'App\\Controller\\Admin\\CompagnieController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
-        330 => [[['_route' => 'admin_compagnie_validate', '_controller' => 'App\\Controller\\Admin\\CompagnieController::validate'], ['id'], ['POST' => 0], null, false, false, null]],
-        345 => [[['_route' => 'admin_compagnie_reject', '_controller' => 'App\\Controller\\Admin\\CompagnieController::reject'], ['id'], ['POST' => 0], null, false, false, null]],
-        362 => [[['_route' => 'admin_compagnie_delete', '_controller' => 'App\\Controller\\Admin\\CompagnieController::delete'], ['id'], ['POST' => 0], null, false, false, null]],
-        397 => [[['_route' => 'admin_commande_valider', '_controller' => 'App\\Controller\\AdminController::validerCommande'], ['id'], ['POST' => 0], null, false, true, null]],
-        421 => [[['_route' => 'admin_commande_annuler', '_controller' => 'App\\Controller\\AdminController::annulerCommande'], ['id'], ['POST' => 0], null, false, true, null]],
-        463 => [[['_route' => 'admin_publication_approve', '_controller' => 'App\\Controller\\AdminController::approvePublication'], ['id'], ['POST' => 0], null, false, true, null]],
-        486 => [[['_route' => 'admin_publication_reject', '_controller' => 'App\\Controller\\AdminController::rejectPublication'], ['id'], ['POST' => 0], null, false, true, null]],
+        314 => [[['_route' => 'admin_publication_approve', '_controller' => 'App\\Controller\\AdminController::approvePublication'], ['id'], ['POST' => 0], null, false, true, null]],
+        337 => [[['_route' => 'admin_publication_reject', '_controller' => 'App\\Controller\\AdminController::rejectPublication'], ['id'], ['POST' => 0], null, false, true, null]],
+        378 => [[['_route' => 'admin_commande_valider', '_controller' => 'App\\Controller\\AdminController::validerCommande'], ['id'], ['POST' => 0], null, false, true, null]],
+        402 => [[['_route' => 'admin_commande_annuler', '_controller' => 'App\\Controller\\AdminController::annulerCommande'], ['id'], ['POST' => 0], null, false, true, null]],
+        438 => [[['_route' => 'admin_compagnie_edit', '_controller' => 'App\\Controller\\AdminController::compagnieEdit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        453 => [[['_route' => 'admin_compagnie_validate', '_controller' => 'App\\Controller\\AdminController::compagnieValidate'], ['id'], ['POST' => 0], null, false, false, null]],
+        468 => [[['_route' => 'admin_compagnie_reject', '_controller' => 'App\\Controller\\AdminController::compagnieReject'], ['id'], ['POST' => 0], null, false, false, null]],
+        485 => [[['_route' => 'admin_compagnie_delete', '_controller' => 'App\\Controller\\AdminController::delete'], ['id'], ['POST' => 0], null, false, false, null]],
         522 => [[['_route' => 'app_medicament_edit', '_controller' => 'App\\Controller\\MedicamentController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
         530 => [[['_route' => 'app_medicament_delete', '_controller' => 'App\\Controller\\MedicamentController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
         559 => [[['_route' => 'app_chat_group_show', '_controller' => 'App\\Controller\\ChatGroupController::show'], ['id'], ['GET' => 0, 'POST' => 1], null, false, true, null]],

@@ -364,137 +364,18 @@ class __TwigTemplate_cd4bad660f8146f8ea5d6bf3000c93a9 extends Template
     </div>
 </div>
 
-<style>
-.register-container {
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    min-height: 100vh;
-}
 
-.register-card {
-    background: white;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    padding: 2rem;
-    margin-top: 2rem;
-}
-
-.register-header {
-    margin-bottom: 2rem;
-}
-
-.register-header h1 {
-    color: #2c3e50;
-    font-weight: 600;
-}
-
-.form-section {
-    margin-bottom: 1.5rem;
-}
-
-.form-floating > label {
-    padding-left: 2.5rem;
-}
-
-.form-floating > .form-control {
-    padding-left: 2.5rem;
-}
-
-.form-floating > .form-control:focus {
-    border-color: #4e73df;
-    box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
-}
-
-.donor-type-card {
-    background: white;
-    border: 2px solid #e9ecef;
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin-bottom: 1rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.donor-type-card:hover {
-    border-color: #4e73df;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
-
-.donor-type-card.selected {
-    border-color: #4e73df;
-    background-color: #f8f9ff;
-}
-
-.donor-type-input {
-    position: absolute;
-    opacity: 0;
-}
-
-.donor-type-content {
-    text-align: center;
-}
-
-.donor-icon {
-    font-size: 2rem;
-    color: #4e73df;
-    margin-bottom: 1rem;
-}
-
-.donor-type-content h5 {
-    color: #2c3e50;
-    margin-bottom: 0.5rem;
-}
-
-.donor-type-content p {
-    color: #6c757d;
-    font-size: 0.9rem;
-    margin: 0;
-}
-
-.btn-primary {
-    background-color: #4e73df;
-    border-color: #4e73df;
-    padding: 0.75rem 1.5rem;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
-
-.btn-primary:hover {
-    background-color: #2e59d9;
-    border-color: #2e59d9;
-    transform: translateY(-1px);
-}
-
-.form-check-label {
-    color: #6c757d;
-}
-
-.text-primary {
-    color: #4e73df !important;
-}
-
-a {
-    text-decoration: none;
-    transition: all 0.3s ease;
-}
-
-a:hover {
-    color: #2e59d9;
-}
-</style>
 
 <script>
 function toggleDonateurType() {
     const roleSelect = document.getElementById('";
-        // line 315
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["registrationForm"]) || array_key_exists("registrationForm", $context) ? $context["registrationForm"] : (function () { throw new RuntimeError('Variable "registrationForm" does not exist.', 315, $this->source); })()), "role", [], "any", false, false, false, 315), "vars", [], "any", false, false, false, 315), "id", [], "any", false, false, false, 315), "html", null, true);
+        // line 196
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["registrationForm"]) || array_key_exists("registrationForm", $context) ? $context["registrationForm"] : (function () { throw new RuntimeError('Variable "registrationForm" does not exist.', 196, $this->source); })()), "role", [], "any", false, false, false, 196), "vars", [], "any", false, false, false, 196), "id", [], "any", false, false, false, 196), "html", null, true);
         yield "');
     const donateurTypeSection = document.getElementById('donateurTypeSection');
     
     if (roleSelect.value === '";
-        // line 318
+        // line 199
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::constant("App\\Entity\\User::ROLE_DONATEUR"), "html", null, true);
         yield "') {
         donateurTypeSection.style.display = 'block';
@@ -568,7 +449,7 @@ document.addEventListener('DOMContentLoaded', function() {
      */
     public function getDebugInfo(): array
     {
-        return array (  498 => 318,  492 => 315,  355 => 181,  347 => 176,  336 => 168,  330 => 165,  327 => 164,  325 => 162,  318 => 158,  312 => 155,  309 => 154,  307 => 149,  268 => 113,  265 => 112,  263 => 107,  253 => 100,  247 => 97,  244 => 96,  242 => 91,  235 => 87,  229 => 84,  226 => 83,  224 => 78,  215 => 72,  209 => 69,  206 => 68,  204 => 63,  196 => 58,  190 => 55,  187 => 54,  185 => 49,  176 => 43,  170 => 40,  167 => 39,  165 => 34,  160 => 31,  154 => 28,  151 => 27,  149 => 26,  144 => 24,  129 => 11,  116 => 10,  101 => 6,  88 => 5,  65 => 3,  42 => 1,);
+        return array (  379 => 199,  373 => 196,  355 => 181,  347 => 176,  336 => 168,  330 => 165,  327 => 164,  325 => 162,  318 => 158,  312 => 155,  309 => 154,  307 => 149,  268 => 113,  265 => 112,  263 => 107,  253 => 100,  247 => 97,  244 => 96,  242 => 91,  235 => 87,  229 => 84,  226 => 83,  224 => 78,  215 => 72,  209 => 69,  206 => 68,  204 => 63,  196 => 58,  190 => 55,  187 => 54,  185 => 49,  176 => 43,  170 => 40,  167 => 39,  165 => 34,  160 => 31,  154 => 28,  151 => 27,  149 => 26,  144 => 24,  129 => 11,  116 => 10,  101 => 6,  88 => 5,  65 => 3,  42 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -764,126 +645,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 </div>
 
-<style>
-.register-container {
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    min-height: 100vh;
-}
 
-.register-card {
-    background: white;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    padding: 2rem;
-    margin-top: 2rem;
-}
-
-.register-header {
-    margin-bottom: 2rem;
-}
-
-.register-header h1 {
-    color: #2c3e50;
-    font-weight: 600;
-}
-
-.form-section {
-    margin-bottom: 1.5rem;
-}
-
-.form-floating > label {
-    padding-left: 2.5rem;
-}
-
-.form-floating > .form-control {
-    padding-left: 2.5rem;
-}
-
-.form-floating > .form-control:focus {
-    border-color: #4e73df;
-    box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
-}
-
-.donor-type-card {
-    background: white;
-    border: 2px solid #e9ecef;
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin-bottom: 1rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.donor-type-card:hover {
-    border-color: #4e73df;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
-
-.donor-type-card.selected {
-    border-color: #4e73df;
-    background-color: #f8f9ff;
-}
-
-.donor-type-input {
-    position: absolute;
-    opacity: 0;
-}
-
-.donor-type-content {
-    text-align: center;
-}
-
-.donor-icon {
-    font-size: 2rem;
-    color: #4e73df;
-    margin-bottom: 1rem;
-}
-
-.donor-type-content h5 {
-    color: #2c3e50;
-    margin-bottom: 0.5rem;
-}
-
-.donor-type-content p {
-    color: #6c757d;
-    font-size: 0.9rem;
-    margin: 0;
-}
-
-.btn-primary {
-    background-color: #4e73df;
-    border-color: #4e73df;
-    padding: 0.75rem 1.5rem;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
-
-.btn-primary:hover {
-    background-color: #2e59d9;
-    border-color: #2e59d9;
-    transform: translateY(-1px);
-}
-
-.form-check-label {
-    color: #6c757d;
-}
-
-.text-primary {
-    color: #4e73df !important;
-}
-
-a {
-    text-decoration: none;
-    transition: all 0.3s ease;
-}
-
-a:hover {
-    color: #2e59d9;
-}
-</style>
 
 <script>
 function toggleDonateurType() {
