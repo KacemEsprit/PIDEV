@@ -403,6 +403,14 @@
         <argument type="service" id=".service_locator.O2p6Lk7.App\Controller\CompagnieController"/>
       </call>
     </service>
+    <service id="App\Controller\DoctorAvailabilityController" class="App\Controller\DoctorAvailabilityController" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+      <tag name="container.service_subscriber"/>
+      <argument type="service" id="security.csrf.token_manager"/>
+      <call method="setContainer">
+        <argument type="service" id=".service_locator.O2p6Lk7.App\Controller\DoctorAvailabilityController"/>
+      </call>
+    </service>
     <service id="App\Controller\DonController" class="App\Controller\DonController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
@@ -474,6 +482,21 @@
         <argument type="service" id=".service_locator.O2p6Lk7.App\Controller\PublicationController"/>
       </call>
     </service>
+    <service id="App\Controller\RendezvousController" class="App\Controller\RendezvousController" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+      <tag name="container.service_subscriber"/>
+      <argument type="service" id="security.csrf.token_manager"/>
+      <call method="setContainer">
+        <argument type="service" id=".service_locator.O2p6Lk7.App\Controller\RendezvousController"/>
+      </call>
+    </service>
+    <service id="App\Controller\ReportController" class="App\Controller\ReportController" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+      <tag name="container.service_subscriber"/>
+      <call method="setContainer">
+        <argument type="service" id=".service_locator.O2p6Lk7.App\Controller\ReportController"/>
+      </call>
+    </service>
     <service id="App\Controller\SecurityController" class="App\Controller\SecurityController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
@@ -492,6 +515,9 @@
       <tag name="form.type"/>
     </service>
     <service id="App\Form\CompagnieType" class="App\Form\CompagnieType" autowire="true" autoconfigure="true">
+      <tag name="form.type"/>
+    </service>
+    <service id="App\Form\DoctorAvailabilityType" class="App\Form\DoctorAvailabilityType" autowire="true" autoconfigure="true">
       <tag name="form.type"/>
     </service>
     <service id="App\Form\DonType" class="App\Form\DonType" autowire="true" autoconfigure="true">
@@ -532,6 +558,10 @@
       <tag name="doctrine.repository_service"/>
       <argument type="service" id="doctrine"/>
     </service>
+    <service id="App\Repository\DoctorAvailabilityRepository" class="App\Repository\DoctorAvailabilityRepository" autowire="true" autoconfigure="true">
+      <tag name="doctrine.repository_service"/>
+      <argument type="service" id="doctrine"/>
+    </service>
     <service id="App\Repository\DonRepository" class="App\Repository\DonRepository" autowire="true" autoconfigure="true">
       <tag name="doctrine.repository_service"/>
       <argument type="service" id="doctrine"/>
@@ -561,6 +591,10 @@
       <argument type="service" id="doctrine"/>
     </service>
     <service id="App\Repository\RapportMedicalRepository" class="App\Repository\RapportMedicalRepository" autowire="true" autoconfigure="true">
+      <tag name="doctrine.repository_service"/>
+      <argument type="service" id="doctrine"/>
+    </service>
+    <service id="App\Repository\ReportRepository" class="App\Repository\ReportRepository" autowire="true" autoconfigure="true">
       <tag name="doctrine.repository_service"/>
       <argument type="service" id="doctrine"/>
     </service>
@@ -610,7 +644,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
       <tag priority="-50" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">controller.argument_value_resolver</tag>
-      <argument type="service" id=".service_locator.gPbv_VZ"/>
+      <argument type="service" id=".service_locator.HXi8Bty"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">
       <tag priority="-100" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">controller.argument_value_resolver</tag>
@@ -1542,6 +1576,7 @@
         <argument>App\Form\CommandeType</argument>
         <argument>App\Form\CommentType</argument>
         <argument>App\Form\CompagnieType</argument>
+        <argument>App\Form\DoctorAvailabilityType</argument>
         <argument>App\Form\DonType</argument>
         <argument>App\Form\GroupMessageType</argument>
         <argument>App\Form\MedicamentType</argument>
@@ -3522,7 +3557,7 @@
     </service>
     <service id="argument_resolver.not_tagged_controller" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
       <tag name="controller.argument_value_resolver" priority="-200"/>
-      <argument type="service" id=".service_locator.gPbv_VZ"/>
+      <argument type="service" id=".service_locator.HXi8Bty"/>
     </service>
     <service id="debug.log_processor" class="Symfony\Bridge\Monolog\Processor\DebugProcessor">
       <tag name="kernel.reset" method="reset"/>
@@ -4011,7 +4046,7 @@
       <argument type="service" id="form.registry"/>
     </service>
     <service id="form.extension" class="Symfony\Component\Form\Extension\DependencyInjection\DependencyInjectionExtension">
-      <argument type="service" id=".service_locator.5zPNFDC"/>
+      <argument type="service" id=".service_locator.Jd1N3uA"/>
       <argument type="collection">
         <argument key="Symfony\Component\Form\Extension\Core\Type\FormType" type="iterator">
           <argument type="service" id="form.type_extension.form.transformation_failure_handling"/>
@@ -5276,7 +5311,7 @@
     <service id="doctrine.orm.configuration" class="Doctrine\ORM\Configuration" abstract="true"/>
     <service id="doctrine.orm.entity_manager.abstract" class="Doctrine\ORM\EntityManager" lazy="true" abstract="true"/>
     <service id="doctrine.orm.container_repository_factory" class="Doctrine\Bundle\DoctrineBundle\Repository\ContainerRepositoryFactory">
-      <argument type="service" id=".service_locator.czT1Qq."/>
+      <argument type="service" id=".service_locator.k9PYK7v"/>
     </service>
     <service id="doctrine.orm.manager_configurator.abstract" class="Doctrine\Bundle\DoctrineBundle\ManagerConfigurator" abstract="true">
       <argument type="collection"/>
@@ -7599,6 +7634,9 @@
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\CompagnieController" class="App\Controller\CompagnieController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\CompagnieController" class="App\Controller\CompagnieController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\CompagnieController" class="App\Controller\CompagnieController" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\DoctorAvailabilityController" class="App\Controller\DoctorAvailabilityController" autowire="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\DoctorAvailabilityController" class="App\Controller\DoctorAvailabilityController" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Controller\DoctorAvailabilityController" class="App\Controller\DoctorAvailabilityController" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\DonController" class="App\Controller\DonController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\DonController" class="App\Controller\DonController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\DonController" class="App\Controller\DonController" autowire="true" autoconfigure="true" abstract="true"/>
@@ -7629,6 +7667,12 @@
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\PublicationController" class="App\Controller\PublicationController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\PublicationController" class="App\Controller\PublicationController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\PublicationController" class="App\Controller\PublicationController" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\RendezvousController" class="App\Controller\RendezvousController" autowire="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\RendezvousController" class="App\Controller\RendezvousController" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Controller\RendezvousController" class="App\Controller\RendezvousController" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\ReportController" class="App\Controller\ReportController" autowire="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\ReportController" class="App\Controller\ReportController" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Controller\ReportController" class="App\Controller\ReportController" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\SecurityController" class="App\Controller\SecurityController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\SecurityController" class="App\Controller\SecurityController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\SecurityController" class="App\Controller\SecurityController" autowire="true" autoconfigure="true" abstract="true"/>
@@ -7640,6 +7684,8 @@
     <service id=".abstract.instanceof.App\Form\CommentType" class="App\Form\CommentType" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\CompagnieType" class="App\Form\CompagnieType" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Form\CompagnieType" class="App\Form\CompagnieType" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\DoctorAvailabilityType" class="App\Form\DoctorAvailabilityType" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Form\DoctorAvailabilityType" class="App\Form\DoctorAvailabilityType" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\DonType" class="App\Form\DonType" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Form\DonType" class="App\Form\DonType" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\GroupMessageType" class="App\Form\GroupMessageType" autowire="true" abstract="true"/>
@@ -7662,6 +7708,8 @@
     <service id=".abstract.instanceof.App\Repository\CommentRepository" class="App\Repository\CommentRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\CompagnieRepository" class="App\Repository\CompagnieRepository" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Repository\CompagnieRepository" class="App\Repository\CompagnieRepository" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\DoctorAvailabilityRepository" class="App\Repository\DoctorAvailabilityRepository" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Repository\DoctorAvailabilityRepository" class="App\Repository\DoctorAvailabilityRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\DonRepository" class="App\Repository\DonRepository" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Repository\DonRepository" class="App\Repository\DonRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\GroupMessageRepository" class="App\Repository\GroupMessageRepository" autowire="true" abstract="true"/>
@@ -7678,6 +7726,8 @@
     <service id=".abstract.instanceof.App\Repository\RapportDetatRepository" class="App\Repository\RapportDetatRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\RapportMedicalRepository" class="App\Repository\RapportMedicalRepository" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Repository\RapportMedicalRepository" class="App\Repository\RapportMedicalRepository" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\ReportRepository" class="App\Repository\ReportRepository" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Repository\ReportRepository" class="App\Repository\ReportRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\UserRepository" class="App\Repository\UserRepository" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Repository\UserRepository" class="App\Repository\UserRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Component\Security\Core\Authorization\Voter\VoterInterface.0.App\Security\Voter\CommentVoter" class="App\Security\Voter\CommentVoter" autowire="true" abstract="true"/>
@@ -8329,6 +8379,27 @@
         <argument key="publicationRepository" type="service_closure" id="App\Repository\PublicationRepository"/>
       </argument>
     </service>
+    <service id=".service_locator.da3JNsy" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="doctor" type="service_closure" id=".errored..service_locator.da3JNsy.App\Entity\User"/>
+        <argument key="entityManager" type="service_closure" id="doctrine.orm.default_entity_manager"/>
+      </argument>
+    </service>
+    <service id=".service_locator.O8GioWl" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="entityManager" type="service_closure" id="doctrine.orm.default_entity_manager"/>
+        <argument key="rendezvous" type="service_closure" id=".errored..service_locator.O8GioWl.App\Entity\Rendezvous"/>
+      </argument>
+    </service>
+    <service id=".service_locator.k448V7w" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="entityManager" type="service_closure" id="doctrine.orm.default_entity_manager"/>
+        <argument key="report" type="service_closure" id=".errored..service_locator.k448V7w.App\Entity\Report"/>
+      </argument>
+    </service>
     <service id=".service_locator.rSTd.nA" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -8342,7 +8413,7 @@
         <argument key="userPasswordHasher" type="service_closure" id="security.user_password_hasher"/>
       </argument>
     </service>
-    <service id=".service_locator.gPbv_VZ" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.HXi8Bty" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Controller\AdminController::annulerCommande" type="service_closure" id=".service_locator.iR5i4O4"/>
@@ -8385,6 +8456,9 @@
         <argument key="App\Controller\CompagnieController::selectOrCreate" type="service_closure" id=".service_locator.0N7jZFz"/>
         <argument key="App\Controller\CompagnieController::show" type="service_closure" id=".service_locator.elXdKcM"/>
         <argument key="App\Controller\CompagnieController::validateCompagnie" type="service_closure" id=".service_locator.FiBwT5O"/>
+        <argument key="App\Controller\DoctorAvailabilityController::doctorAvailability" type="service_closure" id=".service_locator.CsMkqUa"/>
+        <argument key="App\Controller\DoctorAvailabilityController::index" type="service_closure" id=".service_locator.CsMkqUa"/>
+        <argument key="App\Controller\DoctorAvailabilityController::update" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\DonController::create" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\DonController::delete" type="service_closure" id=".service_locator.8S_oN2w"/>
         <argument key="App\Controller\DonController::edit" type="service_closure" id=".service_locator.dLTLrdo"/>
@@ -8412,6 +8486,12 @@
         <argument key="App\Controller\PublicationController::new" type="service_closure" id=".service_locator.dH_7bkl"/>
         <argument key="App\Controller\PublicationController::reject" type="service_closure" id=".service_locator.TyGfL3f"/>
         <argument key="App\Controller\PublicationController::show" type="service_closure" id=".service_locator.iUig0G9"/>
+        <argument key="App\Controller\RendezvousController::bookAppointment" type="service_closure" id=".service_locator.CsMkqUa"/>
+        <argument key="App\Controller\RendezvousController::doctorAvailability" type="service_closure" id=".service_locator.da3JNsy"/>
+        <argument key="App\Controller\RendezvousController::index" type="service_closure" id=".service_locator.kPUOGb8"/>
+        <argument key="App\Controller\ReportController::edit" type="service_closure" id=".service_locator.k448V7w"/>
+        <argument key="App\Controller\ReportController::index" type="service_closure" id=".service_locator.CsMkqUa"/>
+        <argument key="App\Controller\ReportController::new" type="service_closure" id=".service_locator.O8GioWl"/>
         <argument key="App\Controller\SecurityController::login" type="service_closure" id=".service_locator.rSTd.nA"/>
         <argument key="App\Controller\SecurityController::register" type="service_closure" id=".service_locator.e_4zbH4"/>
         <argument key="App\Kernel::loadRoutes" type="service_closure" id=".service_locator.y4_Zrx."/>
@@ -8458,6 +8538,9 @@
         <argument key="App\Controller\CompagnieController:selectOrCreate" type="service_closure" id=".service_locator.0N7jZFz"/>
         <argument key="App\Controller\CompagnieController:show" type="service_closure" id=".service_locator.elXdKcM"/>
         <argument key="App\Controller\CompagnieController:validateCompagnie" type="service_closure" id=".service_locator.FiBwT5O"/>
+        <argument key="App\Controller\DoctorAvailabilityController:doctorAvailability" type="service_closure" id=".service_locator.CsMkqUa"/>
+        <argument key="App\Controller\DoctorAvailabilityController:index" type="service_closure" id=".service_locator.CsMkqUa"/>
+        <argument key="App\Controller\DoctorAvailabilityController:update" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\DonController:create" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\DonController:delete" type="service_closure" id=".service_locator.8S_oN2w"/>
         <argument key="App\Controller\DonController:edit" type="service_closure" id=".service_locator.dLTLrdo"/>
@@ -8485,6 +8568,12 @@
         <argument key="App\Controller\PublicationController:new" type="service_closure" id=".service_locator.dH_7bkl"/>
         <argument key="App\Controller\PublicationController:reject" type="service_closure" id=".service_locator.TyGfL3f"/>
         <argument key="App\Controller\PublicationController:show" type="service_closure" id=".service_locator.iUig0G9"/>
+        <argument key="App\Controller\RendezvousController:bookAppointment" type="service_closure" id=".service_locator.CsMkqUa"/>
+        <argument key="App\Controller\RendezvousController:doctorAvailability" type="service_closure" id=".service_locator.da3JNsy"/>
+        <argument key="App\Controller\RendezvousController:index" type="service_closure" id=".service_locator.kPUOGb8"/>
+        <argument key="App\Controller\ReportController:edit" type="service_closure" id=".service_locator.k448V7w"/>
+        <argument key="App\Controller\ReportController:index" type="service_closure" id=".service_locator.CsMkqUa"/>
+        <argument key="App\Controller\ReportController:new" type="service_closure" id=".service_locator.O8GioWl"/>
         <argument key="App\Controller\SecurityController:login" type="service_closure" id=".service_locator.rSTd.nA"/>
         <argument key="App\Controller\SecurityController:register" type="service_closure" id=".service_locator.e_4zbH4"/>
         <argument key="kernel:loadRoutes" type="service_closure" id=".service_locator.y4_Zrx."/>
@@ -8648,13 +8737,14 @@
       <argument type="service" id="argument_resolver.query_parameter_value_resolver"/>
       <argument type="service" id="debug.stopwatch"/>
     </service>
-    <service id=".service_locator.5zPNFDC" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.Jd1N3uA" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Form\ChatGroupType" type="service_closure" id="App\Form\ChatGroupType"/>
         <argument key="App\Form\CommandeType" type="service_closure" id="App\Form\CommandeType"/>
         <argument key="App\Form\CommentType" type="service_closure" id="App\Form\CommentType"/>
         <argument key="App\Form\CompagnieType" type="service_closure" id="App\Form\CompagnieType"/>
+        <argument key="App\Form\DoctorAvailabilityType" type="service_closure" id="App\Form\DoctorAvailabilityType"/>
         <argument key="App\Form\DonType" type="service_closure" id="App\Form\DonType"/>
         <argument key="App\Form\GroupMessageType" type="service_closure" id="App\Form\GroupMessageType"/>
         <argument key="App\Form\MedicamentType" type="service_closure" id="App\Form\MedicamentType"/>
@@ -8786,7 +8876,7 @@
         <argument key="turbo.doctrine.event_listener" type="service_closure" id="turbo.doctrine.event_listener"/>
       </argument>
     </service>
-    <service id=".service_locator.czT1Qq." class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.k9PYK7v" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Repository\CampagneRepository" type="service_closure" id="App\Repository\CampagneRepository"/>
@@ -8794,6 +8884,7 @@
         <argument key="App\Repository\CommandeRepository" type="service_closure" id="App\Repository\CommandeRepository"/>
         <argument key="App\Repository\CommentRepository" type="service_closure" id="App\Repository\CommentRepository"/>
         <argument key="App\Repository\CompagnieRepository" type="service_closure" id="App\Repository\CompagnieRepository"/>
+        <argument key="App\Repository\DoctorAvailabilityRepository" type="service_closure" id="App\Repository\DoctorAvailabilityRepository"/>
         <argument key="App\Repository\DonRepository" type="service_closure" id="App\Repository\DonRepository"/>
         <argument key="App\Repository\GroupMessageRepository" type="service_closure" id="App\Repository\GroupMessageRepository"/>
         <argument key="App\Repository\LigneCommandeRepository" type="service_closure" id="App\Repository\LigneCommandeRepository"/>
@@ -8802,6 +8893,7 @@
         <argument key="App\Repository\PublicationRepository" type="service_closure" id="App\Repository\PublicationRepository"/>
         <argument key="App\Repository\RapportDetatRepository" type="service_closure" id="App\Repository\RapportDetatRepository"/>
         <argument key="App\Repository\RapportMedicalRepository" type="service_closure" id="App\Repository\RapportMedicalRepository"/>
+        <argument key="App\Repository\ReportRepository" type="service_closure" id="App\Repository\ReportRepository"/>
         <argument key="App\Repository\UserRepository" type="service_closure" id="App\Repository\UserRepository"/>
       </argument>
     </service>
@@ -9226,6 +9318,12 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.O2p6Lk7" method="withContext"/>
     </service>
+    <service id=".service_locator.O2p6Lk7.App\Controller\DoctorAvailabilityController" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\DoctorAvailabilityController"/>
+      <argument>App\Controller\DoctorAvailabilityController</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.O2p6Lk7" method="withContext"/>
+    </service>
     <service id=".service_locator.O2p6Lk7.App\Controller\DonController" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="App\Controller\DonController"/>
       <argument>App\Controller\DonController</argument>
@@ -9283,6 +9381,18 @@
     <service id=".service_locator.O2p6Lk7.App\Controller\PublicationController" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="App\Controller\PublicationController"/>
       <argument>App\Controller\PublicationController</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.O2p6Lk7" method="withContext"/>
+    </service>
+    <service id=".service_locator.O2p6Lk7.App\Controller\RendezvousController" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\RendezvousController"/>
+      <argument>App\Controller\RendezvousController</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.O2p6Lk7" method="withContext"/>
+    </service>
+    <service id=".service_locator.O2p6Lk7.App\Controller\ReportController" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\ReportController"/>
+      <argument>App\Controller\ReportController</argument>
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.O2p6Lk7" method="withContext"/>
     </service>
@@ -9479,6 +9589,7 @@
           <argument>App\Controller\CommandeController</argument>
           <argument>App\Controller\CommentController</argument>
           <argument>App\Controller\CompagnieController</argument>
+          <argument>App\Controller\DoctorAvailabilityController</argument>
           <argument>App\Controller\DonController</argument>
           <argument>App\Controller\DonateurController</argument>
           <argument>App\Controller\DonateurDashboardController</argument>
@@ -9489,6 +9600,8 @@
           <argument>App\Controller\MedicamentController</argument>
           <argument>App\Controller\PatientController</argument>
           <argument>App\Controller\PublicationController</argument>
+          <argument>App\Controller\RendezvousController</argument>
+          <argument>App\Controller\ReportController</argument>
           <argument>App\Controller\SecurityController</argument>
           <argument>Doctrine\Bundle\DoctrineBundle\Controller\ProfilerController</argument>
         </argument>
@@ -9752,6 +9865,15 @@
     </service>
     <service id=".errored..service_locator.BXW8zd5.App\Entity\Publication" class="App\Entity\Publication">
       <tag name="container.error" message="Cannot autowire service &quot;.service_locator.BXW8zd5&quot;: it needs an instance of &quot;App\Entity\Publication&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
+    </service>
+    <service id=".errored..service_locator.da3JNsy.App\Entity\User" class="App\Entity\User">
+      <tag name="container.error" message="Cannot autowire service &quot;.service_locator.da3JNsy&quot;: it needs an instance of &quot;App\Entity\User&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
+    </service>
+    <service id=".errored..service_locator.O8GioWl.App\Entity\Rendezvous" class="App\Entity\Rendezvous">
+      <tag name="container.error" message="Cannot autowire service &quot;.service_locator.O8GioWl&quot;: it needs an instance of &quot;App\Entity\Rendezvous&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
+    </service>
+    <service id=".errored..service_locator.k448V7w.App\Entity\Report" class="App\Entity\Report">
+      <tag name="container.error" message="Cannot autowire service &quot;.service_locator.k448V7w&quot;: it needs an instance of &quot;App\Entity\Report&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
     </service>
     <service id=".console.command.about.lazy" class="Symfony\Component\Console\Command\LazyCommand">
       <argument>about</argument>
@@ -10946,7 +11068,7 @@
     <service id="Psr\Log\LoggerInterface" alias="monolog.logger"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.w7.f4fT" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.gPbv_VZ"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.HXi8Bty"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.KLVvNIq"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="Psr\Log\LoggerInterface $requestLogger" alias="monolog.logger.request"/>
@@ -10981,10 +11103,12 @@
     <service id=".service_locator.th5i6eU" alias=".service_locator.iUig0G9"/>
     <service id=".service_locator.52JxNpb" alias=".service_locator.1BDjvx9"/>
     <service id=".service_locator.dQiUxUs" alias=".service_locator.BXW8zd5"/>
+    <service id=".service_locator.HLUlteY" alias=".service_locator.O8GioWl"/>
+    <service id=".service_locator.GeA0det" alias=".service_locator.k448V7w"/>
     <service id=".service_locator.V6D1oJY" alias=".service_locator.e_4zbH4"/>
-    <service id=".service_locator.8ewRTvQ" alias=".service_locator.gPbv_VZ"/>
+    <service id=".service_locator.odaaeUa" alias=".service_locator.HXi8Bty"/>
     <service id=".service_locator.BFrsqsn" alias=".service_locator.F9PKc.7"/>
-    <service id=".service_locator.vMAOisq" alias=".service_locator.5zPNFDC"/>
+    <service id=".service_locator.B9.aLTi" alias=".service_locator.Jd1N3uA"/>
     <service id=".service_locator.XtmiKbi" alias=".service_locator.MfxSDRP"/>
     <service id=".service_locator.O24_MAy" alias=".service_locator.yY.p4P7"/>
     <service id=".service_locator.jUv.zyj" alias=".service_locator.O2p6Lk7"/>
@@ -11041,6 +11165,9 @@
     <service id=".service_locator.FBAkYy6" alias=".service_locator.md.U7iW"/>
     <service id=".service_locator.ftB.Q1V" alias=".service_locator.1BDjvx9"/>
     <service id=".service_locator.hhyIYxO" alias=".service_locator.BXW8zd5"/>
+    <service id=".service_locator.FCghrHv" alias=".service_locator.da3JNsy"/>
+    <service id=".service_locator.pgCpuwM" alias=".service_locator.O8GioWl"/>
+    <service id=".service_locator.rU2jjvD" alias=".service_locator.k448V7w"/>
     <service id=".service_locator.7NIAq8D" alias=".service_locator.rSTd.nA"/>
     <service id=".service_locator.qnm_CJ1" alias=".service_locator.e_4zbH4"/>
     <service id=".service_locator.Q1z.f9O" alias=".service_locator.O2p6Lk7"/>

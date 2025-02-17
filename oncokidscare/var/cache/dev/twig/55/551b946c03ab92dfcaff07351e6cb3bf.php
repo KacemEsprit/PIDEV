@@ -257,6 +257,6 @@ class __TwigTemplate_e530d6de2e7bb60fcb5341de412ac58d extends Template
 
 
 
-", "medecin/dashboard.html.twig", "C:\\GLEsprit3eme\\Projet_PI\\projet-onco\\PIDEV\\oncokidscare\\templates\\medecin\\dashboard.html.twig");
+", "medecin/dashboard.html.twig", "D:\\PIDEV\\oncokidscare\\templates\\medecin\\dashboard.html.twig");
     }
 }

@@ -65,6 +65,17 @@
                         <a href="{{ path('app_historique_don') }}" class="dropdown-item">Historique don</a>
                     </div>
                 </div>
+                             {% if is_granted('ROLE_MEDECIN') %}
+
+ <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Médecins</a>
+                    <div class="dropdown-menu rounded-0 rounded-bottom m-0">
+                        <a href="{{ path('app_doctor_availability') }}" class="dropdown-item">Disponibilités</a>
+                     
+                            <a href="{{ path('app_doctor_reports') }}" class="dropdown-item">Rapport Rendez-vous</a>
+                    </div>
+                </div>
+                                        {% endif %}
 
        {% if is_granted('ROLE_USER') and (is_granted('ROLE_PATIENT') or is_granted('ROLE_MEDECIN') or is_granted('ROLE_ADMIN')) %}
                 <!-- Espace Communautaire Dropdown -->
@@ -121,8 +132,8 @@
         {% endif %}
     </div>
 
-<a href="{{ path('app_appointment') }}" class="btn btn-primary btn-sm rounded-0 py-2 px-3 d-flex align-items-center justify-content-center">
-    Appointment <i class="fa fa-arrow-right ms-2"></i>
+<a href="{{ path('app_rendezvous') }}" class="btn btn-primary btn-sm rounded-0 py-2 px-3 d-flex align-items-center justify-content-center">
+    Rendez-vous <i class="fa fa-arrow-right ms-2"></i>
 </a>
 </div>
     </nav>

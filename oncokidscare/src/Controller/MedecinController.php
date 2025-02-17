@@ -184,4 +184,11 @@ class MedecinController extends AbstractController
         return $this->redirectToRoute('app_medecin_rapports');
     }
 
+    //aymen
+     #[Route('/DoctorAvailability', name: 'app_doctor_availability_legacy')]
+    public function doctorAvailabilityLegacy(): Response
+    {
+        return $this->redirectToRoute('app_doctor_availability');
+    }
+
 }

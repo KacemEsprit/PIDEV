@@ -47,10 +47,18 @@ final class HomeController extends AbstractController
         ]);
     }
 
+   
     #[Route('/appointment', name: 'app_appointment')]
     public function index_appointment(): Response
     {
         return $this->render('home/appointment.html.twig', [
+            'controller_name' => 'HomeController',
+        ]);
+    }
+    #[Route('/rapports', name: 'app_rapports')]
+    public function index_rapports(): Response
+    {
+        return $this->render('home/rapports.html.twig', [
             'controller_name' => 'HomeController',
         ]);
     }
@@ -75,6 +83,13 @@ final class HomeController extends AbstractController
     public function index_404(): Response
     {
         return $this->render('home/404.html.twig', [
+            'controller_name' => 'HomeController',
+        ]);
+    }
+       #[Route('/rendez-vous', name: 'app_rendezvous')]
+    public function index_rendezvous(): Response
+    {
+        return $this->render('home/rendez-vous.html.twig', [
             'controller_name' => 'HomeController',
         ]);
     }

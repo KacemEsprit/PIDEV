@@ -90,27 +90,27 @@ class __TwigTemplate_4a57e0fcfa57c34ece8526e836eadb58 extends Template
     ";
         // line 49
         yield from $this->unwrap()->yieldBlock('header', $context, $blocks);
+        // line 115
+        yield "
+    ";
         // line 116
-        yield "
-    ";
-        // line 117
         yield from $this->unwrap()->yieldBlock('main', $context, $blocks);
+        // line 132
+        yield "
+    ";
         // line 133
-        yield "
-    ";
-        // line 134
         yield from $this->unwrap()->yieldBlock('footer', $context, $blocks);
+        // line 167
+        yield "
+    ";
         // line 168
-        yield "
-    ";
-        // line 169
         yield from $this->unwrap()->yieldBlock('javascripts', $context, $blocks);
-        // line 202
+        // line 201
         yield "
     ";
-        // line 203
+        // line 202
         yield from $this->unwrap()->yieldBlock('page_javascripts', $context, $blocks);
-        // line 204
+        // line 203
         yield "</body>
 </html>
 ";
@@ -425,10 +425,9 @@ class __TwigTemplate_4a57e0fcfa57c34ece8526e836eadb58 extends Template
         yield "                </div>
 <a href=\"";
         // line 110
-        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_appointment");
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_rendezvous");
         yield "\" class=\"btn btn-primary btn-sm rounded-0 py-2 px-3 d-flex align-items-center justify-content-center\">
-    Appointment <i class=\"fa fa-arrow-right ms-2\"></i>
-</a>
+    Rendez-vous <i class=\"fa fa-arrow-right ms-2\"></i> </a>
             </div>
         </nav>
     ";
@@ -441,7 +440,7 @@ class __TwigTemplate_4a57e0fcfa57c34ece8526e836eadb58 extends Template
         yield from [];
     }
 
-    // line 117
+    // line 116
     /**
      * @return iterable<null|scalar|\Stringable>
      */
@@ -454,17 +453,17 @@ class __TwigTemplate_4a57e0fcfa57c34ece8526e836eadb58 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "main"));
 
-        // line 118
+        // line 117
         yield "        <div class=\"container-xxl py-5\">
             ";
-        // line 119
+        // line 118
         yield from $this->unwrap()->yieldBlock('flash_messages', $context, $blocks);
-        // line 129
+        // line 128
         yield "
             ";
-        // line 130
+        // line 129
         yield from $this->unwrap()->yieldBlock('body', $context, $blocks);
-        // line 131
+        // line 130
         yield "        </div>
     ";
         
@@ -476,7 +475,7 @@ class __TwigTemplate_4a57e0fcfa57c34ece8526e836eadb58 extends Template
         yield from [];
     }
 
-    // line 119
+    // line 118
     /**
      * @return iterable<null|scalar|\Stringable>
      */
@@ -489,22 +488,22 @@ class __TwigTemplate_4a57e0fcfa57c34ece8526e836eadb58 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "flash_messages"));
 
-        // line 120
+        // line 119
         yield "                ";
         $context['_parent'] = $context;
-        $context['_seq'] = CoreExtension::ensureTraversable(CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 120, $this->source); })()), "flashes", [], "any", false, false, false, 120));
+        $context['_seq'] = CoreExtension::ensureTraversable(CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 119, $this->source); })()), "flashes", [], "any", false, false, false, 119));
         foreach ($context['_seq'] as $context["label"] => $context["messages"]) {
-            // line 121
+            // line 120
             yield "                    ";
             $context['_parent'] = $context;
             $context['_seq'] = CoreExtension::ensureTraversable($context["messages"]);
             foreach ($context['_seq'] as $context["_key"] => $context["message"]) {
-                // line 122
+                // line 121
                 yield "                        <div class=\"alert alert-";
                 yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($context["label"], "html", null, true);
                 yield " alert-dismissible fade show\" role=\"alert\">
                             ";
-                // line 123
+                // line 122
                 yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($context["message"], "html", null, true);
                 yield "
                             <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button>
@@ -514,13 +513,13 @@ class __TwigTemplate_4a57e0fcfa57c34ece8526e836eadb58 extends Template
             $_parent = $context['_parent'];
             unset($context['_seq'], $context['_key'], $context['message'], $context['_parent']);
             $context = array_intersect_key($context, $_parent) + $_parent;
-            // line 127
+            // line 126
             yield "                ";
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['label'], $context['messages'], $context['_parent']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 128
+        // line 127
         yield "            ";
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
@@ -531,7 +530,7 @@ class __TwigTemplate_4a57e0fcfa57c34ece8526e836eadb58 extends Template
         yield from [];
     }
 
-    // line 130
+    // line 129
     /**
      * @return iterable<null|scalar|\Stringable>
      */
@@ -553,7 +552,7 @@ class __TwigTemplate_4a57e0fcfa57c34ece8526e836eadb58 extends Template
         yield from [];
     }
 
-    // line 134
+    // line 133
     /**
      * @return iterable<null|scalar|\Stringable>
      */
@@ -566,7 +565,7 @@ class __TwigTemplate_4a57e0fcfa57c34ece8526e836eadb58 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "footer"));
 
-        // line 135
+        // line 134
         yield "        <div class=\"container-fluid bg-dark text-light footer mt-5 pt-5 wow fadeIn\" data-wow-delay=\"0.1s\">
             <div class=\"container py-5\">
                 <div class=\"row g-5\">
@@ -609,7 +608,7 @@ class __TwigTemplate_4a57e0fcfa57c34ece8526e836eadb58 extends Template
         yield from [];
     }
 
-    // line 169
+    // line 168
     /**
      * @return iterable<null|scalar|\Stringable>
      */
@@ -622,57 +621,57 @@ class __TwigTemplate_4a57e0fcfa57c34ece8526e836eadb58 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "javascripts"));
 
-        // line 170
+        // line 169
         yield "        ";
-        // line 171
+        // line 170
         yield "        <script src=\"https://code.jquery.com/jquery-3.6.0.min.js\"></script>
 
         ";
-        // line 174
+        // line 173
         yield "        <script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js\"></script>
 
         ";
-        // line 177
+        // line 176
         yield "        <script src=\"";
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("lib/wow/wow.min.js"), "html", null, true);
         yield "\"></script>
         <script src=\"";
-        // line 178
+        // line 177
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("lib/easing/easing.min.js"), "html", null, true);
         yield "\"></script>
         <script src=\"";
-        // line 179
+        // line 178
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("lib/waypoints/waypoints.min.js"), "html", null, true);
         yield "\"></script>
         <script src=\"";
-        // line 180
+        // line 179
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("lib/counterup/counterup.min.js"), "html", null, true);
         yield "\"></script>
         <script src=\"";
-        // line 181
+        // line 180
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("lib/owlcarousel/owl.carousel.min.js"), "html", null, true);
         yield "\"></script>
         <script src=\"";
-        // line 182
+        // line 181
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("lib/tempusdominus/js/moment.min.js"), "html", null, true);
         yield "\"></script>
         <script src=\"";
-        // line 183
+        // line 182
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("lib/tempusdominus/js/moment-timezone.min.js"), "html", null, true);
         yield "\"></script>
         <script src=\"";
-        // line 184
+        // line 183
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"), "html", null, true);
         yield "\"></script>
 
         ";
-        // line 187
+        // line 186
         yield "        <script src=\"";
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("js/main.js"), "html", null, true);
         yield "\"></script>
 
         ";
-        // line 190
+        // line 189
         yield "        <script>
             \$(document).ready(function() {
                 // Initialize WOW.js
@@ -694,7 +693,7 @@ class __TwigTemplate_4a57e0fcfa57c34ece8526e836eadb58 extends Template
         yield from [];
     }
 
-    // line 203
+    // line 202
     /**
      * @return iterable<null|scalar|\Stringable>
      */
@@ -729,7 +728,7 @@ class __TwigTemplate_4a57e0fcfa57c34ece8526e836eadb58 extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  698 => 203,  676 => 190,  670 => 187,  665 => 184,  661 => 183,  657 => 182,  653 => 181,  649 => 180,  645 => 179,  641 => 178,  636 => 177,  632 => 174,  628 => 171,  626 => 170,  613 => 169,  570 => 135,  557 => 134,  535 => 130,  524 => 128,  518 => 127,  508 => 123,  503 => 122,  498 => 121,  493 => 120,  480 => 119,  468 => 131,  466 => 130,  463 => 129,  461 => 119,  458 => 118,  445 => 117,  428 => 110,  425 => 109,  419 => 107,  412 => 103,  406 => 100,  402 => 98,  400 => 97,  396 => 95,  389 => 91,  385 => 90,  380 => 87,  377 => 86,  370 => 82,  366 => 81,  360 => 77,  358 => 76,  355 => 75,  348 => 71,  344 => 70,  339 => 67,  337 => 66,  331 => 63,  327 => 62,  315 => 53,  310 => 51,  307 => 50,  294 => 49,  278 => 42,  265 => 41,  243 => 38,  229 => 35,  223 => 32,  218 => 29,  214 => 28,  209 => 27,  204 => 23,  198 => 18,  192 => 15,  190 => 14,  177 => 13,  163 => 8,  150 => 7,  127 => 5,  114 => 204,  112 => 203,  109 => 202,  107 => 169,  104 => 168,  102 => 134,  99 => 133,  97 => 117,  94 => 116,  92 => 49,  89 => 48,  87 => 41,  83 => 39,  81 => 38,  78 => 37,  76 => 13,  73 => 12,  71 => 7,  66 => 5,  60 => 1,);
+        return array (  697 => 202,  675 => 189,  669 => 186,  664 => 183,  660 => 182,  656 => 181,  652 => 180,  648 => 179,  644 => 178,  640 => 177,  635 => 176,  631 => 173,  627 => 170,  625 => 169,  612 => 168,  569 => 134,  556 => 133,  534 => 129,  523 => 127,  517 => 126,  507 => 122,  502 => 121,  497 => 120,  492 => 119,  479 => 118,  467 => 130,  465 => 129,  462 => 128,  460 => 118,  457 => 117,  444 => 116,  428 => 110,  425 => 109,  419 => 107,  412 => 103,  406 => 100,  402 => 98,  400 => 97,  396 => 95,  389 => 91,  385 => 90,  380 => 87,  377 => 86,  370 => 82,  366 => 81,  360 => 77,  358 => 76,  355 => 75,  348 => 71,  344 => 70,  339 => 67,  337 => 66,  331 => 63,  327 => 62,  315 => 53,  310 => 51,  307 => 50,  294 => 49,  278 => 42,  265 => 41,  243 => 38,  229 => 35,  223 => 32,  218 => 29,  214 => 28,  209 => 27,  204 => 23,  198 => 18,  192 => 15,  190 => 14,  177 => 13,  163 => 8,  150 => 7,  127 => 5,  114 => 203,  112 => 202,  109 => 201,  107 => 168,  104 => 167,  102 => 133,  99 => 132,  97 => 116,  94 => 115,  92 => 49,  89 => 48,  87 => 41,  83 => 39,  81 => 38,  78 => 37,  76 => 13,  73 => 12,  71 => 7,  66 => 5,  60 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -843,9 +842,8 @@ class __TwigTemplate_4a57e0fcfa57c34ece8526e836eadb58 extends Template
                         <a href=\"{{ path('app_login') }}\" class=\"nav-item nav-link\">connexion</a>
                     {% endif %}
                 </div>
-<a href=\"{{ path('app_appointment') }}\" class=\"btn btn-primary btn-sm rounded-0 py-2 px-3 d-flex align-items-center justify-content-center\">
-    Appointment <i class=\"fa fa-arrow-right ms-2\"></i>
-</a>
+<a href=\"{{ path('app_rendezvous') }}\" class=\"btn btn-primary btn-sm rounded-0 py-2 px-3 d-flex align-items-center justify-content-center\">
+    Rendez-vous <i class=\"fa fa-arrow-right ms-2\"></i> </a>
             </div>
         </nav>
     {% endblock %}

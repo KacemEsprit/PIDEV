@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Prendre un rendez-vous{% endblock %}
+
+{% block body %}
+    <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <h1 class="display-3 text-white mb-3 animated slideInDown">Prendre un rendez-vous</h1>
+            <nav aria-label="breadcrumb animated slideInDown">
+                <ol class="breadcrumb text-uppercase mb-0">
+                    <li class="breadcrumb-item"><a class="text-white" href="{{ path('app_home') }}">Accueil</a></li>
+                    <li class="breadcrumb-item text-primary active" aria-current="page">Rendez-vous</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+                <h1 class="mb-4">Choisissez votre médecin</h1>
+                <p class="mb-4">Sélectionnez un médecin pour voir ses disponibilités et prendre rendez-vous.</p>
+            </div>
+
+            <div class="row g-4">
+                {% if doctors is empty %}
+                    <div class="col-12">
+                        <div class="alert alert-info text-center">
+                            Aucun médecin n'est disponible pour le moment.
+                        </div>
+                    </div>
+                {% else %}
+                    {% for doctor in doctors %}
+                        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                            <div class="team-item position-relative rounded overflow-hidden">
+                                <div class="overflow-hidden">
+                                    <img class="img-fluid" src="{{ asset('img/team-1.jpg') }}" alt="{{ doctor.nom }} {{ doctor.prenom }}">
+                                </div>
+                                <div class="team-text bg-light text-center p-4">
+                                    <h5>Dr. {{ doctor.nom }} {{ doctor.prenom }}</h5>
+                                    <p class="text-primary">Médecin</p>
+                                    <div class="team-social text-center">
+                                        <a class="btn btn-primary py-3 px-5" href="{{ path('app_patient_rendezvous_doctor', {'id': doctor.id}) }}">
+                                            Voir les disponibilités
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
