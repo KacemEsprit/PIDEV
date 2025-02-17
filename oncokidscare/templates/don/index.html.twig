@@ -1,20 +1,37 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des Dons{% endblock %}
+{% block title %}{{ is_admin ? 'Historique des Dons' : 'Mes Dons' }}{% endblock %}
 
 {% block body %}
-    <div class="container mt-4">
-        <h1>Liste des Dons</h1>
+<div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <h1 class="display-3 text-white mb-3 animated slideInDown">{{ is_admin ? 'Historique des Dons' : 'Mes Dons' }}</h1>
+            <nav aria-label="breadcrumb animated slideInDown">
+                <ol class="breadcrumb text-uppercase mb-0">
+                    <li class="breadcrumb-item"><a class="text-white" href="{{ path('app_home') }}">Accueil</a></li>
+                    <li class="breadcrumb-item text-primary active" aria-current="page">{{ is_admin ? 'Historique des Dons' : 'Mes Dons' }}</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
 
-        <a href="{{ path('app_don_new') }}" class="btn btn-primary mb-3">Faire un nouveau don</a>
+      <div class="container-xxl py-5">
+    <div class="container mt-4">
+        <h1>{{ is_admin ? 'Historique des Dons' : 'Mes Dons' }}</h1>
+
+        {% if not is_admin %}
+            <a href="{{ path('app_don_new') }}" class="btn btn-primary mb-3">Faire un nouveau don</a>
+        {% endif %}
 
         <table class="table">
             <thead>
                 <tr>
+                    {% if is_admin %}
+                        <th>Donateur</th>
+                    {% endif %}
                     <th>Type</th>
                     <th>Montant</th>
                     <th>Date</th>
-                    <th>Statut</th>
                     <th>Mode de paiement</th>
                     <th>Actions</th>
                 </tr>
@@ -22,23 +39,24 @@
             <tbody>
             {% for don in dons %}
                 <tr>
+                    {% if is_admin %}
+                        <td>{{ don.donateur.nom }} {{ don.donateur.prenom }}</td>
+                    {% endif %}
                     <td>{{ don.typeDon }}</td>
                     <td>{{ don.montant ? don.montant ~ '€' : 'N/A' }}</td>
                     <td>{{ don.dateDon|date('d/m/Y') }}</td>
-                    <td>
-                        <span class="badge {% if don.statut == 'En attente' %}bg-warning{% elseif don.statut == 'Validé' %}bg-success{% else %}bg-danger{% endif %}">
-                            {{ don.statut }}
-                        </span>
-                    </td>
+                    
                     <td>{{ don.modePaiement }}</td>
                     <td>
                         <a href="{{ path('app_don_show', {'id': don.id}) }}" class="btn btn-info btn-sm">Voir</a>
-                        <a href="{{ path('app_don_edit', {'id': don.id}) }}" class="btn btn-warning btn-sm">Modifier</a>
+                        {% if not is_admin %}
+                            <a href="{{ path('app_don_edit', {'id': don.id}) }}" class="btn btn-warning btn-sm">Modifier</a>
+                        {% endif %}
                     </td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="6">Aucun don trouvé</td>
+                    <td colspan="{{ is_admin ? 7 : 6 }}">Aucun don trouvé</td>
                 </tr>
             {% endfor %}
             </tbody>

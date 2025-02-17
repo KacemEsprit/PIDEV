@@ -57,17 +57,15 @@
         <a href="{{ path('app_home') }}" class="nav-item nav-link active">Home</a>
         <a href="{{ path('app_about') }}" class="nav-item nav-link">About</a>
         <a href="{{ path('app_service') }}" class="nav-item nav-link">Service</a>
-        {% if not is_granted('ROLE_MEDECIN') and not is_granted('ROLE_PATIENT') %}
-            <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Donation</a>
-                <div class="dropdown-menu rounded-0 rounded-bottom m-0">
-                    <a href="{{ path('app_faire_don') }}" class="dropdown-item">Faire don</a>
-                    {% if is_granted('ROLE_USER') and is_granted('ROLE_DONATEUR') %}
+         <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Donation</a>
+                    <div class="dropdown-menu rounded-0 rounded-bottom m-0">
+                        {% if not is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('app_faire_don') }}" class="dropdown-item">Faire don</a>
+                        {% endif %}
                         <a href="{{ path('app_historique_don') }}" class="dropdown-item">Historique don</a>
-                    {% endif %}
+                    </div>
                 </div>
-            </div>
-        {% endif %}
 
        {% if is_granted('ROLE_USER') and (is_granted('ROLE_PATIENT') or is_granted('ROLE_MEDECIN') or is_granted('ROLE_ADMIN')) %}
                 <!-- Espace Communautaire Dropdown -->

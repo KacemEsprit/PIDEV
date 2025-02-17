@@ -932,6 +932,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 {% endblock %}
-", "security/register.html.twig", "C:\\GLEsprit3eme\\Projet_PI\\projet-onco\\PIDEV\\oncokidscare\\templates\\security\\register.html.twig");
+", "security/register.html.twig", "D:\\PIDEV\\oncokidscare\\templates\\security\\register.html.twig");
     }
 }

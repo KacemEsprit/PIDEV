@@ -17,18 +17,8 @@ class DonType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        // Ajout des champs du formulaire
         $builder
-            ->add('compagnies', EntityType::class, [
-                'class' => Compagnie::class,
-                'choice_label' => 'nom',
-                'multiple' => true,
-                'expanded' => true,
-                'required' => true,
-                'label' => 'Compagnies *',
-                'attr' => [
-                    'class' => 'form-control'
-                ]
-            ])
             ->add('type_don', ChoiceType::class, [
                 'choices' => [
                     'Financier' => 'financier',
@@ -38,7 +28,7 @@ class DonType extends AbstractType
             ])
             ->add('montant', MoneyType::class, [
                 'required' => false,
-                'currency' => 'EUR',
+                'currency' => 'TND',
                 'attr' => ['class' => 'form-control']
             ])
             ->add('description_materiel', TextareaType::class, [
@@ -47,11 +37,12 @@ class DonType extends AbstractType
             ])
             ->add('mode_paiement', ChoiceType::class, [
                 'choices' => [
-                    'Carte bancaire' => 'carte',
-                    'Virement' => 'virement',
-                    'Chèque' => 'cheque',
-                    'Espèces' => 'especes'
+                    'Bank donation' => 'bank',
+                    'Offline donation' => 'offline',
+                    'Paypal' => 'paypal'
                 ],
+                'required' => false,
+                'placeholder' => 'Sélectionnez un mode de paiement',
                 'attr' => ['class' => 'form-control']
             ])
             ->add('preuve_don', FileType::class, [
@@ -66,6 +57,7 @@ class DonType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Don::class,
+            'is_individual_donor' => false
         ]);
     }
 }

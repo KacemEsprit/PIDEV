@@ -1,0 +1,62 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Modifier une compagnie{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Modifier une compagnie</h1>
+
+        {{ form_start(form, {'attr': {'class': 'needs-validation'}}) }}
+        <div class="mb-3">
+            {{ form_label(form.nom, 'Nom de la compagnie') }}
+            {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.nom) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.siret, 'Numéro SIRET') }}
+            {{ form_widget(form.siret, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.siret) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.adresse, 'Adresse') }}
+            {{ form_widget(form.adresse, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.adresse) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.tel, 'Téléphone') }}
+            {{ form_widget(form.tel, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.tel) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.email, 'Email') }}
+            {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.email) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.site_web, 'Site Web') }}
+            {{ form_widget(form.site_web, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.site_web) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.description, 'Description') }}
+            {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.description) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.statut_juridique, 'Statut Juridique') }}
+            {{ form_widget(form.statut_juridique, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.statut_juridique) }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+        <a href="{{ path('admin_compagnie_index') }}" class="btn btn-secondary">Retour à la liste</a>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

@@ -14,6 +14,7 @@ return [
         '/_profiler/phpinfo' => [[['_route' => '_profiler_phpinfo', '_controller' => 'web_profiler.controller.profiler::phpinfoAction'], null, null, null, false, false, null]],
         '/_profiler/xdebug' => [[['_route' => '_profiler_xdebug', '_controller' => 'web_profiler.controller.profiler::xdebugAction'], null, null, null, false, false, null]],
         '/_profiler/open' => [[['_route' => '_profiler_open_file', '_controller' => 'web_profiler.controller.profiler::openAction'], null, null, null, false, false, null]],
+        '/admin/compagnie' => [[['_route' => 'admin_compagnie_index', '_controller' => 'App\\Controller\\Admin\\CompagnieController::index'], null, ['GET' => 0], null, true, false, null]],
         '/admin' => [
             [['_route' => 'app_admin_index', '_controller' => 'App\\Controller\\AdminController::index'], null, null, null, true, false, null],
             [['_route' => 'app_admin', '_controller' => 'App\\Controller\\AdminHomeController::index'], null, null, null, false, false, null],
@@ -41,9 +42,9 @@ return [
         '/compagnie' => [[['_route' => 'app_compagnie_index', '_controller' => 'App\\Controller\\CompagnieController::index'], null, ['GET' => 0], null, true, false, null]],
         '/compagnie/select-or-create' => [[['_route' => 'app_compagnie_select_or_create', '_controller' => 'App\\Controller\\CompagnieController::selectOrCreate'], null, ['GET' => 0], null, false, false, null]],
         '/compagnie/new' => [[['_route' => 'app_compagnie_new', '_controller' => 'App\\Controller\\CompagnieController::new'], null, ['GET' => 0, 'POST' => 1], null, false, false, null]],
-        '/donateur/dashboard/don/create' => [[['_route' => 'app_don_create', '_controller' => 'App\\Controller\\DonController::create'], null, ['GET' => 0, 'POST' => 1], null, false, false, null]],
-        '/donateur/dashboard/don' => [[['_route' => 'app_don_index', '_controller' => 'App\\Controller\\DonController::index'], null, ['GET' => 0], null, true, false, null]],
-        '/donateur/dashboard/don/new' => [[['_route' => 'app_don_new', '_controller' => 'App\\Controller\\DonController::new'], null, ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        '/don/create' => [[['_route' => 'app_don_create', '_controller' => 'App\\Controller\\DonController::create'], null, ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        '/don' => [[['_route' => 'app_don_index', '_controller' => 'App\\Controller\\DonController::index'], null, ['GET' => 0], null, true, false, null]],
+        '/don/new' => [[['_route' => 'app_don_new', '_controller' => 'App\\Controller\\DonController::new'], null, ['GET' => 0, 'POST' => 1], null, false, false, null]],
         '/donateur/dashboard' => [[['_route' => 'app_donateur_dashboard', '_controller' => 'App\\Controller\\DonateurDashboardController::index'], null, null, null, true, false, null]],
         '/faire-don' => [[['_route' => 'app_faire_don', '_controller' => 'App\\Controller\\DonationController::faireDon'], null, null, null, false, false, null]],
         '/historique-don' => [[['_route' => 'app_historique_don', '_controller' => 'App\\Controller\\DonationController::historiqueDon'], null, null, null, false, false, null]],
@@ -101,27 +102,35 @@ return [
                     .')'
                 .')'
                 .'|/admin/(?'
-                    .'|publications/(?'
-                        .'|approve/([^/]++)(*:314)'
-                        .'|reject/([^/]++)(*:337)'
+                    .'|com(?'
+                        .'|pagnie/([^/]++)/(?'
+                            .'|modifier(*:315)'
+                            .'|valider(*:330)'
+                            .'|rejeter(*:345)'
+                            .'|supprimer(*:362)'
+                        .')'
+                        .'|mandes/(?'
+                            .'|valider/([^/]++)(*:397)'
+                            .'|annuler/([^/]++)(*:421)'
+                        .')'
                     .')'
-                    .'|commandes/(?'
-                        .'|valider/([^/]++)(*:375)'
-                        .'|annuler/([^/]++)(*:399)'
+                    .'|publications/(?'
+                        .'|approve/([^/]++)(*:463)'
+                        .'|reject/([^/]++)(*:486)'
                     .')'
                     .'|medicament/([^/]++)(?'
-                        .'|/edit(*:435)'
-                        .'|(*:443)'
+                        .'|/edit(*:522)'
+                        .'|(*:530)'
                     .')'
                 .')'
                 .'|/groups/([^/]++)(?'
-                    .'|(*:472)'
+                    .'|(*:559)'
                     .'|/(?'
-                        .'|edit(*:488)'
-                        .'|join(*:500)'
+                        .'|edit(*:575)'
+                        .'|join(*:587)'
                         .'|members/(?'
-                            .'|add(*:522)'
-                            .'|remove/([^/]++)(*:545)'
+                            .'|add(*:609)'
+                            .'|remove/([^/]++)(*:632)'
                         .')'
                     .')'
                 .')'
@@ -129,47 +138,51 @@ return [
                     .'|m(?'
                         .'|ande/(?'
                             .'|([^/]++)(?'
-                                .'|(*:586)'
-                                .'|/edit(*:599)'
-                                .'|(*:607)'
+                                .'|(*:673)'
+                                .'|/edit(*:686)'
+                                .'|(*:694)'
                             .')'
-                            .'|admin/commande/([^/]++)/confirm(*:647)'
+                            .'|admin/commande/([^/]++)/confirm(*:734)'
                         .')'
                         .'|ent/([^/]++)(?'
-                            .'|(*:671)'
-                            .'|/edit(*:684)'
-                            .'|(*:692)'
+                            .'|(*:758)'
+                            .'|/edit(*:771)'
+                            .'|(*:779)'
                         .')'
                     .')'
-                    .'|pagnie/([^/]++)(?'
-                        .'|(*:720)'
-                        .'|/edit(*:733)'
-                        .'|(*:741)'
+                    .'|pagnie/(?'
+                        .'|([^/]++)(?'
+                            .'|(*:810)'
+                            .'|/edit(*:823)'
+                            .'|(*:831)'
+                        .')'
+                        .'|validate/([^/]++)/([^/]++)(*:866)'
+                        .'|pending(*:881)'
                     .')'
                 .')'
-                .'|/donateur/dashboard/don/([^/]++)(?'
-                    .'|(*:786)'
-                    .'|/edit(*:799)'
-                    .'|(*:807)'
+                .'|/don/([^/]++)(?'
+                    .'|(*:907)'
+                    .'|/edit(*:920)'
+                    .'|(*:928)'
                 .')'
                 .'|/medecin/(?'
-                    .'|patient/([^/]++)/rapports(*:853)'
+                    .'|patient/([^/]++)/rapports(*:974)'
                     .'|rapport/(?'
-                        .'|edit/([^/]++)(*:885)'
-                        .'|delete/([^/]++)(*:908)'
+                        .'|edit/([^/]++)(*:1006)'
+                        .'|delete/([^/]++)(*:1030)'
                     .')'
                 .')'
                 .'|/publication/(?'
                     .'|([^/]++)(?'
-                        .'|(*:945)'
+                        .'|(*:1068)'
                         .'|/(?'
-                            .'|edit(*:961)'
-                            .'|like(*:973)'
-                            .'|delete(*:987)'
+                            .'|edit(*:1085)'
+                            .'|like(*:1098)'
+                            .'|delete(*:1113)'
                         .')'
                     .')'
-                    .'|approve/([^/]++)(*:1013)'
-                    .'|reject/([^/]++)(*:1037)'
+                    .'|approve/([^/]++)(*:1140)'
+                    .'|reject/([^/]++)(*:1164)'
                 .')'
             .')/?$}sDu',
     ],
@@ -190,39 +203,45 @@ return [
             [['_route' => 'like_comment', '_controller' => 'App\\Controller\\LikeController::likeComment'], ['id'], ['POST' => 0], null, false, true, null],
             [['_route' => 'app_like_comment', '_controller' => 'App\\Controller\\LikeController::likeComment'], ['id'], ['POST' => 0], null, false, true, null],
         ],
-        314 => [[['_route' => 'admin_publication_approve', '_controller' => 'App\\Controller\\AdminController::approvePublication'], ['id'], ['POST' => 0], null, false, true, null]],
-        337 => [[['_route' => 'admin_publication_reject', '_controller' => 'App\\Controller\\AdminController::rejectPublication'], ['id'], ['POST' => 0], null, false, true, null]],
-        375 => [[['_route' => 'admin_commande_valider', '_controller' => 'App\\Controller\\AdminController::validerCommande'], ['id'], ['POST' => 0], null, false, true, null]],
-        399 => [[['_route' => 'admin_commande_annuler', '_controller' => 'App\\Controller\\AdminController::annulerCommande'], ['id'], ['POST' => 0], null, false, true, null]],
-        435 => [[['_route' => 'app_medicament_edit', '_controller' => 'App\\Controller\\MedicamentController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
-        443 => [[['_route' => 'app_medicament_delete', '_controller' => 'App\\Controller\\MedicamentController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
-        472 => [[['_route' => 'app_chat_group_show', '_controller' => 'App\\Controller\\ChatGroupController::show'], ['id'], ['GET' => 0, 'POST' => 1], null, false, true, null]],
-        488 => [[['_route' => 'app_chat_group_edit', '_controller' => 'App\\Controller\\ChatGroupController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
-        500 => [[['_route' => 'app_chat_group_join', '_controller' => 'App\\Controller\\ChatGroupController::join'], ['id'], ['POST' => 0], null, false, false, null]],
-        522 => [[['_route' => 'app_chat_group_add_member', '_controller' => 'App\\Controller\\ChatGroupController::addMember'], ['id'], ['POST' => 0], null, false, false, null]],
-        545 => [[['_route' => 'app_chat_group_remove_member', '_controller' => 'App\\Controller\\ChatGroupController::removeMember'], ['id', 'userId'], ['POST' => 0], null, false, true, null]],
-        586 => [[['_route' => 'app_commande_show', '_controller' => 'App\\Controller\\CommandeController::show'], ['id'], ['GET' => 0], null, false, true, null]],
-        599 => [[['_route' => 'app_commande_edit', '_controller' => 'App\\Controller\\CommandeController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
-        607 => [[['_route' => 'app_commande_delete', '_controller' => 'App\\Controller\\CommandeController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
-        647 => [[['_route' => 'app_admin_commande_confirm', '_controller' => 'App\\Controller\\CommandeController::confirm'], ['id'], ['POST' => 0], null, false, false, null]],
-        671 => [[['_route' => 'app_comment_show', '_controller' => 'App\\Controller\\CommentController::show'], ['id'], ['GET' => 0], null, false, true, null]],
-        684 => [[['_route' => 'app_comment_edit', '_controller' => 'App\\Controller\\CommentController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
-        692 => [[['_route' => 'app_comment_delete', '_controller' => 'App\\Controller\\CommentController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
-        720 => [[['_route' => 'app_compagnie_show', '_controller' => 'App\\Controller\\CompagnieController::show'], ['id'], ['GET' => 0], null, false, true, null]],
-        733 => [[['_route' => 'app_compagnie_edit', '_controller' => 'App\\Controller\\CompagnieController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
-        741 => [[['_route' => 'app_compagnie_delete', '_controller' => 'App\\Controller\\CompagnieController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
-        786 => [[['_route' => 'app_don_show', '_controller' => 'App\\Controller\\DonController::show'], ['id'], ['GET' => 0], null, false, true, null]],
-        799 => [[['_route' => 'app_don_edit', '_controller' => 'App\\Controller\\DonController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
-        807 => [[['_route' => 'app_don_delete', '_controller' => 'App\\Controller\\DonController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
-        853 => [[['_route' => 'app_medecin_patient_rapports', '_controller' => 'App\\Controller\\MedecinController::showPatientRapports'], ['id'], ['GET' => 0], null, false, false, null]],
-        885 => [[['_route' => 'app_medecin_edit_rapport', '_controller' => 'App\\Controller\\MedecinController::editRapport'], ['id'], ['GET' => 0, 'POST' => 1], null, false, true, null]],
-        908 => [[['_route' => 'app_medecin_delete_rapport', '_controller' => 'App\\Controller\\MedecinController::deleteRapport'], ['id'], ['DELETE' => 0], null, false, true, null]],
-        945 => [[['_route' => 'app_publication_show', '_controller' => 'App\\Controller\\PublicationController::show'], ['id'], ['GET' => 0, 'POST' => 1], null, false, true, null]],
-        961 => [[['_route' => 'app_publication_edit', '_controller' => 'App\\Controller\\PublicationController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
-        973 => [[['_route' => 'app_publication_like', '_controller' => 'App\\Controller\\PublicationController::like'], ['id'], ['GET' => 0], null, false, false, null]],
-        987 => [[['_route' => 'app_publication_delete', '_controller' => 'App\\Controller\\PublicationController::delete'], ['id'], ['POST' => 0], null, false, false, null]],
-        1013 => [[['_route' => 'publication_approve', '_controller' => 'App\\Controller\\PublicationController::approve'], ['id'], ['POST' => 0], null, false, true, null]],
-        1037 => [
+        315 => [[['_route' => 'admin_compagnie_edit', '_controller' => 'App\\Controller\\Admin\\CompagnieController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        330 => [[['_route' => 'admin_compagnie_validate', '_controller' => 'App\\Controller\\Admin\\CompagnieController::validate'], ['id'], ['POST' => 0], null, false, false, null]],
+        345 => [[['_route' => 'admin_compagnie_reject', '_controller' => 'App\\Controller\\Admin\\CompagnieController::reject'], ['id'], ['POST' => 0], null, false, false, null]],
+        362 => [[['_route' => 'admin_compagnie_delete', '_controller' => 'App\\Controller\\Admin\\CompagnieController::delete'], ['id'], ['POST' => 0], null, false, false, null]],
+        397 => [[['_route' => 'admin_commande_valider', '_controller' => 'App\\Controller\\AdminController::validerCommande'], ['id'], ['POST' => 0], null, false, true, null]],
+        421 => [[['_route' => 'admin_commande_annuler', '_controller' => 'App\\Controller\\AdminController::annulerCommande'], ['id'], ['POST' => 0], null, false, true, null]],
+        463 => [[['_route' => 'admin_publication_approve', '_controller' => 'App\\Controller\\AdminController::approvePublication'], ['id'], ['POST' => 0], null, false, true, null]],
+        486 => [[['_route' => 'admin_publication_reject', '_controller' => 'App\\Controller\\AdminController::rejectPublication'], ['id'], ['POST' => 0], null, false, true, null]],
+        522 => [[['_route' => 'app_medicament_edit', '_controller' => 'App\\Controller\\MedicamentController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        530 => [[['_route' => 'app_medicament_delete', '_controller' => 'App\\Controller\\MedicamentController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
+        559 => [[['_route' => 'app_chat_group_show', '_controller' => 'App\\Controller\\ChatGroupController::show'], ['id'], ['GET' => 0, 'POST' => 1], null, false, true, null]],
+        575 => [[['_route' => 'app_chat_group_edit', '_controller' => 'App\\Controller\\ChatGroupController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        587 => [[['_route' => 'app_chat_group_join', '_controller' => 'App\\Controller\\ChatGroupController::join'], ['id'], ['POST' => 0], null, false, false, null]],
+        609 => [[['_route' => 'app_chat_group_add_member', '_controller' => 'App\\Controller\\ChatGroupController::addMember'], ['id'], ['POST' => 0], null, false, false, null]],
+        632 => [[['_route' => 'app_chat_group_remove_member', '_controller' => 'App\\Controller\\ChatGroupController::removeMember'], ['id', 'userId'], ['POST' => 0], null, false, true, null]],
+        673 => [[['_route' => 'app_commande_show', '_controller' => 'App\\Controller\\CommandeController::show'], ['id'], ['GET' => 0], null, false, true, null]],
+        686 => [[['_route' => 'app_commande_edit', '_controller' => 'App\\Controller\\CommandeController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        694 => [[['_route' => 'app_commande_delete', '_controller' => 'App\\Controller\\CommandeController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
+        734 => [[['_route' => 'app_admin_commande_confirm', '_controller' => 'App\\Controller\\CommandeController::confirm'], ['id'], ['POST' => 0], null, false, false, null]],
+        758 => [[['_route' => 'app_comment_show', '_controller' => 'App\\Controller\\CommentController::show'], ['id'], ['GET' => 0], null, false, true, null]],
+        771 => [[['_route' => 'app_comment_edit', '_controller' => 'App\\Controller\\CommentController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        779 => [[['_route' => 'app_comment_delete', '_controller' => 'App\\Controller\\CommentController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
+        810 => [[['_route' => 'app_compagnie_show', '_controller' => 'App\\Controller\\CompagnieController::show'], ['id'], ['GET' => 0], null, false, true, null]],
+        823 => [[['_route' => 'app_compagnie_edit', '_controller' => 'App\\Controller\\CompagnieController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        831 => [[['_route' => 'app_compagnie_delete', '_controller' => 'App\\Controller\\CompagnieController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
+        866 => [[['_route' => 'app_compagnie_validate', '_controller' => 'App\\Controller\\CompagnieController::validateCompagnie'], ['id', 'action'], ['GET' => 0, 'POST' => 1], null, false, true, null]],
+        881 => [[['_route' => 'app_compagnie_pending', '_controller' => 'App\\Controller\\CompagnieController::pendingCompagnies'], [], ['GET' => 0], null, false, false, null]],
+        907 => [[['_route' => 'app_don_show', '_controller' => 'App\\Controller\\DonController::show'], ['id'], ['GET' => 0], null, false, true, null]],
+        920 => [[['_route' => 'app_don_edit', '_controller' => 'App\\Controller\\DonController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        928 => [[['_route' => 'app_don_delete', '_controller' => 'App\\Controller\\DonController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
+        974 => [[['_route' => 'app_medecin_patient_rapports', '_controller' => 'App\\Controller\\MedecinController::showPatientRapports'], ['id'], ['GET' => 0], null, false, false, null]],
+        1006 => [[['_route' => 'app_medecin_edit_rapport', '_controller' => 'App\\Controller\\MedecinController::editRapport'], ['id'], ['GET' => 0, 'POST' => 1], null, false, true, null]],
+        1030 => [[['_route' => 'app_medecin_delete_rapport', '_controller' => 'App\\Controller\\MedecinController::deleteRapport'], ['id'], ['DELETE' => 0], null, false, true, null]],
+        1068 => [[['_route' => 'app_publication_show', '_controller' => 'App\\Controller\\PublicationController::show'], ['id'], ['GET' => 0, 'POST' => 1], null, false, true, null]],
+        1085 => [[['_route' => 'app_publication_edit', '_controller' => 'App\\Controller\\PublicationController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        1098 => [[['_route' => 'app_publication_like', '_controller' => 'App\\Controller\\PublicationController::like'], ['id'], ['GET' => 0], null, false, false, null]],
+        1113 => [[['_route' => 'app_publication_delete', '_controller' => 'App\\Controller\\PublicationController::delete'], ['id'], ['POST' => 0], null, false, false, null]],
+        1140 => [[['_route' => 'publication_approve', '_controller' => 'App\\Controller\\PublicationController::approve'], ['id'], ['POST' => 0], null, false, true, null]],
+        1164 => [
             [['_route' => 'publication_reject', '_controller' => 'App\\Controller\\PublicationController::reject'], ['id'], ['POST' => 0], null, false, true, null],
             [null, null, null, null, false, false, 0],
         ],

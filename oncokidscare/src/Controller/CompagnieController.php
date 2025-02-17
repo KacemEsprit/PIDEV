@@ -10,9 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\String\Slugger\SluggerInterface;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/compagnie')]
 #[IsGranted('ROLE_USER')]
@@ -21,16 +20,28 @@ class CompagnieController extends AbstractController
     #[Route('/', name: 'app_compagnie_index', methods: ['GET'])]
     public function index(CompagnieRepository $compagnieRepository): Response
     {
+        // Si c'est un admin, montrer toutes les compagnies
+        if ($this->isGranted('ROLE_ADMIN')) {
+            return $this->render('compagnie/index.html.twig', [
+                'compagnies' => $compagnieRepository->findAll(),
+            ]);
+        }
+        
+        // Sinon, montrer uniquement les compagnies du donateur
         return $this->render('compagnie/index.html.twig', [
-            'compagnies' => $compagnieRepository->findAll(),
-        ]); 
+            'compagnies' => $compagnieRepository->findBy(['donateur' => $this->getUser()]),
+        ]);
     }
 
     #[Route('/select-or-create', name: 'app_compagnie_select_or_create', methods: ['GET'])]
     public function selectOrCreate(CompagnieRepository $compagnieRepository): Response
     {
         $user = $this->getUser();
-        $compagnies = $compagnieRepository->findBy(['donateur' => $user]);
+        // Ne montrer que les compagnies validées pour la sélection
+        $compagnies = $compagnieRepository->findBy([
+            'donateur' => $user,
+            'statut_validation' => 'validee'
+        ]);
 
         return $this->render('compagnie/select_or_create.html.twig', [
             'compagnies' => $compagnies,
@@ -40,8 +51,15 @@ class CompagnieController extends AbstractController
     #[Route('/new', name: 'app_compagnie_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
+        // Empêcher l'admin de créer une compagnie
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('error', 'Les administrateurs ne peuvent pas créer de compagnies.');
+            return $this->redirectToRoute('app_compagnie_index');
+        }
+
         $compagnie = new Compagnie();
         $compagnie->setDonateur($this->getUser());
+        $compagnie->setStatutValidation('en_attente');
         
         $form = $this->createForm(CompagnieType::class, $compagnie);
         $form->handleRequest($request);
@@ -99,7 +117,7 @@ class CompagnieController extends AbstractController
                 $entityManager->persist($compagnie);
                 $entityManager->flush();
 
-                $this->addFlash('success', 'La compagnie a été créée avec succès.');
+                $this->addFlash('success', 'La compagnie a été créée et est en attente de validation par l\'administrateur.');
                 
                 // Check if there's a post-company creation redirect stored in session
                 $session = $request->getSession();
@@ -130,6 +148,7 @@ class CompagnieController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_compagnie_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, Compagnie $compagnie, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(CompagnieType::class, $compagnie);
@@ -137,7 +156,6 @@ class CompagnieController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-
             return $this->redirectToRoute('app_compagnie_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -156,5 +174,41 @@ class CompagnieController extends AbstractController
         }
 
         return $this->redirectToRoute('app_compagnie_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/validate/{id}/{action}', name: 'app_compagnie_validate', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')]
+    public function validateCompagnie(
+        Request $request,
+        Compagnie $compagnie,
+        string $action,
+        EntityManagerInterface $entityManager
+    ): Response {
+        if ($action === 'approve') {
+            $compagnie->setStatutValidation('validee');
+            $this->addFlash('success', 'La compagnie a été approuvée.');
+        } elseif ($action === 'reject') {
+            $compagnie->setStatutValidation('rejetee');
+            
+            // Si un motif de rejet est fourni
+            $motifRejet = $request->request->get('motif_rejet');
+            if ($motifRejet) {
+                $compagnie->setMotifRejet($motifRejet);
+            }
+            
+            $this->addFlash('success', 'La compagnie a été rejetée.');
+        }
+
+        $entityManager->flush();
+        return $this->redirectToRoute('app_compagnie_index');
+    }
+
+    #[Route('/pending', name: 'app_compagnie_pending', methods: ['GET'])]
+    #[IsGranted('ROLE_ADMIN')]
+    public function pendingCompagnies(CompagnieRepository $compagnieRepository): Response
+    {
+        return $this->render('compagnie/pending.html.twig', [
+            'compagnies' => $compagnieRepository->findBy(['statut_validation' => 'en_attente']),
+        ]);
     }
 }

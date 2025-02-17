@@ -15,13 +15,18 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-#[Route('/donateur/dashboard/don')]
-#[IsGranted('ROLE_USER')]
+#[Route('/don')]
 class DonController extends AbstractController
 {
     #[Route('/create', name: 'app_don_create', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
+        // Redirection silencieuse pour les administrateurs
+        if ($this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_don_index');
+        }
+
         $don = new Don();
         $user = $this->getUser();
         
@@ -32,7 +37,27 @@ class DonController extends AbstractController
         
         $don->setDonateur($user);
         
-        $form = $this->createForm(DonType::class, $don);
+        // Check if a company was selected and is validated
+        $selectedCompany = null;
+        $compagnieId = $request->query->get('compagnie');
+        if ($compagnieId) {
+            $selectedCompany = $entityManager->getRepository(Compagnie::class)->find($compagnieId);
+            if ($selectedCompany && $selectedCompany->getDonateur() === $user) {
+                // Vérifier si la compagnie est validée
+                if ($selectedCompany->getStatutValidation() !== 'validee') {
+                    $this->addFlash('error', 'Cette compagnie n\'est pas encore validée et ne peut pas faire de dons.');
+                    return $this->redirectToRoute('app_compagnie_index');
+                }
+                $don->addCompagnie($selectedCompany);
+            }
+        }
+        
+        // Check if the user is an individual donor
+        $isIndividualDonor = $user->getDonateurType() === 'individuel';
+        
+        $form = $this->createForm(DonType::class, $don, [
+            'is_individual_donor' => $isIndividualDonor
+        ]);
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
@@ -45,28 +70,89 @@ class DonController extends AbstractController
         
         return $this->render('don/create.html.twig', [
             'form' => $form->createView(),
+            'selected_company' => $selectedCompany
         ]);
     }
 
     #[Route('/', name: 'app_don_index', methods: ['GET'])]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function index(EntityManagerInterface $entityManager): Response
     {
-        $dons = $entityManager
-            ->getRepository(Don::class)
-            ->findAll();
+        $user = $this->getUser();
+        if (!$user instanceof User) {
+            throw $this->createAccessDeniedException('Vous devez être connecté pour voir les dons.');
+        }
+
+        // Si l'utilisateur est un admin, il peut voir tous les dons
+        if (in_array('ROLE_ADMIN', $user->getRoles())) {
+            $dons = $entityManager->getRepository(Don::class)->findAll();
+        } else {
+            // Sinon, l'utilisateur ne voit que ses propres dons
+            $dons = $entityManager->getRepository(Don::class)->findBy(['donateur' => $user]);
+        }
 
         return $this->render('don/index.html.twig', [
             'dons' => $dons,
+            'is_admin' => in_array('ROLE_ADMIN', $user->getRoles())
         ]);
     }
 
     #[Route('/new', name: 'app_don_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
     public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
+        // Redirection silencieuse pour les administrateurs
+        if ($this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_don_index');
+        }
+
         $user = $this->getUser();
         if (!$user) {
             $this->addFlash('error', 'Vous devez être connecté pour faire un don.');
             return $this->redirectToRoute('app_login');
+        }
+
+        // Si c'est un donateur individuel, on utilise un chemin simplifié
+        if ($user->getDonateurType() === 'individuel') {
+            $don = new Don();
+            $don->setDonateur($user);
+            $don->setStatut('En attente');
+            $don->setDateDon(new \DateTime());
+            
+            $form = $this->createForm(DonType::class, $don, [
+                'is_individual_donor' => true
+            ]);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                try {
+                    $preuveFile = $form->get('preuve_don')->getData();
+                    if ($preuveFile) {
+                        $originalFilename = pathinfo($preuveFile->getClientOriginalName(), PATHINFO_FILENAME);
+                        $safeFilename = $slugger->slug($originalFilename);
+                        $newFilename = $safeFilename.'-'.uniqid().'.'.$preuveFile->guessExtension();
+
+                        $preuveFile->move(
+                            $this->getParameter('preuves_directory'),
+                            $newFilename
+                        );
+                        $don->setPreuveDon($newFilename);
+                    }
+
+                    $entityManager->persist($don);
+                    $entityManager->flush();
+
+                    $this->addFlash('success', 'Votre don a été enregistré avec succès! Merci pour votre générosité.');
+                    return $this->redirectToRoute('app_donateur_dashboard');
+                } catch (\Exception $e) {
+                    $this->addFlash('error', 'Une erreur est survenue lors de l\'enregistrement du don.');
+                }
+            }
+
+            return $this->renderForm('don/new.html.twig', [
+                'don' => $don,
+                'form' => $form
+            ]);
         }
 
         // Si aucune compagnie n'est sélectionnée, rediriger vers la page de sélection
@@ -79,6 +165,12 @@ class DonController extends AbstractController
         if (!$compagnie || $compagnie->getDonateur() !== $user) {
             $this->addFlash('error', 'Compagnie invalide.');
             return $this->redirectToRoute('app_compagnie_select_or_create');
+        }
+
+        // Vérifier si la compagnie est validée
+        if ($compagnie->getStatutValidation() !== 'validee') {
+            $this->addFlash('error', 'Cette compagnie n\'est pas encore validée et ne peut pas faire de dons.');
+            return $this->redirectToRoute('app_compagnie_index');
         }
 
         $don = new Don();
@@ -138,28 +230,47 @@ class DonController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_don_show', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
     public function show(Don $don): Response
     {
+        // Vérifier que l'utilisateur a le droit de voir ce don
+        if (!$this->isGranted('ROLE_ADMIN') && $don->getDonateur() !== $this->getUser()) {
+            throw $this->createAccessDeniedException('Vous n\'avez pas le droit de voir ce don.');
+        }
+
         return $this->render('don/show.html.twig', [
             'don' => $don,
         ]);
     }
 
     #[Route('/{id}/edit', name: 'app_don_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
     public function edit(Request $request, Don $don, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
-        $form = $this->createForm(DonType::class, $don);
+        // Redirection silencieuse pour les administrateurs
+        if ($this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_don_index');
+        }
+
+        $user = $this->getUser();
+        if (!$user instanceof User || $don->getDonateur() !== $user) {
+            throw $this->createAccessDeniedException('Vous n\'avez pas le droit de modifier ce don.');
+        }
+
+        // Check if the user is an individual donor
+        $isIndividualDonor = $user->getDonateurType() === 'individuel';
+        
+        // Pour un donateur individuel, on vérifie qu'il n'y a pas de compagnie associée
+        if ($isIndividualDonor && !$don->getCompagnies()->isEmpty()) {
+            throw $this->createAccessDeniedException('En tant que donateur individuel, vous ne pouvez pas modifier les dons liés aux compagnies.');
+        }
+        
+        $form = $this->createForm(DonType::class, $don, [
+            'is_individual_donor' => $isIndividualDonor
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($don->getCompagnies()->isEmpty()) {
-                $this->addFlash('error', 'Veuillez sélectionner au moins une compagnie.');
-                return $this->renderForm('don/edit.html.twig', [
-                    'don' => $don,
-                    'form' => $form,
-                ]);
-            }
-
             $preuveFile = $form->get('preuve_don')->getData();
             if ($preuveFile) {
                 $originalFilename = pathinfo($preuveFile->getClientOriginalName(), PATHINFO_FILENAME);
@@ -172,25 +283,39 @@ class DonController extends AbstractController
                         $newFilename
                     );
                     $don->setPreuveDon($newFilename);
-                } catch (FileException $e) {
+                } catch (\Exception $e) {
                     $this->addFlash('error', 'Une erreur est survenue lors du téléchargement du fichier.');
+                    return $this->renderForm('don/edit.html.twig', [
+                        'don' => $don,
+                        'form' => $form
+                    ]);
                 }
             }
 
-            $entityManager->flush();
-            $this->addFlash('success', 'Le don a été modifié avec succès.');
-            return $this->redirectToRoute('app_don_index', [], Response::HTTP_SEE_OTHER);
+            try {
+                $entityManager->flush();
+                $this->addFlash('success', 'Le don a été modifié avec succès.');
+                return $this->redirectToRoute('app_donateur_dashboard');
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Une erreur est survenue lors de la modification du don.');
+            }
         }
 
         return $this->renderForm('don/edit.html.twig', [
             'don' => $don,
-            'form' => $form,
+            'form' => $form
         ]);
     }
 
     #[Route('/{id}', name: 'app_don_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
     public function delete(Request $request, Don $don, EntityManagerInterface $entityManager): Response
     {
+        // Redirection silencieuse pour les administrateurs
+        if ($this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_don_index');
+        }
+
         if ($this->isCsrfTokenValid('delete'.$don->getId(), $request->request->get('_token'))) {
             $entityManager->remove($don);
             $entityManager->flush();

@@ -1,0 +1,32 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Nouvelle compagnie{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Ajouter une nouvelle compagnie</h1>
+
+        {{ form_start(form, {'attr': {'class': 'needs-validation'}}) }}
+        <div class="mb-3">
+            {{ form_label(form.name, 'Nom de la compagnie') }}
+            {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.name) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.siret, 'Numéro SIRET') }}
+            {{ form_widget(form.siret, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.siret) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.address, 'Adresse') }}
+            {{ form_widget(form.address, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.address) }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Créer</button>
+        <a href="{{ path('admin_compagnie_index') }}" class="btn btn-secondary">Retour à la liste</a>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

@@ -31,7 +31,7 @@ class Don
     #[ORM\Column(length: 50)]
     private ?string $statut = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 50, nullable: true)]
     private ?string $mode_paiement = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -120,7 +120,7 @@ class Don
         return $this->mode_paiement;
     }
 
-    public function setModePaiement(string $mode_paiement): static
+    public function setModePaiement(?string $mode_paiement): static
     {
         $this->mode_paiement = $mode_paiement;
         return $this;

@@ -19,6 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     fields: ['siret'],
     message: 'Une compagnie avec ce numéro SIRET existe déjà.'
 )]
+
 class Compagnie
 {
     #[ORM\Id]
@@ -53,7 +54,7 @@ class Compagnie
     #[Assert\Email(message: 'L\'email {{ value }} n\'est pas valide')]
     private ?string $email = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     #[Assert\Url(message: 'L\'URL du site web n\'est pas valide')]
     private ?string $site_web = null;
 
@@ -77,6 +78,12 @@ class Compagnie
     #[ORM\Column(length: 100)]
     #[Assert\NotBlank(message: 'Le statut juridique est obligatoire')]
     private ?string $statut_juridique = null;
+
+    #[ORM\Column(length: 20)]
+    private ?string $statut_validation = 'en_attente';
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $motif_rejet = null;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'compagnies')]
     #[ORM\JoinColumn(nullable: false)]
@@ -208,6 +215,43 @@ class Compagnie
     {
         $this->statut_juridique = $statut_juridique;
         return $this;
+    }
+
+    public function getStatutValidation(): ?string
+    {
+        return $this->statut_validation;
+    }
+
+    public function setStatutValidation(string $statut_validation): static
+    {
+        $this->statut_validation = $statut_validation;
+        return $this;
+    }
+
+    public function getMotifRejet(): ?string
+    {
+        return $this->motif_rejet;
+    }
+
+    public function setMotifRejet(?string $motif_rejet): static
+    {
+        $this->motif_rejet = $motif_rejet;
+        return $this;
+    }
+
+    public function isEnAttente(): bool
+    {
+        return $this->statut_validation === 'en_attente';
+    }
+
+    public function isValidee(): bool
+    {
+        return $this->statut_validation === 'validee';
+    }
+
+    public function isRejetee(): bool
+    {
+        return $this->statut_validation === 'rejetee';
     }
 
     public function getDonateur(): ?User

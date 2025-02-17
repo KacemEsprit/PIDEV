@@ -3,6 +3,21 @@
 {% block title %}Liste des Compagnies{% endblock %}
 
 {% block body %}
+<div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <h1 class="display-3 text-white mb-3 animated slideInDown">Créer une nouvelle Compagnie</h1>
+            <nav aria-label="breadcrumb animated slideInDown">
+                <ol class="breadcrumb text-uppercase mb-0">
+                    <li class="breadcrumb-item"><a class="text-white" href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a class="text-white" href="#">Pages</a></li>
+                    <li class="breadcrumb-item text-primary active" aria-current="page">Nouveau Compagnie/li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+
+      <div class="container-xxl py-5">
     <div class="container mt-4">
         <h1>Liste des Compagnies</h1>
 
@@ -27,7 +42,9 @@
                     <td>{{ compagnie.statutJuridique }}</td>
                     <td>
                         <a href="{{ path('app_compagnie_show', {'id': compagnie.id}) }}" class="btn btn-info btn-sm">Voir</a>
-                        <a href="{{ path('app_compagnie_edit', {'id': compagnie.id}) }}" class="btn btn-warning btn-sm">Modifier</a>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('app_compagnie_edit', {'id': compagnie.id}) }}" class="btn btn-warning btn-sm">Modifier</a>
+                        {% endif %}
                     </td>
                 </tr>
             {% else %}

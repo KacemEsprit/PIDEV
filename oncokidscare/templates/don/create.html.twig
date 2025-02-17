@@ -1,40 +1,59 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Faire un Don{% endblock %}
+{% block title %}Nouveau Don{% endblock %}
 
 {% block body %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white">
-                    <h1 class="h3 mb-0">Faire un Don</h1>
-                </div>
-                <div class="card-body">
-                    {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
-                    
-                    <div class="mb-3">
-                        {{ form_label(form.montant, 'Montant du Don', {'label_attr': {'class': 'form-label'}}) }}
-                        <div class="input-group">
-                            {{ form_widget(form.montant, {'attr': {'class': 'form-control', 'placeholder': 'Entrez le montant'}}) }}
-                            <span class="input-group-text">TND</span>
-                        </div>
-                        {{ form_errors(form.montant) }}
-                    </div>
-
-                    <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-heart me-2"></i>Faire le Don
-                        </button>
-                        <a href="{{ path('app_home') }}" class="btn btn-secondary">
-                            <i class="fas fa-arrow-left me-2"></i>Retour
-                        </a>
-                    </div>
-
-                    {{ form_end(form) }}
-                </div>
-            </div>
+    <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <h1 class="display-3 text-white mb-3 animated slideInDown">Faire un don</h1>
+            <nav aria-label="breadcrumb animated slideInDown">
+                <ol class="breadcrumb text-uppercase mb-0">
+                    <li class="breadcrumb-item"><a class="text-white" href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a class="text-white" href="#">Pages</a></li>
+                    <li class="breadcrumb-item text-primary active" aria-current="page">Nouveau don</li>
+                </ol>
+            </nav>
         </div>
     </div>
-</div>
+
+    <div class="container mt-4">
+        <h1>Faire un nouveau don</h1>
+
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label == 'error' ? 'danger' : label }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        {{ form_start(form) }}
+            <div class="row">
+                <div class="col-md-6">
+                    {% if selected_company %}
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Compagnie sélectionnée</h5>
+                                <p class="card-text">
+                                    <strong>{{ selected_company.nom }}</strong><br>
+                                    SIRET: {{ selected_company.siret }}<br>
+                                    Adresse: {{ selected_company.adresse }}
+                                </p>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {{ form_row(form.type_don) }}
+                    {{ form_row(form.montant) }}
+                    {{ form_row(form.description_materiel) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_row(form.mode_paiement) }}
+                    {{ form_row(form.preuve_don) }}
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <a href="{{ path('app_don_index') }}" class="btn btn-secondary">Retour à la liste</a>
+        {{ form_end(form) }}
+    </div>
 {% endblock %}

@@ -23,9 +23,8 @@ class SecurityController extends AbstractController
             /** @var User $user */
             $user = $this->getUser();
             
-            // Spécial handling for companies
+            // Special handling for company donors
             if ($user->getRole() === User::ROLE_DONATEUR && $user->getDonateurType() === 'compagnie') {
-                // Redirect to company selection page
                 return $this->redirectToRoute('app_compagnie_select_or_create');
             }
             
