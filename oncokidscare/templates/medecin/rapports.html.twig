@@ -455,7 +455,7 @@ document.addEventListener('DOMContentLoaded', function() {
       <div class="d-flex justify-content-between align-items-center">
         <h2 class="text-primary">Rapport Médical de {{ rapport.patient.nom }} {{ rapport.patient.prenom }}</h2>
        <div class="report-actions">
-  <button type="button" class="btn btn-primary  ms-2" onclick="ouvrirModalEdition({{ rapport.id }})">
+  <button type="button" class="bg-primary text-white btn  ms-2" onclick="ouvrirModalEdition({{ rapport.id }})">
     <i class="fas fa-edit "></i> Modifier
   </button>
   <button type="button" class="btn btn-danger ms-2" onclick="confirmerSuppression({{ rapport.id }})">

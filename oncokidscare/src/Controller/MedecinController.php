@@ -11,6 +11,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+
+use Flasher\Prime\FlasherInterface;
+
+use App\Form\MedecinProfileType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -18,16 +22,19 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 #[IsGranted('ROLE_MEDECIN')]
 class MedecinController extends AbstractController
 {
-    #[Route('/dashboard', name: 'app_medecin_dashboard')]
+    #[Route('/dashboardd', name: 'app_medecin_dashboard')]
     public function dashboard(): Response
     {
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
         $this->addFlash('success', 'Bienvenue sur votre dashboard, médecin !');
         
-        return $this->redirectToRoute('app_home');
+        return $this->render('home/index.html.twig', [
+            'user' => $user,
+        ]);
     }
 
+  
     #[Route('/create', name: 'app_create_rapport')]
     public function createRapport(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -38,10 +45,8 @@ class MedecinController extends AbstractController
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
                 try {
-                    // Définir le médecin comme l'utilisateur courant
+                   
                     $rapport->setMedecin($this->getUser());
-                    
-                    // Définir la date si non définie
                     if (!$rapport->getDateRapport()) {
                         $rapport->setDateRapport(new \DateTime());
                     }
@@ -49,18 +54,37 @@ class MedecinController extends AbstractController
                     $entityManager->persist($rapport);
                     $entityManager->flush();
 
-                    $this->addFlash('success', 'Le rapport a été créé avec succès');
-                    return $this->redirectToRoute('app_medecin_rapports');
+                    return new JsonResponse([
+                        'message' => 'Rapport créé avec succès',
+                        'success' => true,
+                        'toast' => [
+                            'type' => 'success',
+                            'message' => 'Le rapport a été créé avec succès!'
+                        ]
+                    ]);
                 } catch (\Exception $e) {
-                    $this->addFlash('error', 'Erreur lors de la création du rapport : ' . $e->getMessage());
+                    return new JsonResponse([
+                        'message' => 'Erreur lors de la création du rapport',
+                        'success' => false,
+                        'toast' => [
+                            'type' => 'error',
+                            'message' => 'Erreur lors de la création du rapport : ' . $e->getMessage()
+                        ]
+                    ]);
                 }
             } else {
-                $this->addFlash('error', 'Le formulaire contient des erreurs. Veuillez les corriger.');
-                
-                // Afficher les erreurs spécifiques
+                $errors = [];
                 foreach ($form->getErrors(true) as $error) {
-                    $this->addFlash('error', $error->getMessage());
+                    $errors[] = $error->getMessage();
                 }
+                return new JsonResponse([
+                    'success' => false,
+                    'errors' => $errors,
+                    'toast' => [
+                        'type' => 'error',
+                        'message' => 'Le formulaire contient des erreurs. Veuillez les corriger.'
+                    ]
+                ], 400);
             }
         }
 
@@ -72,97 +96,61 @@ class MedecinController extends AbstractController
     #[Route('/patients/rapports', name: 'app_medecin_rapports', methods: ['GET'])]
     public function showAllRapports(UserRepository $userRepo, RapportDetatRepository $rapportRepo): Response
     {
-        // Récupérer tous les patients
         $patients = $userRepo->findPatients();
-
-        // Récupérer tous les rapports
         $rapports = $rapportRepo->findAll();
-
         return $this->render('medecin/rapports.html.twig', [
             'patients' => $patients,
             'rapports' => $rapports
         ]);
     }
 
-    #[Route('/patient/{id}/rapports', name: 'app_medecin_patient_rapports', methods: ['GET'])]
-    public function showPatientRapports(int $id, UserRepository $userRepo, RapportDetatRepository $rapportRepo): Response
-    {
-        $patient = $userRepo->find($id);
-
-        if (!$patient) {
-            throw $this->createNotFoundException('Patient non trouvé');
-        }
-
-        $rapports = $rapportRepo->findByPatientId($id);
-
-        return $this->render('medecin/rapport.html.twig', [
-            'patient' => $patient,
-            'rapports' => $rapports
-        ]);
-    }
-
+   
     #[Route('/rapport/edit/{id}', name: 'app_medecin_edit_rapport', methods: ['GET', 'POST'])]
     public function editRapport(Request $request, RapportDetat $rapport, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(RapportDetatType::class, $rapport);
         
-        if ($request->isXmlHttpRequest()) {
-            if ($request->isMethod('POST')) {
-                $content = $request->getContent();
-                $data = json_decode($content, true);
-                
-                if (!$data) {
-                    return new JsonResponse([
-                        'success' => false,
-                        'errors' => ['Données invalides']
-                    ], 400);
-                }
-
-                $form->submit($data['rapport_detat'] ?? []);
-                
-                if ($form->isValid()) {
-                    try {
-                        $entityManager->flush();
-                        $this->addFlash('success', sprintf('Le rapport a été modifié avec succès!', 
-                        $rapport->getPatient()->getNom() . ' ' . $rapport->getPatient()->getPrenom()
-                    ));
-
-                        return new JsonResponse([
-                            'success' => true,
-                            'message' => 'Le rapport a été modifié avec succès'
-                        ]);
-                    } catch (\Exception $e) {
-                        return new JsonResponse([
-                            'success' => false,
-                            'errors' => ['Une erreur est survenue lors de la sauvegarde']
-                        ], 500);
-                    }
-                } else {
-                    $errors = [];
-                    foreach ($form->getErrors(true) as $error) {
-                        $errors[] = $error->getMessage();
-                    }
-                    return new JsonResponse([
-                        'success' => false,
-                        'errors' => $errors
-                    ], 400);
-                }
+        if ($request->isMethod('POST')) {
+            if ($request->isXmlHttpRequest()) {
+                $data = json_decode($request->getContent(), true);
+                $form->submit($data['rapport_detat'] ?? $request->request->all());
+            } else {
+                $form->handleRequest($request);
             }
 
-            return $this->render('medecin/_edit_rapport_modal.html.twig', [
-                'rapport' => $rapport,
-                'form' => $form->createView(),
-            ]);
+            if ($form->isValid()) {
+                try {
+                    
+                    $entityManager->flush();
+                    $successMessage = sprintf('Le rapport pour %s a été modifié avec succès!', 
+                        $rapport->getPatient()->getNom() . ' ' . $rapport->getPatient()->getPrenom());
+                    
+                    if ($request->isXmlHttpRequest()) {
+                        return new JsonResponse([
+                            'success' => true,
+                            'message' => $successMessage,
+                            'redirect' => $this->generateUrl('app_medecin_rapports')
+                        ]);
+                    }
+                        return $this->redirectToRoute('app_medecin_rapports');
+
+
+                } catch (\Exception $e) {
+                    $errorMessage = 'Une erreur est survenue lors de la modification du rapport';
+                    
+                    if ($request->isXmlHttpRequest()) {
+                        return new JsonResponse([
+                            'success' => false,
+                            'message' => $errorMessage
+                        ], 500);
+                    }
+                    
+                    $this->addFlash('error', $errorMessage);
+                }
+            }
         }
 
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-            $this->addFlash('success', 'Le rapport a été modifié avec succès');
-            return $this->redirectToRoute('app_medecin_rapports');
-        }
-
-        return $this->render('medecin/edit_rapport.html.twig', [
+        return $this->render('medecin/_edit_rapport_modal.html.twig', [
             'rapport' => $rapport,
             'form' => $form->createView(),
         ]);
