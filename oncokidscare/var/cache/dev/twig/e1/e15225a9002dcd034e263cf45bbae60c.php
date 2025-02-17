@@ -899,6 +899,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-{% endblock %}", "admin/publications.html.twig", "D:\\PIDEV\\oncokidscare\\templates\\admin\\publications.html.twig");
+{% endblock %}", "admin/publications.html.twig", "C:\\PIDEV\\oncokidscare\\templates\\admin\\publications.html.twig");
     }
 }

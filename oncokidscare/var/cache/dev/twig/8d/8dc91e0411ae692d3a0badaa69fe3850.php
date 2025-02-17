@@ -2378,6 +2378,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-{% endblock %}", "publication/show.html.twig", "D:\\PIDEV\\oncokidscare\\templates\\publication\\show.html.twig");
+{% endblock %}", "publication/show.html.twig", "C:\\PIDEV\\oncokidscare\\templates\\publication\\show.html.twig");
     }
 }

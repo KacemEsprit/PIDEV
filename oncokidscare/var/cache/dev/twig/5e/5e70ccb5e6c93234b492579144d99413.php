@@ -253,6 +253,6 @@ class __TwigTemplate_884cf389ecf7d045a402b505886af715 extends Template
     </div>
 </div>
 {% endblock %}
-", "donateur/dashboard.html.twig", "D:\\PIDEV\\oncokidscare\\templates\\donateur\\dashboard.html.twig");
+", "donateur/dashboard.html.twig", "C:\\PIDEV\\oncokidscare\\templates\\donateur\\dashboard.html.twig");
     }
 }

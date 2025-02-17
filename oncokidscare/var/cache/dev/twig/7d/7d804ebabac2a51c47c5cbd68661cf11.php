@@ -253,6 +253,6 @@ class __TwigTemplate_503d9752025e849038eaa24e093296e9 extends Template
     </div>
 </div>
 {% endblock %}
-", "patient/dashboard.html.twig", "C:\\GLEsprit3eme\\Projet_PI\\projet-onco\\PIDEV\\oncokidscare\\templates\\patient\\dashboard.html.twig");
+", "patient/dashboard.html.twig", "C:\\PIDEV\\oncokidscare\\templates\\patient\\dashboard.html.twig");
     }
 }

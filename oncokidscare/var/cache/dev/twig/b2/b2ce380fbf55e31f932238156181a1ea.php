@@ -694,6 +694,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 {% endblock %}
-", "security/register.html.twig", "D:\\PIDEV\\oncokidscare\\templates\\security\\register.html.twig");
+", "security/register.html.twig", "C:\\PIDEV\\oncokidscare\\templates\\security\\register.html.twig");
     }
 }

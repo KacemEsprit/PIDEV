@@ -645,6 +645,6 @@ class __TwigTemplate_a2271c4bb09a74bc4c5a642966c73663 extends Template
             </div>
             <!-- Table End -->
 
-        {% endblock %}", "admin_home/table.html.twig", "D:\\PIDEV\\oncokidscare\\templates\\admin_home\\table.html.twig");
+        {% endblock %}", "admin_home/table.html.twig", "C:\\PIDEV\\oncokidscare\\templates\\admin_home\\table.html.twig");
     }
 }

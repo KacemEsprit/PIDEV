@@ -251,6 +251,6 @@ class __TwigTemplate_aca7d49e8b6902a2ad5ffc15c5c2c8b3 extends Template
    
         {% endblock %}
 
-", "home/feature.html.twig", "C:\\GLEsprit3eme\\Projet_PI\\projet-onco\\PIDEV\\oncokidscare\\templates\\home\\feature.html.twig");
+", "home/feature.html.twig", "C:\\PIDEV\\oncokidscare\\templates\\home\\feature.html.twig");
     }
 }

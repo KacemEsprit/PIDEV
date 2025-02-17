@@ -103,6 +103,6 @@ class __TwigTemplate_a6368f3df4d520f85693bd14c472adcb extends Template
     <button class=\"delete-btn\" type=\"submit\">
         <i class=\"fas fa-trash\"></i> Supprimer
     </button>
-</form>", "publication/_delete_form.html.twig", "D:\\PIDEV\\oncokidscare\\templates\\publication\\_delete_form.html.twig");
+</form>", "publication/_delete_form.html.twig", "C:\\PIDEV\\oncokidscare\\templates\\publication\\_delete_form.html.twig");
     }
 }

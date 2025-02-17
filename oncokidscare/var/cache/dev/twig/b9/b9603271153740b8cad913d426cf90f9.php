@@ -116,6 +116,6 @@ class __TwigTemplate_175cf8e81adb42cdb0ec8d85ed4859c9 extends Template
         {% endif %}
     </div>
 </nav>
-", "partials/_navigation.html.twig", "C:\\GLEsprit3eme\\Projet_PI\\projet-onco\\PIDEV\\oncokidscare\\templates\\partials\\_navigation.html.twig");
+", "partials/_navigation.html.twig", "C:\\PIDEV\\oncokidscare\\templates\\partials\\_navigation.html.twig");
     }
 }

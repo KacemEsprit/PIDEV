@@ -235,6 +235,6 @@ class __TwigTemplate_5a27d58ba523d917c0f95084c7a08220 extends Template
 
     <a href=\"{{ path('app_comment_new') }}\">Create new</a>
 {% endblock %}
-", "comment/index.html.twig", "D:\\PIDEV\\oncokidscare\\templates\\comment\\index.html.twig");
+", "comment/index.html.twig", "C:\\PIDEV\\oncokidscare\\templates\\comment\\index.html.twig");
     }
 }

@@ -3323,6 +3323,6 @@ function closeModal(modal) {
     }
 </style>
 {% endblock %}
-{% endblock %}", "publication/index.html.twig", "C:\\GLEsprit3eme\\Projet_PI\\projet-onco\\PIDEV\\oncokidscare\\templates\\publication\\index.html.twig");
+{% endblock %}", "publication/index.html.twig", "C:\\PIDEV\\oncokidscare\\templates\\publication\\index.html.twig");
     }
 }
