@@ -25,9 +25,7 @@ class MedecinController extends AbstractController
         $user = $this->getUser();
         $this->addFlash('success', 'Bienvenue sur votre dashboard, médecin !');
         
-        return $this->render('medecin/dashboard.html.twig', [
-            'user' => $user,
-        ]);
+        return $this->redirectToRoute('app_home');
     }
 
     #[Route('/create', name: 'app_create_rapport')]

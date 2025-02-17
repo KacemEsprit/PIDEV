@@ -30,7 +30,7 @@ class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
 
         // Redirection basée sur le rôle et le type de donateur
         return match ($user->getRole()) {
-            User::ROLE_ADMIN => new RedirectResponse($this->urlGenerator->generate('app_admin_index')),
+            User::ROLE_ADMIN => new RedirectResponse($this->urlGenerator->generate('app_admin')),
             User::ROLE_MEDECIN => new RedirectResponse($this->urlGenerator->generate('app_medecin_dashboard')),
             User::ROLE_PATIENT => new RedirectResponse($this->urlGenerator->generate('app_patient_dashboard')),
             User::ROLE_DONATEUR => $this->handleDonateurRedirect($user),

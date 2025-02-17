@@ -133,6 +133,7 @@ return [
     'App\Controller\AdminController::managePublications' => [[], ['_controller' => 'App\\Controller\\AdminController::managePublications'], [], [['text', '/admin/publications']], [], [], []],
     'App\Controller\AdminController::approvePublication' => [['id'], ['_controller' => 'App\\Controller\\AdminController::approvePublication'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/admin/publications/approve']], [], [], []],
     'App\Controller\AdminController::rejectPublication' => [['id'], ['_controller' => 'App\\Controller\\AdminController::rejectPublication'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/admin/publications/reject']], [], [], []],
+    'App\Controller\AdminController::dashboard' => [[], ['_controller' => 'App\\Controller\\AdminHomeController::dashboard'], [], [['text', '/dashboard']], [], [], []],
     'App\Controller\AdminController::manageCommandes' => [[], ['_controller' => 'App\\Controller\\AdminController::manageCommandes'], [], [['text', '/admin/commandes']], [], [], []],
     'App\Controller\AdminController::validerCommande' => [['id'], ['_controller' => 'App\\Controller\\AdminController::validerCommande'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/admin/commandes/valider']], [], [], []],
     'App\Controller\AdminController::annulerCommande' => [['id'], ['_controller' => 'App\\Controller\\AdminController::annulerCommande'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/admin/commandes/annuler']], [], [], []],

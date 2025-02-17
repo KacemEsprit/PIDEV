@@ -35,7 +35,7 @@ class AdminController extends AbstractController
         $patients = $userRepository->findBy(['role' => User::ROLE_PATIENT]);
         $donateurs = $userRepository->findBy(['role' => User::ROLE_DONATEUR]);
 
-        return $this->render('admin/index.html.twig', [
+        return $this->render('admin_home/index.html.twig', [
             'user' => $currentUser,
             'admins' => $admins,
             'medecins' => $medecins,
@@ -49,7 +49,7 @@ class AdminController extends AbstractController
     {
         $publications = $publicationRepository->findAll();
 
-        return $this->render('admin/publications.html.twig', [
+        return $this->render('admin_home/publications.html.twig', [
             'publications' => $publications,
         ]);
     }
@@ -76,12 +76,20 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('admin_publications');
     }
     
+      #[Route('/dashboard', name: 'app_dashboard')]
+    public function dashboard(): Response
+    {
+        return $this->render('admin_home/index.html.twig', [
+            'controller_name' => 'AdminHomeController',
+        ]);
+    }
+
     #[Route('/commandes', name: 'admin_commandes')]
     public function manageCommandes(CommandeRepository $commandeRepository): Response
     {
         $commandes = $commandeRepository->findAll();
 
-        return $this->render('admin/commandes.html.twig', [
+        return $this->render('admin_home/commandes.html.twig', [
             'commandes' => $commandes,
         ]);
     }
@@ -109,7 +117,7 @@ class AdminController extends AbstractController
     #[Route('/compagnie', name: 'admin_compagnie_index', methods: ['GET'])]
     public function compagnieIndex(CompagnieRepository $compagnieRepository): Response
     {
-        return $this->render('admin/compagnie/index.html.twig', [
+        return $this->render('admin_home/compagnie/index.html.twig', [
             'compagnies' => $compagnieRepository->findAll(),
         ]);
     }
@@ -126,7 +134,7 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('admin_compagnie_index');
         }
 
-        return $this->render('admin/compagnie/edit.html.twig', [
+        return $this->render('admin_home/compagnie/edit.html.twig', [
             'compagnie' => $compagnie,
             'form' => $form->createView(),
         ]);
@@ -155,7 +163,7 @@ class AdminController extends AbstractController
     #[Route('/compagnie/en-attente', name: 'admin_compagnie_pending', methods: ['GET'])]
     public function compagniePending(CompagnieRepository $compagnieRepository): Response
     {
-        return $this->render('admin/compagnie/pending.html.twig', [
+        return $this->render('admin_home/compagnie/pending.html.twig', [
             'compagnies' => $compagnieRepository->findBy(['statutValidation' => 'pending']),
         ]);
     }

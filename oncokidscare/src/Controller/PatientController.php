@@ -18,9 +18,7 @@ class PatientController extends AbstractController
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
         
-        return $this->render('patient/dashboard.html.twig', [
-            'user' => $user,
-        ]);
+        return $this->redirectToRoute('app_home');
     }
 
     #[Route('/rapports', name: 'app_patient_rapports')]

@@ -17,8 +17,6 @@ class DonateurController extends AbstractController
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
         
-        return $this->render('donateur/dashboard.html.twig', [
-            'user' => $user,
-        ]);
+        return $this->redirectToRoute('app_home');
     }
 }

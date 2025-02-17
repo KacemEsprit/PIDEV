@@ -6631,23 +6631,18 @@
         <argument>null</argument>
       </call>
       <call method="add">
-        <argument type="service" id=".security.request_matcher.aD0khbo"/>
+        <argument type="service" id=".security.request_matcher.Oggic2J"/>
         <argument type="collection">
           <argument>ROLE_MEDECIN</argument>
-        </argument>
-        <argument>null</argument>
-      </call>
-      <call method="add">
-        <argument type="service" id=".security.request_matcher.ETajTxA"/>
-        <argument type="collection">
           <argument>ROLE_PATIENT</argument>
         </argument>
         <argument>null</argument>
       </call>
       <call method="add">
-        <argument type="service" id=".security.request_matcher.GY9Qyo9"/>
+        <argument type="service" id=".security.request_matcher.O0V6ORW"/>
         <argument type="collection">
           <argument>ROLE_DONATEUR</argument>
+          <argument>ROLE_PATIENT</argument>
         </argument>
         <argument>null</argument>
       </call>
@@ -7107,7 +7102,7 @@
       </argument>
       <argument type="collection">
         <argument key="login_path">app_login</argument>
-        <argument key="default_target_path">app_home</argument>
+        <argument key="default_target_path">app_admin_index</argument>
         <argument key="always_use_default_target_path">false</argument>
         <argument key="target_path_parameter">_target_path</argument>
         <argument key="use_referer">false</argument>
@@ -7304,28 +7299,20 @@
         <argument type="service" id=".security.request_matcher.obhk0jm"/>
       </argument>
     </service>
-    <service id=".security.request_matcher.SggKzxR" class="Symfony\Component\HttpFoundation\RequestMatcher\PathRequestMatcher">
-      <argument>^/medecin</argument>
+    <service id=".security.request_matcher.alxXwNj" class="Symfony\Component\HttpFoundation\RequestMatcher\PathRequestMatcher">
+      <argument>^/publications</argument>
     </service>
-    <service id=".security.request_matcher.aD0khbo" class="Symfony\Component\HttpFoundation\ChainRequestMatcher">
+    <service id=".security.request_matcher.Oggic2J" class="Symfony\Component\HttpFoundation\ChainRequestMatcher">
       <argument type="collection">
-        <argument type="service" id=".security.request_matcher.SggKzxR"/>
+        <argument type="service" id=".security.request_matcher.alxXwNj"/>
       </argument>
     </service>
-    <service id=".security.request_matcher.gYxacZQ" class="Symfony\Component\HttpFoundation\RequestMatcher\PathRequestMatcher">
-      <argument>^/patient</argument>
+    <service id=".security.request_matcher.phGyaTt" class="Symfony\Component\HttpFoundation\RequestMatcher\PathRequestMatcher">
+      <argument>^/donations</argument>
     </service>
-    <service id=".security.request_matcher.ETajTxA" class="Symfony\Component\HttpFoundation\ChainRequestMatcher">
+    <service id=".security.request_matcher.O0V6ORW" class="Symfony\Component\HttpFoundation\ChainRequestMatcher">
       <argument type="collection">
-        <argument type="service" id=".security.request_matcher.gYxacZQ"/>
-      </argument>
-    </service>
-    <service id=".security.request_matcher.lSt5pTO" class="Symfony\Component\HttpFoundation\RequestMatcher\PathRequestMatcher">
-      <argument>^/donateur</argument>
-    </service>
-    <service id=".security.request_matcher.GY9Qyo9" class="Symfony\Component\HttpFoundation\ChainRequestMatcher">
-      <argument type="collection">
-        <argument type="service" id=".security.request_matcher.lSt5pTO"/>
+        <argument type="service" id=".security.request_matcher.phGyaTt"/>
       </argument>
     </service>
     <service id=".security.request_matcher.xKZVXt1" class="Symfony\Component\HttpFoundation\RequestMatcher\PathRequestMatcher">
