@@ -2992,6 +2992,14 @@
         <argument>0</argument>
       </call>
       <call method="addListener">
+        <argument>kernel.request</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="turbo.kernel.request_listener"/>
+          <argument>__invoke</argument>
+        </argument>
+        <argument>256</argument>
+      </call>
+      <call method="addListener">
         <argument>Symfony\Component\Security\Http\Event\CheckPassportEvent</argument>
         <argument type="collection">
           <argument type="service_closure" id="security.listener.user_provider"/>
@@ -6393,6 +6401,10 @@
       <tag name="doctrine.event_listener" event="postFlush"/>
       <argument type="service" id="turbo.broadcaster.action_renderer"/>
       <argument>null</argument>
+    </service>
+    <service id="turbo.kernel.request_listener" class="Symfony\UX\Turbo\Request\RequestListener">
+      <tag name="kernel.event_listener" event="kernel.request" priority="256"/>
+      <tag name="container.hot_path"/>
     </service>
     <service id="twig.missing_extension_suggestor" class="Twig\Extra\TwigExtraBundle\MissingExtensionSuggestor"/>
     <service id="security.authorization_checker" class="Symfony\Component\Security\Core\Authorization\AuthorizationChecker">
@@ -11026,6 +11038,7 @@
     <service id="doctrine.dbal.event_manager" alias="doctrine.dbal.default_connection.event_manager"/>
     <service id="Doctrine\DBAL\Connection $defaultConnection" alias="doctrine.dbal.default_connection"/>
     <service id="Doctrine\ORM\EntityManagerInterface" alias="doctrine.orm.default_entity_manager"/>
+    <service id="doctrine.orm.metadata.annotation_reader" alias="annotation_reader"/>
     <service id="doctrine.orm.entity_manager" alias="doctrine.orm.default_entity_manager" public="true"/>
     <service id="doctrine.orm.default_metadata_cache" alias="cache.doctrine.orm.default.metadata"/>
     <service id="doctrine.orm.default_result_cache" alias="cache.doctrine.orm.default.result"/>
