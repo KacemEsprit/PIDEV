@@ -7,15 +7,15 @@
     <div class="edit-form-container">
         <h1>Modifier la publication</h1>
 
-        {{ form_start(form, {'attr': {'class': 'edit-publication-form'}}) }}
+        {{ form_start(form, {'attr': {'class': 'edit-publication-form', 'enctype': 'multipart/form-data'}}) }}
             <div class="form-group">
                 {{ form_widget(form.contenu, {
                     'attr': {
                         'placeholder': 'Que voulez-vous partager ?',
                         'class': 'form-textarea',
-                            'maxlength': 120,
-        'oninput': 'this.value = this.value.slice(0, 120)',
-        'style': 'height: auto; min-height: 100px; overflow-y: auto;'
+                        'maxlength': 120,
+                        'oninput': 'this.value = this.value.slice(0, 120)',
+                        'style': 'height: auto; min-height: 100px; overflow-y: auto;'
                     }
                 }) }}
             </div>
@@ -32,6 +32,7 @@
                     }) }}
                 </div>
             </div> 
+
             <div class="form-group">
                 {{ form_widget(form.imageFiles, {
                     'attr': {
@@ -69,6 +70,10 @@
                 {% for imageUrl in publication.imageUrls %}
                     <div class="image-item">
                         <img src="{{ asset(imageUrl) }}" alt="Image actuelle" class="current-image">
+                        <form method="post" action="{{ path('app_publication_delete_image', {'id': publication.id, 'imageUrl': imageUrl}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette image ?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete_image' ~ publication.id) }}">
+                            <button class="btn btn-danger btn-sm">Supprimer</button>
+                        </form>
                     </div>
                 {% endfor %}
             </div>
@@ -78,208 +83,209 @@
 
 <style>
     .category-select .input-group {
-    margin: 1rem 0;
-}
-
-.category-select .input-group-text {
-    background-color: #95E1D3;
-    border: none;
-    color: white;
-    border-radius: 8px 0 0 8px;
-    padding: 0 1rem;
-}
-
-.custom-select {
-    border: 2px solid #e0f3f8;
-    border-left: none;
-    border-radius: 0 8px 8px 0;
-    padding: 0.75rem 1.5rem;
-    height: auto;
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%2395E1D3' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
-    background-position: right 1rem center;
-    background-repeat: no-repeat;
-    background-size: 16px 12px;
-    appearance: none;
-}
-
-.custom-select:focus {
-    box-shadow: none;
-    border-color: #95E1D3;
-}
-
-.file-input-label {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    background: #e0f3f8;
-    border-radius: 4px;
-    cursor: pointer;
-    color: #95E1D3;
-    width: 100%;
-    text-align: center;
-}
-
-.form-control-file {
-    display: none;
-}
-.edit-form-container {
-    background: white;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 2rem;
-}
-
-.edit-form-container h1 {
-    color: #95E1D3;
-    margin-bottom: 1.5rem;
-    font-size: 1.5rem;
-}
-
-.form-textarea {
-    width: 100%;
-    padding: 1rem;
-    border: 2px solid #e0f3f8;
-    border-radius: 8px;
-    font-size: 1rem;
-    line-height: 1.5;
-    resize: vertical;
-    min-height: 120px;
-}
-
-.form-textarea:focus {
-    outline: none;
-    border-color: #95E1D3;
-    box-shadow: 0 0 0 2px rgba(45, 122, 122, 0.2);
-}
-
-.form-group {
-    margin-bottom: 1.5rem;
-}
-
-.form-control {
-    width: 100%;
-    padding: 0.5rem;
-    border: 2px solid #e0f3f8;
-    border-radius: 8px;
-}
-
-.anonymous-toggle {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    cursor: pointer;
-}
-
-.toggle-slider {
-    width: 40px;
-    height: 20px;
-    background: #e0f3f8;
-    border-radius: 20px;
-    position: relative;
-    transition: all 0.3s ease;
-}
-
-.toggle-slider:before {
-    content: '';
-    position: absolute;
-    width: 16px;
-    height: 16px;
-    background: white;
-    border-radius: 50%;
-    top: 2px;
-    left: 2px;
-    transition: all 0.3s ease;
-}
-
-.anonymous-toggle input[type="checkbox"]:checked + .toggle-slider {
-    background: #95E1D3;
-}
-
-.anonymous-toggle input[type="checkbox"]:checked + .toggle-slider:before {
-    transform: translateX(20px);
-}
-
-.anonymous-label {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: #666;
-}
-
-.form-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
-    margin-top: 2rem;
-}
-
-.btn {
-    padding: 0.8rem 1.5rem;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    text-decoration: none;
-    transition: opacity 0.3s;
-}
-
-.btn-primary {
-    background: #95E1D3;
-    color: white;
-}
-
-.btn-secondary {
-    background: #6c757d;
-    color: white;
-}
-
-.btn:hover {
-    opacity: 0.9;
-}
-
-.current-images {
-    background: white;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.current-images h3 {
-    color: #95E1D3;
-    margin-bottom: 1rem;
-    font-size: 1.2rem;
-}
-
-.images-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 1rem;
-}
-
-.image-item {
-    aspect-ratio: 1;
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.current-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-@media (max-width: 768px) {
-    .form-actions {
-        flex-direction: column;
+        margin: 1rem 0;
     }
-    
-    .btn {
+
+    .category-select .input-group-text {
+        background-color: #95E1D3;
+        border: none;
+        color: white;
+        border-radius: 8px 0 0 8px;
+        padding: 0 1rem;
+    }
+
+    .custom-select {
+        border: 2px solid #e0f3f8;
+        border-left: none;
+        border-radius: 0 8px 8px 0;
+        padding: 0.75rem 1.5rem;
+        height: auto;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%2395E1D3' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+        background-position: right 1rem center;
+        background-repeat: no-repeat;
+        background-size: 16px 12px;
+        appearance: none;
+    }
+
+    .custom-select:focus {
+        box-shadow: none;
+        border-color: #95E1D3;
+    }
+
+    .file-input-label {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        background: #e0f3f8;
+        border-radius: 4px;
+        cursor: pointer;
+        color: #95E1D3;
         width: 100%;
-        justify-content: center;
+        text-align: center;
     }
-}
+
+    .form-control-file {
+        display: none;
+    }
+
+    .edit-form-container {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
+    }
+
+    .edit-form-container h1 {
+        color: #95E1D3;
+        margin-bottom: 1.5rem;
+        font-size: 1.5rem;
+    }
+
+    .form-textarea {
+        width: 100%;
+        padding: 1rem;
+        border: 2px solid #e0f3f8;
+        border-radius: 8px;
+        font-size: 1rem;
+        line-height: 1.5;
+        resize: vertical;
+        min-height: 120px;
+    }
+
+    .form-textarea:focus {
+        outline: none;
+        border-color: #95E1D3;
+        box-shadow: 0 0 0 2px rgba(45, 122, 122, 0.2);
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 0.5rem;
+        border: 2px solid #e0f3f8;
+        border-radius: 8px;
+    }
+
+    .anonymous-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+    }
+
+    .toggle-slider {
+        width: 40px;
+        height: 20px;
+        background: #e0f3f8;
+        border-radius: 20px;
+        position: relative;
+        transition: all 0.3s ease;
+    }
+
+    .toggle-slider:before {
+        content: '';
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        background: white;
+        border-radius: 50%;
+        top: 2px;
+        left: 2px;
+        transition: all 0.3s ease;
+    }
+
+    .anonymous-toggle input[type="checkbox"]:checked + .toggle-slider {
+        background: #95E1D3;
+    }
+
+    .anonymous-toggle input[type="checkbox"]:checked + .toggle-slider:before {
+        transform: translateX(20px);
+    }
+
+    .anonymous-label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #666;
+    }
+
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+
+    .btn {
+        padding: 0.8rem 1.5rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+        transition: opacity 0.3s;
+    }
+
+    .btn-primary {
+        background: #95E1D3;
+        color: white;
+    }
+
+    .btn-secondary {
+        background: #6c757d;
+        color: white;
+    }
+
+    .btn:hover {
+        opacity: 0.9;
+    }
+
+    .current-images {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .current-images h3 {
+        color: #95E1D3;
+        margin-bottom: 1rem;
+        font-size: 1.2rem;
+    }
+
+    .images-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 1rem;
+    }
+
+    .image-item {
+        aspect-ratio: 1;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .current-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    @media (max-width: 768px) {
+        .form-actions {
+            flex-direction: column;
+        }
+        
+        .btn {
+            width: 100%;
+            justify-content: center;
+        }
+    }
 </style>
 {% endblock %}

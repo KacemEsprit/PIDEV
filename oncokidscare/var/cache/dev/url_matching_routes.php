@@ -193,14 +193,17 @@ return [
                             .'|(*:1128)'
                             .'|/(?'
                                 .'|edit(*:1145)'
-                                .'|like(*:1158)'
-                                .'|delete(*:1173)'
+                                .'|delete(?'
+                                    .'|\\-image(*:1170)'
+                                    .'|(*:1179)'
+                                .')'
+                                .'|like(*:1193)'
                             .')'
                         .')'
-                        .'|approve/([^/]++)(*:1200)'
-                        .'|reject/([^/]++)(*:1224)'
+                        .'|approve/([^/]++)(*:1220)'
+                        .'|reject/([^/]++)(*:1244)'
                     .')'
-                    .'|atient2/rendezvous/doctor/([^/]++)(*:1268)'
+                    .'|atient2/rendezvous/doctor/([^/]++)(*:1288)'
                 .')'
             .')/?$}sDu',
     ],
@@ -258,11 +261,12 @@ return [
         1088 => [[['_route' => 'app_don_delete', '_controller' => 'App\\Controller\\DonController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
         1128 => [[['_route' => 'app_publication_show', '_controller' => 'App\\Controller\\PublicationController::show'], ['id'], ['GET' => 0, 'POST' => 1], null, false, true, null]],
         1145 => [[['_route' => 'app_publication_edit', '_controller' => 'App\\Controller\\PublicationController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
-        1158 => [[['_route' => 'app_publication_like', '_controller' => 'App\\Controller\\PublicationController::like'], ['id'], ['GET' => 0], null, false, false, null]],
-        1173 => [[['_route' => 'app_publication_delete', '_controller' => 'App\\Controller\\PublicationController::delete'], ['id'], ['POST' => 0], null, false, false, null]],
-        1200 => [[['_route' => 'publication_approve', '_controller' => 'App\\Controller\\PublicationController::approve'], ['id'], ['POST' => 0], null, false, true, null]],
-        1224 => [[['_route' => 'publication_reject', '_controller' => 'App\\Controller\\PublicationController::reject'], ['id'], ['POST' => 0], null, false, true, null]],
-        1268 => [
+        1170 => [[['_route' => 'app_publication_delete_image', '_controller' => 'App\\Controller\\PublicationController::deleteImage'], ['id'], ['POST' => 0], null, false, false, null]],
+        1179 => [[['_route' => 'app_publication_delete', '_controller' => 'App\\Controller\\PublicationController::delete'], ['id'], ['POST' => 0], null, false, false, null]],
+        1193 => [[['_route' => 'app_publication_like', '_controller' => 'App\\Controller\\PublicationController::like'], ['id'], ['GET' => 0], null, false, false, null]],
+        1220 => [[['_route' => 'publication_approve', '_controller' => 'App\\Controller\\PublicationController::approve'], ['id'], ['POST' => 0], null, false, true, null]],
+        1244 => [[['_route' => 'publication_reject', '_controller' => 'App\\Controller\\PublicationController::reject'], ['id'], ['POST' => 0], null, false, true, null]],
+        1288 => [
             [['_route' => 'app_patient_rendezvous_doctor', '_controller' => 'App\\Controller\\RendezvousController::doctorAvailability'], ['id'], ['GET' => 0], null, false, true, null],
             [null, null, null, null, false, false, 0],
         ],

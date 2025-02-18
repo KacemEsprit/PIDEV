@@ -10,16 +10,16 @@
                 <h2>Créer une publication</h2>
             </div>
 
-            {{ form_start(form, {'attr': {'class': 'publication-form'}}) }}
+            {{ form_start(form, {'attr': {'class': 'publication-form', 'enctype': 'multipart/form-data'}}) }}
                 <div class="form-group mb-3">
-                    {{ form_label(form.categorie, 'Catégorie') }}
-                    {{ form_widget(form.categorie, {
+                    {{ form_label(form.category, 'Catégorie') }}
+                    {{ form_widget(form.category, {
                         'attr': {
                             'class': 'form-control',
                             'required': 'required'
                         }
                     }) }}
-                    {{ form_errors(form.categorie) }}
+                    {{ form_errors(form.category) }}
                 </div>
 
                 <div class="form-group mb-3">

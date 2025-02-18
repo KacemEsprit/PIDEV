@@ -27,37 +27,31 @@ class PublicationType extends AbstractType
                 ],
                 'label' => false
             ])
-            ->add('imageFiles', FileType::class, [
-                'label' => 'Photos (maximum 5)',
-                'multiple' => true,
-                'mapped' => false,
-                'required' => false,
-                'constraints' => [
-                    new Count([
-                        'max' => 5,
-                        'maxMessage' => 'Vous ne pouvez pas télécharger plus de {{ limit }} photos'
-                    ]),
-                    new All([
-                        'constraints' => [
-                            new File([
-                                'maxSize' => '5M',
-                                'mimeTypes' => [
-                                    'image/jpeg',
-                                    'image/png',
-                                    'image/gif'
-                                ],
-                                'mimeTypesMessage' => 'Veuillez télécharger une image valide (JPEG, PNG, GIF)',
-                            ])
-                        ]
-                    ])
-                ],
-                'attr' => [
-                    'accept' => 'image/*',
-                    'class' => 'form-control',
-                    'multiple' => 'multiple',
-                    'data-max-files' => '5'
-                ]
-            ])
+        ->add('imageFiles', FileType::class, [
+    'label' => 'Photos (maximum 5)',
+    'multiple' => true,
+    'mapped' => false,
+    'required' => false,
+    'constraints' => [
+        new Count([
+            'max' => 5,
+            'maxMessage' => 'Vous ne pouvez pas télécharger plus de {{ limit }} photos'
+        ]),
+        new All([
+            'constraints' => [
+                new File([
+                    'maxSize' => '5M',
+                    'mimeTypes' => [
+                        'image/jpeg',
+                        'image/png',
+                        'image/gif'
+                    ],
+                    'mimeTypesMessage' => 'Veuillez télécharger une image valide (JPEG, PNG, GIF)',
+                ])
+            ]
+        ])
+    ]
+])
             ->add('isAnonymous', CheckboxType::class, [
                 'label' => 'Publier en anonyme',
                 'required' => false,

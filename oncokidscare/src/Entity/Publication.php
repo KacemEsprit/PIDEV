@@ -107,16 +107,24 @@ private ?string $category = null;
         return $this;
     }
 
-    public function getImageUrls(): array
-    {
-        return $this->imageUrls;
-    }
+public function getImageUrls(): array
+{
+    return $this->imageUrls;
+}
 
-    public function setImageUrls(array $imageUrls): self
-    {
-        $this->imageUrls = $imageUrls;
-        return $this;
+public function setImageUrls(array $imageUrls): self
+{
+    $this->imageUrls = $imageUrls;
+    return $this;
+}
+
+public function addImageUrl(string $imageUrl): self
+{
+    if (!in_array($imageUrl, $this->imageUrls)) {
+        $this->imageUrls[] = $imageUrl;
     }
+    return $this;
+}
 
     public function getCategory(): ?string
     {
@@ -181,14 +189,7 @@ private ?string $category = null;
         return false;
     }
 
-    public function addImageUrl(string $imageUrl): self
-    {
-        if (!in_array($imageUrl, $this->imageUrls, true)) {
-            $this->imageUrls[] = $imageUrl;
-        }
 
-        return $this;
-    }
 
     public function getLikeCount(): int
     {

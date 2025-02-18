@@ -644,7 +644,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
       <tag priority="-50" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">controller.argument_value_resolver</tag>
-      <argument type="service" id=".service_locator._FHwOAB"/>
+      <argument type="service" id=".service_locator.OY5s44B"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">
       <tag priority="-100" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">controller.argument_value_resolver</tag>
@@ -3565,7 +3565,7 @@
     </service>
     <service id="argument_resolver.not_tagged_controller" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
       <tag name="controller.argument_value_resolver" priority="-200"/>
-      <argument type="service" id=".service_locator._FHwOAB"/>
+      <argument type="service" id=".service_locator.OY5s44B"/>
     </service>
     <service id="debug.log_processor" class="Symfony\Bridge\Monolog\Processor\DebugProcessor">
       <tag name="kernel.reset" method="reset"/>
@@ -8412,7 +8412,7 @@
         <argument key="userPasswordHasher" type="service_closure" id="security.user_password_hasher"/>
       </argument>
     </service>
-    <service id=".service_locator._FHwOAB" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.OY5s44B" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Controller\AdminController::annulerCommande" type="service_closure" id=".service_locator.iR5i4O4"/>
@@ -8478,6 +8478,7 @@
         <argument key="App\Controller\PatientController::viewRapports" type="service_closure" id=".service_locator.HOE6MKh"/>
         <argument key="App\Controller\PublicationController::approve" type="service_closure" id=".service_locator.TyGfL3f"/>
         <argument key="App\Controller\PublicationController::delete" type="service_closure" id=".service_locator.BXW8zd5"/>
+        <argument key="App\Controller\PublicationController::deleteImage" type="service_closure" id=".service_locator.md.U7iW"/>
         <argument key="App\Controller\PublicationController::edit" type="service_closure" id=".service_locator.md.U7iW"/>
         <argument key="App\Controller\PublicationController::index" type="service_closure" id=".service_locator.dH_7bkl"/>
         <argument key="App\Controller\PublicationController::like" type="service_closure" id=".service_locator.1BDjvx9"/>
@@ -8559,6 +8560,7 @@
         <argument key="App\Controller\PatientController:viewRapports" type="service_closure" id=".service_locator.HOE6MKh"/>
         <argument key="App\Controller\PublicationController:approve" type="service_closure" id=".service_locator.TyGfL3f"/>
         <argument key="App\Controller\PublicationController:delete" type="service_closure" id=".service_locator.BXW8zd5"/>
+        <argument key="App\Controller\PublicationController:deleteImage" type="service_closure" id=".service_locator.md.U7iW"/>
         <argument key="App\Controller\PublicationController:edit" type="service_closure" id=".service_locator.md.U7iW"/>
         <argument key="App\Controller\PublicationController:index" type="service_closure" id=".service_locator.dH_7bkl"/>
         <argument key="App\Controller\PublicationController:like" type="service_closure" id=".service_locator.1BDjvx9"/>
@@ -11066,7 +11068,7 @@
     <service id="Psr\Log\LoggerInterface" alias="monolog.logger"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.w7.f4fT" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator._FHwOAB"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.OY5s44B"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.KLVvNIq"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="Psr\Log\LoggerInterface $requestLogger" alias="monolog.logger.request"/>
@@ -11104,7 +11106,7 @@
     <service id=".service_locator.HLUlteY" alias=".service_locator.O8GioWl"/>
     <service id=".service_locator.GeA0det" alias=".service_locator.k448V7w"/>
     <service id=".service_locator.V6D1oJY" alias=".service_locator.e_4zbH4"/>
-    <service id=".service_locator.Br8y5oO" alias=".service_locator._FHwOAB"/>
+    <service id=".service_locator.0xUiFI6" alias=".service_locator.OY5s44B"/>
     <service id=".service_locator.BFrsqsn" alias=".service_locator.F9PKc.7"/>
     <service id=".service_locator.B9.aLTi" alias=".service_locator.Jd1N3uA"/>
     <service id=".service_locator.XtmiKbi" alias=".service_locator.MfxSDRP"/>
