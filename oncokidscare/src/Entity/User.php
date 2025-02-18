@@ -3,51 +3,47 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 >>>>>>> 854fb939ec2363bc375c4e1fd30ebc88ac826415
+=======
+>>>>>>> b9ee188 (last commit)
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity(fields: ['email'], message: 'Cet email est déjà utilisé')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    public const ROLE_ADMIN = 'ROLE_ADMIN';
-    public const ROLE_MEDECIN = 'ROLE_MEDECIN';
-    public const ROLE_PATIENT = 'ROLE_PATIENT';
-    public const ROLE_DONATEUR = 'ROLE_DONATEUR';
+    const ROLE_ADMIN = 'ROLE_ADMIN';
+    const ROLE_MEDECIN = 'ROLE_MEDECIN';
+    const ROLE_PATIENT = 'ROLE_PATIENT';
+    const ROLE_DONATEUR = 'ROLE_DONATEUR';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    #[Assert\NotBlank]
-    private ?string $nom = null;
-
-    #[ORM\Column(length: 255)]
-    #[Assert\NotBlank]
-    private ?string $prenom = null;
-
-    #[ORM\Column(length: 255, unique: true)]
-    #[Assert\NotBlank]
-    #[Assert\Email]
+    #[ORM\Column(length: 180, unique: true)]
+    #[Assert\NotBlank(message: "L'adresse email est obligatoire")]
+    #[Assert\Email(
+        message: "L'adresse email '{{ value }}' n'est pas valide.",
+        mode: 'strict'
+    )]
+    #[Assert\Length(
+        max: 180,
+        maxMessage: "L'adresse email ne peut pas dépasser {{ limit }} caractères"
+    )]
     private ?string $email = null;
-
-    #[ORM\Column(length: 20)]
-    #[Assert\NotBlank]
-    private ?string $tel = null;
-
-    #[ORM\Column(length: 255)]
-    #[Assert\NotBlank]
-    private ?string $adresse = null;
 
     #[ORM\Column(length: 20)]
     private ?string $role = null;
@@ -56,21 +52,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $nom = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $prenom = null;
+
+    #[ORM\Column(length: 20, nullable: true)]
+    private ?string $telephone = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $adresse = null;
+
+    #[ORM\Column(length: 20, nullable: true)]
+    private ?string $donateurType = null;
+
+>>>>>>> b9ee188 (last commit)
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Publication::class, orphanRemoval: true)]
     private Collection $publications;
-
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Comment::class, orphanRemoval: true)]
-    private Collection $comments;
-
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Like::class, orphanRemoval: true)]
-    private Collection $likes;
 
     public function __construct()
     {
         $this->publications = new ArrayCollection();
-        $this->comments = new ArrayCollection();
-        $this->likes = new ArrayCollection();
     }
 
 >>>>>>> 854fb939ec2363bc375c4e1fd30ebc88ac826415
@@ -79,12 +85,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(?string $email): static
+    {
+        $this->email = $email;
+        return $this;
+    }
+
     public function getNom(): ?string
     {
         return $this->nom;
     }
 
-    public function setNom(string $nom): static
+    public function setNom(?string $nom): static
     {
         $this->nom = $nom;
         return $this;
@@ -95,31 +112,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->prenom;
     }
 
-    public function setPrenom(string $prenom): static
+    public function setPrenom(?string $prenom): static
     {
         $this->prenom = $prenom;
         return $this;
     }
 
-    public function getEmail(): ?string
+    public function getTelephone(): ?string
     {
-        return $this->email;
+        return $this->telephone;
     }
 
-    public function setEmail(string $email): static
+    public function setTelephone(?string $telephone): static
     {
-        $this->email = $email;
-        return $this;
-    }
-
-    public function getTel(): ?string
-    {
-        return $this->tel;
-    }
-
-    public function setTel(string $tel): static
-    {
-        $this->tel = $tel;
+        $this->telephone = $telephone;
         return $this;
     }
 
@@ -128,9 +134,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->adresse;
     }
 
-    public function setAdresse(string $adresse): static
+    public function setAdresse(?string $adresse): static
     {
         $this->adresse = $adresse;
+        return $this;
+    }
+
+    public function getDonateurType(): ?string
+    {
+        return $this->donateurType;
+    }
+
+    public function setDonateurType(?string $donateurType): static
+    {
+        $this->donateurType = $donateurType;
         return $this;
     }
 
@@ -141,10 +158,70 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setRole(string $role): static
     {
-        if (!in_array($role, [self::ROLE_ADMIN, self::ROLE_MEDECIN, self::ROLE_PATIENT, self::ROLE_DONATEUR])) {
+        if (!in_array($role, [
+            self::ROLE_ADMIN,
+            self::ROLE_MEDECIN,
+            self::ROLE_PATIENT,
+            self::ROLE_DONATEUR
+        ])) {
             throw new \InvalidArgumentException('Invalid role');
         }
         $this->role = $role;
+        return $this;
+    }
+
+    public function getRoles(): array
+    {
+        $roles = [$this->role];
+        $roles[] = 'ROLE_USER';
+        return array_unique($roles);
+    }
+
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): static
+    {
+        $this->password = $password;
+        return $this;
+    }
+
+    public function eraseCredentials(): void
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * @return Collection<int, Publication>
+     */
+    public function getPublications(): Collection
+    {
+        return $this->publications;
+    }
+
+    public function addPublication(Publication $publication): static
+    {
+        if (!$this->publications->contains($publication)) {
+            $this->publications->add($publication);
+            $publication->setUser($this);
+        }
+        return $this;
+    }
+
+    public function removePublication(Publication $publication): static
+    {
+        if ($this->publications->removeElement($publication)) {
+            if ($publication->getUser() === $this) {
+                $publication->setUser(null);
+            }
+        }
         return $this;
     }
 
@@ -167,6 +244,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->role === self::ROLE_DONATEUR;
     }
+<<<<<<< HEAD
 
     public function getPassword(): ?string
     {
@@ -282,4 +360,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 >>>>>>> 854fb939ec2363bc375c4e1fd30ebc88ac826415
+=======
+>>>>>>> b9ee188 (last commit)
 }

@@ -137,7 +137,7 @@ class __TwigTemplate_503d9752025e849038eaa24e093296e9 extends Template
         yield "</li>
                         <li><strong>Phone:</strong> ";
         // line 32
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, (isset($context["user"]) || array_key_exists("user", $context) ? $context["user"] : (function () { throw new RuntimeError('Variable "user" does not exist.', 32, $this->source); })()), "tel", [], "any", false, false, false, 32), "html", null, true);
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, (isset($context["user"]) || array_key_exists("user", $context) ? $context["user"] : (function () { throw new RuntimeError('Variable "user" does not exist.', 32, $this->source); })()), "telephone", [], "any", false, false, false, 32), "html", null, true);
         yield "</li>
                         <li><strong>Address:</strong> ";
         // line 33
@@ -230,7 +230,7 @@ class __TwigTemplate_503d9752025e849038eaa24e093296e9 extends Template
                     <h5 class=\"card-title\">Your Information</h5>
                     <ul class=\"list-unstyled\">
                         <li><strong>Email:</strong> {{ user.email }}</li>
-                        <li><strong>Phone:</strong> {{ user.tel }}</li>
+                        <li><strong>Phone:</strong> {{ user.telephone }}</li>
                         <li><strong>Address:</strong> {{ user.adresse }}</li>
                         <li><strong>Role:</strong> Patient</li>
                     </ul>
@@ -253,6 +253,6 @@ class __TwigTemplate_503d9752025e849038eaa24e093296e9 extends Template
     </div>
 </div>
 {% endblock %}
-", "patient/dashboard.html.twig", "D:\\PIDEV\\oncokidscare\\templates\\patient\\dashboard.html.twig");
+", "patient/dashboard.html.twig", "C:\\Users\\amal\\PIDEV\\oncokidscare\\templates\\patient\\dashboard.html.twig");
     }
 }

@@ -98,7 +98,17 @@
                 <a href="{{ path('app_about') }}" class="nav-item nav-link">About</a>
                 <a href="{{ path('app_service') }}" class="nav-item nav-link">Service</a>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Donation</a>
+                    <div class="dropdown-menu rounded-0 rounded-bottom m-0">
+                        <a href="{{ path('app_faire_don') }}" class="dropdown-item">Faire don</a>
+                        <a href="{{ path('app_historique_don') }}" class="dropdown-item">Historique don</a>
+                    </div>
+                </div>
+>>>>>>> b9ee188 (last commit)
                 {% if is_granted('ROLE_USER') and (is_granted('ROLE_PATIENT') or is_granted('ROLE_MEDECIN') or is_granted('ROLE_ADMIN')) %}
                     <a href="{{ path('app_publication_index') }}" class="nav-item nav-link">Publications</a>
                 {% endif %}
