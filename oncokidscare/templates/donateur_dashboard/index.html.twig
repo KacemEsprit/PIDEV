@@ -33,7 +33,7 @@
                                 </div>
                                 <p class="mb-1">
                                     {% if don.montant %}
-                                        Montant: {{ don.montant }}€
+                                        Montant: {{ don.montant }}TND
                                     {% else %}
                                         Don matériel
                                     {% endif %}
@@ -47,7 +47,11 @@
             {% endif %}
         </div>
         
-        <div class="col-md-6">
+       
+    </div>
+</div>
+{% endblock %}
+{#  <div class="col-md-6">
             <div class="card mb-4">
                 <div class="card-body">
                     <h5 class="card-title">Compagnies Partenaires</h5>
@@ -74,7 +78,4 @@
                 </div>
             </div>
             {% endif %}
-        </div>
-    </div>
-</div>
-{% endblock %}
+        </div>#}

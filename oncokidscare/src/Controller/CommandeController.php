@@ -10,11 +10,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Entity\Medicament;
 use App\Entity\LigneCommande;
 
 #[Route('/commande')]
+#[IsGranted('ROLE_PATIENT')]
 class CommandeController extends AbstractController
 {
     #[Route('/', name: 'app_commande_index', methods: ['GET'])]
@@ -26,6 +27,7 @@ class CommandeController extends AbstractController
         ]);
     }
 
+   
     #[Route('/new', name: 'app_commande_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_PATIENT')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
@@ -37,11 +39,17 @@ class CommandeController extends AbstractController
         
         $form = $this->createForm(CommandeType::class, $commande);
         $form->handleRequest($request);
-
+    
+        // Récupérer uniquement les médicaments avec une quantité en stock supérieure à 0
+        $medicaments = $entityManager->getRepository(Medicament::class)
+            ->createQueryBuilder('m')
+            ->where('m.quantite_stock > 0')
+            ->getQuery()
+            ->getResult();
+    
         if ($form->isSubmitted() && $form->isValid()) {
-            $medicaments = $entityManager->getRepository(Medicament::class)->findAll();
             $hasItems = false;
-
+    
             foreach ($medicaments as $medicament) {
                 $quantite = $form->get('quantite_' . $medicament->getId())->getData();
                 if ($quantite > 0) {
@@ -54,7 +62,7 @@ class CommandeController extends AbstractController
                     $entityManager->persist($ligneCommande);
                 }
             }
-
+    
             if (!$hasItems) {
                 $this->addFlash('error', 'Veuillez sélectionner au moins un médicament.');
                 return $this->render('commande/new.html.twig', [
@@ -62,17 +70,17 @@ class CommandeController extends AbstractController
                     'medicaments' => $medicaments
                 ]);
             }
-
+    
             $entityManager->persist($commande);
             $entityManager->flush();
-
+    
             $this->addFlash('success', 'Votre commande a été créée avec succès.');
             return $this->redirectToRoute('app_commande_index');
         }
-
+    
         return $this->render('commande/new.html.twig', [
             'form' => $form->createView(),
-            'medicaments' => $entityManager->getRepository(Medicament::class)->findAll()
+            'medicaments' => $medicaments
         ]);
     }
 
@@ -152,7 +160,6 @@ class CommandeController extends AbstractController
 
     #[Route('/{id}', name: 'app_commande_delete', methods: ['POST'])]
     #[IsGranted('ROLE_PATIENT')]
-    #[IsGranted('DELETE', subject: 'commande')]
     public function delete(Request $request, Commande $commande, EntityManagerInterface $entityManager): Response
     {
         // Vérifier que l'utilisateur connecté est bien le propriétaire de la commande
@@ -179,7 +186,7 @@ class CommandeController extends AbstractController
     #[Route('/admin/commande', name: 'app_admin_commande_index', methods: ['GET'])]
     public function adminIndex(CommandeRepository $commandeRepository): Response
     {
-        return $this->render('commande/admin_index.html.twig', [
+        return $this->render('commande/confirmation.html.twig', [
             'commandes' => $commandeRepository->findAll(),
         ]);
     }

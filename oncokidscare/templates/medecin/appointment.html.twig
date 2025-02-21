@@ -20,160 +20,307 @@
         <div class="bg-white p-5 rounded shadow-sm border">
             <h2 class="text-center text-primary mb-4">Rapport Médical</h2>
             <hr>
-            {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
-                <!-- Section 1 : Informations Générales -->
-                <h4 class="text-secondary mb-4">Informations Générales</h4>
-                <div class="row mb-4">
-                    <div class="col-md-3">
-                        {{ form_row(form.dateRapport, {
-                            'label': 'Date du Rapport',
-                            'attr': {'class': 'form-control'}
-                        }) }}
-                    </div>
-                    <div class="col-md-3">
-                        {{ form_row(form.age, {
-                            'label': 'Âge',
-                            'attr': {'class': 'form-control', 'placeholder': 'Ex: 45'}
-                        }) }}
-                    </div>
-                    <div class="col-md-3">
-                        {{ form_row(form.sexe, {
-                            'label': 'Sexe',
-                            'attr': {'class': 'form-select'}
-                        }) }}
-                    </div>
-                    <div class="col-md-3">
-                        {{ form_row(form.patient, {
-                            'label': 'Patient',
-                            'attr': {'class': 'form-select'}
-                        }) }}
-                    </div>
-                </div>
+{{ form_start(form, {'attr': {'class': 'needs-validation'}}) }}
+<!-- Section 1 : Informations Générales -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        {{ form_row(form.dateRapport, {
+            'label': 'Date du Rapport',
+            'attr': {'class': 'form-control', 'required': 'required'}
+        }) }}
+        <div class="invalid-feedback">
+            {{ form_errors(form.dateRapport) }}
+        </div>
+    </div>
+    <div class="col-md-3">
+        {{ form_row(form.age, {
+            'label': 'Âge',
+            'attr': {
+                'class': 'form-control',
+                'placeholder': 'Ex: 45',
+                'required': 'required',
+                'min': '0',
+                'max': '150',
+                'pattern': '\\d+'
+            }
+        }) }}
+        <div class="invalid-feedback">
+            {{ form_errors(form.age) }}
+        </div>
+    </div>
+    <div class="col-md-3">
+        {{ form_row(form.sexe, {
+            'label': 'Sexe',
+            'attr': {'class': 'form-select', 'required': 'required'}
+        }) }}
+        <div class="invalid-feedback">
+            {{ form_errors(form.sexe) }}
+        </div>
+    </div>
+    <div class="col-md-3">
+        {{ form_row(form.patient, {
+            'label': 'Patient',
+            'attr': {'class': 'form-select', 'required': 'required'}
+        }) }}
+        <div class="invalid-feedback">
+            {{ form_errors(form.patient) }}
+        </div>
+    </div>
+</div>
 
-                <!-- Section 2 : Signes Vitaux -->
-                <h4 class="text-secondary mb-4">Signes Vitaux</h4>
-                <div class="row mb-4">
-                    <div class="col-md-3">
-                        {{ form_row(form.tensionArterielle, {
-                            'label': 'Tension Artérielle',
-                            'attr': {'class': 'form-control', 'placeholder': 'Ex: 120/80'}
-                        }) }}
-                    </div>
-                    <div class="col-md-3">
-                        {{ form_row(form.pouls, {
-                            'label': 'Pouls',
-                            'attr': {'class': 'form-control', 'placeholder': 'Ex: 75'}
-                        }) }}
-                    </div>
-                    <div class="col-md-3">
-                        {{ form_row(form.temperature, {
-                            'label': 'Température',
-                            'attr': {'class': 'form-control', 'placeholder': 'Ex: 37.2'}
-                        }) }}
-                    </div>
-                    <div class="col-md-3">
-                        {{ form_row(form.saturationOxygene, {
-                            'label': 'Saturation en Oxygène',
-                            'attr': {'class': 'form-control', 'placeholder': 'Ex: 98'}
-                        }) }}
-                    </div>
-                </div>
+<!-- Section 2 : Signes Vitaux -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        {{ form_row(form.tensionArterielle, {
+            'label': 'Tension Artérielle',
+            'attr': {
+                'class': 'form-control',
+                'placeholder': 'Ex: 120/80',
+                'required': 'required',
+                'pattern': '\\d{2,3}/\\d{2,3}'
+            }
+        }) }}
+        <div class="invalid-feedback">
+            {{ form_errors(form.tensionArterielle) }}
+        </div>
+    </div>
+    <div class="col-md-3">
+        {{ form_row(form.pouls, {
+            'label': 'Pouls',
+            'attr': {
+                'class': 'form-control',
+                'placeholder': 'Ex: 75',
+                'required': 'required',
+                'min': '30',
+                'max': '200',
+                'pattern': '\\d+'
+            }
+        }) }}
+        <div class="invalid-feedback">
+            {{ form_errors(form.pouls) }}
+        </div>
+    </div>
+<div class="col-md-3">
+    {{ form_row(form.temperature, {
+        'label': 'Température',
+        'attr': {
+            'class': 'form-control',
+            'placeholder': 'Ex: 37.2',
+            'required': 'required',
+            'min': '35',
+            'max': '42',
+            'step': '0.1',
+            'type': 'number'  
+        }
+    }) }}
+    <div class="invalid-feedback">
+        {{ form_errors(form.temperature) }}
+    </div>
+</div>
 
-                <!-- Section 3 : Traitement -->
-                <h4 class="text-secondary mb-4">Traitement</h4>
-                <div class="row mb-4">
-                    <div class="col-md-4">
-                        {{ form_row(form.traitement, {
-                            'label': 'Type de Traitement',
-                            'attr': {'class': 'form-select'}
-                        }) }}
-                    </div>
-                    <div class="col-md-4">
-                        {{ form_row(form.doseMedicament, {
-                            'label': 'Dose du Médicament',
-                            'attr': {'class': 'form-control', 'placeholder': 'Ex: 500mg'}
-                        }) }}
-                    </div>
-                    <div class="col-md-4">
-                        {{ form_row(form.frequenceTraitement, {
-                            'label': 'Fréquence du Traitement',
-                            'attr': {'class': 'form-select'}
-                        }) }}
-                    </div>
-                </div>
+    <div class="col-md-3">
+        {{ form_row(form.saturationOxygene, {
+            'label': 'Saturation en Oxygène',
+            'attr': {
+                'class': 'form-control',
+                'placeholder': 'Ex: 98',
+                'required': 'required',
+                'min': '0',
+                'max': '100',
+                'pattern': '\\d{1,3}'
+            }
+        }) }}
+        <div class="invalid-feedback">
+            {{ form_errors(form.saturationOxygene) }}
+        </div>
+    </div>
+</div>
 
-                <!-- Section 4 : Paramètres Spécifiques -->
-                <h4 class="text-secondary mb-4">Paramètres Spécifiques</h4>
-                <div class="row mb-4">
-                    <div class="col-md-3">
-                        {{ form_row(form.imc, {
-                            'label': 'IMC',
-                            'attr': {'class': 'form-control', 'placeholder': 'Ex: 22.5'}
-                        }) }}
-                    </div>
-                    <div class="col-md-3">
-                        {{ form_row(form.niveauDouleur, {
-                            'label': 'Niveau de Douleur',
-                            'attr': {'class': 'form-control', 'placeholder': 'Ex: 3'}
-                        }) }}
-                    </div>
-                    <div class="col-md-3">
-                        {{ form_row(form.perteDeSang, {
-                            'label': 'Perte de Sang',
-                            'attr': {'class': 'form-control', 'placeholder': 'Ex: 100ml'}
-                        }) }}
-                    </div>
-                    <div class="col-md-3">
-                        {{ form_row(form.tempsOperation, {
-                            'label': 'Temps d\'Opération',
-                            'attr': {'class': 'form-control', 'placeholder': 'Ex: 120min'}
-                        }) }}
-                    </div>
-                </div>
+<!-- Section 3 : Traitement -->
+<div class="row mb-4">
+    <div class="col-md-4">
+        {{ form_row(form.traitement, {
+            'label': 'Type de Traitement',
+            'attr': {'class': 'form-select', 'required': 'required'}
+        }) }}
+        <div class="invalid-feedback">
+            {{ form_errors(form.traitement) }}
+        </div>
+    </div>
+    <div class="col-md-4">
+        {{ form_row(form.doseMedicament, {
+            'label': 'Dose du Médicament',
+            'attr': {
+                'class': 'form-control',
+                'placeholder': 'Ex: 500mg',
+                'required': 'required',
+                'pattern': '\\d+\\s*[a-zA-Zμ]{1,3}'
+            }
+        }) }}
+        <div class="invalid-feedback">
+            {{ form_errors(form.doseMedicament) }}
+        </div>
+    </div>
+    <div class="col-md-4">
+        {{ form_row(form.frequenceTraitement, {
+            'label': 'Fréquence du Traitement',
+            'attr': {'class': 'form-select', 'required': 'required'}
+        }) }}
+        <div class="invalid-feedback">
+            {{ form_errors(form.frequenceTraitement) }}
+        </div>
+    </div>
+</div>
 
-                <!-- Section 5 : Paramètres Spéciaux -->
-                <div class="row mb-4">
-                    <div class="col-md-3">
-                        {{ form_row(form.dureeSeance, {
-                            'label': 'Durée de Séance',
-                            'attr': {'class': 'form-control', 'placeholder': 'Ex: 60min'}
-                        }) }}
-                    </div>
-                    <div class="col-md-3">
-                        {{ form_row(form.filtrationSang, {
-                            'label': 'Filtration du Sang',
-                            'attr': {'class': 'form-control', 'placeholder': 'Ex: 500ml/min'}
-                        }) }}
-                    </div>
-                    <div class="col-md-3">
-                        {{ form_row(form.creatinine, {
-                            'label': 'Créatinine',
-                            'attr': {'class': 'form-control', 'placeholder': 'Ex: 80'}
-                        }) }}
-                    </div>
-                    <div class="col-md-3">
-                        {{ form_row(form.scoreGlasgow, {
-                            'label': 'Score de Glasgow',
-                            'attr': {'class': 'form-control', 'placeholder': 'Ex: 15'}
-                        }) }}
-                    </div>
-                </div>
+<!-- Section 4 : Paramètres Spécifiques -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        {{ form_row(form.imc, {
+            'label': 'IMC',
+            'attr': {
+                'class': 'form-control',
+                'placeholder': 'Ex: 22.5',
+                'required': 'required',
+                'min': '10',
+                'max': '50',
+                'step': '0.1'
+            }
+        }) }}
+        <div class="invalid-feedback">
+            {{ form_errors(form.imc) }}
+        </div>
+    </div>
+    <div class="col-md-3">
+        {{ form_row(form.niveauDouleur, {
+            'label': 'Niveau de Douleur',
+            'attr': {
+                'class': 'form-control',
+                'placeholder': 'Ex: 3',
+                'required': 'required',
+                'min': '0',
+                'max': '10'
+            }
+        }) }}
+        <div class="invalid-feedback">
+            {{ form_errors(form.niveauDouleur) }}
+        </div>
+    </div>
+    <div class="col-md-3">
+        {{ form_row(form.perteDeSang, {
+            'label': 'Perte de Sang',
+            'attr': {
+                'class': 'form-control',
+                'placeholder': 'Ex: 100ml',
+                'required': 'required',
+                'pattern': '\\d+\\s*ml'
+            }
+        }) }}
+        <div class="invalid-feedback">
+            {{ form_errors(form.perteDeSang) }}
+        </div>
+    </div>
+    <div class="col-md-3">
+        {{ form_row(form.tempsOperation, {
+            'label': 'Temps d\'Opération',
+            'attr': {
+                'class': 'form-control',
+                'placeholder': 'Ex: 120min',
+                'required': 'required',
+                'pattern': '\\d+\\s*min'
+            }
+        }) }}
+        <div class="invalid-feedback">
+            {{ form_errors(form.tempsOperation) }}
+        </div>
+    </div>
+</div>
 
-                <!-- Section 6 : État Respiratoire et Complications -->
-                <div class="row mb-4">
-                    <div class="col-md-4">
-                        {{ form_row(form.respirationAssistee, {
-                            'label': 'Respiration Assistée',
-                            'attr': {'class': 'form-select'}
-                        }) }}
-                    </div>
-                    <div class="col-md-8">
-                        {{ form_row(form.complications, {
-                            'label': 'Complications',
-                            'attr': {'class': 'form-control', 'placeholder': 'Décrivez les complications éventuelles...'}
-                        }) }}
-                    </div>
-                </div>
+<!-- Section 5 : Paramètres Spéciaux -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        {{ form_row(form.dureeSeance, {
+            'label': 'Durée de Séance',
+            'attr': {
+                'class': 'form-control',
+                'placeholder': 'Ex: 60min',
+                'required': 'required',
+                'pattern': '\\d+\\s*min'
+            }
+        }) }}
+        <div class="invalid-feedback">
+            {{ form_errors(form.dureeSeance) }}
+        </div>
+    </div>
+    <div class="col-md-3">
+        {{ form_row(form.filtrationSang, {
+            'label': 'Filtration du Sang',
+            'attr': {
+                'class': 'form-control',
+                'placeholder': 'Ex: 500ml/min',
+                'required': 'required',
+                'pattern': '\\d+\\s*ml/min'
+            }
+        }) }}
+        <div class="invalid-feedback">
+            {{ form_errors(form.filtrationSang) }}
+        </div>
+    </div>
+    <div class="col-md-3">
+        {{ form_row(form.creatinine, {
+            'label': 'Créatinine',
+            'attr': {
+                'class': 'form-control',
+                'placeholder': 'Ex: 80',
+                'required': 'required',
+                'min': '0',
+                'max': '1000'
+            }
+        }) }}
+        <div class="invalid-feedback">
+            {{ form_errors(form.creatinine) }}
+        </div>
+    </div>
+    <div class="col-md-3">
+        {{ form_row(form.scoreGlasgow, {
+            'label': 'Score de Glasgow',
+            'attr': {
+                'class': 'form-control',
+                'placeholder': 'Ex: 15',
+                'required': 'required',
+                'min': '3',
+                'max': '15'
+            }
+        }) }}
+        <div class="invalid-feedback">
+            {{ form_errors(form.scoreGlasgow) }}
+        </div>
+    </div>
+</div>
+
+<!-- Section 6 : État Respiratoire et Complications -->
+<div class="row mb-4">
+    <div class="col-md-4">
+        {{ form_row(form.respirationAssistee, {
+            'label': 'Respiration Assistée',
+            'attr': {'class': 'form-select', 'required': 'required'}
+        }) }}
+        <div class="invalid-feedback">
+            {{ form_errors(form.respirationAssistee) }}
+        </div>
+    </div>
+    <div class="col-md-8">
+        {{ form_row(form.complications, {
+            'label': 'Complications',
+            'attr': {
+                'class': 'form-control',
+                'placeholder': 'Décrivez les complications éventuelles...',
+                'maxlength': '500'
+            }
+        }) }}
+        <div class="invalid-feedback">
+            {{ form_errors(form.complications) }}
+        </div>
+    </div>
 
                 <div class="text-center mt-4">
                     <button type="submit" class="btn btn-primary px-5">Enregistrer le Rapport</button>

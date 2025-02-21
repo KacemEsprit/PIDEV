@@ -35,63 +35,65 @@ class MedecinController extends AbstractController
     }
 
   
-    #[Route('/create', name: 'app_create_rapport')]
-    public function createRapport(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $rapport = new RapportDetat();
-        $form = $this->createForm(RapportDetatType::class, $rapport);
-        $form->handleRequest($request);
-        
-        if ($form->isSubmitted()) {
-            if ($form->isValid()) {
-                try {
-                   
-                    $rapport->setMedecin($this->getUser());
-                    if (!$rapport->getDateRapport()) {
-                        $rapport->setDateRapport(new \DateTime());
-                    }
+   #[Route('/create', name: 'app_create_rapport')]
+public function createRapport(Request $request, EntityManagerInterface $entityManager): Response
+{
+    $rapport = new RapportDetat();
+    $form = $this->createForm(RapportDetatType::class, $rapport);
+    $form->handleRequest($request);
 
-                    $entityManager->persist($rapport);
-                    $entityManager->flush();
+    if ($form->isSubmitted()) {
+        if ($form->isValid()) {
+            try {
+                $rapport->setMedecin($this->getUser());
 
-                    return new JsonResponse([
-                        'message' => 'Rapport créé avec succès',
-                        'success' => true,
-                        'toast' => [
-                            'type' => 'success',
-                            'message' => 'Le rapport a été créé avec succès!'
-                        ]
-                    ]);
-                } catch (\Exception $e) {
-                    return new JsonResponse([
+                if (!$rapport->getDateRapport()) {
+                    $rapport->setDateRapport(new \DateTime());
+                }
+
+                $entityManager->persist($rapport);
+                $entityManager->flush();
+
+                // Rediriger vers la liste des rapports après succès
+                return $this->redirectToRoute('app_medecin_rapports');
+
+            } catch (\Exception $e) {
+                return $this->render('medecin/appointment.html.twig', [
+                    'form' => $form->createView(),
+                    'jsonResponse' => json_encode([
                         'message' => 'Erreur lors de la création du rapport',
                         'success' => false,
                         'toast' => [
                             'type' => 'error',
                             'message' => 'Erreur lors de la création du rapport : ' . $e->getMessage()
                         ]
-                    ]);
-                }
-            } else {
-                $errors = [];
-                foreach ($form->getErrors(true) as $error) {
-                    $errors[] = $error->getMessage();
-                }
-                return new JsonResponse([
+                    ])
+                ]);
+            }
+        } else {
+            $errors = [];
+            foreach ($form->getErrors(true) as $error) {
+                $errors[] = $error->getMessage();
+            }
+
+            return $this->render('medecin/appointment.html.twig', [
+                'form' => $form->createView(),
+                'jsonResponse' => json_encode([
                     'success' => false,
                     'errors' => $errors,
                     'toast' => [
                         'type' => 'error',
                         'message' => 'Le formulaire contient des erreurs. Veuillez les corriger.'
                     ]
-                ], 400);
-            }
+                ])
+            ]);
         }
-
-        return $this->render('medecin/appointment.html.twig', [
-            'form' => $form->createView()
-        ]);
     }
+
+    return $this->render('medecin/appointment.html.twig', [
+        'form' => $form->createView()
+    ]);
+}
 
     #[Route('/patients/rapports', name: 'app_medecin_rapports', methods: ['GET'])]
     public function showAllRapports(UserRepository $userRepo, RapportDetatRepository $rapportRepo): Response

@@ -1,60 +1,86 @@
 {% extends 'base_admin.html.twig' %}
 
-{% block title %}Gestion des Commandes{% endblock %}
+{% block title %}Confirmation des Commandes{% endblock %}
 
 {% block body %}
     <div class="container mt-4">
-        <h1>Gestion des Commandes</h1>
+        <h1 class="mb-4">Gestion des Commandes</h1>
 
+        {# Messages flash #}
         {% for message in app.flashes('success') %}
-            <div class="alert alert-success">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
                 {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         {% endfor %}
 
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Patient</th>
-                    <th>Date</th>
-                    <th>Médicaments</th>
-                    <th>Quantité</th>
-                    <th>Montant</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for commande in commandes %}
-                <tr>
-                    <td>
-                        {{ commande.patient.nom }} {{ commande.patient.prenom }}<br>
-                        <small class="text-muted">{{ commande.patient.email }}</small>
-                    </td>
-                    <td>{{ commande.dateCommande|date('d/m/Y H:i') }}</td>
-                    <td>
-                        <ul>
-    {% for ligneCommande in commande.ligneCommandes %}
-                            <li>{{ ligneCommande.medicament.nom }} ({{ ligneCommande.quantite }})</li>
-                        {% endfor %}
-                        </ul>
-                    </td>
-                    <td>{{ commande.quantiteTotal }}</td>
-                    <td>{{ commande.montantTotal }} €</td>
-                    <td>{{ commande.status }}</td>
-                    <td>
-                        {% if commande.status == 'en_attente' %}
-                            <form method="post" action="{{ path('admin_commande_valider', {'id': commande.id}) }}" style="display: inline;" onsubmit="return confirm('Êtes-vous sûr de vouloir valider cette commande ?');">
-                                <button class="btn btn-success btn-sm">Valider</button>
-                            </form>
-                            <form method="post" action="{{ path('admin_commande_annuler', {'id': commande.id}) }}" style="display: inline;" onsubmit="return confirm('Êtes-vous sûr de vouloir annuler cette commande ?');">
-                                <button class="btn btn-danger btn-sm">Annuler</button>
-                            </form>
-                        {% endif %}
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+        {# Tableau des commandes #}
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered shadow-sm">
+                <thead class="table-light">
+                    <tr>
+                        <th><i class="fas fa-user me-2"></i>Patient</th>
+                        <th><i class="fas fa-calendar-alt me-2"></i>Date</th>
+                        <th><i class="fas fa-pills me-2"></i>Médicaments</th>
+                        <th><i class="fas fa-boxes me-2"></i>Quantité</th>
+                        <th><i class="fas fa-euro-sign me-2"></i>Montant</th>
+                        <th><i class="fas fa-info-circle me-2"></i>Statut</th>
+                        <th><i class="fas fa-cogs me-2"></i>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for commande in commandes %}
+                        <tr>
+                            <td>
+                                <strong>{{ commande.patient.nom }} {{ commande.patient.prenom }}</strong><br>
+                                <small class="text-muted">{{ commande.patient.email }}</small>
+                            </td>
+                            <td>{{ commande.dateCommande|date('d/m/Y H:i') }}</td>
+                            <td>
+                                <ul class="list-unstyled">
+                                    {% for ligneCommande in commande.ligneCommandes %}
+                                        <li>
+                                            <i class="fas fa-pill me-1"></i>{{ ligneCommande.medicament.nom }} ({{ ligneCommande.quantite }})
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                            <td>{{ commande.quantiteTotal }}</td>
+                            <td>{{ commande.montantTotal }} €</td>
+                            <td>
+                                {% if commande.status == 'validé' %}
+                                    <span class="badge bg-success">{{ commande.status }}</span>
+                                {% elseif commande.status == 'annulé' %}
+                                    <span class="badge bg-danger">{{ commande.status }}</span>
+                                {% else %}
+                                    <span class="badge bg-warning text-dark">{{ commande.status }}</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if commande.status == 'en_attente' %}
+                                    <form method="post" action="{{ path('admin_commande_valider', {'id': commande.id}) }}" class="d-inline" onsubmit="return confirm('Êtes-vous sûr de vouloir valider cette commande ?');">
+                                        <button class="btn btn-success btn-sm">
+                                            <i class="fas fa-check me-1"></i>Valider
+                                        </button>
+                                    </form>
+                                    <form method="post" action="{{ path('admin_commande_annuler', {'id': commande.id}) }}" class="d-inline" onsubmit="return confirm('Êtes-vous sûr de vouloir annuler cette commande ?');">
+                                        <button class="btn btn-danger btn-sm">
+                                            <i class="fas fa-times me-1"></i>Annuler
+                                        </button>
+                                    </form>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="7" class="text-end">
+                            <strong>Total des commandes : {{ commandes|length }}</strong>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
     </div>
 {% endblock %}

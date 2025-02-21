@@ -20,4 +20,12 @@ class LigneCommandeRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, LigneCommande::class);
     }
+    public function findByMedicament(Medicament $medicament): array
+    {
+        return $this->createQueryBuilder('l')
+            ->andWhere('l.medicament = :medicament')
+            ->setParameter('medicament', $medicament)
+            ->getQuery()
+            ->getResult();
+    }
 }

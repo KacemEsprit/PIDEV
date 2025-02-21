@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Medicament;
 use App\Form\MedicamentType;
+use App\Entity\LigneCommande;
 use App\Repository\MedicamentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -65,14 +66,21 @@ class MedicamentController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_medicament_delete', methods: ['POST'])]
-    public function delete(Request $request, Medicament $medicament, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$medicament->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($medicament);
-            $entityManager->flush();
-            $this->addFlash('success', 'Le médicament a été supprimé avec succès.');
-        }
+public function delete(Request $request, Medicament $medicament, EntityManagerInterface $entityManager): Response
+{
+    $ligneCommandes = $entityManager->getRepository(LigneCommande::class)->findBy(['medicament' => $medicament]);
 
+    if (count($ligneCommandes) > 0) {
+        $this->addFlash('success', 'Ce médicament est déjà utilisé dans une commande et ne peut pas être supprimé.');
         return $this->redirectToRoute('app_medicament_index');
     }
+
+    if ($this->isCsrfTokenValid('delete'.$medicament->getId(), $request->request->get('_token'))) {
+        $entityManager->remove($medicament);
+        $entityManager->flush();
+        $this->addFlash('success', 'Le médicament a été supprimé avec succès.');
+    }
+
+    return $this->redirectToRoute('app_medicament_index');
+}
 }

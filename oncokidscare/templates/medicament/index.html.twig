@@ -1,11 +1,10 @@
 {% extends 'base_admin.html.twig' %}
 
-{% block title %}Gestion des Médicaments{% endblock %}
-
 {% block body %}
     <div class="container-fluid">
         <h1 class="h3 mb-4 text-gray-800">Gestion des Médicaments</h1>
 
+        {# Afficher les messages flash #}
         {% for label, messages in app.flashes %}
             {% for message in messages %}
                 <div class="alert alert-{{ label }}">
@@ -35,8 +34,13 @@
                         </thead>
                         <tbody>
                         {% for medicament in medicaments %}
-                            <tr>
-                                <td>{{ medicament.nom }}</td>
+                            <tr {% if medicament.quantiteStock == 0 %}style="opacity: 0.5;"{% endif %}>
+                                <td>
+                                    {{ medicament.nom }}
+                                    {% if medicament.quantiteStock == 0 %}
+                                        <span class="badge badge-danger">Rupture de stock</span>
+                                    {% endif %}
+                                </td>
                                 <td>{{ medicament.description }}</td>
                                 <td>{{ medicament.quantiteStock }}</td>
                                 <td>{{ medicament.prix|number_format(2, ',', ' ') }} €</td>

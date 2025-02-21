@@ -103,12 +103,10 @@ private function handleImageUpload($imageFile, string $uploadDir): ?string
         // Move uploaded file
         $imageFile->move($uploadDir, $newFilename);
 
-        // Debugging: Log the uploaded file path
         $this->addFlash('info', 'Image uploaded successfully: ' . $newFilename);
 
         return '/uploads/publications/' . $newFilename;
     } catch (\Exception $e) {
-        // Debugging: Log the error
         $this->addFlash('error', 'Error uploading image: ' . $e->getMessage());
         return null;
     }
@@ -258,7 +256,6 @@ public function edit(Request $request, Publication $publication, PublicationRepo
     if ($form->isSubmitted() && $form->isValid()) {
         $imageFiles = $form->get('imageFiles')->getData();
 
-        // Debugging: Log the number of uploaded files
         $this->addFlash('info', 'Number of image files uploaded: ' . count($imageFiles));
 
         if ($imageFiles) {
