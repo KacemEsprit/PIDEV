@@ -29,10 +29,79 @@ class MedecinController extends AbstractController
         $user = $this->getUser();
         $this->addFlash('success', 'Bienvenue sur votre dashboard, médecin !');
         
-        return $this->render('home/index.html.twig', [
+       /*  return $this->render('home/index.html.twig', */
+        return $this->render('medecin/dashboard.html.twig',
+        [
             'user' => $user,
         ]);
     }
+
+  
+
+    #[Route('/profile', name: 'app_medecin_profile')]
+    public function profile(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
+
+        $form = $this->createForm(MedecinProfileType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Handle profile picture upload
+            $pictureFile = $form->get('picture')->getData();
+            if ($pictureFile) {
+                // Define the upload directory similar to the other profile methods
+                $uploadDir = $this->getParameter('kernel.project_dir') . '/public/uploads/user_pictures';
+
+                // Ensure the upload directory exists
+                if (!file_exists($uploadDir)) {
+                    mkdir($uploadDir, 0777, true);
+                }
+
+                // Generate a unique filename for the picture
+                $newFilename = uniqid() . '.' . $pictureFile->guessExtension();
+
+                try {
+                    // Move the file to the upload directory
+                    $pictureFile->move($uploadDir, $newFilename);
+
+                    // Delete the old picture if it exists
+                    $oldPicture = $user->getPicture();
+                    if ($oldPicture) {
+                        $oldPicturePath = $uploadDir . '/' . $oldPicture;
+                        if (file_exists($oldPicturePath)) {
+                            unlink($oldPicturePath);
+                        }
+                    }
+
+                    // Update the user with the new picture filename
+                    $user->setPicture($newFilename);
+                } catch (\Exception $e) {
+                    $this->addFlash('error', 'Error uploading picture: ' . $e->getMessage());
+                    return $this->redirectToRoute('app_medecin_profile');
+                }
+            }
+
+            // Save changes to the database
+            try {
+                $entityManager->flush();
+                $this->addFlash('success', 'Profile updated successfully');
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Error saving profile: ' . $e->getMessage());
+            }
+
+            return $this->redirectToRoute('app_medecin_profile');
+        }
+
+        return $this->render('medecin/myprofile.html.twig', [
+            'form' => $form->createView(),
+            'user' => $user,
+        ]);
+    }
+
+    
+    
 
   
    #[Route('/create', name: 'app_create_rapport')]

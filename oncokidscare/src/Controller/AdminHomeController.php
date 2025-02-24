@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class AdminHomeController extends AbstractController
 {
-    #[Route('/admin', name: 'app_admin')]
+   /*  #[Route('/admin', name: 'app_admin')]
     public function index(): Response
     {
         return $this->render('admin_home/index.html.twig', [
@@ -22,7 +22,7 @@ final class AdminHomeController extends AbstractController
         return $this->render('admin_home/index.html.twig', [
             'controller_name' => 'AdminHomeController',
         ]);
-    }
+    } */
 
     #[Route('/elements/buttons', name: 'app_buttons')]
     public function buttons(): Response
