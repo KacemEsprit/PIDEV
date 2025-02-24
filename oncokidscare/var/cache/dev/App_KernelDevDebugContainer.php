@@ -16,7 +16,7 @@ if (!\class_exists(App_KernelDevDebugContainer::class, false)) {
 
 return new \ContainerLI48CYB\App_KernelDevDebugContainer([
     'container.build_hash' => 'LI48CYB',
-    'container.build_id' => 'dca24176',
-    'container.build_time' => 1740425514,
+    'container.build_id' => 'edfd785d',
+    'container.build_time' => 1740430700,
     'container.runtime_mode' => \in_array(\PHP_SAPI, ['cli', 'phpdbg', 'embed'], true) ? 'web=0' : 'web=1',
 ], __DIR__.\DIRECTORY_SEPARATOR.'ContainerLI48CYB');

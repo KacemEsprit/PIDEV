@@ -65,7 +65,7 @@ class ManageUsersController extends AbstractController
         return $this->redirectToRoute('app_admin_users');
     }
 
-    #[Route('/admin/users/search', name: 'user_search', methods: ['GET'])]
+   /*  #[Route('/admin/users/search', name: 'user_search', methods: ['GET'])]
     public function search(Request $request, EntityManagerInterface $entityManager): Response
     {
         $searchTerm = $request->query->get('q', '');
@@ -85,5 +85,45 @@ class ManageUsersController extends AbstractController
             'searchTerm' => $searchTerm,
             'user' => $currentUser
         ]);
+    } */
+
+
+    #[Route('/admin/users/search', name: 'user_search', methods: ['GET'])]
+public function search(Request $request, EntityManagerInterface $entityManager): Response
+{
+    $searchTerm = $request->query->get('q', '');
+    $role = $request->query->get('role', 'all');
+    $currentUser = $this->security->getUser();
+
+    $queryBuilder = $entityManager->getRepository(User::class)->createQueryBuilder('u');
+
+    if ($searchTerm) {
+        $queryBuilder
+            ->where('u.prenom LIKE :searchTerm')
+            ->orWhere('u.nom LIKE :searchTerm')
+            ->orWhere('u.email LIKE :searchTerm')
+            ->orWhere('u.tel LIKE :searchTerm')
+            ->setParameter('searchTerm', '%' . $searchTerm . '%');
     }
+
+   /*  if ($role !== 'all') {
+        $queryBuilder
+            ->andWhere('u.role = :role')
+            ->setParameter('role', $role);
+    } */
+    if ($role !== 'all') {
+        // Assuming roles are stored with a ROLE_ prefix
+        $queryBuilder
+            ->andWhere('u.role = :role')
+            ->setParameter('role', 'ROLE_' . strtoupper($role));
+    }
+
+    $users = $queryBuilder->getQuery()->getResult();
+
+    return $this->render('admin_home/CrudUsers/Manage_users.html.twig', [
+        'allUsers' => $users,
+        'searchTerm' => $searchTerm,
+        'user' => $currentUser
+    ]);
+}
 }
