@@ -10,6 +10,9 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
 class Comment
 {
+    public const TYPE_TEXT = 'text';
+    public const TYPE_VOICE = 'voice';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -31,6 +34,15 @@ class Comment
 
     #[ORM\OneToMany(mappedBy: 'comment', targetEntity: Like::class, orphanRemoval: true)]
     private Collection $likes;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $voiceUrl = null;
+
+    #[ORM\Column(length: 20)]
+    private string $type = self::TYPE_TEXT;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $duration = null;
 
     public function __construct()
     {
@@ -133,5 +145,38 @@ class Comment
             }
         }
         return false;
+    }
+
+    public function getVoiceUrl(): ?string
+    {
+        return $this->voiceUrl;
+    }
+
+    public function setVoiceUrl(?string $voiceUrl): self
+    {
+        $this->voiceUrl = $voiceUrl;
+        return $this;
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
+        return $this;
+    }
+
+    public function getDuration(): ?int
+    {
+        return $this->duration;
+    }
+
+    public function setDuration(?int $duration): self
+    {
+        $this->duration = $duration;
+        return $this;
     }
 }

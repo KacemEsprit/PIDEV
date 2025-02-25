@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Comment;
+use App\Entity\Publication;
 use App\Form\CommentType;
 use App\Repository\CommentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,6 +14,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use App\Security\Voter\CommentVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[Route('/comment')]
 class CommentController extends AbstractController
@@ -90,5 +92,70 @@ class CommentController extends AbstractController
         }
 
         throw new AccessDeniedException('Token CSRF invalide.');
+    }
+
+    #[Route('/{id}/voice-comment', name: 'app_comment_voice', methods: ['POST'])]
+    public function uploadVoiceComment(
+        Request $request, 
+        Publication $publication,
+        EntityManagerInterface $em
+    ): Response {
+        // Vérifier que l'utilisateur est connecté
+        if (!$this->getUser()) {
+            return $this->json(['error' => 'Vous devez être connecté'], 403);
+        }
+
+        /** @var UploadedFile $audioFile */
+        $audioFile = $request->files->get('audio');
+        $duration = $request->request->get('duration');
+
+        if (!$audioFile) {
+            return $this->json(['error' => 'Aucun fichier audio fourni'], 400);
+        }
+
+        try {
+            // Générer un nom de fichier unique
+            $fileName = md5(uniqid()) . '.webm';
+            $uploadDir = $this->getParameter('voice_messages_directory');
+
+            // Créer le répertoire s'il n'existe pas
+            if (!file_exists($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+
+            // Déplacer le fichier
+            $audioFile->move($uploadDir, $fileName);
+
+            // Créer le commentaire
+            $comment = new Comment();
+            $comment->setPublication($publication);
+            $comment->setUser($this->getUser());
+            $comment->setType(Comment::TYPE_VOICE);
+            $comment->setVoiceUrl('/uploads/voice-messages/' . $fileName);
+            $comment->setDuration((int) $duration);
+            $comment->setCreatedAt(new \DateTimeImmutable());
+            $comment->setContenuCom('Message vocal'); // Ajouter un contenu par défaut
+
+            $em->persist($comment);
+            $em->flush();
+
+            return $this->json([
+                'success' => true,
+                'id' => $comment->getId(),
+                'voiceUrl' => $comment->getVoiceUrl(),
+                'duration' => $comment->getDuration(),
+                'sender' => [
+                    'id' => $comment->getUser()->getId(),
+                    'name' => $comment->getUser()->getPrenom() . ' ' . $comment->getUser()->getNom(),
+                    'role' => $comment->getUser()->getRole()
+                ],
+                'createdAt' => $comment->getCreatedAt()->format('Y-m-d H:i:s')
+            ], 200);
+
+        } catch (\Exception $e) {
+            return $this->json([
+                'error' => 'Erreur lors de l\'enregistrement du message vocal: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }
