@@ -65,6 +65,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Like::class, orphanRemoval: true)]
     private Collection $likes;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $picture = null;
     
 
     #[ORM\ManyToMany(targetEntity: ChatGroup::class, mappedBy: 'members')]
@@ -94,6 +97,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->rapportDetats = new ArrayCollection();
         $this->commandes = new ArrayCollection();
 
+    }
+
+    public function getPicture(): ?string
+    {
+        return $this->picture;
+    }
+
+    public function setPicture(?string $picture): static
+    {
+        $this->picture = $picture;
+        return $this;
     }
 
     public function getId(): ?int

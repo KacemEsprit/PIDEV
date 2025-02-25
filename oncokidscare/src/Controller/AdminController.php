@@ -17,6 +17,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Entity\Commande;
 use App\Repository\CommandeRepository;
 use Symfony\Component\HttpFoundation\Request;
+use App\Form\ProfileFormType;
 
 
 
@@ -24,7 +25,7 @@ use Symfony\Component\HttpFoundation\Request;
 #[IsGranted('ROLE_ADMIN')]
 class AdminController extends AbstractController
 {
-    #[Route('/', name: 'app_admin_index')]
+    #[Route('/admin_dashboard', name: 'app_admin_index')]
     public function index(UserRepository $userRepository): Response
     {
         /** @var User $currentUser */
@@ -43,6 +44,98 @@ class AdminController extends AbstractController
             'donateurs' => $donateurs,
         ]);
     }
+    #[Route('/users', name: 'app_admin_users')]
+    public function indexx(UserRepository $userRepository): Response
+    {
+        $allUsers = $userRepository->findAll();
+        $currentUser = $this->getUser();
+
+        return $this->render('admin_home/CrudUsers/Manage_users.html.twig', [
+            'allUsers' => $allUsers,
+            'user' => $currentUser,
+            'controller_name' => 'AdminHomeController',
+        ]);
+    }
+
+    #[Route('/profile', name: 'app_admin_profile', methods: ['GET', 'POST'])]
+    public function myprofile(Request $request, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
+    {
+        $currentUser = $this->getUser();
+        $form = $this->createForm(ProfileFormType::class, $currentUser);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $uploadDir = $this->getParameter('kernel.project_dir') . '/public/uploads/user_pictures';
+            
+            
+            $pictureFile = $form->get('picture')->getData();
+            if ($pictureFile) {
+                if (!file_exists($uploadDir)) {
+                    mkdir($uploadDir, 0777, true);
+                }
+                
+                $newFilename = uniqid() . '.' . $pictureFile->guessExtension();
+                
+                try {
+                    $pictureFile->move($uploadDir, $newFilename);
+                    
+                    $oldPicture = $currentUser->getPicture();
+                    if ($oldPicture) {
+                        $oldPicturePath = $uploadDir . '/' . $oldPicture;
+                        if (file_exists($oldPicturePath)) {
+                            unlink($oldPicturePath);
+                        }
+                    }
+                    
+                    $currentUser->setPicture($newFilename);
+                    
+                } catch (\Exception $e) {
+                    $this->addFlash('error', 'Error uploading picture: ' . $e->getMessage());
+                    return $this->redirectToRoute('app_admin_profile');
+                }
+            }
+            
+            $password = $form->get('password')->getData();
+            if ($password) {
+                $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+                $currentUser->setPassword($hashedPassword);
+            }
+
+            try {
+                $entityManager->flush();
+                $this->addFlash('success', 'Profile updated successfully');
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Error saving profile: ' . $e->getMessage());
+            }
+            
+            return $this->redirectToRoute('app_admin_profile');
+        }
+
+        return $this->render('admin_home/myprofile.html.twig', [
+            'user' => $currentUser,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/dashboard', name: 'app_dashboard')]
+    public function dashboard(): Response
+    {
+        $currentUser = $this->getUser();
+
+        return $this->render('admin_home/index.html.twig', [
+            'user' => $currentUser,
+            'controller_name' => 'AdminHomeController',
+        ]);
+    }
+
+
+
+
+
+
+
+
+
 
     #[Route('/publications', name: 'admin_publications')]
     public function managePublications(PublicationRepository $publicationRepository): Response
@@ -76,13 +169,13 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('admin_publications');
     }
     
-      #[Route('/dashboard', name: 'app_dashboard')]
+     /*  #[Route('/dashboard', name: 'app_dashboard')]
     public function dashboard(): Response
     {
         return $this->render('admin_home/index.html.twig', [
             'controller_name' => 'AdminHomeController',
         ]);
-    }
+    } */
 
     #[Route('/commandes', name: 'admin_commandes')]
     public function manageCommandes(CommandeRepository $commandeRepository): Response
