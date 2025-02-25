@@ -1,0 +1,187 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Espace Communication - Statistiques{% endblock %}
+
+{% block body %}
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <!-- Cartes de statistiques rapides -->
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-chart-line fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Publications totales</p>
+                    <h6 class="mb-0">{{ publicationsParMois|reduce((sum, pub) => sum + pub.count, 0) }}</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-comments fa-3x text-success"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Commentaires</p>
+                    <h6 class="mb-0">{{ engagementStats.comments }}</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-users fa-3x text-warning"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Utilisateurs actifs</p>
+                    <h6 class="mb-0">{{ engagementStats.active_users }}</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-heart fa-3x text-danger"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Likes totaux</p>
+                    <h6 class="mb-0">{{ engagementStats.likes }}</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mt-4">
+        <!-- Graphique des publications et commentaires -->
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-light rounded h-100 p-4">
+                <h6 class="mb-4">Activité mensuelle</h6>
+                <div id="monthlyActivityChart" style="height: 300px;"></div>
+            </div>
+        </div>
+        
+        <!-- Graphique des types d'utilisateurs -->
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-light rounded h-100 p-4">
+                <h6 class="mb-4">Distribution des utilisateurs</h6>
+                <div id="userDistributionChart" style="height: 300px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mt-4">
+        <!-- Graphique des catégories de publications -->
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-light rounded h-100 p-4">
+                <h6 class="mb-4">Publications par catégorie</h6>
+                <div id="categoryChart" style="height: 300px;"></div>
+            </div>
+        </div>
+        
+        <!-- Graphique des groupes -->
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-light rounded h-100 p-4">
+                <h6 class="mb-4">Distribution des groupes</h6>
+                <div id="groupDistributionChart" style="height: 300px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawCharts);
+
+function drawCharts() {
+    // Activité mensuelle
+    var activityData = google.visualization.arrayToDataTable([
+        ['Mois', 'Publications', 'Commentaires'],
+        {% for pub in publicationsParMois %}
+            ['{{ pub.month }}', {{ pub.count }}, {{ commentairesParMois[pub.month]|default(0) }}],
+        {% endfor %}
+    ]);
+
+    var activityOptions = {
+        curveType: 'function',
+        legend: { position: 'bottom' },
+        colors: ['#4e73df', '#1cc88a']
+    };
+
+    var activityChart = new google.visualization.LineChart(document.getElementById('monthlyActivityChart'));
+    activityChart.draw(activityData, activityOptions);
+
+    // Distribution des utilisateurs
+    var userData = google.visualization.arrayToDataTable([
+        ['Type', 'Nombre'],
+        ['Patients', {{ userStats.patients }}],
+        ['Médecins', {{ userStats.medecins }}]
+    ]);
+
+    var userOptions = {
+        pieHole: 0.4,
+        colors: ['#4e73df', '#1cc88a'],
+        chartArea: { width: '80%', height: '80%' },
+        title: 'Répartition Patients/Médecins',
+        titlePosition: 'out',
+        pieSliceText: 'percentage',
+        tooltip: { showColorCode: true }
+    };
+
+    var userChart = new google.visualization.PieChart(document.getElementById('userDistributionChart'));
+    userChart.draw(userData, userOptions);
+
+    // Publications par catégorie
+    var categoryData = google.visualization.arrayToDataTable([
+        ['Catégorie', 'Publications', { role: 'style' }],
+        {% for pub in publicationsParCategorie %}
+            ['{{ pub.category }}', {{ pub.count }}, '#4e73df'],
+        {% endfor %}
+    ]);
+
+    var categoryOptions = {
+        bar: { groupWidth: '65%' },
+        legend: { position: 'none' },
+        chartArea: { width: '80%', height: '70%' }
+    };
+
+    var categoryChart = new google.visualization.ColumnChart(document.getElementById('categoryChart'));
+    categoryChart.draw(categoryData, categoryOptions);
+
+    // Distribution des groupes
+    var groupData = google.visualization.arrayToDataTable([
+        ['Type', 'Nombre'],
+        ['Publics', {{ groupStats.public }}],
+        ['Privés', {{ groupStats.private }}]
+    ]);
+
+    var groupOptions = {
+        pieHole: 0.4,
+        colors: ['#1cc88a', '#4e73df'],
+        chartArea: { width: '80%', height: '80%' }
+    };
+
+    var groupChart = new google.visualization.PieChart(document.getElementById('groupDistributionChart'));
+    groupChart.draw(groupData, groupOptions);
+}
+
+window.addEventListener('resize', drawCharts);
+</script>
+
+<style>
+.bg-light {
+    background-color: #f8f9fc !important;
+    border: none;
+    box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+}
+
+.text-primary { color: #4e73df !important; }
+.text-success { color: #1cc88a !important; }
+.text-warning { color: #f6c23e !important; }
+.text-danger { color: #e74a3b !important; }
+
+.fa-3x {
+    font-size: 3em;
+    opacity: 0.3;
+}
+
+.chart-container {
+    position: relative;
+    margin: auto;
+    height: 300px;
+}
+</style>
+{% endblock %}

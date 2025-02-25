@@ -22,6 +22,7 @@ return [
         '/admin/commandes' => [[['_route' => 'admin_commandes', '_controller' => 'App\\Controller\\AdminController::manageCommandes'], null, null, null, false, false, null]],
         '/admin/compagnie' => [[['_route' => 'admin_compagnie_index', '_controller' => 'App\\Controller\\AdminController::compagnieIndex'], null, ['GET' => 0], null, false, false, null]],
         '/admin/compagnie/en-attente' => [[['_route' => 'admin_compagnie_pending', '_controller' => 'App\\Controller\\AdminController::compagniePending'], null, ['GET' => 0], null, false, false, null]],
+        '/admin/espace-com' => [[['_route' => 'admin_espace_com', '_controller' => 'App\\Controller\\AdminController::espaceCom'], null, null, null, false, false, null]],
         '/elements/buttons' => [[['_route' => 'app_buttons', '_controller' => 'App\\Controller\\AdminHomeController::buttons'], null, null, null, false, false, null]],
         '/elements/typography' => [[['_route' => 'app_typography', '_controller' => 'App\\Controller\\AdminHomeController::typography'], null, null, null, false, false, null]],
         '/elements/other' => [[['_route' => 'app_other_elements', '_controller' => 'App\\Controller\\AdminHomeController::otherElements'], null, null, null, false, false, null]],

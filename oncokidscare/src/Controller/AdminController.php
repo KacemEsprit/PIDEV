@@ -18,6 +18,8 @@ use App\Entity\Commande;
 use App\Repository\CommandeRepository;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\ProfileFormType;
+use App\Repository\ChatGroupRepository;
+use App\Repository\CommentRepository;
 
 
 
@@ -140,10 +142,12 @@ class AdminController extends AbstractController
     #[Route('/publications', name: 'admin_publications')]
     public function managePublications(PublicationRepository $publicationRepository): Response
     {
+        $user = $this->getUser();
         $publications = $publicationRepository->findAll();
 
         return $this->render('admin_home/publications.html.twig', [
             'publications' => $publications,
+            'user' => $user,
         ]);
     }
 
@@ -277,4 +281,51 @@ public function delete(Request $request, Compagnie $compagnie, EntityManagerInte
     return $this->redirectToRoute('admin_compagnie_index');
 }
 
+#[Route('/espace-com', name: 'admin_espace_com')]
+public function espaceCom(
+    PublicationRepository $publicationRepository,
+    ChatGroupRepository $chatGroupRepository,
+    UserRepository $userRepository,
+    CommentRepository $commentRepository
+): Response {
+    // Statistiques des publications par mois
+    $publicationsParMois = $publicationRepository->getPublicationsPerMonth();
+    
+    // Statistiques des commentaires par mois
+    $commentairesParMois = $commentRepository->getCommentsCountByMonth();
+    
+    // Statistiques des utilisateurs par rôle
+    $userStats = [
+        'patients' => $userRepository->countByRole('ROLE_PATIENT'),
+        'medecins' => $userRepository->countByRole('ROLE_MEDECIN'),
+        'admins' => $userRepository->countByRole('ROLE_ADMIN')
+    ];
+    
+    // Statistiques des groupes
+    $groupStats = [
+        'total' => $chatGroupRepository->count([]),
+        'public' => $chatGroupRepository->count(['isPublic' => true]),
+        'private' => $chatGroupRepository->count(['isPublic' => false])
+    ];
+    
+    // Publications par catégorie
+    $publicationsParCategorie = $publicationRepository->getPublicationsPerCategory();
+    
+    // Statistiques d'engagement
+    $engagementStats = [
+        'likes' => $publicationRepository->getTotalLikes(),
+        'comments' => $commentRepository->count([]),
+        'active_users' => $publicationRepository->getActiveUsersCount()
+    ];
+
+    return $this->render('admin_home/espace_com.html.twig', [
+        'publicationsParMois' => $publicationsParMois,
+        'commentairesParMois' => $commentairesParMois,
+        'userStats' => $userStats,
+        'groupStats' => $groupStats,
+        'publicationsParCategorie' => $publicationsParCategorie,
+        'engagementStats' => $engagementStats,
+        'user' => $this->getUser()
+    ]);
+}
 }

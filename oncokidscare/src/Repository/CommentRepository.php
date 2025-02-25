@@ -39,6 +39,31 @@ class CommentRepository extends ServiceEntityRepository
         }
     }
 
+    // Ajout de la nouvelle méthode pour obtenir les commentaires par mois
+    public function getCommentsPerMonth(): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = '
+            SELECT DATE_FORMAT(created_at, "%Y-%m") as month,
+                   COUNT(*) as count
+            FROM comment
+            GROUP BY month
+            ORDER BY month ASC
+        ';
+        return $conn->fetchAllAssociative($sql);
+    }
+
+    // Convertir le résultat en format indexé par mois pour faciliter l'accès dans le template
+    public function getCommentsCountByMonth(): array
+    {
+        $results = $this->getCommentsPerMonth();
+        $indexed = [];
+        foreach ($results as $row) {
+            $indexed[$row['month']] = $row['count'];
+        }
+        return $indexed;
+    }
+
 //    /**
 //     * @return Comment[] Returns an array of Comment objects
 //     */

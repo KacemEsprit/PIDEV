@@ -159,6 +159,12 @@
                                     </span>
                                 {% else %}
                                     {{ publication.user.prenom }} {{ publication.user.nom }}
+                                     {% if publication.user.role == 'ROLE_MEDECIN' %}
+                                        <span class="badge badge-doctor">
+                                            <i class="fas fa-user-md"></i> DOCTEUR
+                                        </span>
+                                    {% endif %}
+
                                 {% endif %}
                                    <span class="badge category-badge badge-{{ publication.category|lower|replace({' ': '-'}) }}">
                 {{ publication.category }}
@@ -1447,6 +1453,20 @@ function closeModal(modal) {
 {% block stylesheets %}
 {{ parent() }}
 <style>
+    .badge-doctor {
+    background-color: #4a90e2;
+    color: white;
+    font-size: 0.75rem;
+    padding: 0.35em 0.65em;
+    border-radius: 0.25rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.badge-doctor i {
+    font-size: 0.8em;
+}
     .like-count:hover {
         text-decoration: underline;
     }

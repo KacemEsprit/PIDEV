@@ -6,7 +6,7 @@ use App\Repository\LikeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LikeRepository::class)]
-#[ORM\Table(name: '`like`')]
+#[ORM\Table(name: 'publication_like')]
 class Like
 {
     #[ORM\Id]
@@ -15,12 +15,14 @@ class Like
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'likes')]
-    private ?User $user = null;
-
-    #[ORM\ManyToOne(targetEntity: Publication::class, inversedBy: 'likes')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Publication $publication = null;
 
-    #[ORM\ManyToOne(targetEntity: Comment::class, inversedBy: 'likes')]
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
+    #[ORM\ManyToOne(inversedBy: 'likes')]
     private ?Comment $comment = null;
 
     #[ORM\Column]
@@ -36,17 +38,6 @@ class Like
         return $this->id;
     }
 
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
-        return $this;
-    }
-
     public function getPublication(): ?Publication
     {
         return $this->publication;
@@ -55,6 +46,17 @@ class Like
     public function setPublication(?Publication $publication): self
     {
         $this->publication = $publication;
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
         return $this;
     }
 

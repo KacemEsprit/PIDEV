@@ -57,4 +57,50 @@ class PublicationRepository extends ServiceEntityRepository
         ->getQuery()
         ->getResult();
 }
+
+public function getPublicationsPerMonth(): array
+{
+    $conn = $this->getEntityManager()->getConnection();
+    $sql = '
+        SELECT DATE_FORMAT(date_pb, "%Y-%m") as month,
+               COUNT(*) as count
+        FROM publication
+        GROUP BY month
+        ORDER BY month ASC
+    ';
+    return $conn->fetchAllAssociative($sql);
+}
+
+public function getPublicationsPerCategory(): array
+{
+    $conn = $this->getEntityManager()->getConnection();
+    $sql = '
+        SELECT category, COUNT(*) as count
+        FROM publication
+        GROUP BY category
+    ';
+    return $conn->fetchAllAssociative($sql);
+}
+
+public function getTotalLikes(): int
+{
+    $conn = $this->getEntityManager()->getConnection();
+    $sql = '
+        SELECT COUNT(*) as count 
+        FROM publication_like 
+        WHERE publication_id IS NOT NULL
+    ';
+    return (int) $conn->fetchOne($sql);
+}
+
+public function getActiveUsersCount(): int
+{
+    $conn = $this->getEntityManager()->getConnection();
+    $sql = '
+        SELECT COUNT(DISTINCT user_id) as count
+        FROM publication
+        WHERE date_pb >= DATE_SUB(NOW(), INTERVAL 30 DAY)
+    ';
+    return (int) $conn->fetchOne($sql);
+}
 }
