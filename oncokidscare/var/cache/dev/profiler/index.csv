@@ -398,3 +398,11 @@ d6c1b7,127.0.0.1,DELETE,http://127.0.0.1:8000/medecin/rapport/delete/6,173987589
 a33c53,127.0.0.1,GET,http://127.0.0.1:8000/logout,1739875945,,302,request
 3d6f5b,127.0.0.1,GET,http://127.0.0.1:8000/,1739875946,,200,request
 d1baa1,127.0.0.1,GET,http://127.0.0.1:8000/patient/rapports,1739875953,,200,request
+c0f143,127.0.0.1,GET,http://127.0.0.1:8000/,1740470925,,200,request
+db7bee,127.0.0.1,GET,http://127.0.0.1:8000/login,1740471140,,200,request
+553d32,127.0.0.1,POST,http://127.0.0.1:8000/login,1740471178,,302,request
+8a07d9,127.0.0.1,GET,http://127.0.0.1:8000/patient/dashboard,1740471180,,302,request
+0a8485,127.0.0.1,GET,http://127.0.0.1:8000/,1740471181,,200,request
+944f0d,127.0.0.1,GET,http://127.0.0.1:8000/publication/,1740471210,,200,request
+21863a,127.0.0.1,GET,http://127.0.0.1:8000/publication/77,1740472687,,200,request
+45395a,127.0.0.1,GET,http://127.0.0.1:8000/publication/,1740472694,,200,request
