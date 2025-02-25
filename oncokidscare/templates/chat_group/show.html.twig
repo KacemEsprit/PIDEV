@@ -3,6 +3,9 @@
 {% block title %}{{ group.name }}{% endblock %}
 
 {% block body %}
+<script>
+    const groupId = {{ group.id }};
+</script>
 <div class="container" style="max-width: 800px; margin: 2rem auto; padding: 0 1rem;">
     <div class="group-header">
         <h1>
@@ -55,8 +58,36 @@
                             </div>
                             <small class="message-time">{{ message.sentAt|date('H:i') }}</small>
                         </div>
+                        
                         <div class="message-bubble">
-                            {{ message.content|nl2br }}
+                            {% if message.type == 'voice' %}
+                                <audio controls>
+                                    <source src="{{ message.voiceUrl }}" type="audio/webm">
+                                    Votre navigateur ne supporte pas l'audio
+                                </audio>
+                                <span class="duration">{{ message.duration }} sec</span>
+                            {% else %}
+                               <div class="message-content">  {{ message.content|nl2br }}
+                               </div>
+                            {% endif %}
+                            
+                            {% if message.sender == app.user %}
+                                <div class="message-actions">
+                                    {% if message.type == 'text' %}
+                                        <button class="btn btn-sm btn-link edit-message" data-id="{{ message.id }}">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    {% endif %}
+                                    <form action="{{ path('app_chat_message_delete', {'id': message.id}) }}" 
+                                          method="post" 
+                                          class="d-inline delete-message-form"
+                                          onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce message ?')">
+                                        <button type="submit" class="btn btn-sm btn-link text-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -74,10 +105,32 @@
         <div class="message-form">
             {{ form_start(form) }}
             {{ form_widget(form.content, {'attr': {'rows': '3', 'placeholder': 'Votre message...'}}) }}
+             <div class="input-group">
+                    <button type="button" class="btn btn-secondary" id="voice-record-btn">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+
             <button type="submit" class="btn btn-primary">
                 <i class="fas fa-paper-plane"></i> Envoyer
             </button>
+            </div>
+             {{ form_widget(form.voiceUrl) }}
+                {{ form_widget(form.type) }}
+                {{ form_widget(form.duration) }}
+
             {{ form_end(form) }}
+
+<div id="voice-recorder-container" style="display: none;">
+                <div class="recording-indicator">
+                    <span class="recording-time">00:00</span>
+                    <div class="recording-wave"></div>
+                </div>
+                <button type="button" class="btn btn-danger" id="stop-recording">
+                    <i class="fas fa-stop"></i> Arrêter
+                </button>
+            </div>
+
+
         </div>
     {% else %}
         {% if group.isPublic %}
@@ -94,6 +147,87 @@
 </div>
 
 <style>
+    .recording-indicator {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.recording-time {
+    font-size: 1.2em;
+    margin-right: 10px;
+    color: #dc3545;
+}
+
+.recording-wave {
+    width: 50px;
+    height: 20px;
+    background: linear-gradient(#dc3545, #dc3545) no-repeat center/2px 100%;
+    animation: wave 1s infinite;
+}
+
+
+
+@keyframes wave {
+    0%, 100% { background-size: 2px 100%; }
+    50% { background-size: 2px 50%; }
+}
+
+.voice-message audio {
+    max-width: 250px;
+    margin-right: 10px;
+}
+
+.voice-message .duration {
+    font-size: 0.8em;
+    color: #666;
+}
+
+.message-sent .duration {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.alert {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
+
+.message-actions {
+    display: none;
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 4px;
+    padding: 2px;
+}
+
+.message-bubble {
+    padding: 0.8rem 1rem;
+    border-radius: 15px;
+    position: relative;
+    word-wrap: break-word;
+}
+
+.message-bubble:hover .message-actions {
+    display: flex;
+    gap: 5px;
+}
+
 .group-header {
     display: flex;
     align-items: center;
@@ -321,14 +455,209 @@
 </style>
 
 <script>
+
+function formatDuration(seconds) {
+    const minutes = Math.floor(seconds / 60).toString().padStart(2, '0');
+    const remainingSeconds = (seconds % 60).toString().padStart(2, '0');
+    return `${minutes}:${remainingSeconds}`;
+}
+
+function formatTime(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleString('fr-FR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
-    const container = document.getElementById('messages-container');
-    container.scrollTop = container.scrollHeight;
+    let mediaRecorder;
+    let audioChunks = [];
+    let startTime;
+    let recordingTimer;
+    
+    const voiceRecordBtn = document.getElementById('voice-record-btn');
+    const stopRecordingBtn = document.getElementById('stop-recording');
+    const recorderContainer = document.getElementById('voice-recorder-container');
+    const recordingTime = document.querySelector('.recording-time');
+    
+    voiceRecordBtn.addEventListener('click', startRecording);
+    stopRecordingBtn.addEventListener('click', stopRecording);
+    
+    async function startRecording() {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            mediaRecorder = new MediaRecorder(stream);
+            
+            mediaRecorder.ondataavailable = (event) => {
+                audioChunks.push(event.data);
+            };
+            
+            mediaRecorder.onstop = sendVoiceMessage;
+            
+            audioChunks = [];
+            mediaRecorder.start();
+            startTime = Date.now();
+            
+            updateRecordingTime();
+            voiceRecordBtn.style.display = 'none';
+            recorderContainer.style.display = 'block';
+        } catch (err) {
+            console.error('Error accessing microphone:', err);
+            alert('Impossible d\'accéder au microphone');
+        }
+    }
+    
+    function stopRecording() {
+        if (mediaRecorder && mediaRecorder.state === 'recording') {
+            mediaRecorder.stop();
+            clearInterval(recordingTimer);
+        }
+    }
+    
+    function updateRecordingTime() {
+        recordingTimer = setInterval(() => {
+            const duration = Math.floor((Date.now() - startTime) / 1000);
+            const minutes = Math.floor(duration / 60).toString().padStart(2, '0');
+            const seconds = (duration % 60).toString().padStart(2, '0');
+            recordingTime.textContent = `${minutes}:${seconds}`;
+        }, 1000);
+    }
+    
+    async function sendVoiceMessage() {
+        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+        const duration = Math.floor((Date.now() - startTime) / 1000);
+        
+        const formData = new FormData();
+        formData.append('audio', audioBlob, 'voice.webm');
+        formData.append('duration', duration);
+        
+        try {
+            const response = await fetch(`/groups/${groupId}/voice-message`, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+            
+            const result = await response.json();
+            
+            if (!response.ok) {
+                throw new Error(result.error || 'Erreur lors de l\'envoi');
+            }
+            
+            addVoiceMessageToChat(result);
+            
+            voiceRecordBtn.style.display = 'block';
+            recorderContainer.style.display = 'none';
+            
+            // Message de confirmation
+            const toast = document.createElement('div');
+            toast.className = 'alert alert-success';
+            toast.textContent = 'Message vocal envoyé avec succès';
+            document.querySelector('.message-form').prepend(toast);
+            setTimeout(() => toast.remove(), 3000);
+        } catch (err) {
+            console.error('Error sending voice message:', err);
+            const toast = document.createElement('div');
+            toast.className = 'alert alert-danger';
+            toast.textContent = err.message || 'Erreur lors de l\'envoi du message vocal';
+            document.querySelector('.message-form').prepend(toast);
+            setTimeout(() => toast.remove(), 5000);
+            
+            voiceRecordBtn.style.display = 'block';
+            recorderContainer.style.display = 'none';
+        }
+    }
+    
+    function addVoiceMessageToChat(message) {
+        const messageContainer = document.createElement('div');
+        messageContainer.className = 'message message-sent voice-message';
+        messageContainer.innerHTML = `
+            <div class="message-header">
+                <strong>${message.sender.email}</strong>
+                <small>${formatTime(message.sentAt)}</small>
+            </div>
+            <div class="message-content">
+                <audio controls>
+                    <source src="${message.voiceUrl}" type="audio/webm">
+                    Votre navigateur ne supporte pas l'audio
+                </audio>
+                <span class="duration">${message.duration} sec</span>
+            </div>
+        `;
+        
+        document.querySelector('.messages-container').appendChild(messageContainer);
+        messageContainer.scrollIntoView({ behavior: 'smooth' });
+    }
 });
 
 function toggleMembersList() {
     const sidebar = document.getElementById('members-sidebar');
     sidebar.classList.toggle('active');
 }
+
+// Gestion de l'édition des messages
+document.addEventListener('click', function(e) {
+    if (e.target.closest('.edit-message')) {
+        const messageId = e.target.closest('.edit-message').dataset.id;
+        const messageDiv = e.target.closest('.message');
+        const contentDiv = messageDiv.querySelector('.message-content');
+        const originalContent = contentDiv.textContent.trim();
+        
+        // Créer le champ d'édition
+        const textarea = document.createElement('textarea');
+        textarea.className = 'form-control';
+        textarea.value = originalContent;
+        contentDiv.innerHTML = '';
+        contentDiv.appendChild(textarea);
+        textarea.focus();
+        
+        // Ajouter les boutons de sauvegarde et annulation
+        const actions = document.createElement('div');
+        actions.className = 'edit-actions mt-2';
+        actions.innerHTML = `
+            <button class="btn btn-sm btn-primary save-edit">Enregistrer</button>
+            <button class="btn btn-sm btn-secondary cancel-edit">Annuler</button>
+        `;
+        contentDiv.appendChild(actions);
+        
+        // Gérer la sauvegarde
+        actions.querySelector('.save-edit').addEventListener('click', async function() {
+            const newContent = textarea.value.trim();
+            if (newContent && newContent !== originalContent) {
+                try {
+                    const response = await fetch(`/groups/message/${messageId}/edit`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        body: `content=${encodeURIComponent(newContent)}`
+                    });
+                    
+                    if (!response.ok) throw new Error('Erreur lors de la modification');
+                    
+                    contentDiv.innerHTML = newContent;
+                } catch (err) {
+                    alert('Erreur lors de la modification du message');
+                    contentDiv.innerHTML = originalContent;
+                }
+            } else {
+                contentDiv.innerHTML = originalContent;
+            }
+        });
+        
+        // Gérer l'annulation
+        actions.querySelector('.cancel-edit').addEventListener('click', function() {
+            contentDiv.innerHTML = originalContent;
+        });
+    }
+});
+
 </script>
 {% endblock %}

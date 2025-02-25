@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[Route('/groups')]
 class ChatGroupController extends AbstractController
@@ -88,9 +89,15 @@ class ChatGroupController extends AbstractController
             }
         }
 
+        // Récupérer les messages
+        $messages = $messageRepository->findBy(
+            ['chatGroup' => $group],
+            ['sentAt' => 'ASC']
+        );
+
         return $this->render('chat_group/show.html.twig', [
             'group' => $group,
-            'messages' => $messageRepository->findBy(['chatGroup' => $group], ['sentAt' => 'ASC']),
+            'messages' => $messages,
             'form' => $form ? $form->createView() : null,
             'can_post_message' => $canPostMessage,
         ]);
@@ -185,5 +192,119 @@ class ChatGroupController extends AbstractController
         $em->flush();
 
         return $this->redirectToRoute('app_chat_group_show', ['id' => $group->getId()]);
+    }
+
+    #[Route('/{id}/voice-message', name: 'app_chat_group_voice_message', methods: ['POST'])]
+    public function uploadVoiceMessage(
+        Request $request, 
+        ChatGroup $group, 
+        EntityManagerInterface $em
+    ): Response {
+        // Vérifier si l'utilisateur est membre du groupe
+        if (!$group->getMembers()->contains($this->getUser())) {
+            return $this->json(['error' => 'Vous n\'êtes pas membre de ce groupe'], 403);
+        }
+
+        /** @var UploadedFile $audioFile */
+        $audioFile = $request->files->get('audio');
+        $duration = $request->request->get('duration');
+
+        if (!$audioFile) {
+            return $this->json(['error' => 'Aucun fichier audio fourni'], 400);
+        }
+
+        try {
+            // Générer un nom de fichier unique
+            $fileName = md5(uniqid()) . '.webm';
+            $uploadDir = $this->getParameter('voice_messages_directory');
+
+            // Créer le répertoire s'il n'existe pas
+            if (!file_exists($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+
+            // Déplacer le fichier
+            $audioFile->move($uploadDir, $fileName);
+
+            // Créer le message
+            $message = new GroupMessage();
+            $message->setChatGroup($group);
+            $message->setSender($this->getUser());
+            $message->setType(GroupMessage::TYPE_VOICE);
+            $message->setVoiceUrl('/uploads/voice-messages/' . $fileName);
+            $message->setDuration((int) $duration);
+
+            $em->persist($message);
+            $em->flush();
+
+            return $this->json([
+                'id' => $message->getId(),
+                'voiceUrl' => $message->getVoiceUrl(),
+                'duration' => $message->getDuration(),
+                'sender' => [
+                    'id' => $message->getSender()->getId(),
+                    'name' => $message->getSender()->getPrenom() . ' ' . $message->getSender()->getNom()
+                ],
+                'sentAt' => $message->getSentAt()->format('Y-m-d H:i:s')
+            ]);
+
+        } catch (\Exception $e) {
+            return $this->json([
+                'error' => 'Erreur lors de l\'enregistrement du message vocal: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    #[Route('/message/{id}/delete', name: 'app_chat_message_delete', methods: ['POST'])]
+    public function deleteMessage(
+        GroupMessage $message,
+        EntityManagerInterface $em
+    ): Response {
+        // Vérifier que l'utilisateur est l'auteur du message
+        if ($message->getSender() !== $this->getUser()) {
+            throw $this->createAccessDeniedException('Vous ne pouvez pas supprimer ce message');
+        }
+
+        $groupId = $message->getChatGroup()->getId();
+        $em->remove($message);
+        $em->flush();
+
+        // Si c'est un message vocal, supprimer le fichier
+        if ($message->getType() === GroupMessage::TYPE_VOICE && $message->getVoiceUrl()) {
+            $filePath = $this->getParameter('kernel.project_dir') . '/public' . $message->getVoiceUrl();
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
+        }
+
+        return $this->redirectToRoute('app_chat_group_show', ['id' => $groupId]);
+    }
+
+    #[Route('/message/{id}/edit', name: 'app_chat_message_edit', methods: ['POST'])]
+    public function editMessage(
+        Request $request,
+        GroupMessage $message,
+        EntityManagerInterface $em
+    ): Response {
+        // Vérifier que l'utilisateur est l'auteur du message
+        if ($message->getSender() !== $this->getUser()) {
+            throw $this->createAccessDeniedException('Vous ne pouvez pas modifier ce message');
+        }
+
+        // On ne peut modifier que les messages texte
+        if ($message->getType() !== GroupMessage::TYPE_TEXT) {
+            throw $this->createAccessDeniedException('Ce type de message ne peut pas être modifié');
+        }
+
+        $content = $request->request->get('content');
+        if (!empty($content)) {
+            $message->setContent($content);
+            $em->flush();
+        }
+
+        return $this->json([
+            'success' => true,
+            'content' => $message->getContent()
+        ]);
     }
 }

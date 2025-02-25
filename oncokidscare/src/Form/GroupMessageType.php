@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\GroupMessage;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,11 +16,21 @@ class GroupMessageType extends AbstractType
         $builder
             ->add('content', TextareaType::class, [
                 'label' => false,
+                'required' => false,
                 'attr' => [
                     'placeholder' => 'Écrivez votre message...',
                     'rows' => 3,
-                    'class' => 'form-control'
+                    'class' => 'form-control message-input'
                 ]
+            ])
+            ->add('voiceUrl', HiddenType::class, [
+                'required' => false
+            ])
+            ->add('type', HiddenType::class, [
+                'required' => false
+            ])
+            ->add('duration', HiddenType::class, [
+                'required' => false
             ])
         ;
     }

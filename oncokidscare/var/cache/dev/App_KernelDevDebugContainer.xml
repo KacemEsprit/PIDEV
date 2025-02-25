@@ -84,6 +84,7 @@
     <parameter key="kernel.charset">UTF-8</parameter>
     <parameter key="kernel.container_class">App_KernelDevDebugContainer</parameter>
     <parameter key="images_directory">D:\PIDEV\oncokidscare/public/images</parameter>
+    <parameter key="voice_messages_directory">D:\PIDEV\oncokidscare/public/uploads/voice-messages</parameter>
     <parameter key="event_dispatcher.event_aliases" type="collection">
       <parameter key="Symfony\Component\Console\Event\ConsoleCommandEvent">console.command</parameter>
       <parameter key="Symfony\Component\Console\Event\ConsoleErrorEvent">console.error</parameter>
@@ -708,7 +709,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
       <tag priority="-50" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">controller.argument_value_resolver</tag>
-      <argument type="service" id=".service_locator.kYn5bEA"/>
+      <argument type="service" id=".service_locator.W3__l3b"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">
       <tag priority="-100" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">controller.argument_value_resolver</tag>
@@ -3664,7 +3665,7 @@
     </service>
     <service id="argument_resolver.not_tagged_controller" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
       <tag name="controller.argument_value_resolver" priority="-200"/>
-      <argument type="service" id=".service_locator.kYn5bEA"/>
+      <argument type="service" id=".service_locator.W3__l3b"/>
     </service>
     <service id="debug.log_processor" class="Symfony\Bridge\Monolog\Processor\DebugProcessor">
       <tag name="kernel.reset" method="reset"/>
@@ -8692,6 +8693,13 @@
         <argument key="userRepository" type="service_closure" id="App\Repository\UserRepository"/>
       </argument>
     </service>
+    <service id=".service_locator.2Jrofw5" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="em" type="service_closure" id="doctrine.orm.default_entity_manager"/>
+        <argument key="message" type="service_closure" id=".errored..service_locator.2Jrofw5.App\Entity\GroupMessage"/>
+      </argument>
+    </service>
     <service id=".service_locator.CsMkqUa" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -8891,7 +8899,7 @@
         <argument key="userPasswordHasher" type="service_closure" id="security.user_password_hasher"/>
       </argument>
     </service>
-    <service id=".service_locator.kYn5bEA" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.W3__l3b" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Controller\AdminController::annulerCommande" type="service_closure" id=".service_locator.iR5i4O4"/>
@@ -8911,12 +8919,15 @@
         <argument key="App\Controller\AdminController::rejectPublication" type="service_closure" id=".service_locator.TyGfL3f"/>
         <argument key="App\Controller\AdminController::validerCommande" type="service_closure" id=".service_locator.iR5i4O4"/>
         <argument key="App\Controller\ChatGroupController::addMember" type="service_closure" id=".service_locator.OfNm3iN"/>
+        <argument key="App\Controller\ChatGroupController::deleteMessage" type="service_closure" id=".service_locator.2Jrofw5"/>
         <argument key="App\Controller\ChatGroupController::edit" type="service_closure" id=".service_locator.Gz2kAjl"/>
+        <argument key="App\Controller\ChatGroupController::editMessage" type="service_closure" id=".service_locator.2Jrofw5"/>
         <argument key="App\Controller\ChatGroupController::index" type="service_closure" id=".service_locator.2KIFyBM"/>
         <argument key="App\Controller\ChatGroupController::join" type="service_closure" id=".service_locator.Gz2kAjl"/>
         <argument key="App\Controller\ChatGroupController::new" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\ChatGroupController::removeMember" type="service_closure" id=".service_locator.OfNm3iN"/>
         <argument key="App\Controller\ChatGroupController::show" type="service_closure" id=".service_locator.hOeesGW"/>
+        <argument key="App\Controller\ChatGroupController::uploadVoiceMessage" type="service_closure" id=".service_locator.Gz2kAjl"/>
         <argument key="App\Controller\CommandeController::adminIndex" type="service_closure" id=".service_locator.RXaRRrV"/>
         <argument key="App\Controller\CommandeController::confirm" type="service_closure" id=".service_locator.iR5i4O4"/>
         <argument key="App\Controller\CommandeController::delete" type="service_closure" id=".service_locator.iR5i4O4"/>
@@ -9002,12 +9013,15 @@
         <argument key="App\Controller\AdminController:rejectPublication" type="service_closure" id=".service_locator.TyGfL3f"/>
         <argument key="App\Controller\AdminController:validerCommande" type="service_closure" id=".service_locator.iR5i4O4"/>
         <argument key="App\Controller\ChatGroupController:addMember" type="service_closure" id=".service_locator.OfNm3iN"/>
+        <argument key="App\Controller\ChatGroupController:deleteMessage" type="service_closure" id=".service_locator.2Jrofw5"/>
         <argument key="App\Controller\ChatGroupController:edit" type="service_closure" id=".service_locator.Gz2kAjl"/>
+        <argument key="App\Controller\ChatGroupController:editMessage" type="service_closure" id=".service_locator.2Jrofw5"/>
         <argument key="App\Controller\ChatGroupController:index" type="service_closure" id=".service_locator.2KIFyBM"/>
         <argument key="App\Controller\ChatGroupController:join" type="service_closure" id=".service_locator.Gz2kAjl"/>
         <argument key="App\Controller\ChatGroupController:new" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\ChatGroupController:removeMember" type="service_closure" id=".service_locator.OfNm3iN"/>
         <argument key="App\Controller\ChatGroupController:show" type="service_closure" id=".service_locator.hOeesGW"/>
+        <argument key="App\Controller\ChatGroupController:uploadVoiceMessage" type="service_closure" id=".service_locator.Gz2kAjl"/>
         <argument key="App\Controller\CommandeController:adminIndex" type="service_closure" id=".service_locator.RXaRRrV"/>
         <argument key="App\Controller\CommandeController:confirm" type="service_closure" id=".service_locator.iR5i4O4"/>
         <argument key="App\Controller\CommandeController:delete" type="service_closure" id=".service_locator.iR5i4O4"/>
@@ -10349,6 +10363,9 @@
     <service id=".errored..service_locator.OfNm3iN.App\Entity\ChatGroup" class="App\Entity\ChatGroup">
       <tag name="container.error" message="Cannot autowire service &quot;.service_locator.OfNm3iN&quot;: it needs an instance of &quot;App\Entity\ChatGroup&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
     </service>
+    <service id=".errored..service_locator.2Jrofw5.App\Entity\GroupMessage" class="App\Entity\GroupMessage">
+      <tag name="container.error" message="Cannot autowire service &quot;.service_locator.2Jrofw5&quot;: it needs an instance of &quot;App\Entity\GroupMessage&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
+    </service>
     <service id=".errored..service_locator.TqIg1ou.App\Entity\Commande" class="App\Entity\Commande">
       <tag name="container.error" message="Cannot autowire service &quot;.service_locator.TqIg1ou&quot;: it needs an instance of &quot;App\Entity\Commande&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
     </service>
@@ -11628,7 +11645,7 @@
     <service id="Vich\UploaderBundle\Form\Type\VichImageType" alias="vich_uploader.form.type.image"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.w7.f4fT" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.kYn5bEA"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.W3__l3b"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.KLVvNIq"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="Psr\Log\LoggerInterface $requestLogger" alias="monolog.logger.request"/>
@@ -11658,6 +11675,7 @@
     <service id=".service_locator.bm45aso" alias=".service_locator.hOeesGW"/>
     <service id=".service_locator.yXBDPyu" alias=".service_locator.Gz2kAjl"/>
     <service id=".service_locator.MVWHApc" alias=".service_locator.OfNm3iN"/>
+    <service id=".service_locator.Q8ft3I9" alias=".service_locator.2Jrofw5"/>
     <service id=".service_locator.ni7uMIz" alias=".service_locator.N4bc6a8"/>
     <service id=".service_locator.R0Sb2kd" alias=".service_locator.rvMNZGh"/>
     <service id=".service_locator.d_bTr6e" alias=".service_locator.JwPLet6"/>
@@ -11670,7 +11688,7 @@
     <service id=".service_locator.HLUlteY" alias=".service_locator.O8GioWl"/>
     <service id=".service_locator.GeA0det" alias=".service_locator.k448V7w"/>
     <service id=".service_locator.V6D1oJY" alias=".service_locator.e_4zbH4"/>
-    <service id=".service_locator.7.R6tfM" alias=".service_locator.kYn5bEA"/>
+    <service id=".service_locator.Dx1MRz4" alias=".service_locator.W3__l3b"/>
     <service id=".service_locator.BFrsqsn" alias=".service_locator.F9PKc.7"/>
     <service id=".service_locator.aV1TeId" alias=".service_locator.3Evl0Vj"/>
     <service id=".service_locator.c636JwQ" alias=".service_locator.19FHMl6"/>
@@ -11710,6 +11728,7 @@
     <service id=".service_locator.w.lYNAF" alias=".service_locator.hOeesGW"/>
     <service id=".service_locator.OZ8m2G1" alias=".service_locator.Gz2kAjl"/>
     <service id=".service_locator.eCB.056" alias=".service_locator.OfNm3iN"/>
+    <service id=".service_locator.K_hF3fe" alias=".service_locator.2Jrofw5"/>
     <service id=".service_locator.9e2t_lq" alias=".service_locator.CsMkqUa"/>
     <service id=".service_locator.QOx9IOW" alias=".service_locator.TqIg1ou"/>
     <service id=".service_locator.lboLcqS" alias=".service_locator.C15PbZX"/>

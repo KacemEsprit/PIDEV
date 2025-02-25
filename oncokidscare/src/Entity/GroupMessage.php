@@ -8,13 +8,25 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: GroupMessageRepository::class)]
 class GroupMessage
 {
+    public const TYPE_TEXT = 'text';
+    public const TYPE_VOICE = 'voice';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(type: 'text', nullable: true)]
     private ?string $content = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $voiceUrl = null;
+
+    #[ORM\Column(length: 20)]
+    private string $type = self::TYPE_TEXT;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $duration = null;
 
     #[ORM\ManyToOne(inversedBy: 'messages')]
     #[ORM\JoinColumn(nullable: false)]
@@ -78,6 +90,39 @@ class GroupMessage
     public function setSentAt(\DateTimeImmutable $sentAt): static
     {
         $this->sentAt = $sentAt;
+        return $this;
+    }
+
+    public function getVoiceUrl(): ?string
+    {
+        return $this->voiceUrl;
+    }
+
+    public function setVoiceUrl(?string $voiceUrl): self
+    {
+        $this->voiceUrl = $voiceUrl;
+        return $this;
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
+        return $this;
+    }
+
+    public function getDuration(): ?int
+    {
+        return $this->duration;
+    }
+
+    public function setDuration(?int $duration): self
+    {
+        $this->duration = $duration;
         return $this;
     }
 }
