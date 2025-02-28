@@ -26,6 +26,8 @@
       <parameter key="MonologBundle">Symfony\Bundle\MonologBundle\MonologBundle</parameter>
       <parameter key="MakerBundle">Symfony\Bundle\MakerBundle\MakerBundle</parameter>
       <parameter key="VichUploaderBundle">Vich\UploaderBundle\VichUploaderBundle</parameter>
+      <parameter key="FlasherSymfonyBundle">Flasher\Symfony\FlasherSymfonyBundle</parameter>
+      <parameter key="EndroidQrCodeBundle">Endroid\QrCodeBundle\EndroidQrCodeBundle</parameter>
     </parameter>
     <parameter key="kernel.bundles_metadata" type="collection">
       <parameter key="FrameworkBundle" type="collection">
@@ -79,6 +81,14 @@
       <parameter key="VichUploaderBundle" type="collection">
         <parameter key="path">D:\PIDEV\oncokidscare\vendor\vich\uploader-bundle</parameter>
         <parameter key="namespace">Vich\UploaderBundle</parameter>
+      </parameter>
+      <parameter key="FlasherSymfonyBundle" type="collection">
+        <parameter key="path">D:\PIDEV\oncokidscare\vendor\php-flasher\flasher-symfony</parameter>
+        <parameter key="namespace">Flasher\Symfony</parameter>
+      </parameter>
+      <parameter key="EndroidQrCodeBundle" type="collection">
+        <parameter key="path">D:\PIDEV\oncokidscare\vendor\endroid\qr-code-bundle\src</parameter>
+        <parameter key="namespace">Endroid\QrCodeBundle</parameter>
       </parameter>
     </parameter>
     <parameter key="kernel.charset">UTF-8</parameter>
@@ -373,7 +383,9 @@
         <parameter>@WebProfiler/Collector/config.html.twig</parameter>
       </parameter>
     </parameter>
-    <parameter key="console.command.ids" type="collection"/>
+    <parameter key="console.command.ids" type="collection">
+      <parameter>console.command.public_alias.flasher.install_command</parameter>
+    </parameter>
   </parameters>
   <services>
     <service id="service_container" class="Symfony\Component\DependencyInjection\ContainerInterface" public="true" synthetic="true"/>
@@ -842,6 +854,7 @@
         <argument key="debug.stopwatch" type="service" id="debug.stopwatch" on-invalid="ignore_uninitialized"/>
         <argument key="debug.event_dispatcher" type="service" id="debug.event_dispatcher" on-invalid="ignore_uninitialized"/>
         <argument key="debug.log_processor" type="service" id="debug.log_processor" on-invalid="ignore_uninitialized"/>
+        <argument key="cache.rate_limiter" type="service" id="cache.rate_limiter" on-invalid="ignore_uninitialized"/>
         <argument key="session_listener" type="service" id="session_listener" on-invalid="ignore_uninitialized"/>
         <argument key="form.choice_list_factory.cached" type="service" id="form.choice_list_factory.cached" on-invalid="ignore_uninitialized"/>
         <argument key="cache.validator_expression_language" type="service" id="cache.validator_expression_language" on-invalid="ignore_uninitialized"/>
@@ -910,6 +923,9 @@
           <argument>reset</argument>
         </argument>
         <argument key="debug.log_processor" type="collection">
+          <argument>reset</argument>
+        </argument>
+        <argument key="cache.rate_limiter" type="collection">
           <argument>reset</argument>
         </argument>
         <argument key="session_listener" type="collection">
@@ -1133,6 +1149,7 @@
         <argument>cache.property_info</argument>
         <argument>cache.asset_mapper</argument>
         <argument>cache.messenger.restart_workers_signal</argument>
+        <argument>cache.rate_limiter</argument>
         <argument>cache.validator_expression_language</argument>
         <argument>cache.doctrine.orm.default.result</argument>
         <argument>cache.doctrine.orm.default.query</argument>
@@ -1182,6 +1199,7 @@
         <argument>cache.property_info</argument>
         <argument>cache.asset_mapper</argument>
         <argument>cache.messenger.restart_workers_signal</argument>
+        <argument>cache.rate_limiter</argument>
         <argument>cache.validator_expression_language</argument>
         <argument>cache.doctrine.orm.default.result</argument>
         <argument>cache.doctrine.orm.default.query</argument>
@@ -1208,6 +1226,7 @@
         <argument>cache.property_info</argument>
         <argument>cache.asset_mapper</argument>
         <argument>cache.messenger.restart_workers_signal</argument>
+        <argument>cache.rate_limiter</argument>
         <argument>cache.validator_expression_language</argument>
         <argument>cache.doctrine.orm.default.result</argument>
         <argument>cache.doctrine.orm.default.query</argument>
@@ -1528,6 +1547,7 @@
         <argument>D:\PIDEV\oncokidscare\vendor\symfony\form/Resources/translations</argument>
         <argument>D:\PIDEV\oncokidscare\vendor\symfony\security-core/Resources/translations</argument>
         <argument>D:\PIDEV\oncokidscare\vendor\vich\uploader-bundle/translations</argument>
+        <argument>D:\PIDEV\oncokidscare\vendor\php-flasher\flasher-symfony/Resources/translations</argument>
       </argument>
       <argument type="collection">
         <argument>D:\PIDEV\oncokidscare\vendor\symfony\twig-bridge/Resources/views/Email</argument>
@@ -1555,6 +1575,7 @@
         <argument>D:\PIDEV\oncokidscare\vendor\symfony\form/Resources/translations</argument>
         <argument>D:\PIDEV\oncokidscare\vendor\symfony\security-core/Resources/translations</argument>
         <argument>D:\PIDEV\oncokidscare\vendor\vich\uploader-bundle/translations</argument>
+        <argument>D:\PIDEV\oncokidscare\vendor\php-flasher\flasher-symfony/Resources/translations</argument>
       </argument>
       <argument type="collection">
         <argument>D:\PIDEV\oncokidscare\vendor\symfony\twig-bridge/Resources/views/Email</argument>
@@ -1926,6 +1947,7 @@
       <argument type="collection">
         <argument key="cache.app" type="service" id="cache.app" on-invalid="ignore_uninitialized"/>
         <argument key="cache.messenger.restart_workers_signal" type="service" id="cache.messenger.restart_workers_signal" on-invalid="ignore_uninitialized"/>
+        <argument key="cache.rate_limiter" type="service" id="cache.rate_limiter" on-invalid="ignore_uninitialized"/>
       </argument>
     </service>
     <service id="cache.system_clearer" class="Symfony\Component\HttpKernel\CacheClearer\Psr6CacheClearer" public="true">
@@ -1954,6 +1976,7 @@
         <argument key="cache.property_info" type="service" id="cache.property_info" on-invalid="ignore_uninitialized"/>
         <argument key="cache.asset_mapper" type="service" id="cache.asset_mapper" on-invalid="ignore_uninitialized"/>
         <argument key="cache.messenger.restart_workers_signal" type="service" id="cache.messenger.restart_workers_signal" on-invalid="ignore_uninitialized"/>
+        <argument key="cache.rate_limiter" type="service" id="cache.rate_limiter" on-invalid="ignore_uninitialized"/>
         <argument key="cache.validator_expression_language" type="service" id="cache.validator_expression_language" on-invalid="ignore_uninitialized"/>
         <argument key="cache.doctrine.orm.default.result" type="service" id="cache.doctrine.orm.default.result" on-invalid="ignore_uninitialized"/>
         <argument key="cache.doctrine.orm.default.query" type="service" id="cache.doctrine.orm.default.query" on-invalid="ignore_uninitialized"/>
@@ -2392,6 +2415,7 @@
             <argument>D:\PIDEV\oncokidscare\vendor\symfony\form/Resources/translations\validators.ar.xlf</argument>
             <argument>D:\PIDEV\oncokidscare\vendor\symfony\security-core/Resources/translations\security.ar.xlf</argument>
             <argument>D:\PIDEV\oncokidscare\vendor\vich\uploader-bundle/translations\messages.ar.yaml</argument>
+            <argument>D:\PIDEV\oncokidscare\vendor\php-flasher\flasher-symfony/Resources/translations\flasher.ar.php</argument>
           </argument>
           <argument key="az" type="collection">
             <argument>D:\PIDEV\oncokidscare\vendor\symfony\validator/Resources/translations\validators.az.xlf</argument>
@@ -2452,6 +2476,7 @@
             <argument>D:\PIDEV\oncokidscare\vendor\symfony\form/Resources/translations\validators.en.xlf</argument>
             <argument>D:\PIDEV\oncokidscare\vendor\symfony\security-core/Resources/translations\security.en.xlf</argument>
             <argument>D:\PIDEV\oncokidscare\vendor\vich\uploader-bundle/translations\messages.en.yaml</argument>
+            <argument>D:\PIDEV\oncokidscare\vendor\php-flasher\flasher-symfony/Resources/translations\flasher.en.php</argument>
           </argument>
           <argument key="es" type="collection">
             <argument>D:\PIDEV\oncokidscare\vendor\symfony\validator/Resources/translations\validators.es.xlf</argument>
@@ -2485,6 +2510,7 @@
             <argument>D:\PIDEV\oncokidscare\vendor\symfony\form/Resources/translations\validators.fr.xlf</argument>
             <argument>D:\PIDEV\oncokidscare\vendor\symfony\security-core/Resources/translations\security.fr.xlf</argument>
             <argument>D:\PIDEV\oncokidscare\vendor\vich\uploader-bundle/translations\messages.fr.yaml</argument>
+            <argument>D:\PIDEV\oncokidscare\vendor\php-flasher\flasher-symfony/Resources/translations\flasher.fr.php</argument>
           </argument>
           <argument key="gl" type="collection">
             <argument>D:\PIDEV\oncokidscare\vendor\symfony\validator/Resources/translations\validators.gl.xlf</argument>
@@ -2695,6 +2721,7 @@
           <argument>D:\PIDEV\oncokidscare\vendor\symfony\form/Resources/translations</argument>
           <argument>D:\PIDEV\oncokidscare\vendor\symfony\security-core/Resources/translations</argument>
           <argument>D:\PIDEV\oncokidscare\vendor\vich\uploader-bundle/translations</argument>
+          <argument>D:\PIDEV\oncokidscare\vendor\php-flasher\flasher-symfony/Resources/translations</argument>
           <argument>D:\PIDEV\oncokidscare/translations</argument>
           <argument>D:\PIDEV\oncokidscare\vendor\symfony\framework-bundle/translations</argument>
           <argument>D:\PIDEV\oncokidscare\vendor\doctrine\doctrine-bundle/translations</argument>
@@ -2708,6 +2735,7 @@
           <argument>D:\PIDEV\oncokidscare\vendor\symfony\security-bundle/translations</argument>
           <argument>D:\PIDEV\oncokidscare\vendor\symfony\monolog-bundle/translations</argument>
           <argument>D:\PIDEV\oncokidscare\vendor\symfony\maker-bundle/translations</argument>
+          <argument>D:\PIDEV\oncokidscare\vendor\endroid\qr-code-bundle\src/translations</argument>
         </argument>
         <argument key="cache_vary" type="collection">
           <argument key="scanned_directories" type="collection">
@@ -2715,6 +2743,7 @@
             <argument>D:\PIDEV\oncokidscare\vendor\symfony\form/Resources/translations</argument>
             <argument>D:\PIDEV\oncokidscare\vendor\symfony\security-core/Resources/translations</argument>
             <argument>D:\PIDEV\oncokidscare\vendor\vich\uploader-bundle/translations</argument>
+            <argument>D:\PIDEV\oncokidscare\vendor\php-flasher\flasher-symfony/Resources/translations</argument>
             <argument>translations</argument>
             <argument>D:\PIDEV\oncokidscare\vendor\symfony\framework-bundle/translations</argument>
             <argument>D:\PIDEV\oncokidscare\vendor\doctrine\doctrine-bundle/translations</argument>
@@ -2728,6 +2757,7 @@
             <argument>D:\PIDEV\oncokidscare\vendor\symfony\security-bundle/translations</argument>
             <argument>D:\PIDEV\oncokidscare\vendor\symfony\monolog-bundle/translations</argument>
             <argument>D:\PIDEV\oncokidscare\vendor\symfony\maker-bundle/translations</argument>
+            <argument>D:\PIDEV\oncokidscare\vendor\endroid\qr-code-bundle\src/translations</argument>
           </argument>
         </argument>
       </argument>
@@ -3114,6 +3144,22 @@
           <argument>onKernelResponse</argument>
         </argument>
         <argument>0</argument>
+      </call>
+      <call method="addListener">
+        <argument>kernel.response</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="flasher.session_listener"/>
+          <argument>onKernelResponse</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListener">
+        <argument>kernel.response</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="flasher.flasher_listener"/>
+          <argument>onKernelResponse</argument>
+        </argument>
+        <argument>-256</argument>
       </call>
       <call method="addListener">
         <argument>kernel.controller_arguments</argument>
@@ -4033,6 +4079,39 @@
     <service id="property_info.php_doc_extractor" class="Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor">
       <tag name="property_info.description_extractor" priority="-1000"/>
       <tag name="property_info.type_extractor" priority="-1001"/>
+    </service>
+    <service id="lock.store.combined.abstract" class="Symfony\Component\Lock\Store\CombinedStore" abstract="true">
+      <argument type="abstract">List of stores</argument>
+      <argument type="service" id="lock.strategy.majority"/>
+    </service>
+    <service id="lock.strategy.majority" class="Symfony\Component\Lock\Strategy\ConsensusStrategy"/>
+    <service id="lock.factory.abstract" class="Symfony\Component\Lock\LockFactory" abstract="true">
+      <tag name="monolog.logger" channel="lock"/>
+      <argument type="abstract">Store</argument>
+      <call method="setLogger">
+        <argument type="service" id="monolog.logger.lock" on-invalid="ignore"/>
+      </call>
+    </service>
+    <service id=".lock.default.store.TTEh_gT" class="Symfony\Component\Lock\PersistingStoreInterface">
+      <tag name="lock.store"/>
+      <argument>%env(LOCK_DSN)%</argument>
+      <factory class="Symfony\Component\Lock\Store\StoreFactory" method="createStore"/>
+    </service>
+    <service id="lock.default.factory" class="Symfony\Component\Lock\LockFactory">
+      <argument type="service" id=".lock.default.store.TTEh_gT"/>
+      <call method="setLogger">
+        <argument type="service" id="monolog.logger.lock" on-invalid="ignore"/>
+      </call>
+    </service>
+    <service id="cache.rate_limiter" class="Symfony\Component\Cache\Adapter\TraceableAdapter" public="true">
+      <tag name="cache.pool"/>
+      <tag name="kernel.reset" method="reset"/>
+      <argument type="service" id="cache.rate_limiter.recorder_inner"/>
+    </service>
+    <service id="limiter" class="Symfony\Component\RateLimiter\RateLimiterFactory" abstract="true">
+      <argument type="abstract">config</argument>
+      <argument type="abstract">storage</argument>
+      <argument>null</argument>
     </service>
     <service id="web_link.http_header_serializer" class="Symfony\Component\WebLink\HttpHeaderSerializer"/>
     <service id="web_link.add_link_header_listener" class="Symfony\Component\WebLink\EventListener\AddLinkHeaderListener">
@@ -5074,6 +5153,10 @@
       <call method="addInstance">
         <argument>cache.messenger.restart_workers_signal</argument>
         <argument type="service" id="cache.messenger.restart_workers_signal"/>
+      </call>
+      <call method="addInstance">
+        <argument>cache.rate_limiter</argument>
+        <argument type="service" id="cache.rate_limiter"/>
       </call>
       <call method="addInstance">
         <argument>cache.validator_expression_language</argument>
@@ -6132,6 +6215,12 @@
         <argument type="service" id="Vich\UploaderBundle\Twig\Extension\UploaderExtension"/>
       </call>
       <call method="addExtension">
+        <argument type="service" id="flasher.twig.extension"/>
+      </call>
+      <call method="addExtension">
+        <argument type="service" id="Endroid\QrCodeBundle\Twig\QrCodeExtension"/>
+      </call>
+      <call method="addExtension">
         <argument type="service" id="stimulus.twig_extension"/>
       </call>
       <call method="addGlobal">
@@ -6355,7 +6444,7 @@
       <argument>,</argument>
     </service>
     <service id="twig.runtime_loader" class="Twig\RuntimeLoader\ContainerRuntimeLoader">
-      <argument type="service" id=".service_locator.QuYoiOJ"/>
+      <argument type="service" id=".service_locator.01tPlnS"/>
     </service>
     <service id="twig.error_renderer.html" class="Symfony\Bridge\Twig\ErrorRenderer\TwigErrorRenderer">
       <argument type="service" id="twig"/>
@@ -8035,6 +8124,268 @@
       <argument type="service" id="vich_uploader.metadata_reader"/>
       <argument type="service" id="vich_uploader.upload_handler"/>
     </service>
+    <service id="flasher.config" class="Flasher\Prime\Config\Config">
+      <argument type="collection">
+        <argument key="presets" type="collection">
+          <argument key="created" type="collection">
+            <argument key="type">success</argument>
+            <argument key="message">The resource was created</argument>
+            <argument key="options" type="collection"/>
+          </argument>
+          <argument key="updated" type="collection">
+            <argument key="type">success</argument>
+            <argument key="message">The resource was updated</argument>
+            <argument key="options" type="collection"/>
+          </argument>
+          <argument key="saved" type="collection">
+            <argument key="type">success</argument>
+            <argument key="message">The resource was saved</argument>
+            <argument key="options" type="collection"/>
+          </argument>
+          <argument key="deleted" type="collection">
+            <argument key="type">success</argument>
+            <argument key="message">The resource was deleted</argument>
+            <argument key="options" type="collection"/>
+          </argument>
+        </argument>
+        <argument key="default">flasher</argument>
+        <argument key="root_script" type="collection">
+          <argument key="cdn">https://cdn.jsdelivr.net/npm/@flasher/flasher@1.3.2/dist/flasher.min.js</argument>
+          <argument key="local">/vendor/flasher/flasher.min.js</argument>
+        </argument>
+        <argument key="scripts" type="collection"/>
+        <argument key="styles" type="collection">
+          <argument key="cdn" type="collection">
+            <argument>https://cdn.jsdelivr.net/npm/@flasher/flasher@1.3.2/dist/flasher.min.css</argument>
+          </argument>
+          <argument key="local" type="collection">
+            <argument>/vendor/flasher/flasher.min.css</argument>
+          </argument>
+        </argument>
+        <argument key="options" type="collection"/>
+        <argument key="use_cdn">true</argument>
+        <argument key="auto_translate">true</argument>
+        <argument key="auto_render">true</argument>
+        <argument key="filter_criteria" type="collection"/>
+        <argument key="themes" type="collection"/>
+        <argument key="flash_bag" type="collection">
+          <argument key="enabled">true</argument>
+          <argument key="mapping" type="collection">
+            <argument key="success" type="collection">
+              <argument>success</argument>
+            </argument>
+            <argument key="error" type="collection">
+              <argument>error</argument>
+              <argument>danger</argument>
+            </argument>
+            <argument key="warning" type="collection">
+              <argument>warning</argument>
+              <argument>alarm</argument>
+            </argument>
+            <argument key="info" type="collection">
+              <argument>info</argument>
+              <argument>notice</argument>
+              <argument>alert</argument>
+            </argument>
+          </argument>
+        </argument>
+      </argument>
+    </service>
+    <service id="flasher.storage_bag" class="Flasher\Symfony\Storage\SessionBag">
+      <argument type="service" id="request_stack"/>
+    </service>
+    <service id="flasher.storage" class="Flasher\Prime\Storage\StorageBag">
+      <argument type="service" id="flasher.storage_bag"/>
+    </service>
+    <service id="flasher.event_dispatcher" class="Flasher\Prime\EventDispatcher\EventDispatcher">
+      <call method="addSubscriber">
+        <argument type="service" id="flasher.translation_listener"/>
+      </call>
+      <call method="addSubscriber">
+        <argument type="service" id="flasher.preset_listener"/>
+      </call>
+    </service>
+    <service id="flasher.storage_manager" class="Flasher\Prime\Storage\StorageManager">
+      <argument type="service" id="flasher.storage"/>
+      <argument type="service" id="flasher.event_dispatcher"/>
+      <argument type="collection"/>
+    </service>
+    <service id="flasher.twig.extension" class="Flasher\Symfony\Twig\FlasherTwigExtension">
+      <tag name="twig.extension"/>
+    </service>
+    <service id="flasher.template_engine" class="Flasher\Symfony\Template\TwigTemplateEngine">
+      <argument type="service" id="twig"/>
+    </service>
+    <service id="flasher.resource_manager" class="Flasher\Prime\Response\Resource\ResourceManager">
+      <argument type="service" id="flasher.config"/>
+      <argument type="service" id="flasher.template_engine"/>
+    </service>
+    <service id="flasher.response_manager" class="Flasher\Prime\Response\ResponseManager">
+      <argument type="service" id="flasher.resource_manager"/>
+      <argument type="service" id="flasher.storage_manager"/>
+      <argument type="service" id="flasher.event_dispatcher"/>
+    </service>
+    <service id="flasher" class="Flasher\Prime\Flasher" public="true">
+      <argument>flasher</argument>
+      <argument type="service" id="flasher.response_manager"/>
+      <argument type="service" id="flasher.storage_manager"/>
+    </service>
+    <service id="flasher.notification_factory" class="Flasher\Prime\Factory\NotificationFactory">
+      <argument type="service" id="flasher.storage_manager"/>
+    </service>
+    <service id="flasher.translator" class="Flasher\Symfony\Translation\Translator">
+      <argument type="service" id="translator.data_collector"/>
+    </service>
+    <service id="flasher.translation_listener" class="Flasher\Prime\EventDispatcher\EventListener\TranslationListener">
+      <tag name="flasher.event_subscriber"/>
+      <argument type="service" id="flasher.translator"/>
+      <argument>true</argument>
+    </service>
+    <service id="flasher.preset_listener" class="Flasher\Prime\EventDispatcher\EventListener\PresetListener">
+      <tag name="flasher.event_subscriber"/>
+      <argument type="collection">
+        <argument key="created" type="collection">
+          <argument key="type">success</argument>
+          <argument key="message">The resource was created</argument>
+          <argument key="options" type="collection"/>
+        </argument>
+        <argument key="updated" type="collection">
+          <argument key="type">success</argument>
+          <argument key="message">The resource was updated</argument>
+          <argument key="options" type="collection"/>
+        </argument>
+        <argument key="saved" type="collection">
+          <argument key="type">success</argument>
+          <argument key="message">The resource was saved</argument>
+          <argument key="options" type="collection"/>
+        </argument>
+        <argument key="deleted" type="collection">
+          <argument key="type">success</argument>
+          <argument key="message">The resource was deleted</argument>
+          <argument key="options" type="collection"/>
+        </argument>
+      </argument>
+    </service>
+    <service id="flasher.install_command" class="Flasher\Symfony\Command\InstallCommand">
+      <tag name="console.command"/>
+      <tag name="container.no_preload"/>
+    </service>
+    <service id="flasher.session_listener" class="Flasher\Symfony\EventListener\SessionListener" public="true">
+      <tag name="kernel.event_listener" event="kernel.response"/>
+      <tag name="container.hot_path"/>
+      <argument type="service" id="flasher.request_extension"/>
+    </service>
+    <service id="flasher.flasher_listener" class="Flasher\Symfony\EventListener\FlasherListener" public="true">
+      <tag name="kernel.event_listener" event="kernel.response" priority="-256"/>
+      <tag name="container.hot_path"/>
+      <argument type="service" id="flasher.response_extension"/>
+    </service>
+    <service id="flasher.request_extension" class="Flasher\Prime\Http\RequestExtension">
+      <argument type="service" id="flasher"/>
+      <argument type="collection">
+        <argument key="success" type="collection">
+          <argument>success</argument>
+        </argument>
+        <argument key="error" type="collection">
+          <argument>error</argument>
+          <argument>danger</argument>
+        </argument>
+        <argument key="warning" type="collection">
+          <argument>warning</argument>
+          <argument>alarm</argument>
+        </argument>
+        <argument key="info" type="collection">
+          <argument>info</argument>
+          <argument>notice</argument>
+          <argument>alert</argument>
+        </argument>
+      </argument>
+    </service>
+    <service id="flasher.response_extension" class="Flasher\Prime\Http\ResponseExtension">
+      <argument type="service" id="flasher"/>
+    </service>
+    <service id="Endroid\QrCodeBundle\Controller\GenerateController" class="Endroid\QrCodeBundle\Controller\GenerateController" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+      <argument type="service" id="Endroid\QrCode\Builder\BuilderRegistry"/>
+    </service>
+    <service id="Endroid\QrCode\Writer\BinaryWriter" class="Endroid\QrCode\Writer\BinaryWriter" autowire="true" autoconfigure="true"/>
+    <service id="Endroid\QrCode\Writer\DebugWriter" class="Endroid\QrCode\Writer\DebugWriter" autowire="true" autoconfigure="true"/>
+    <service id="Endroid\QrCode\Writer\EpsWriter" class="Endroid\QrCode\Writer\EpsWriter" autowire="true" autoconfigure="true"/>
+    <service id="Endroid\QrCode\Writer\GifWriter" class="Endroid\QrCode\Writer\GifWriter" autowire="true" autoconfigure="true"/>
+    <service id="Endroid\QrCode\Writer\PdfWriter" class="Endroid\QrCode\Writer\PdfWriter" autowire="true" autoconfigure="true"/>
+    <service id="Endroid\QrCode\Writer\PngWriter" class="Endroid\QrCode\Writer\PngWriter" autowire="true" autoconfigure="true"/>
+    <service id="Endroid\QrCode\Writer\SvgWriter" class="Endroid\QrCode\Writer\SvgWriter" autowire="true" autoconfigure="true"/>
+    <service id="Endroid\QrCode\Writer\WebPWriter" class="Endroid\QrCode\Writer\WebPWriter" autowire="true" autoconfigure="true"/>
+    <service id="Endroid\QrCode\Builder\Builder" class="Endroid\QrCode\Builder\Builder" autowire="true" autoconfigure="true"/>
+    <service id="Endroid\QrCode\Builder\BuilderRegistry" class="Endroid\QrCode\Builder\BuilderRegistry" autowire="true" autoconfigure="true">
+      <call method="addBuilder">
+        <argument>default</argument>
+        <argument type="service">
+          <service class="Endroid\QrCode\Builder\Builder" public="true" autowire="true">
+            <call method="writer">
+              <argument type="service" id="Endroid\QrCode\Writer\PngWriter"/>
+            </call>
+            <call method="size">
+              <argument>300</argument>
+            </call>
+            <call method="margin">
+              <argument>10</argument>
+            </call>
+            <call method="encoding">
+              <argument type="service">
+                <service class="Endroid\QrCode\Encoding\Encoding">
+                  <argument>UTF-8</argument>
+                </service>
+              </argument>
+            </call>
+            <call method="errorCorrectionLevel">
+              <argument type="constant">Endroid\QrCode\ErrorCorrectionLevel::Low</argument>
+            </call>
+            <call method="roundBlockSizeMode">
+              <argument type="constant">Endroid\QrCode\RoundBlockSizeMode::Margin</argument>
+            </call>
+            <call method="validateResult">
+              <argument>false</argument>
+            </call>
+          </service>
+        </argument>
+      </call>
+    </service>
+    <service id="Endroid\QrCodeBundle\Twig\QrCodeExtension" class="Endroid\QrCodeBundle\Twig\QrCodeExtension" autowire="true" autoconfigure="true">
+      <tag name="twig.extension"/>
+    </service>
+    <service id="Endroid\QrCodeBundle\Twig\QrCodeRuntime" class="Endroid\QrCodeBundle\Twig\QrCodeRuntime" autowire="true" autoconfigure="true">
+      <tag name="twig.runtime"/>
+      <argument type="service" id="Endroid\QrCode\Builder\BuilderRegistry"/>
+      <argument type="service" id="router.default"/>
+    </service>
+    <service id="endroid_qr_code.default_builder" class="Endroid\QrCode\Builder\Builder" public="true" autowire="true">
+      <call method="writer">
+        <argument type="service" id="Endroid\QrCode\Writer\PngWriter"/>
+      </call>
+      <call method="size">
+        <argument>300</argument>
+      </call>
+      <call method="margin">
+        <argument>10</argument>
+      </call>
+      <call method="encoding">
+        <argument type="service">
+          <service class="Endroid\QrCode\Encoding\Encoding">
+            <argument>UTF-8</argument>
+          </service>
+        </argument>
+      </call>
+      <call method="errorCorrectionLevel">
+        <argument type="constant">Endroid\QrCode\ErrorCorrectionLevel::Low</argument>
+      </call>
+      <call method="roundBlockSizeMode">
+        <argument type="constant">Endroid\QrCode\RoundBlockSizeMode::Margin</argument>
+      </call>
+      <call method="validateResult">
+        <argument>false</argument>
+      </call>
+    </service>
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\AdminController" class="App\Controller\AdminController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\AdminController" class="App\Controller\AdminController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\AdminController" class="App\Controller\AdminController" autowire="true" autoconfigure="true" abstract="true"/>
@@ -8174,6 +8525,10 @@
     <service id=".abstract.instanceof.App\Security\Voter\CommentVoter" class="App\Security\Voter\CommentVoter" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Component\Security\Core\Authorization\Voter\VoterInterface.0.App\Security\Voter\PublicationVoter" class="App\Security\Voter\PublicationVoter" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Security\Voter\PublicationVoter" class="App\Security\Voter\PublicationVoter" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Twig\Extension\ExtensionInterface.0.Endroid\QrCodeBundle\Twig\QrCodeExtension" class="Endroid\QrCodeBundle\Twig\QrCodeExtension" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Endroid\QrCodeBundle\Twig\QrCodeExtension" class="Endroid\QrCodeBundle\Twig\QrCodeExtension" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Twig\Extension\RuntimeExtensionInterface.0.Endroid\QrCodeBundle\Twig\QrCodeRuntime" class="Endroid\QrCodeBundle\Twig\QrCodeRuntime" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Endroid\QrCodeBundle\Twig\QrCodeRuntime" class="Endroid\QrCodeBundle\Twig\QrCodeRuntime" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".service_locator.w7.f4fT" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -9590,6 +9945,16 @@
       </call>
       <configurator service="debug.debug_logger_configurator" method="pushDebugLogger"/>
     </service>
+    <service id="monolog.logger.lock" class="Monolog\Logger">
+      <argument>lock</argument>
+      <call method="pushHandler">
+        <argument type="service" id="monolog.handler.console"/>
+      </call>
+      <call method="pushHandler">
+        <argument type="service" id="monolog.handler.main"/>
+      </call>
+      <configurator service="debug.debug_logger_configurator" method="pushDebugLogger"/>
+    </service>
     <service id="monolog.logger.profiler" class="Monolog\Logger">
       <argument>profiler</argument>
       <call method="pushHandler">
@@ -10148,6 +10513,7 @@
           <argument>App\Controller\ReportController</argument>
           <argument>App\Controller\SecurityController</argument>
           <argument>Doctrine\Bundle\DoctrineBundle\Controller\ProfilerController</argument>
+          <argument>Endroid\QrCodeBundle\Controller\GenerateController</argument>
         </argument>
       </call>
     </service>
@@ -11422,6 +11788,15 @@
         <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       </call>
     </service>
+    <service id="cache.rate_limiter.recorder_inner" class="Symfony\Component\Cache\Adapter\FilesystemAdapter">
+      <argument>9-2XiGASA9</argument>
+      <argument>0</argument>
+      <argument>D:\PIDEV\oncokidscare\var\cache\dev/pools/app</argument>
+      <argument type="service" id="cache.default_marshaller" on-invalid="ignore"/>
+      <call method="setLogger">
+        <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
+      </call>
+    </service>
     <service id="cache.validator_expression_language.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface">
       <argument>Dc-yo+XhbC</argument>
       <argument>0</argument>
@@ -11456,7 +11831,7 @@
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
-    <service id=".service_locator.QuYoiOJ" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.01tPlnS" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="Symfony\Bridge\Twig\Extension\CsrfRuntime" type="service_closure" id="twig.runtime.security_csrf"/>
@@ -11466,6 +11841,7 @@
         <argument key="Symfony\Bridge\Twig\Extension\ImportMapRuntime" type="service_closure" id="twig.runtime.importmap"/>
         <argument key="Symfony\UX\StimulusBundle\Twig\UxControllersTwigRuntime" type="service_closure" id="stimulus.ux_controllers_twig_runtime"/>
         <argument key="Vich\UploaderBundle\Twig\Extension\UploaderExtensionRuntime" type="service_closure" id="Vich\UploaderBundle\Twig\Extension\UploaderExtensionRuntime"/>
+        <argument key="Endroid\QrCodeBundle\Twig\QrCodeRuntime" type="service_closure" id="Endroid\QrCodeBundle\Twig\QrCodeRuntime"/>
       </argument>
     </service>
     <service id="App\Kernel" alias="kernel" public="true"/>
@@ -11555,6 +11931,8 @@
     <service id="Symfony\Component\PropertyInfo\PropertyInitializableExtractorInterface" alias="property_info"/>
     <service id="Symfony\Component\PropertyInfo\PropertyReadInfoExtractorInterface" alias="property_info.reflection_extractor"/>
     <service id="Symfony\Component\PropertyInfo\PropertyWriteInfoExtractorInterface" alias="property_info.reflection_extractor"/>
+    <service id="lock.factory" alias="lock.default.factory"/>
+    <service id="Symfony\Component\Lock\LockFactory" alias="lock.default.factory"/>
     <service id="Symfony\Component\WebLink\HttpHeaderSerializer" alias="web_link.http_header_serializer"/>
     <service id="cache.default_redis_provider" alias=".cache_connection.GD_MSZC"/>
     <service id="cache.default_memcached_provider" alias=".cache_connection.JKE6keX"/>
@@ -11655,6 +12033,11 @@
     <service id="Vich\UploaderBundle\Handler\UploadHandler" alias="vich_uploader.upload_handler"/>
     <service id="Vich\UploaderBundle\Form\Type\VichFileType" alias="vich_uploader.form.type.file"/>
     <service id="Vich\UploaderBundle\Form\Type\VichImageType" alias="vich_uploader.form.type.image"/>
+    <service id="Flasher\Prime\Flasher" alias="flasher"/>
+    <service id="Flasher\Prime\FlasherInterface" alias="flasher"/>
+    <service id="Endroid\QrCode\Builder\BuilderInterface" alias="Endroid\QrCode\Builder\Builder"/>
+    <service id="Endroid\QrCode\Builder\BuilderRegistryInterface" alias="Endroid\QrCode\Builder\BuilderRegistry"/>
+    <service id="Endroid\QrCode\Builder\BuilderInterface $defaultQrCodeBuilder" alias="endroid_qr_code.default_builder"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.w7.f4fT" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
     <service id="argument_resolver.controller_locator" alias=".service_locator.w1zMvG4"/>
@@ -11673,6 +12056,7 @@
     <service id="Psr\Log\LoggerInterface $phpLogger" alias="monolog.logger.php"/>
     <service id="Psr\Log\LoggerInterface $eventLogger" alias="monolog.logger.event"/>
     <service id="Psr\Log\LoggerInterface $routerLogger" alias="monolog.logger.router"/>
+    <service id="Psr\Log\LoggerInterface $lockLogger" alias="monolog.logger.lock"/>
     <service id="Psr\Log\LoggerInterface $profilerLogger" alias="monolog.logger.profiler"/>
     <service id="Psr\Log\LoggerInterface $doctrineLogger" alias="monolog.logger.doctrine"/>
     <service id="Psr\Log\LoggerInterface $debugLogger" alias="monolog.logger.debug"/>
@@ -11777,5 +12161,6 @@
     <service id=".service_locator._kIAbz1" alias=".service_locator.TpoC7U9"/>
     <service id=".service_locator.hnz5ZNh" alias=".service_locator.0TACwl3"/>
     <service id=".service_locator..Fs8Kd7" alias=".service_locator.e_.xxAP"/>
+    <service id="console.command.public_alias.flasher.install_command" alias="flasher.install_command" public="true"/>
   </services>
 </container>
