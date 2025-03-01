@@ -25,16 +25,50 @@ class MedecinController extends AbstractController
     #[Route('/dashboardd', name: 'app_medecin_dashboard')]
     public function dashboard(): Response
     {
-        /** @var \App\Entity\User $user */
+        
         $user = $this->getUser();
         $this->addFlash('success', 'Bienvenue sur votre dashboard, médecin !');
         
-       /*  return $this->render('home/index.html.twig', */
+       
         return $this->render('medecin/dashboard.html.twig',
         [
             'user' => $user,
         ]);
     }
+    #[Route('/dashboard_patient/{id}', name: 'app_patient_statistic',requirements: ['id' => '\d+'])]
+    public function dashboardPatient(UserRepository $userRepo,RapportDetatRepository $rapportRepo, $id): Response
+    {
+       
+       $rapport = $rapportRepo->find($id);
+       $patient=$userRepo->find($rapport->getPatient());
+       if (!$rapport) {
+        $this->addFlash('error', 'Rapport non trouvé');
+        return $this->redirectToRoute('app_medecin_dashboard');
+    }
+        $this->addFlash('success', 'Bienvenue sur votre dashboard, médecin !');
+        
+       
+        return $this->render('medecin/dashboardcycle.html.twig',
+        [
+            'patient' => $patient,
+            'rapport' => $rapport,
+        ]); 
+
+    }
+
+
+    #[Route('/cycle', name: 'app_medecin_cycle_de_traitement')]
+    public function cycle(UserRepository $userRepo, RapportDetatRepository $rapportRepo): Response
+    {
+        
+        $patients = $userRepo->findPatients();
+    
+        return $this->render('medecin/cycledetraiment.html.twig', [
+            
+            'patients' => $patients
+        ]);
+    }
+    
 
   
 

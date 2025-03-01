@@ -3,8 +3,19 @@
 {% block title %}My Profile{% endblock %}
 
 {% block body %}
-<div class="container mt-5">
-    {% for message in app.flashes('success') %}
+
+ 
+        <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container py-5 text-center">
+            <h1 class="display-4 text-white mb-3 animated slideInDown">
+                <i class="fas fa-user-md me-2"></i> My profile 
+            </h1>
+        </div>
+    </div>
+
+    <!-- Contenu du Rapport -->
+    <div class="container py-5">
+       {% for message in app.flashes('success') %}
         <div class="alert alert-success">
             {{ message }}
         </div>
@@ -14,10 +25,9 @@
             {{ message }}
         </div>
     {% endfor %}
-    
     <div class="card shadow mb-3">
         <div class="card-header py-3">
-            <p class="text-primary m-0 fw-bold">Patient Profile Settings</p>
+            <p class="text-primary text-center m-15  fw-bold" >Welcome {{ user.nom }} {{ user.prenom }}</p>
         </div>
         <div class="card-body">
             <form method="POST" enctype="multipart/form-data" action="{{ path('app_patient_profile') }}">
@@ -41,7 +51,7 @@
                                 <label class="btn btn-primary btn-sm">
                                     {{ form_widget(form.picture) }}
                                 </label>
-                                {{ form_errors(form.picture) }}
+                               
                             </div>
                         </div>
                     </div>

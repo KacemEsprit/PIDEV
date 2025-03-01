@@ -64,6 +64,7 @@ return [
         '/rendez-vous' => [[['_route' => 'app_rendezvous', '_controller' => 'App\\Controller\\HomeController::index_rendezvous'], null, null, null, false, false, null]],
         '/admin/users/search' => [[['_route' => 'user_search', '_controller' => 'App\\Controller\\ManageUsersController::search'], null, ['GET' => 0], null, false, false, null]],
         '/medecin/dashboardd' => [[['_route' => 'app_medecin_dashboard', '_controller' => 'App\\Controller\\MedecinController::dashboard'], null, null, null, false, false, null]],
+        '/medecin/cycle' => [[['_route' => 'app_medecin_cycle_de_traitement', '_controller' => 'App\\Controller\\MedecinController::cycle'], null, null, null, false, false, null]],
         '/medecin/profile' => [[['_route' => 'app_medecin_profile', '_controller' => 'App\\Controller\\MedecinController::profile'], null, null, null, false, false, null]],
         '/medecin/create' => [[['_route' => 'app_create_rapport', '_controller' => 'App\\Controller\\MedecinController::createRapport'], null, null, null, false, false, null]],
         '/medecin/patients/rapports' => [[['_route' => 'app_medecin_rapports', '_controller' => 'App\\Controller\\MedecinController::showAllRapports'], null, ['GET' => 0], null, false, false, null]],
@@ -195,33 +196,36 @@ return [
                             .'|edit/([^/]++)(*:1136)'
                         .')'
                     .')'
-                    .'|/rapport/(?'
-                        .'|edit/([^/]++)(*:1172)'
-                        .'|delete/([^/]++)(*:1196)'
+                    .'|/(?'
+                        .'|dashboard_patient/(\\d+)(*:1174)'
+                        .'|rapport/(?'
+                            .'|edit/([^/]++)(*:1207)'
+                            .'|delete/([^/]++)(*:1231)'
+                        .')'
                     .')'
                 .')'
                 .'|/don/([^/]++)(?'
-                    .'|(*:1223)'
-                    .'|/edit(*:1237)'
-                    .'|(*:1246)'
+                    .'|(*:1259)'
+                    .'|/edit(*:1273)'
+                    .'|(*:1282)'
                 .')'
                 .'|/p(?'
                     .'|ublication/(?'
                         .'|([^/]++)(?'
-                            .'|(*:1286)'
+                            .'|(*:1322)'
                             .'|/(?'
-                                .'|edit(*:1303)'
+                                .'|edit(*:1339)'
                                 .'|delete(?'
-                                    .'|\\-image(*:1328)'
-                                    .'|(*:1337)'
+                                    .'|\\-image(*:1364)'
+                                    .'|(*:1373)'
                                 .')'
-                                .'|like(*:1351)'
+                                .'|like(*:1387)'
                             .')'
                         .')'
-                        .'|approve/([^/]++)(*:1378)'
-                        .'|reject/([^/]++)(*:1402)'
+                        .'|approve/([^/]++)(*:1414)'
+                        .'|reject/([^/]++)(*:1438)'
                     .')'
-                    .'|atient2/rendezvous/doctor/([^/]++)(*:1446)'
+                    .'|atient2/rendezvous/doctor/([^/]++)(*:1482)'
                 .')'
             .')/?$}sDu',
     ],
@@ -278,19 +282,20 @@ return [
         1083 => [[['_route' => 'app_patient_doctor_availability', '_controller' => 'App\\Controller\\DoctorAvailabilityController::doctorAvailability'], ['doctorId'], ['GET' => 0], null, false, true, null]],
         1114 => [[['_route' => 'app_doctor_report_new', '_controller' => 'App\\Controller\\ReportController::new'], ['id'], null, null, false, true, null]],
         1136 => [[['_route' => 'app_doctor_report_edit', '_controller' => 'App\\Controller\\ReportController::edit'], ['id'], null, null, false, true, null]],
-        1172 => [[['_route' => 'app_medecin_edit_rapport', '_controller' => 'App\\Controller\\MedecinController::editRapport'], ['id'], ['GET' => 0, 'POST' => 1], null, false, true, null]],
-        1196 => [[['_route' => 'app_medecin_delete_rapport', '_controller' => 'App\\Controller\\MedecinController::deleteRapport'], ['id'], ['DELETE' => 0], null, false, true, null]],
-        1223 => [[['_route' => 'app_don_show', '_controller' => 'App\\Controller\\DonController::show'], ['id'], ['GET' => 0], null, false, true, null]],
-        1237 => [[['_route' => 'app_don_edit', '_controller' => 'App\\Controller\\DonController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
-        1246 => [[['_route' => 'app_don_delete', '_controller' => 'App\\Controller\\DonController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
-        1286 => [[['_route' => 'app_publication_show', '_controller' => 'App\\Controller\\PublicationController::show'], ['id'], ['GET' => 0, 'POST' => 1], null, false, true, null]],
-        1303 => [[['_route' => 'app_publication_edit', '_controller' => 'App\\Controller\\PublicationController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
-        1328 => [[['_route' => 'app_publication_delete_image', '_controller' => 'App\\Controller\\PublicationController::deleteImage'], ['id'], ['POST' => 0], null, false, false, null]],
-        1337 => [[['_route' => 'app_publication_delete', '_controller' => 'App\\Controller\\PublicationController::delete'], ['id'], ['POST' => 0], null, false, false, null]],
-        1351 => [[['_route' => 'app_publication_like', '_controller' => 'App\\Controller\\PublicationController::like'], ['id'], ['GET' => 0], null, false, false, null]],
-        1378 => [[['_route' => 'publication_approve', '_controller' => 'App\\Controller\\PublicationController::approve'], ['id'], ['POST' => 0], null, false, true, null]],
-        1402 => [[['_route' => 'publication_reject', '_controller' => 'App\\Controller\\PublicationController::reject'], ['id'], ['POST' => 0], null, false, true, null]],
-        1446 => [
+        1174 => [[['_route' => 'app_patient_statistic', '_controller' => 'App\\Controller\\MedecinController::dashboardPatient'], ['id'], null, null, false, true, null]],
+        1207 => [[['_route' => 'app_medecin_edit_rapport', '_controller' => 'App\\Controller\\MedecinController::editRapport'], ['id'], ['GET' => 0, 'POST' => 1], null, false, true, null]],
+        1231 => [[['_route' => 'app_medecin_delete_rapport', '_controller' => 'App\\Controller\\MedecinController::deleteRapport'], ['id'], ['DELETE' => 0], null, false, true, null]],
+        1259 => [[['_route' => 'app_don_show', '_controller' => 'App\\Controller\\DonController::show'], ['id'], ['GET' => 0], null, false, true, null]],
+        1273 => [[['_route' => 'app_don_edit', '_controller' => 'App\\Controller\\DonController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        1282 => [[['_route' => 'app_don_delete', '_controller' => 'App\\Controller\\DonController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
+        1322 => [[['_route' => 'app_publication_show', '_controller' => 'App\\Controller\\PublicationController::show'], ['id'], ['GET' => 0, 'POST' => 1], null, false, true, null]],
+        1339 => [[['_route' => 'app_publication_edit', '_controller' => 'App\\Controller\\PublicationController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        1364 => [[['_route' => 'app_publication_delete_image', '_controller' => 'App\\Controller\\PublicationController::deleteImage'], ['id'], ['POST' => 0], null, false, false, null]],
+        1373 => [[['_route' => 'app_publication_delete', '_controller' => 'App\\Controller\\PublicationController::delete'], ['id'], ['POST' => 0], null, false, false, null]],
+        1387 => [[['_route' => 'app_publication_like', '_controller' => 'App\\Controller\\PublicationController::like'], ['id'], ['GET' => 0], null, false, false, null]],
+        1414 => [[['_route' => 'publication_approve', '_controller' => 'App\\Controller\\PublicationController::approve'], ['id'], ['POST' => 0], null, false, true, null]],
+        1438 => [[['_route' => 'publication_reject', '_controller' => 'App\\Controller\\PublicationController::reject'], ['id'], ['POST' => 0], null, false, true, null]],
+        1482 => [
             [['_route' => 'app_patient_rendezvous_doctor', '_controller' => 'App\\Controller\\RendezvousController::doctorAvailability'], ['id'], ['GET' => 0], null, false, true, null],
             [null, null, null, null, false, false, 0],
         ],
