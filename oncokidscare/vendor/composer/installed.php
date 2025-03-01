@@ -1313,6 +1313,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'symfony/ux-chartjs' => array(
+            'pretty_version' => 'v2.23.0',
+            'version' => '2.23.0.0',
+            'reference' => 'bbe034301ac2a89855ec79d6d5123156071a50c0',
+            'type' => 'symfony-bundle',
+            'install_path' => __DIR__ . '/../symfony/ux-chartjs',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'symfony/ux-turbo' => array(
             'pretty_version' => 'v2.23.0',
             'version' => '2.23.0.0',
@@ -1366,6 +1375,15 @@
             'install_path' => __DIR__ . '/../symfony/web-profiler-bundle',
             'aliases' => array(),
             'dev_requirement' => true,
+        ),
+        'symfony/webpack-encore-bundle' => array(
+            'pretty_version' => 'v2.2.0',
+            'version' => '2.2.0.0',
+            'reference' => 'e335394b68a775a9b2bd173a8ba4fd2001f3870c',
+            'type' => 'symfony-bundle',
+            'install_path' => __DIR__ . '/../symfony/webpack-encore-bundle',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
         'symfony/yaml' => array(
             'pretty_version' => 'v6.4.18',

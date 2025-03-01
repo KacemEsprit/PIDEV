@@ -38,11 +38,12 @@
                                      id="profile-picture-preview">
                             {% endif %}
                             <div class="mt-2">
-                                <label class="btn btn-primary btn-sm">
-                                    {{ form_widget(form.picture) }}
-                                </label>
-                                {{ form_errors(form.picture) }}
-                            </div>
+    <label class="btn btn-primary btn-sm" for="profile_picture">
+        Change Profile Picture
+    </label>
+    {{ form_widget(form.picture, {'attr': {'style': 'display: none;', 'id': 'profile_picture'}}) }}
+    {{ form_errors(form.picture) }}
+</div>
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-8">

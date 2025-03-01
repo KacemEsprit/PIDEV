@@ -1,4 +1,3 @@
-
 {% extends 'base_admin.html.twig' %}
 
 {% block title %}Manage Users{% endblock %}
@@ -153,88 +152,24 @@
         <div class="col-12">
             <div class="user-management-container">
                 <h6 class="mb-4">User Management</h6>
-
-
-  {#      <!-- Search and Filter Section -->
-<div class="search-filter-container">
-    <!-- Search Input -->
-    <form action="{{ path('user_search') }}" method="GET" class="input-group search-input-group">
-        <div class="input-group-prepend">
-            <span class="input-group-text bg-light border-end-0 d-flex align-items-center">
-                <i class="fas fa-search"></i>
-            </span>
-        </div>
-        <input type="text" name="q" id="searchInput" class="form-control border-start-0" placeholder="Search users..." value="{{ searchTerm|default('') }}">
-        <div class="input-group-append">
-            <button type="button" class="btn btn-light border-start-0 ms-2" onclick="document.getElementById('searchInput').value = '';">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-    </form>
-
-    <!-- Filter Dropdown -->
-    <div class="nav-item dropdown filter-dropdown">
-        <a href="#" class="btn btn-light btn-sm dropdown-toggle" data-bs-toggle="dropdown" id="filterDropdown">
-            <i class="fas fa-filter"></i> Filter by Role
-        </a>
-        <div class="dropdown-menu dropdown-menu-end">
-            <a class="dropdown-item" href="#"><i class="fas fa-users"></i> All Users</a>
-            <a class="dropdown-item" href="#"><i class="fas fa-user-shield"></i> Admins</a>
-            <a class="dropdown-item" href="#"><i class="fas fa-user-md"></i> Medecins</a>
-            <a class="dropdown-item" href="#"><i class="fas fa-user"></i> Patients</a>
-            <a class="dropdown-item" href="#"><i class="fas fa-hand-holding-heart"></i> Donateurs</a>
-        </div>
-    </div>
-</div> #}
-
-
-<!-- Search and Filter Section -->
-<div class="search-filter-container">
-    <!-- Search Input -->
-    <form action="{{ path('user_search') }}" method="GET" class="input-group search-input-group">
-        <div class="input-group-prepend">
-            <span class="input-group-text bg-light border-end-0 d-flex align-items-center">
-                <i class="fas fa-search"></i>
-            </span>
-        </div>
-        <input type="text" name="q" id="searchInput" class="form-control border-start-0" placeholder="Search users..." value="{{ searchTerm }}">
-        {# <div class="input-group-append">
-            <button type="submit" class="btn btn-light border-start-0 ms-2">
-                <i class="fas fa-times"></i>
-            </button>
-        </div> #}
-        <div class="input-group-append">
-    <a href="{{ path('user_search') }}" class="btn btn-light border-start-0 ms-2">
-        <i class="fas fa-times"></i>
-    </a>
-</div>
         
     </form>
 
-    <!-- Filter Dropdown -->
-    <div class="nav-item dropdown filter-dropdown">
-        <a href="#" class="btn btn-light btn-sm dropdown-toggle" data-bs-toggle="dropdown" id="filterDropdown">
-            <i class="fas fa-filter"></i> Filter by Role
-        </a>
-      {#   <div class="dropdown-menu dropdown-menu-end">
-            <a class="dropdown-item" href="{{ path('user_search', {q: searchTerm, role: 'all'}) }}"><i class="fas fa-users"></i> All Users</a>
-            <a class="dropdown-item" href="{{ path('user_search', {q: searchTerm, role: 'Admin'}) }}"><i class="fas fa-user-shield"></i> Admins</a>
-            <a class="dropdown-item" href="{{ path('user_search', {q: searchTerm, role: 'medecin'}) }}"><i class="fas fa-user-md"></i> Medecins</a>
-            <a class="dropdown-item" href="{{ path('user_search', {q: searchTerm, role: 'patient'}) }}"><i class="fas fa-user"></i> Patients</a>
-            <a class="dropdown-item" href="{{ path('user_search', {q: searchTerm, role: 'donateur'}) }}"><i class="fas fa-hand-holding-heart"></i> Donateurs</a>
-        </div> #}
-        <div class="dropdown-menu dropdown-menu-end">
-    <a class="dropdown-item" href="{{ path('user_search', {q: searchTerm, role: 'all'}) }}"><i class="fas fa-users"></i> All Users</a>
-    <a class="dropdown-item" href="{{ path('user_search', {q: searchTerm, role: 'Admin'}) }}"><i class="fas fa-user-shield"></i> Admins</a>
-    <a class="dropdown-item" href="{{ path('user_search', {q: searchTerm, role: 'Medecin'}) }}"><i class="fas fa-user-md"></i> Medecins</a>
-    <a class="dropdown-item" href="{{ path('user_search', {q: searchTerm, role: 'Patient'}) }}"><i class="fas fa-user"></i> Patients</a>
-    <a class="dropdown-item" href="{{ path('user_search', {q: searchTerm, role: 'Donateur'}) }}"><i class="fas fa-hand-holding-heart"></i> Donateurs</a>
-</div>
+<div class="nav-item dropdown filter-dropdown">
+    <a href="#" class="btn btn-light btn-sm dropdown-toggle" data-bs-toggle="dropdown" id="filterDropdown">
+        <i class="fas fa-filter"></i> Filter by Role
+    </a>
+    <div class="dropdown-menu dropdown-menu-end">
+        <a class="dropdown-item" href="{{ path('user_search', {'role': 'all'}) }}"><i class="fas fa-users"></i> All Users</a>
+        <a class="dropdown-item" href="{{ path('user_search', {'role': 'Admin'}) }}"><i class="fas fa-user-shield"></i> Admins</a>
+        <a class="dropdown-item" href="{{ path('user_search', {'role': 'Medecin'}) }}"><i class="fas fa-user-md"></i> Medecins</a>
+        <a class="dropdown-item" href="{{ path('user_search', {'role': 'Patient'}) }}"><i class="fas fa-user"></i> Patients</a>
+        <a class="dropdown-item" href="{{ path('user_search', {'role': 'Donateur'}) }}"><i class="fas fa-hand-holding-heart"></i> Donateurs</a>
     </div>
 </div>
 
                 <!-- Users Table -->
-                <div class="table-responsive">
+                <div class="table-responsive" id="usersTableContainer">
                     <table class="table">
                         <thead>
                             <tr>
@@ -247,7 +182,7 @@
                                 <th scope="col">Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="usersTableBody">
                             {% for user in allUsers %}
                             <tr>
                                 <td>{{ user.id }}</td>

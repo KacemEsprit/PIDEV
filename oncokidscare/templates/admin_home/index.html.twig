@@ -5,6 +5,62 @@
     {{ parent() }}
 {% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script>
+        window.addEventListener('load', function() {
+            try {
+                const ctx = document.getElementById('userDistributionChart');
+                if (!ctx) {
+                    console.error('Canvas element not found');
+                    return;
+                }
+
+                const data = {
+                    labels: ['Admins', 'Médecins', 'Patients', 'Donateurs'],
+                    datasets: [{
+                        data: [
+                            {{ admins|length }},
+                            {{ medecins|length }},
+                            {{ patients|length }},
+                            {{ donateurs|length }}
+                        ],
+                        backgroundColor: [
+                            '#FF6384',
+                            '#36A2EB',
+                            '#FFCE56',
+                            '#4BC0C0'
+                        ]
+                    }]
+                };
+
+                const config = {
+                    type: 'pie',
+                    data: data,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            title: {
+                                display: true,
+                                text: 'User Distribution Overview'
+                            }
+                        }
+                    }
+                };
+
+                new Chart(ctx, config);
+            } catch (error) {
+                console.error('Error creating chart:', error);
+            }
+        });
+    </script>
+{% endblock %}
+
 {% block body %}
     <!-- Sale & Revenue Start -->
     <div class="container-fluid pt-4 px-4">
@@ -50,25 +106,19 @@
     <!-- Sale & Revenue End -->
 
     <!-- Charts Start -->
-   {#  <div class="container-fluid pt-4 px-4">
+    <div class="container-fluid pt-4 px-4">
         <div class="row g-4">
-            <div class="col-sm-12 col-xl-6">
-                <div class="bg-light text-center rounded p-4">
-                    <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h6 class="mb-0">User Statistics</h6>
-                    </div>
-                    <canvas id="worldwide-sales"></canvas>
-                </div>
-            </div>
             <div class="col-sm-12 col-xl-6">
                 <div class="bg-light text-center rounded p-4">
                     <div class="d-flex align-items-center justify-content-between mb-4">
                         <h6 class="mb-0">User Distribution</h6>
                     </div>
-                    <canvas id="salse-revenue"></canvas>
+                    <div style="height: 300px;">
+                        <canvas id="userDistributionChart"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
-    </div> #}
+    </div>
     <!-- Charts End -->
-    {% endblock %}
+{% endblock %}

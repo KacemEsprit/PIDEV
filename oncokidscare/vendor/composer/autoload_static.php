@@ -48,8 +48,10 @@ class ComposerStaticInit405c2c10fdd454e24035942686ccb95e
         ),
         'S' => 
         array (
+            'Symfony\\WebpackEncoreBundle\\' => 28,
             'Symfony\\UX\\Turbo\\' => 17,
             'Symfony\\UX\\StimulusBundle\\' => 26,
+            'Symfony\\UX\\Chartjs\\' => 19,
             'Symfony\\Runtime\\Symfony\\Component\\' => 34,
             'Symfony\\Polyfill\\Php83\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
@@ -209,6 +211,10 @@ class ComposerStaticInit405c2c10fdd454e24035942686ccb95e
         array (
             0 => __DIR__ . '/..' . '/twig/twig/src',
         ),
+        'Symfony\\WebpackEncoreBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/webpack-encore-bundle/src',
+        ),
         'Symfony\\UX\\Turbo\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/ux-turbo/src',
@@ -216,6 +222,10 @@ class ComposerStaticInit405c2c10fdd454e24035942686ccb95e
         'Symfony\\UX\\StimulusBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/stimulus-bundle/src',
+        ),
+        'Symfony\\UX\\Chartjs\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/ux-chartjs/src',
         ),
         'Symfony\\Runtime\\Symfony\\Component\\' => 
         array (
