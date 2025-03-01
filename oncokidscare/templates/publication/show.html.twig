@@ -6,6 +6,7 @@
     {{ parent() }}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
+        
         .category-badge {
     font-size: 0.75rem;
     padding: 0.35em 0.65em;
@@ -107,259 +108,9 @@
             color: #721c24;
             border: 1px solid #f5c6cb;
         }
-    </style>
-{% endblock %}
-{% block javascripts %}
-    {{ parent() }}
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Explicitly target only publication likes
-        document.querySelectorAll('.publication-card .like-publication-btn').forEach(button => {
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                const publicationId = this.dataset.publicationId;
-                const url = `/like/publication/${publicationId}`;
-                
-                fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.liked) {
-                        this.classList.add('liked');
-                        this.innerHTML = `<i class="fas fa-heart"></i> <span class="like-count">${data.likeCount}</span>`;
-                    } else {
-                        this.classList.remove('liked');
-                        this.innerHTML = `<i class="far fa-heart"></i> <span class="like-count">${data.likeCount}</span>`;
-                    }
-                })
-                .catch(error => console.error('Error:', error));
-            });
-        });
-    });
-    </script>
-{% endblock %}
-{% block body %}
-<div class="container" style="max-width: 800px; margin: 2rem auto; padding: 0 1rem;">
-    <div class="publication-card">
-        <div class="publication-header">
-            {% if publication.isAnonymous %}
-                <div class="anonymous-avatar">
-                    <i class="fas fa-user-secret"></i>
-                </div>
-            {% else %}
-                <img src="{{ asset('images/img2.png') }}" class="user-avatar" alt="Avatar">
-            {% endif %}
-            <div class="publication-info">
-                <div class="author-name">
-                    {% if publication.isAnonymous %}
-                        <span class="anonymous-badge">
-                            <i class="fas fa-user-secret"></i> Anonyme
-                        </span>
-                    {% else %}
-                        {{ publication.user.prenom }} {{ publication.user.nom }}
-                         {% if publication.user.role == 'ROLE_MEDECIN' %}
-                                    <span class="badge badge-doctor">
-                                        <i class="fas fa-user-md"></i> DOCTEUR
-                                    </span>
-                                {% endif %}
-
-                    {% endif %}
-                        <span class="badge category-badge badge-{{ publication.category|lower|replace({' ': '-'}) }}">
-                {{ publication.category }}
-            </span>
-                </div> 
-                
-                <span class="publication-date">
-                    <i class="far fa-clock"></i> {{ publication.datePb|date('d/m/Y H:i') }}
-                </span>
-            </div>
- <div class="header-actions">
-        {% if app.user and publication.user %}
-            {% if app.user.id == publication.user.id %}
-                    <div class="publication-actions">
-                        <a href="{{ path('app_publication_edit', {'id': publication.id}) }}" class="btn btn-edit" title="Modifier">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                        <form method="post" action="{{ path('app_publication_delete', {'id': publication.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette publication ?');" style="display: inline-block;">
-                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ publication.id) }}">
-                            <button class="btn btn-delete" title="Supprimer">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </form>
-                    </div>
-                {% endif %}
-            {% endif %}
         
-    </div>
-</div>
-
-        <div class="publication-content">
-            {{ publication.contenu|nl2br }}
-          {% if publication.imageUrls|length > 0 %}
-    <div class="publication-images">
-        {% for imageUrl in publication.imageUrls|slice(0, 3) %}
-            <div class="publication-image">
-                <img src="{{ asset(imageUrl) }}" 
-                     alt="Image de publication" 
-                     class="publication-img"
-                     onclick="openImageModal(this.src)">
-            </div>
-        {% endfor %}
-        
-        {% if publication.imageUrls|length > 3 %}
-            <div class="publication-image more-images" onclick="openImageModal('{{ asset(publication.imageUrls[3]) }}')">
-                <img src="{{ asset(publication.imageUrls[3]) }}" 
-                     alt="Image de publication" 
-                     class="publication-img">
-                <div class="more-overlay">
-                    <span>+{{ publication.imageUrls|length - 3 }}</span>
-                </div>
-            </div>
-        {% endif %}
-    </div>
-
-</br>
-</br>
-    <div class="publication-likes">
-    {% if is_granted('ROLE_USER') %}
-        <button class="like-btn like-publication-btn {{ app.user and publication.isLikedByUser(app.user) ? 'liked' }}"
-                data-publication-id="{{ publication.id }}">
-            <i class="{{ app.user and publication.isLikedByUser(app.user) ? 'fas' : 'far' }} fa-heart"></i>
-            <span class="like-count">{{ publication.getLikeCount() }}</span>
-        </button>
-    {% endif %}
-</div>
-{% endif %}
-        </div>
-    </div>
-
-    <div class="comments-section">
-        <h3 class="comments-title">
-            <i class="far fa-comments"></i> 
-            Commentaires ({{ publication.comments|length }})
-        </h3>
-
-        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            <div class="comment-form">
-                {{ form_start(commentForm) }}
-                    <div class="form-group">
-                        {{ form_widget(commentForm.contenuCom) }}
-                    </div>
-                    <div class="input-group">
-                        <button type="button" class="btn btn-secondary" id="comment-voice-record-btn">
-                            <i class="fas fa-microphone"></i>
-                        </button>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-paper-plane"></i> Commenter
-                        </button>
-                    </div>
-                    {{ form_widget(commentForm.voiceUrl) }}
-                    {{ form_widget(commentForm.type) }}
-                    {{ form_widget(commentForm.duration) }}
-                {{ form_end(commentForm) }}
-
-                <div id="comment-voice-recorder" style="display: none;">
-                    <div class="recording-indicator">
-                        <span class="recording-time">00:00</span>
-                        <div class="recording-wave"></div>
-                    </div>
-                    <button type="button" class="btn btn-danger" id="stop-comment-recording">
-                        <i class="fas fa-stop"></i> Arrêter
-                    </button>
-                </div>
-            </div>
-        {% endif %}
-
-        <div class="comments-list">
-            {% for comment in publication.comments|sort((a, b) => b.createdAt <=> a.createdAt) %}
-                <div class="comment-card">
-                    <div class="comment-header">
-                        <img src="{{ asset('images/img2.png') }}" class="user-avatar" alt="Avatar">
-                        <div class="comment-info">
-                            <div class="author-name">
-                                {{ comment.user.prenom }} {{ comment.user.nom }}
-                                 {% if comment.user.role == 'ROLE_MEDECIN' %}
-                                    <span class="badge badge-doctor">
-                                        <i class="fas fa-user-md"></i> DOCTEUR
-                                    </span>
-                                {% endif %}
-
-                            </div>
-                            <span class="comment-date">
-                                <i class="far fa-clock"></i> {{ comment.createdAt|date('d/m/Y H:i') }}
-                            </span>
-                        </div>
-                        {% if app.user and comment.user %}
-                            {% if app.user.id == comment.user.id %}
-                                <div class="comment-actions">
-                                    <a href="{{ path('app_comment_edit', {'id': comment.id}) }}" class="btn btn-edit" title="Modifier">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <form method="post" action="{{ path('app_comment_delete', {'id': comment.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?');" style="display: inline-block;">
-                                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ comment.id) }}">
-                                        <button class="btn btn-delete" title="Supprimer">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                            {% endif %}
-                        {% endif %}
-                        
-                    </div>
-                    <div class="comment-content">
-                        {% if comment.type == 'voice' %}
-                            <audio controls>
-                                <source src="{{ comment.voiceUrl }}" type="audio/webm">
-                                Votre navigateur ne supporte pas l'audio
-                            </audio>
-                            <span class="duration">{{ comment.duration }} sec</span>
-                        {% else %}
-                            {{ comment.contenuCom|nl2br }}
-                        {% endif %}
-                    </div>
-                </div>
-            {% else %}
-                <div class="no-comments">
-                    <i class="far fa-comment-dots"></i>
-                    <p>Aucun commentaire pour le moment.</p>
-                    <p>Soyez le premier à commenter !</p>
-                </div>
-            {% endfor %}
-        </div>
-    </div>
-
-    <div class="back-link">
-        <a href="{{ path('app_publication_index') }}" class="btn btn-link">
-            <i class="fas fa-arrow-left"></i> Retour aux publications
-        </a>
-    </div>
-</div>
-
-<div id="chatbot-widget" class="chatbot-widget">
-    <div class="chatbot-header">
-        <span class="chatbot-title">Assistant OncoKids</span>
-        <button class="chatbot-toggle">
-            <i class="fas fa-comments"></i>
-        </button>
-    </div>
-    <div class="chatbot-body">
-        <div class="chatbot-messages"></div>
-        <div class="chatbot-input">
-            <input type="text" placeholder="Posez votre question..." />
-            <button type="submit">
-                <i class="fas fa-paper-plane"></i>
-            </button>
-        </div>
-    </div>
-</div>
-
-<style>
-.badge-doctor {
+  
+        .badge-doctor {
     background-color: #4a90e2;
     color: white;
     font-size: 0.75rem;
@@ -917,7 +668,371 @@ pre, code, a {
     margin-left: 5px;
     font-size: 0.9em;
 }
-</style>
+.language-selector {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 1rem; /* Space from other header actions */
+}
+
+.language-dropdown {
+    appearance: none; /* Remove default browser styling */
+    background: #fff;
+    border: 2px solid #95E1D3;
+    border-radius: 8px;
+    padding: 0.5rem 2rem 0.5rem 1rem; /* Extra padding on right for arrow */
+    font-size: 0.875rem;
+    color: #236161;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23236161' width='18px' height='18px'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E"); /* Custom arrow */
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1rem;
+}
+
+.language-dropdown:hover {
+    border-color: #236161;
+    box-shadow: 0 0 0 0.2rem rgba(45, 122, 122, 0.25);
+}
+
+.language-dropdown:focus {
+    outline: none;
+    border-color: #236161;
+    box-shadow: 0 0 0 0.2rem rgba(45, 122, 122, 0.5);
+}
+
+.language-dropdown option {
+    color: #333;
+    background: #fff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .language-selector {
+        margin-left: 0.5rem;
+    }
+    .language-dropdown {
+        padding: 0.4rem 1.5rem 0.4rem 0.75rem;
+        font-size: 0.8rem;
+    }
+}
+.language-selector::before {
+    content: '\f0ac'; /* FontAwesome globe icon */
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    margin-right: 0.5rem;
+    color: #236161;
+}
+    </style>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Explicitly target only publication likes
+        document.querySelectorAll('.publication-card .like-publication-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const publicationId = this.dataset.publicationId;
+                const url = `/like/publication/${publicationId}`;
+                
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.liked) {
+                        this.classList.add('liked');
+                        this.innerHTML = `<i class="fas fa-heart"></i> <span class="like-count">${data.likeCount}</span>`;
+                    } else {
+                        this.classList.remove('liked');
+                        this.innerHTML = `<i class="far fa-heart"></i> <span class="like-count">${data.likeCount}</span>`;
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            });
+        });
+    });
+    // Translation functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const languageSelect = document.getElementById('language-select');
+    
+    async function translateContent() {
+        const publicationContent = document.querySelector('.publication-content');
+        const commentContents = document.querySelectorAll('.comment-content');
+        const contents = [publicationContent, ...commentContents];
+        
+        const texts = contents.map(el => el.textContent.trim());
+        
+        if (texts.length === 0) return;
+
+        try {
+            const response = await fetch('http://127.0.0.1:5000/translate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    texts: texts,
+                    target_language: languageSelect.value
+                })
+            });
+
+            if (!response.ok) throw new Error('Translation API error');
+
+            const data = await response.json();
+            const translatedTexts = data.translated_texts;
+
+            contents.forEach((el, index) => {
+                if (el && translatedTexts[index]) {
+                    el.textContent = translatedTexts[index];
+                }
+            });
+        } catch (error) {
+            console.error('Translation failed:', error);
+        }
+    }
+
+    // Language change listener
+    languageSelect.addEventListener('change', translateContent);
+});
+
+    </script>
+  
+{% endblock %}
+{% block body %}
+<div class="container" style="max-width: 800px; margin: 2rem auto; padding: 0 1rem;">
+    <div class="language-selector">
+                    <select id="language-select" class="language-dropdown">
+                        <option value="en">English</option>
+                        <option value="fr" selected>Français</option>
+                        <option value="es">Español</option>
+                        <option value="de">Deutsch</option>
+                        <option value="ar">العربية</option>
+                        <option value="zh">中文</option>
+                    </select>
+                </div>
+    <div class="publication-card">
+        <div class="publication-header">
+    
+            {% if publication.isAnonymous %}
+                <div class="anonymous-avatar">
+                    <i class="fas fa-user-secret"></i>
+                </div>
+            {% else %}
+                <img src="{{ asset('images/img2.png') }}" class="user-avatar" alt="Avatar">
+            {% endif %}
+            <div class="publication-info">
+                <div class="author-name">
+                    {% if publication.isAnonymous %}
+                        <span class="anonymous-badge">
+                            <i class="fas fa-user-secret"></i> Anonyme
+                        </span>
+                    {% else %}
+                        {{ publication.user.prenom }} {{ publication.user.nom }}
+                         {% if publication.user.role == 'ROLE_MEDECIN' %}
+                                    <span class="badge badge-doctor">
+                                        <i class="fas fa-user-md"></i> DOCTEUR
+                                    </span>
+                                {% endif %}
+
+                    {% endif %}
+                        <span class="badge category-badge badge-{{ publication.category|lower|replace({' ': '-'}) }}">
+                {{ publication.category }}
+            </span>
+                </div> 
+                
+                <span class="publication-date">
+                    <i class="far fa-clock"></i> {{ publication.datePb|date('d/m/Y H:i') }}
+                </span>
+            </div>
+ <div class="header-actions">
+        {% if app.user and publication.user %}
+            {% if app.user.id == publication.user.id %}
+                    <div class="publication-actions">
+                        <a href="{{ path('app_publication_edit', {'id': publication.id}) }}" class="btn btn-edit" title="Modifier">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <form method="post" action="{{ path('app_publication_delete', {'id': publication.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette publication ?');" style="display: inline-block;">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ publication.id) }}">
+                            <button class="btn btn-delete" title="Supprimer">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </form>
+                    </div>
+                {% endif %}
+            {% endif %}
+        
+    </div>
+</div>
+
+        <div class="publication-content">
+            {{ publication.contenu|nl2br }}
+        
+          {% if publication.imageUrls|length > 0 %}
+    <div class="publication-images">
+        {% for imageUrl in publication.imageUrls|slice(0, 3) %}
+            <div class="publication-image">
+                <img src="{{ asset(imageUrl) }}" 
+                     alt="Image de publication" 
+                     class="publication-img"
+                     onclick="openImageModal(this.src)">
+            </div>
+        {% endfor %}
+        
+        {% if publication.imageUrls|length > 3 %}
+            <div class="publication-image more-images" onclick="openImageModal('{{ asset(publication.imageUrls[3]) }}')">
+                <img src="{{ asset(publication.imageUrls[3]) }}" 
+                     alt="Image de publication" 
+                     class="publication-img">
+                <div class="more-overlay">
+                    <span>+{{ publication.imageUrls|length - 3 }}</span>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+</br>
+</br>
+    <div class="publication-likes">
+    {% if is_granted('ROLE_USER') %}
+        <button class="like-btn like-publication-btn {{ app.user and publication.isLikedByUser(app.user) ? 'liked' }}"
+                data-publication-id="{{ publication.id }}">
+            <i class="{{ app.user and publication.isLikedByUser(app.user) ? 'fas' : 'far' }} fa-heart"></i>
+            <span class="like-count">{{ publication.getLikeCount() }}</span>
+        </button>
+    {% endif %}
+</div>
+{% endif %}
+        </div>
+    </div>
+
+    <div class="comments-section">
+        <h3 class="comments-title">
+            <i class="far fa-comments"></i> 
+            Commentaires ({{ publication.comments|length }})
+        </h3>
+
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <div class="comment-form">
+                {{ form_start(commentForm) }}
+                    <div class="form-group">
+                        {{ form_widget(commentForm.contenuCom) }}
+                    </div>
+                    <div class="input-group">
+                        <button type="button" class="btn btn-secondary" id="comment-voice-record-btn">
+                            <i class="fas fa-microphone"></i>
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i> Commenter
+                        </button>
+                    </div>
+                    {{ form_widget(commentForm.voiceUrl) }}
+                    {{ form_widget(commentForm.type) }}
+                    {{ form_widget(commentForm.duration) }}
+                {{ form_end(commentForm) }}
+
+                <div id="comment-voice-recorder" style="display: none;">
+                    <div class="recording-indicator">
+                        <span class="recording-time">00:00</span>
+                        <div class="recording-wave"></div>
+                    </div>
+                    <button type="button" class="btn btn-danger" id="stop-comment-recording">
+                        <i class="fas fa-stop"></i> Arrêter
+                    </button>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="comments-list">
+            {% for comment in publication.comments|sort((a, b) => b.createdAt <=> a.createdAt) %}
+                <div class="comment-card">
+                    <div class="comment-header">
+                        <img src="{{ asset('images/img2.png') }}" class="user-avatar" alt="Avatar">
+                        <div class="comment-info">
+                            <div class="author-name">
+                                {{ comment.user.prenom }} {{ comment.user.nom }}
+                                 {% if comment.user.role == 'ROLE_MEDECIN' %}
+                                    <span class="badge badge-doctor">
+                                        <i class="fas fa-user-md"></i> DOCTEUR
+                                    </span>
+                                {% endif %}
+
+                            </div>
+                            <span class="comment-date">
+                                <i class="far fa-clock"></i> {{ comment.createdAt|date('d/m/Y H:i') }}
+                            </span>
+                        </div>
+                        {% if app.user and comment.user %}
+                            {% if app.user.id == comment.user.id %}
+                                <div class="comment-actions">
+                                    <a href="{{ path('app_comment_edit', {'id': comment.id}) }}" class="btn btn-edit" title="Modifier">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <form method="post" action="{{ path('app_comment_delete', {'id': comment.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?');" style="display: inline-block;">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ comment.id) }}">
+                                        <button class="btn btn-delete" title="Supprimer">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                        
+                    </div>
+                    <div class="comment-content">
+                        {% if comment.type == 'voice' %}
+                            <audio controls>
+                                <source src="{{ comment.voiceUrl }}" type="audio/webm">
+                                Votre navigateur ne supporte pas l'audio
+                            </audio>
+                            <span class="duration">{{ comment.duration }} sec</span>
+                        {% else %}
+                            {{ comment.contenuCom|nl2br }}
+                        {% endif %}
+                    </div>
+                </div>
+            {% else %}
+                <div class="no-comments">
+                    <i class="far fa-comment-dots"></i>
+                    <p>Aucun commentaire pour le moment.</p>
+                    <p>Soyez le premier à commenter !</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="back-link">
+        <a href="{{ path('app_publication_index') }}" class="btn btn-link">
+            <i class="fas fa-arrow-left"></i> Retour aux publications
+        </a>
+    </div>
+</div>
+
+<div id="chatbot-widget" class="chatbot-widget">
+    <div class="chatbot-header">
+        <span class="chatbot-title">Assistant OncoKids</span>
+        <button class="chatbot-toggle">
+            <i class="fas fa-comments"></i>
+        </button>
+    </div>
+    <div class="chatbot-body">
+        <div class="chatbot-messages"></div>
+        <div class="chatbot-input">
+            <input type="text" placeholder="Posez votre question..." />
+            <button type="submit">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
 <script>
 let currentImageIndex = 0;
 let images = [];

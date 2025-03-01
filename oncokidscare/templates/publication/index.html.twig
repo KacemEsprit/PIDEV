@@ -49,7 +49,7 @@
 </div>
 
 <div class="container" style="max-width: 800px; margin: 2rem auto; padding: 0 1rem;">
-
+  
     {% for message in app.flashes('info') %}
         <div class="toast-message">
             {{ message }}
@@ -133,7 +133,16 @@
             </a>
         {% endfor %}
     </div>    </div>
-
+  <div class="language-selector">
+                    <select id="language-select" class="language-dropdown">
+                        <option value="en">English</option>
+                        <option value="fr" selected>Français</option>
+                        <option value="es">Español</option>
+                        <option value="de">Deutsch</option>
+                        <option value="ar">العربية</option>
+                        <option value="zh">中文</option>
+                    </select>
+                </div>
 
     <div class="publications-list">
         {% for publication in publications %}
@@ -313,6 +322,63 @@
     </div>
 </div>
 <style>
+    .language-selector {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 1rem; /* Space from other header actions */
+}
+
+.language-dropdown {
+    appearance: none; /* Remove default browser styling */
+    background: #fff;
+    border: 2px solid #95E1D3;
+    border-radius: 8px;
+    padding: 0.5rem 2rem 0.5rem 1rem; /* Extra padding on right for arrow */
+    font-size: 0.875rem;
+    color: #236161;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23236161' width='18px' height='18px'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E"); /* Custom arrow */
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1rem;
+}
+
+.language-dropdown:hover {
+    border-color: #236161;
+    box-shadow: 0 0 0 0.2rem rgba(45, 122, 122, 0.25);
+}
+
+.language-dropdown:focus {
+    outline: none;
+    border-color: #236161;
+    box-shadow: 0 0 0 0.2rem rgba(45, 122, 122, 0.5);
+}
+
+.language-dropdown option {
+    color: #333;
+    background: #fff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .language-selector {
+        margin-left: 0.5rem;
+    }
+    .language-dropdown {
+        padding: 0.4rem 1.5rem 0.4rem 0.75rem;
+        font-size: 0.8rem;
+    }
+}
+.language-selector::before {
+    content: '\f0ac'; /* FontAwesome globe icon */
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    margin-right: 0.5rem;
+    color: #236161;
+}
     .category-filters .btn-outline-secondary {
     border-color: transparent !important;
     box-shadow: none !important;
@@ -1190,6 +1256,91 @@ display: grid;
 }
 </style>
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Explicitly target only publication likes
+        document.querySelectorAll('.publication-card .like-publication-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const publicationId = this.dataset.publicationId;
+                const url = `/like/publication/${publicationId}`;
+                
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.liked) {
+                        this.classList.add('liked');
+                        this.innerHTML = `<i class="fas fa-heart"></i> <span class="like-count">${data.likeCount}</span>`;
+                    } else {
+                        this.classList.remove('liked');
+                        this.innerHTML = `<i class="far fa-heart"></i> <span class="like-count">${data.likeCount}</span>`;
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            });
+        });
+    });
+    // Translation functionality
+// Translation functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const languageSelect = document.getElementById('language-select');
+    
+    async function translateContent() {
+        // Select all publication contents (not just one)
+        const publicationContents = document.querySelectorAll('.publication-content');
+        
+        // If no publications found, return
+        if (publicationContents.length === 0) return;
+
+        // Collect all texts to translate
+        const texts = Array.from(publicationContents).map(content => {
+            // Get only the text content, excluding images and other elements
+            const textNode = content.childNodes[0];
+            return textNode && textNode.nodeType === Node.TEXT_NODE ? textNode.textContent.trim() : '';
+        }).filter(text => text.length > 0); // Filter out empty texts
+
+        if (texts.length === 0) return;
+
+        try {
+            const response = await fetch('http://127.0.0.1:5000/translate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    texts: texts,
+                    target_language: languageSelect.value
+                })
+            });
+
+            if (!response.ok) throw new Error('Translation API error');
+
+            const data = await response.json();
+            const translatedTexts = data.translated_texts;
+
+            // Update each publication content with translated text
+            publicationContents.forEach((content, index) => {
+                if (translatedTexts[index]) {
+                    // Replace only the text content, preserving other elements like images
+                    const textNode = content.childNodes[0];
+                    if (textNode && textNode.nodeType === Node.TEXT_NODE) {
+                        textNode.textContent = translatedTexts[index];
+                    }
+                }
+            });
+        } catch (error) {
+            console.error('Translation failed:', error);
+        }
+    }
+
+    // Language change listener
+    languageSelect.addEventListener('change', translateContent);
+});
 
 // Chatbot JavaScript
 document.addEventListener('DOMContentLoaded', function() {
@@ -1449,6 +1600,7 @@ function closeModal(modal) {
     document.body.removeChild(modal);
     document.body.style.overflow = 'auto';
 }
+
 </script>
 {% block stylesheets %}
 {{ parent() }}
