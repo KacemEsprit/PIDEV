@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rapports Médicaux{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/themes/material_blue.css">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/l10n/fr.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+{% endblock %}
+
+{% block body %}
+<style>
+    /* Ajoute ici ton CSS pour le style de la page */
+    /* Code CSS que tu as déjà inclus... */
+    .avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+</style>
+
+<div class="container-fluid page-header py-5 mb-5">
+    <div class="container py-5">
+        <h1 class="display-3 text-white mb-3">Cycle de traitement
+            <i class="fas fa-circle-notch loading"></i>
+        </h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb text-uppercase mb-0">
+                <li class="breadcrumb-item"><a class="text-white" href="{{ path('app_home') }}">Accueil</a></li>
+                <li class="breadcrumb-item text-primary active">Cycle de traitement</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="container py-4">
+        <h1 class="mb-4">Liste des Patients</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Prénom</th>
+                    <th scope="col">Avatar</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for patient in patients %}
+                <tr>
+                    <td>{{ patient.id }}</td>
+                    <td>{{ patient.nom }}</td>
+                    <td>{{ patient.prenom }}</td>
+                    <td><img width="50" height="50" src="{{ asset('uploads/user_pictures/' ~ patient.picture) }}" alt="Photo du patient" class="avatar"></td>
+                    <td><a href="{{ path('app_patient_statistic', {'id': patient.id}) }}" class="btn btn-primary">View Statistic</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

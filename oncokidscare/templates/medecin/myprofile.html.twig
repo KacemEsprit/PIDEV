@@ -1,8 +1,17 @@
-{% extends 'base_medecin.html.twig' %}
+{% extends 'base.html.twig' %}
 
-{% block title %}Mon Profil{% endblock %}
+{% block title %}My Profile{% endblock %}
 
 {% block body %}
+
+  <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container py-5 text-center">
+            <h1 class="display-4 text-white mb-3 animated slideInDown">
+                <i class="fas fa-user-md me-2"></i> My profile 
+            </h1>
+        </div>
+    </div>
+
 <div class="container mt-5">
     {% for message in app.flashes('success') %}
         <div class="alert alert-success">
@@ -15,9 +24,9 @@
         </div>
     {% endfor %}
     
-    <div class="card shadow mb-3">
+        <div class="card shadow mb-3">
         <div class="card-header py-3">
-            <p class="text-primary m-0 fw-bold">Profile </p>
+            <p class="text-primary text-center m-15  fw-bold" >Welcome {{ user.nom }} {{ user.prenom }}</p>
         </div>
         <div class="card-body">
             <form method="POST" enctype="multipart/form-data" action="{{ path('app_medecin_profile') }}">
@@ -37,10 +46,11 @@
                                      style="width: 150px; height: 150px; object-fit: cover;"
                                      id="profile-picture-preview">
                             {% endif %}
-                            <div class="mt-2">
+                           <div class="mt-2">
                                 <label class="btn btn-primary btn-sm">
-                                    Changer l'Image
-                                    {{ form_widget(form.picture) }}
+                                Changer Image
+                                 {{ form_widget(form.picture) }}
+
                                 </label>
                                 {{ form_errors(form.picture) }}
                             </div>
@@ -89,10 +99,6 @@
                             {{ form_widget(form.password) }}
                             {{ form_errors(form.password) }}
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label"><strong>Role</strong></label>
-                            <input class="form-control" type="text" value="{{ user.role|replace({'ROLE_': ''}) }}" readonly>
-                        </div>
                     </div>
                     <div class="col-12">
                         <button class="btn btn-primary" type="submit">Save Settings</button>
@@ -108,26 +114,15 @@
 function previewImage(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
-        
         reader.onload = function(e) {
             document.getElementById('profile-picture-preview').src = e.target.result;
         }
-        
         reader.readAsDataURL(input.files[0]);
     }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.querySelector('form');
-    const password = document.getElementById('password');
-    const passwordConfirm = document.getElementById('password_confirm');
-
-    form.addEventListener('submit', function(e) {
-        if (password.value !== passwordConfirm.value) {
-            e.preventDefault();
-            alert('Passwords do not match!');
-        }
-    });
+document.querySelector('input[type="file"]').addEventListener('change', function() {
+    previewImage(this);
 });
 </script>
 {% endblock %}

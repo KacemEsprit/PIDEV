@@ -20,6 +20,8 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Form\ProfileFormType;
 use App\Repository\ChatGroupRepository;
 use App\Repository\CommentRepository;
+use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
+use Symfony\UX\Chartjs\Model\Chart;
 
 
 
@@ -28,24 +30,68 @@ use App\Repository\CommentRepository;
 class AdminController extends AbstractController
 {
     #[Route('/admin_dashboard', name: 'app_admin_index')]
-    public function index(UserRepository $userRepository): Response
-    {
+    public function index(
+        UserRepository $userRepository,
+        ChartBuilderInterface $chartBuilder
+    ): Response {
         /** @var User $currentUser */
         $currentUser = $this->getUser();
-
+    
+        // Get user counts by role
         $admins = $userRepository->findBy(['role' => User::ROLE_ADMIN]);
         $medecins = $userRepository->findBy(['role' => User::ROLE_MEDECIN]);
         $patients = $userRepository->findBy(['role' => User::ROLE_PATIENT]);
         $donateurs = $userRepository->findBy(['role' => User::ROLE_DONATEUR]);
-
+    
+        // Create user distribution chart
+        $userDistributionChart = $chartBuilder->createChart(Chart::TYPE_PIE);
+        $userDistributionChart->setData([
+            'labels' => ['Admins', 'Médecins', 'Patients', 'Donateurs'],
+            'datasets' => [
+                [
+                    'label' => 'User Distribution',
+                    'data' => [
+                        count($admins),
+                        count($medecins),
+                        count($patients),
+                        count($donateurs)
+                    ],
+                    'backgroundColor' => [
+                        '#FF6384', // Red
+                        '#36A2EB', // Blue
+                        '#FFCE56', // Yellow
+                        '#4BC0C0'  // Teal
+                    ],
+                    'hoverOffset' => 4
+                ],
+            ],
+        ]);
+    
+        $userDistributionChart->setOptions([
+            'responsive' => true,
+            'plugins' => [
+                'legend' => [
+                    'position' => 'top',
+                ],
+                'title' => [
+                    'display' => true,
+                    'text' => 'User Distribution Overview'
+                ]
+            ]
+        ]);
+    
         return $this->render('admin_home/index.html.twig', [
             'user' => $currentUser,
             'admins' => $admins,
             'medecins' => $medecins,
             'patients' => $patients,
             'donateurs' => $donateurs,
+            'user_distribution_chart' => $userDistributionChart
         ]);
     }
+
+    
+
     #[Route('/users', name: 'app_admin_users')]
     public function indexx(UserRepository $userRepository): Response
     {
@@ -129,6 +175,8 @@ class AdminController extends AbstractController
             'controller_name' => 'AdminHomeController',
         ]);
     }
+
+
 
 
 

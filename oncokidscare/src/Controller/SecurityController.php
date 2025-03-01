@@ -31,7 +31,7 @@ class SecurityController extends AbstractController
             // Regular role-based redirect
             return match ($user->getRole()) {
                 User::ROLE_ADMIN => $this->redirectToRoute('app_admin_index'),
-                User::ROLE_MEDECIN => $this->redirectToRoute('app_medecin_dashboard'),
+                User::ROLE_MEDECIN => $this->redirectToRoute('app_medecin_profile'),
                 User::ROLE_PATIENT => $this->redirectToRoute('app_patient_dashboard'),
                 User::ROLE_DONATEUR => $this->redirectToRoute('app_donateur_dashboard'),
                 default => $this->redirectToRoute('app_home'),
