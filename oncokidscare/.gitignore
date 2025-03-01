@@ -3,3 +3,10 @@ oncokidscare/var/log/
 var/cache/
 var/log/
 "var/log/" 
+
+###> symfony/webpack-encore-bundle ###
+/node_modules/
+/public/build/
+npm-debug.log
+yarn-error.log
+###< symfony/webpack-encore-bundle ###
