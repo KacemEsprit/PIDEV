@@ -15,10 +15,18 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-
+use Symfony\Component\Mercure\HubInterface;
+use Symfony\Component\Mercure\Update;
 #[Route('/groups')]
 class ChatGroupController extends AbstractController
 {
+    private HubInterface $hub;
+    
+    public function __construct(HubInterface $hub)
+{
+    $this->hub = $hub;
+}
+    
     #[Route('/', name: 'app_chat_group_index', methods: ['GET'])]
     public function index(ChatGroupRepository $chatGroupRepository): Response
     {
@@ -62,7 +70,8 @@ class ChatGroupController extends AbstractController
         Request $request,
         ChatGroup $group,
         EntityManagerInterface $em,
-        GroupMessageRepository $messageRepository
+        GroupMessageRepository $messageRepository,
+        HubInterface $hub
     ): Response {
         // Vérifier l'accès au groupe
         if (!$group->isPublic() && !$group->getMembers()->contains($this->getUser())) {
@@ -85,8 +94,24 @@ class ChatGroupController extends AbstractController
                 $em->persist($message);
                 $em->flush();
 
-                return $this->redirectToRoute('app_chat_group_show', ['id' => $group->getId()]);
-            }
+             $update = new Update(
+                "/groups/{$group->getId()}/messages",
+                json_encode([
+                    'id' => $message->getId(),
+                    'content' => $message->getContent(),
+                    'sender' => [
+                        'id' => $message->getSender()->getId(),
+                        'name' => $message->getSender()->getPrenom() . ' ' . $message->getSender()->getNom(),
+                    ],
+                    'sentAt' => $message->getSentAt()->format('Y-m-d H:i:s'),
+                    'type' => $message->getType(),
+                ])
+            );
+  
+                $hub->publish($update);
+          
+            return $this->redirectToRoute('app_chat_group_show', ['id' => $group->getId()]);
+        }
         }
 
         // Récupérer les messages

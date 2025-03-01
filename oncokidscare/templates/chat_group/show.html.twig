@@ -658,6 +658,34 @@ document.addEventListener('click', function(e) {
         });
     }
 });
+document.addEventListener('DOMContentLoaded', function() {
+    const messagesContainer = document.getElementById('messages-container');
+    const eventSource = new EventSource(`http://localhost:3000/.well-known/mercure?topic=/groups/${groupId}/messages`);
+    
+    eventSource.onmessage = function(event) {
+        const message = JSON.parse(event.data);
+        addMessageToChat(message);
+    };
 
+    function addMessageToChat(message) {
+        const wrapper = document.createElement('div');
+        wrapper.className = `message-wrapper ${message.sender.id === {{ app.user.id }} ? 'message-sent' : 'message-received'}`;
+        let contentHtml = message.type === 'voice' ? 
+            `<audio controls><source src="${message.voiceUrl}" type="audio/webm"></audio><span class="duration">${message.duration} sec</span>` :
+            `<div class="message-content">${message.content.replace(/\n/g, '<br>')}</div>`;
+        
+        wrapper.innerHTML = `
+            <div class="message">
+                <div class="message-header">
+                    <div class="sender-info">${message.sender.id === {{ app.user.id }} ? '<small>Vous</small>' : `<strong>${message.sender.name}</strong>`}</div>
+                    <small class="message-time">${new Date(message.sentAt).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}</small>
+                </div>
+                <div class="message-bubble">${contentHtml}</div>
+            </div>
+        `;
+        messagesContainer.appendChild(wrapper);
+        wrapper.scrollIntoView({ behavior: 'smooth' });
+    }
+});
 </script>
 {% endblock %}
