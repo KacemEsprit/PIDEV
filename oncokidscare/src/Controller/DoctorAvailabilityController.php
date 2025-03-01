@@ -47,29 +47,19 @@ class DoctorAvailabilityController extends AbstractController
         $hours = range(9, 21);
         $debug['hours'] = $hours;
 
-        // Get the next 10 weekdays
+        // Get the next 10 weekdays starting from today going forward
         $dates = [];
-        
-        // Add the first Friday (14th)
-        $firstFriday = new \DateTime('2025-02-14', new \DateTimeZone('Europe/Paris'));
-        $dates[] = clone $firstFriday;
-        
-        // Add Monday 17th through Thursday 20th
-        $date = new \DateTime('2025-02-17', new \DateTimeZone('Europe/Paris'));
-        for ($i = 0; $i < 4; $i++) {
-            $dates[] = clone $date;
-            $date->modify('+1 day');
-        }
-        
-        // Add the second Friday (21st)
-        $secondFriday = new \DateTime('2025-02-21', new \DateTimeZone('Europe/Paris'));
-        $dates[] = clone $secondFriday;
-        
-        // Add the remaining days (24th through 27th)
-        $date = new \DateTime('2025-02-24', new \DateTimeZone('Europe/Paris'));
-        for ($i = 0; $i < 4; $i++) {
-            $dates[] = clone $date;
-            $date->modify('+1 day');
+        $currentDate = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
+        $currentDate->setTime(0, 0);
+        $today = clone $currentDate;
+
+        while (count($dates) < 10) {
+            $dayOfWeek = (int)$currentDate->format('N');
+            // Only include dates that are today or in the future, and are weekdays
+            if ($dayOfWeek >= 1 && $dayOfWeek <= 5 && $currentDate >= $today) {
+                $dates[] = clone $currentDate;
+            }
+            $currentDate->modify('+1 day'); // Always move forward
         }
 
         // Sort dates to ensure they're in chronological order
@@ -242,29 +232,19 @@ class DoctorAvailabilityController extends AbstractController
         // Get hours from 9 AM to 9 PM
         $hours = range(9, 21);
 
-        // Get the next 10 weekdays
+        // Get the next 10 weekdays starting from today going forward
         $dates = [];
-        
-        // Add the first Friday (14th)
-        $firstFriday = new \DateTime('2025-02-14', new \DateTimeZone('Europe/Paris'));
-        $dates[] = clone $firstFriday;
-        
-        // Add Monday 17th through Thursday 20th
-        $date = new \DateTime('2025-02-17', new \DateTimeZone('Europe/Paris'));
-        for ($i = 0; $i < 4; $i++) {
-            $dates[] = clone $date;
-            $date->modify('+1 day');
-        }
-        
-        // Add the second Friday (21st)
-        $secondFriday = new \DateTime('2025-02-21', new \DateTimeZone('Europe/Paris'));
-        $dates[] = clone $secondFriday;
-        
-        // Add the remaining days (24th through 27th)
-        $date = new \DateTime('2025-02-24', new \DateTimeZone('Europe/Paris'));
-        for ($i = 0; $i < 4; $i++) {
-            $dates[] = clone $date;
-            $date->modify('+1 day');
+        $currentDate = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
+        $currentDate->setTime(0, 0);
+        $today = clone $currentDate;
+
+        while (count($dates) < 10) {
+            $dayOfWeek = (int)$currentDate->format('N');
+            // Only include dates that are today or in the future, and are weekdays
+            if ($dayOfWeek >= 1 && $dayOfWeek <= 5 && $currentDate >= $today) {
+                $dates[] = clone $currentDate;
+            }
+            $currentDate->modify('+1 day'); // Always move forward
         }
 
         // Sort dates to ensure they're in chronological order

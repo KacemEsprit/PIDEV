@@ -53,6 +53,7 @@ class RendezvousController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
         
+        
         if (!$user || !$user->isPatient()) {
             return $this->redirectToRoute('app_login');
         }
@@ -64,25 +65,26 @@ class RendezvousController extends AbstractController
         // Get hours from 9 AM to 9 PM
         $hours = range(9, 21);
 
-        // Get the next 10 weekdays (2 weeks)
+        // Get the next 10 weekdays starting from today going forward
         $dates = [];
         $date = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
         $date->setTime(0, 0);
 
-        // If current day is weekend, move to next Monday
-        $currentDayOfWeek = (int)$date->format('N');
-        if ($currentDayOfWeek >= 6) { // 6 = Saturday, 7 = Sunday
-            $daysUntilMonday = 8 - $currentDayOfWeek; // 2 for Saturday, 1 for Sunday
-            $date->modify("+{$daysUntilMonday} days");
-        }
+        // Start from today
+        $currentDate = clone $date;
 
         while (count($dates) < 10) {
-            $dayOfWeek = (int)$date->format('N');
+            $dayOfWeek = (int)$currentDate->format('N');
             if ($dayOfWeek >= 1 && $dayOfWeek <= 5) { // 1 (Monday) through 5 (Friday)
-                $dates[] = clone $date;
+                $dates[] = clone $currentDate;
             }
-            $date->modify('+1 day');
+            $currentDate->modify('+1 day'); // Always move forward
         }
+
+        // Sort dates in ascending order
+        usort($dates, function($a, $b) {
+            return $a->getTimestamp() - $b->getTimestamp();
+        });
 
         // Get doctor's availabilities
         $availabilities = $entityManager->getRepository(DoctorAvailability::class)
