@@ -30,7 +30,7 @@ class MedecinController extends AbstractController
         $this->addFlash('success', 'Bienvenue sur votre dashboard, médecin !');
         
        /*  return $this->render('home/index.html.twig', */
-        return $this->render('medecin/dashboard.html.twig',
+        return $this->render('medecin2/dashboard.html.twig',
         [
             'user' => $user,
         ]);

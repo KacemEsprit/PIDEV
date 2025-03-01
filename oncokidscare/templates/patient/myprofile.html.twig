@@ -1,10 +1,25 @@
-{# {% extends 'base.html.twig' %}
+{# 
+ 
+ 
+ 
+ {% extends 'base.html.twig' %}
 
 {% block title %}My Profile{% endblock %}
 
 {% block body %}
-<div class="container mt-5">
-    {% for message in app.flashes('success') %}
+
+ 
+        <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container py-5 text-center">
+            <h1 class="display-4 text-white mb-3 animated slideInDown">
+                <i class="fas fa-user-md me-2"></i> My profile 
+            </h1>
+        </div>
+    </div>
+
+    <!-- Contenu du Rapport -->
+    <div class="container py-5">
+       {% for message in app.flashes('success') %}
         <div class="alert alert-success">
             {{ message }}
         </div>
@@ -14,10 +29,9 @@
             {{ message }}
         </div>
     {% endfor %}
-    
     <div class="card shadow mb-3">
         <div class="card-header py-3">
-            <p class="text-primary m-0 fw-bold">Patient Profile Settings</p>
+            <p class="text-primary text-center m-15  fw-bold" >Welcome {{ user.nom }} {{ user.prenom }}</p>
         </div>
         <div class="card-body">
             <form method="POST" enctype="multipart/form-data" action="{{ path('app_patient_profile') }}">
@@ -37,9 +51,12 @@
                                      style="width: 150px; height: 150px; object-fit: cover;"
                                      id="profile-picture-preview">
                             {% endif %}
+         
                             <div class="mt-2">
                                 <label class="btn btn-primary btn-sm">
-                                    {{ form_widget(form.picture) }}
+                                Changer Image
+                                 {{ form_widget(form.picture) }}
+
                                 </label>
                                 {{ form_errors(form.picture) }}
                             </div>
@@ -114,17 +131,15 @@ document.querySelector('input[type="file"]').addEventListener('change', function
     previewImage(this);
 });
 </script>
-{% endblock %}
- #}
+{% endblock %} #}
 
- {% extends 'base.html.twig' %}
+{% extends 'base.html.twig' %}
 
-{% block title %}My Profile{% endblock %}
+{% block title %}Mon Profil{% endblock %}
 
 {% block body %}
 
- 
-        <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+  <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container py-5 text-center">
             <h1 class="display-4 text-white mb-3 animated slideInDown">
                 <i class="fas fa-user-md me-2"></i> My profile 
@@ -132,9 +147,8 @@ document.querySelector('input[type="file"]').addEventListener('change', function
         </div>
     </div>
 
-    <!-- Contenu du Rapport -->
-    <div class="container py-5">
-       {% for message in app.flashes('success') %}
+<div class="container mt-5">
+    {% for message in app.flashes('success') %}
         <div class="alert alert-success">
             {{ message }}
         </div>
@@ -144,9 +158,10 @@ document.querySelector('input[type="file"]').addEventListener('change', function
             {{ message }}
         </div>
     {% endfor %}
+    
     <div class="card shadow mb-3">
         <div class="card-header py-3">
-            <p class="text-primary text-center m-15  fw-bold" >Welcome {{ user.nom }} {{ user.prenom }}</p>
+            <p class="text-primary m-0 fw-bold">Profile </p>
         </div>
         <div class="card-body">
             <form method="POST" enctype="multipart/form-data" action="{{ path('app_patient_profile') }}">
@@ -166,19 +181,14 @@ document.querySelector('input[type="file"]').addEventListener('change', function
                                      style="width: 150px; height: 150px; object-fit: cover;"
                                      id="profile-picture-preview">
                             {% endif %}
-                                         <div class="mt-2">
-    <label class="btn btn-primary btn-sm" for="profile_picture">
-        Change Profile Picture
-    </label>
-    {{ form_widget(form.picture, {'attr': {'style': 'display: none;', 'id': 'profile_picture'}}) }}
-    {{ form_errors(form.picture) }}
-</div>
-                            {# <div class="mt-2">
+                           <div class="mt-2">
                                 <label class="btn btn-primary btn-sm">
-                                    {{ form_widget(form.picture) }}
+                                Changer Image
+                                 {{ form_widget(form.picture) }}
+
                                 </label>
-                               
-                            </div> #}
+                                {{ form_errors(form.picture) }}
+                            </div>
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-8">
@@ -224,6 +234,10 @@ document.querySelector('input[type="file"]').addEventListener('change', function
                             {{ form_widget(form.password) }}
                             {{ form_errors(form.password) }}
                         </div>
+                        <div class="mb-3">
+                            <label class="form-label"><strong>Role</strong></label>
+                            <input class="form-control" type="text" value="{{ user.role|replace({'ROLE_': ''}) }}" readonly>
+                        </div>
                     </div>
                     <div class="col-12">
                         <button class="btn btn-primary" type="submit">Save Settings</button>
@@ -239,15 +253,26 @@ document.querySelector('input[type="file"]').addEventListener('change', function
 function previewImage(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
+        
         reader.onload = function(e) {
             document.getElementById('profile-picture-preview').src = e.target.result;
         }
+        
         reader.readAsDataURL(input.files[0]);
     }
 }
 
-document.querySelector('input[type="file"]').addEventListener('change', function() {
-    previewImage(this);
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form');
+    const password = document.getElementById('password');
+    const passwordConfirm = document.getElementById('password_confirm');
+
+    form.addEventListener('submit', function(e) {
+        if (password.value !== passwordConfirm.value) {
+            e.preventDefault();
+            alert('Passwords do not match!');
+        }
+    });
 });
 </script>
 {% endblock %}

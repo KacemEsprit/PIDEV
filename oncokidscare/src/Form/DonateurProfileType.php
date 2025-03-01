@@ -23,21 +23,29 @@ class DonateurProfileType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('picture', FileType::class, [
-                'label' => 'Photo de profil',
-                'mapped' => false,
-                'required' => false,
-                'constraints' => [
-                    new File([
-                        'maxSize' => '1024k',
-                        'mimeTypes' => [
-                            'image/jpeg',
-                            'image/png',
-                        ],
-                        'mimeTypesMessage' => 'Veuillez télécharger une image valide (JPEG ou PNG)',
-                    ])
-                ],
-            ])
+        ->add('picture', FileType::class, [
+            'label' => 'Profile Picture',
+            'required' => false,
+            'mapped' => false,
+            'attr' => [
+                'class' => 'd-none',
+                'accept' => 'image/*',
+                'onchange' => 'previewImage(this)',
+                'id' => 'profile-picture-input'
+            ],
+            'constraints' => [
+                new File([
+                    'maxSize' => '2M',
+                    'mimeTypes' => [
+                        'image/jpeg',
+                        'image/png',
+                        'image/gif',
+                    ],
+                    'mimeTypesMessage' => 'Please upload a valid image (JPEG, PNG, GIF)',
+                    'maxSizeMessage' => 'The file is too large ({{ size }} {{ suffix }}). Maximum size is {{ limit }} {{ suffix }}.',
+                ]),
+            ],
+        ])
             ->add('prenom', TextType::class, [
                 'label' => 'Prénom',
                 'attr' => ['class' => 'form-control'],
