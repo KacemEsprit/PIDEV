@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-
 use Flasher\Prime\FlasherInterface;
 
 use App\Form\MedecinProfileType;
@@ -139,7 +138,7 @@ class MedecinController extends AbstractController
 
   
    #[Route('/create', name: 'app_create_rapport')]
-public function createRapport(Request $request, EntityManagerInterface $entityManager): Response
+public function createRapport(Request $request, EntityManagerInterface $entityManager, FlasherInterface $flasher): Response
 {
     $rapport = new RapportDetat();
     $form = $this->createForm(RapportDetatType::class, $rapport);
@@ -149,14 +148,14 @@ public function createRapport(Request $request, EntityManagerInterface $entityMa
         if ($form->isValid()) {
             try {
                 $rapport->setMedecin($this->getUser());
-
+              
                 if (!$rapport->getDateRapport()) {
                     $rapport->setDateRapport(new \DateTime());
                 }
 
                 $entityManager->persist($rapport);
                 $entityManager->flush();
-
+                $flasher->success('Rapport ajouté avec succès.');
                 // Rediriger vers la liste des rapports après succès
                 return $this->redirectToRoute('app_medecin_rapports');
 
@@ -262,10 +261,11 @@ public function createRapport(Request $request, EntityManagerInterface $entityMa
     }
 
     #[Route('/rapport/delete/{id}', name: 'app_medecin_delete_rapport', methods: ['DELETE'])]
-    public function deleteRapport(Request $request, RapportDetat $rapport, EntityManagerInterface $entityManager): Response
+    public function deleteRapport(Request $request, RapportDetat $rapport, EntityManagerInterface $entityManager,FlasherInterface $flasher): Response
     {
         $entityManager->remove($rapport);
         $entityManager->flush();
+        $flasher->success('Rapport supprimé avec succès');
 
         if ($request->isXmlHttpRequest()) {
             return $this->json(['message' => 'Rapport supprimé avec succès']);

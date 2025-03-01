@@ -83,11 +83,11 @@
         <parameter key="namespace">Vich\UploaderBundle</parameter>
       </parameter>
       <parameter key="FlasherSymfonyBundle" type="collection">
-        <parameter key="path">D:\PIDEV\oncokidscare\vendor\php-flasher\flasher-symfony</parameter>
+        <parameter key="path">C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\php-flasher\flasher-symfony</parameter>
         <parameter key="namespace">Flasher\Symfony</parameter>
       </parameter>
       <parameter key="EndroidQrCodeBundle" type="collection">
-        <parameter key="path">D:\PIDEV\oncokidscare\vendor\endroid\qr-code-bundle\src</parameter>
+        <parameter key="path">C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\endroid\qr-code-bundle\src</parameter>
         <parameter key="namespace">Endroid\QrCodeBundle</parameter>
       </parameter>
     </parameter>
@@ -721,7 +721,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
       <tag priority="-50" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">controller.argument_value_resolver</tag>
-      <argument type="service" id=".service_locator.oLVX9yY"/>
+      <argument type="service" id=".service_locator.kOKowMA"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">
       <tag priority="-100" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">controller.argument_value_resolver</tag>
@@ -1543,18 +1543,11 @@
       <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare/translations</argument>
       <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare/templates</argument>
       <argument type="collection">
-<<<<<<< HEAD
         <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\symfony\validator/Resources/translations</argument>
         <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\symfony\form/Resources/translations</argument>
         <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\symfony\security-core/Resources/translations</argument>
         <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\vich\uploader-bundle/translations</argument>
-=======
-        <argument>D:\PIDEV\oncokidscare\vendor\symfony\validator/Resources/translations</argument>
-        <argument>D:\PIDEV\oncokidscare\vendor\symfony\form/Resources/translations</argument>
-        <argument>D:\PIDEV\oncokidscare\vendor\symfony\security-core/Resources/translations</argument>
-        <argument>D:\PIDEV\oncokidscare\vendor\vich\uploader-bundle/translations</argument>
-        <argument>D:\PIDEV\oncokidscare\vendor\php-flasher\flasher-symfony/Resources/translations</argument>
->>>>>>> 0fd897a2b57706ab4f374bccc96059ab4cc77ddf
+        <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\php-flasher\flasher-symfony/Resources/translations</argument>
       </argument>
       <argument type="collection">
         <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\symfony\twig-bridge/Resources/views/Email</argument>
@@ -1578,18 +1571,11 @@
       <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare/translations</argument>
       <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare/templates</argument>
       <argument type="collection">
-<<<<<<< HEAD
         <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\symfony\validator/Resources/translations</argument>
         <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\symfony\form/Resources/translations</argument>
         <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\symfony\security-core/Resources/translations</argument>
         <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\vich\uploader-bundle/translations</argument>
-=======
-        <argument>D:\PIDEV\oncokidscare\vendor\symfony\validator/Resources/translations</argument>
-        <argument>D:\PIDEV\oncokidscare\vendor\symfony\form/Resources/translations</argument>
-        <argument>D:\PIDEV\oncokidscare\vendor\symfony\security-core/Resources/translations</argument>
-        <argument>D:\PIDEV\oncokidscare\vendor\vich\uploader-bundle/translations</argument>
-        <argument>D:\PIDEV\oncokidscare\vendor\php-flasher\flasher-symfony/Resources/translations</argument>
->>>>>>> 0fd897a2b57706ab4f374bccc96059ab4cc77ddf
+        <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\php-flasher\flasher-symfony/Resources/translations</argument>
       </argument>
       <argument type="collection">
         <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\symfony\twig-bridge/Resources/views/Email</argument>
@@ -2425,18 +2411,11 @@
             <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\symfony\security-core/Resources/translations\security.af.xlf</argument>
           </argument>
           <argument key="ar" type="collection">
-<<<<<<< HEAD
             <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\symfony\validator/Resources/translations\validators.ar.xlf</argument>
             <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\symfony\form/Resources/translations\validators.ar.xlf</argument>
             <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\symfony\security-core/Resources/translations\security.ar.xlf</argument>
             <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\vich\uploader-bundle/translations\messages.ar.yaml</argument>
-=======
-            <argument>D:\PIDEV\oncokidscare\vendor\symfony\validator/Resources/translations\validators.ar.xlf</argument>
-            <argument>D:\PIDEV\oncokidscare\vendor\symfony\form/Resources/translations\validators.ar.xlf</argument>
-            <argument>D:\PIDEV\oncokidscare\vendor\symfony\security-core/Resources/translations\security.ar.xlf</argument>
-            <argument>D:\PIDEV\oncokidscare\vendor\vich\uploader-bundle/translations\messages.ar.yaml</argument>
-            <argument>D:\PIDEV\oncokidscare\vendor\php-flasher\flasher-symfony/Resources/translations\flasher.ar.php</argument>
->>>>>>> 0fd897a2b57706ab4f374bccc96059ab4cc77ddf
+            <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\php-flasher\flasher-symfony/Resources/translations\flasher.ar.php</argument>
           </argument>
           <argument key="az" type="collection">
             <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\symfony\validator/Resources/translations\validators.az.xlf</argument>
@@ -2493,18 +2472,11 @@
             <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\symfony\security-core/Resources/translations\security.el.xlf</argument>
           </argument>
           <argument key="en" type="collection">
-<<<<<<< HEAD
             <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\symfony\validator/Resources/translations\validators.en.xlf</argument>
             <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\symfony\form/Resources/translations\validators.en.xlf</argument>
             <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\symfony\security-core/Resources/translations\security.en.xlf</argument>
             <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\vich\uploader-bundle/translations\messages.en.yaml</argument>
-=======
-            <argument>D:\PIDEV\oncokidscare\vendor\symfony\validator/Resources/translations\validators.en.xlf</argument>
-            <argument>D:\PIDEV\oncokidscare\vendor\symfony\form/Resources/translations\validators.en.xlf</argument>
-            <argument>D:\PIDEV\oncokidscare\vendor\symfony\security-core/Resources/translations\security.en.xlf</argument>
-            <argument>D:\PIDEV\oncokidscare\vendor\vich\uploader-bundle/translations\messages.en.yaml</argument>
-            <argument>D:\PIDEV\oncokidscare\vendor\php-flasher\flasher-symfony/Resources/translations\flasher.en.php</argument>
->>>>>>> 0fd897a2b57706ab4f374bccc96059ab4cc77ddf
+            <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\php-flasher\flasher-symfony/Resources/translations\flasher.en.php</argument>
           </argument>
           <argument key="es" type="collection">
             <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\symfony\validator/Resources/translations\validators.es.xlf</argument>
@@ -2534,18 +2506,11 @@
             <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\vich\uploader-bundle/translations\messages.fi.yaml</argument>
           </argument>
           <argument key="fr" type="collection">
-<<<<<<< HEAD
             <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\symfony\validator/Resources/translations\validators.fr.xlf</argument>
             <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\symfony\form/Resources/translations\validators.fr.xlf</argument>
             <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\symfony\security-core/Resources/translations\security.fr.xlf</argument>
             <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\vich\uploader-bundle/translations\messages.fr.yaml</argument>
-=======
-            <argument>D:\PIDEV\oncokidscare\vendor\symfony\validator/Resources/translations\validators.fr.xlf</argument>
-            <argument>D:\PIDEV\oncokidscare\vendor\symfony\form/Resources/translations\validators.fr.xlf</argument>
-            <argument>D:\PIDEV\oncokidscare\vendor\symfony\security-core/Resources/translations\security.fr.xlf</argument>
-            <argument>D:\PIDEV\oncokidscare\vendor\vich\uploader-bundle/translations\messages.fr.yaml</argument>
-            <argument>D:\PIDEV\oncokidscare\vendor\php-flasher\flasher-symfony/Resources/translations\flasher.fr.php</argument>
->>>>>>> 0fd897a2b57706ab4f374bccc96059ab4cc77ddf
+            <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\php-flasher\flasher-symfony/Resources/translations\flasher.fr.php</argument>
           </argument>
           <argument key="gl" type="collection">
             <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\symfony\validator/Resources/translations\validators.gl.xlf</argument>
@@ -2752,11 +2717,11 @@
           </argument>
         </argument>
         <argument key="scanned_directories" type="collection">
-<<<<<<< HEAD
           <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\symfony\validator/Resources/translations</argument>
           <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\symfony\form/Resources/translations</argument>
           <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\symfony\security-core/Resources/translations</argument>
           <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\vich\uploader-bundle/translations</argument>
+          <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\php-flasher\flasher-symfony/Resources/translations</argument>
           <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare/translations</argument>
           <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\symfony\framework-bundle/translations</argument>
           <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\doctrine\doctrine-bundle/translations</argument>
@@ -2770,6 +2735,7 @@
           <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\symfony\security-bundle/translations</argument>
           <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\symfony\monolog-bundle/translations</argument>
           <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\symfony\maker-bundle/translations</argument>
+          <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\endroid\qr-code-bundle\src/translations</argument>
         </argument>
         <argument key="cache_vary" type="collection">
           <argument key="scanned_directories" type="collection">
@@ -2777,6 +2743,7 @@
             <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\symfony\form/Resources/translations</argument>
             <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\symfony\security-core/Resources/translations</argument>
             <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\vich\uploader-bundle/translations</argument>
+            <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\php-flasher\flasher-symfony/Resources/translations</argument>
             <argument>translations</argument>
             <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\symfony\framework-bundle/translations</argument>
             <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\doctrine\doctrine-bundle/translations</argument>
@@ -2790,49 +2757,7 @@
             <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\symfony\security-bundle/translations</argument>
             <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\symfony\monolog-bundle/translations</argument>
             <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\symfony\maker-bundle/translations</argument>
-=======
-          <argument>D:\PIDEV\oncokidscare\vendor\symfony\validator/Resources/translations</argument>
-          <argument>D:\PIDEV\oncokidscare\vendor\symfony\form/Resources/translations</argument>
-          <argument>D:\PIDEV\oncokidscare\vendor\symfony\security-core/Resources/translations</argument>
-          <argument>D:\PIDEV\oncokidscare\vendor\vich\uploader-bundle/translations</argument>
-          <argument>D:\PIDEV\oncokidscare\vendor\php-flasher\flasher-symfony/Resources/translations</argument>
-          <argument>D:\PIDEV\oncokidscare/translations</argument>
-          <argument>D:\PIDEV\oncokidscare\vendor\symfony\framework-bundle/translations</argument>
-          <argument>D:\PIDEV\oncokidscare\vendor\doctrine\doctrine-bundle/translations</argument>
-          <argument>D:\PIDEV\oncokidscare\vendor\doctrine\doctrine-migrations-bundle/translations</argument>
-          <argument>D:\PIDEV\oncokidscare\vendor\symfony\debug-bundle/translations</argument>
-          <argument>D:\PIDEV\oncokidscare\vendor\symfony\twig-bundle/translations</argument>
-          <argument>D:\PIDEV\oncokidscare\vendor\symfony\web-profiler-bundle/translations</argument>
-          <argument>D:\PIDEV\oncokidscare\vendor\symfony\stimulus-bundle/translations</argument>
-          <argument>D:\PIDEV\oncokidscare\vendor\symfony\ux-turbo/translations</argument>
-          <argument>D:\PIDEV\oncokidscare\vendor\twig\extra-bundle/translations</argument>
-          <argument>D:\PIDEV\oncokidscare\vendor\symfony\security-bundle/translations</argument>
-          <argument>D:\PIDEV\oncokidscare\vendor\symfony\monolog-bundle/translations</argument>
-          <argument>D:\PIDEV\oncokidscare\vendor\symfony\maker-bundle/translations</argument>
-          <argument>D:\PIDEV\oncokidscare\vendor\endroid\qr-code-bundle\src/translations</argument>
-        </argument>
-        <argument key="cache_vary" type="collection">
-          <argument key="scanned_directories" type="collection">
-            <argument>D:\PIDEV\oncokidscare\vendor\symfony\validator/Resources/translations</argument>
-            <argument>D:\PIDEV\oncokidscare\vendor\symfony\form/Resources/translations</argument>
-            <argument>D:\PIDEV\oncokidscare\vendor\symfony\security-core/Resources/translations</argument>
-            <argument>D:\PIDEV\oncokidscare\vendor\vich\uploader-bundle/translations</argument>
-            <argument>D:\PIDEV\oncokidscare\vendor\php-flasher\flasher-symfony/Resources/translations</argument>
-            <argument>translations</argument>
-            <argument>D:\PIDEV\oncokidscare\vendor\symfony\framework-bundle/translations</argument>
-            <argument>D:\PIDEV\oncokidscare\vendor\doctrine\doctrine-bundle/translations</argument>
-            <argument>D:\PIDEV\oncokidscare\vendor\doctrine\doctrine-migrations-bundle/translations</argument>
-            <argument>D:\PIDEV\oncokidscare\vendor\symfony\debug-bundle/translations</argument>
-            <argument>D:\PIDEV\oncokidscare\vendor\symfony\twig-bundle/translations</argument>
-            <argument>D:\PIDEV\oncokidscare\vendor\symfony\web-profiler-bundle/translations</argument>
-            <argument>D:\PIDEV\oncokidscare\vendor\symfony\stimulus-bundle/translations</argument>
-            <argument>D:\PIDEV\oncokidscare\vendor\symfony\ux-turbo/translations</argument>
-            <argument>D:\PIDEV\oncokidscare\vendor\twig\extra-bundle/translations</argument>
-            <argument>D:\PIDEV\oncokidscare\vendor\symfony\security-bundle/translations</argument>
-            <argument>D:\PIDEV\oncokidscare\vendor\symfony\monolog-bundle/translations</argument>
-            <argument>D:\PIDEV\oncokidscare\vendor\symfony\maker-bundle/translations</argument>
-            <argument>D:\PIDEV\oncokidscare\vendor\endroid\qr-code-bundle\src/translations</argument>
->>>>>>> 0fd897a2b57706ab4f374bccc96059ab4cc77ddf
+            <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\vendor\endroid\qr-code-bundle\src/translations</argument>
           </argument>
         </argument>
       </argument>
@@ -3786,7 +3711,7 @@
     </service>
     <service id="argument_resolver.not_tagged_controller" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
       <tag name="controller.argument_value_resolver" priority="-200"/>
-      <argument type="service" id=".service_locator.oLVX9yY"/>
+      <argument type="service" id=".service_locator.kOKowMA"/>
     </service>
     <service id="debug.log_processor" class="Symfony\Bridge\Monolog\Processor\DebugProcessor">
       <tag name="kernel.reset" method="reset"/>
@@ -9238,11 +9163,26 @@
         <argument key="userRepo" type="service_closure" id="App\Repository\UserRepository"/>
       </argument>
     </service>
+    <service id=".service_locator.INocORN" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="entityManager" type="service_closure" id="doctrine.orm.default_entity_manager"/>
+        <argument key="flasher" type="service_closure" id="flasher"/>
+      </argument>
+    </service>
     <service id=".service_locator.Hj5TzV9" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="entityManager" type="service_closure" id="doctrine.orm.default_entity_manager"/>
         <argument key="rapport" type="service_closure" id=".errored..service_locator.Hj5TzV9.App\Entity\RapportDetat"/>
+      </argument>
+    </service>
+    <service id=".service_locator.5AHGn_n" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="entityManager" type="service_closure" id="doctrine.orm.default_entity_manager"/>
+        <argument key="flasher" type="service_closure" id="flasher"/>
+        <argument key="rapport" type="service_closure" id=".errored..service_locator.5AHGn_n.App\Entity\RapportDetat"/>
       </argument>
     </service>
     <service id=".service_locator.4nATh_P" class="Symfony\Component\DependencyInjection\ServiceLocator">
@@ -9336,7 +9276,7 @@
         <argument key="userPasswordHasher" type="service_closure" id="security.user_password_hasher"/>
       </argument>
     </service>
-    <service id=".service_locator.oLVX9yY" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.kOKowMA" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Controller\AdminController::annulerCommande" type="service_closure" id=".service_locator.iR5i4O4"/>
@@ -9401,10 +9341,10 @@
         <argument key="App\Controller\ManageUsersController::delete" type="service_closure" id=".service_locator.JwPLet6"/>
         <argument key="App\Controller\ManageUsersController::edit" type="service_closure" id=".service_locator.rvMNZGh"/>
         <argument key="App\Controller\ManageUsersController::search" type="service_closure" id=".service_locator.CsMkqUa"/>
-        <argument key="App\Controller\MedecinController::createRapport" type="service_closure" id=".service_locator.CsMkqUa"/>
+        <argument key="App\Controller\MedecinController::createRapport" type="service_closure" id=".service_locator.INocORN"/>
         <argument key="App\Controller\MedecinController::cycle" type="service_closure" id=".service_locator.9MWgsgw"/>
         <argument key="App\Controller\MedecinController::dashboardPatient" type="service_closure" id=".service_locator.9MWgsgw"/>
-        <argument key="App\Controller\MedecinController::deleteRapport" type="service_closure" id=".service_locator.Hj5TzV9"/>
+        <argument key="App\Controller\MedecinController::deleteRapport" type="service_closure" id=".service_locator.5AHGn_n"/>
         <argument key="App\Controller\MedecinController::editRapport" type="service_closure" id=".service_locator.Hj5TzV9"/>
         <argument key="App\Controller\MedecinController::profile" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\MedecinController::showAllRapports" type="service_closure" id=".service_locator.9MWgsgw"/>
@@ -9498,10 +9438,10 @@
         <argument key="App\Controller\ManageUsersController:delete" type="service_closure" id=".service_locator.JwPLet6"/>
         <argument key="App\Controller\ManageUsersController:edit" type="service_closure" id=".service_locator.rvMNZGh"/>
         <argument key="App\Controller\ManageUsersController:search" type="service_closure" id=".service_locator.CsMkqUa"/>
-        <argument key="App\Controller\MedecinController:createRapport" type="service_closure" id=".service_locator.CsMkqUa"/>
+        <argument key="App\Controller\MedecinController:createRapport" type="service_closure" id=".service_locator.INocORN"/>
         <argument key="App\Controller\MedecinController:cycle" type="service_closure" id=".service_locator.9MWgsgw"/>
         <argument key="App\Controller\MedecinController:dashboardPatient" type="service_closure" id=".service_locator.9MWgsgw"/>
-        <argument key="App\Controller\MedecinController:deleteRapport" type="service_closure" id=".service_locator.Hj5TzV9"/>
+        <argument key="App\Controller\MedecinController:deleteRapport" type="service_closure" id=".service_locator.5AHGn_n"/>
         <argument key="App\Controller\MedecinController:editRapport" type="service_closure" id=".service_locator.Hj5TzV9"/>
         <argument key="App\Controller\MedecinController:profile" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\MedecinController:showAllRapports" type="service_closure" id=".service_locator.9MWgsgw"/>
@@ -10856,6 +10796,9 @@
     <service id=".errored..service_locator.Hj5TzV9.App\Entity\RapportDetat" class="App\Entity\RapportDetat">
       <tag name="container.error" message="Cannot autowire service &quot;.service_locator.Hj5TzV9&quot;: it needs an instance of &quot;App\Entity\RapportDetat&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
     </service>
+    <service id=".errored..service_locator.5AHGn_n.App\Entity\RapportDetat" class="App\Entity\RapportDetat">
+      <tag name="container.error" message="Cannot autowire service &quot;.service_locator.5AHGn_n&quot;: it needs an instance of &quot;App\Entity\RapportDetat&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
+    </service>
     <service id=".errored..service_locator.FfisaAn.App\Entity\Medicament" class="App\Entity\Medicament">
       <tag name="container.error" message="Cannot autowire service &quot;.service_locator.FfisaAn&quot;: it needs an instance of &quot;App\Entity\Medicament&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
     </service>
@@ -11868,9 +11811,9 @@
       </call>
     </service>
     <service id="cache.rate_limiter.recorder_inner" class="Symfony\Component\Cache\Adapter\FilesystemAdapter">
-      <argument>9-2XiGASA9</argument>
+      <argument>CP9ZtqeN0n</argument>
       <argument>0</argument>
-      <argument>D:\PIDEV\oncokidscare\var\cache\dev/pools/app</argument>
+      <argument>C:\GLEsprit3eme\Projet_PI\Projet-Ai\PIDEV\oncokidscare\var\cache\dev/pools/app</argument>
       <argument type="service" id="cache.default_marshaller" on-invalid="ignore"/>
       <call method="setLogger">
         <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
@@ -12119,7 +12062,7 @@
     <service id="Endroid\QrCode\Builder\BuilderInterface $defaultQrCodeBuilder" alias="endroid_qr_code.default_builder"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.w7.f4fT" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.oLVX9yY"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.kOKowMA"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.KLVvNIq"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="Psr\Log\LoggerInterface $requestLogger" alias="monolog.logger.request"/>
@@ -12157,6 +12100,7 @@
     <service id=".service_locator.d_bTr6e" alias=".service_locator.JwPLet6"/>
     <service id=".service_locator.LhNm6zJ" alias=".service_locator.9MWgsgw"/>
     <service id=".service_locator.qOsU01r" alias=".service_locator.Hj5TzV9"/>
+    <service id=".service_locator.mW1JK4w" alias=".service_locator.5AHGn_n"/>
     <service id=".service_locator.7ZIMj5F" alias=".service_locator.FfisaAn"/>
     <service id=".service_locator.th5i6eU" alias=".service_locator.iUig0G9"/>
     <service id=".service_locator.52JxNpb" alias=".service_locator.1BDjvx9"/>
@@ -12164,7 +12108,7 @@
     <service id=".service_locator.HLUlteY" alias=".service_locator.O8GioWl"/>
     <service id=".service_locator.GeA0det" alias=".service_locator.k448V7w"/>
     <service id=".service_locator.V6D1oJY" alias=".service_locator.e_4zbH4"/>
-    <service id=".service_locator.UShvhhl" alias=".service_locator.oLVX9yY"/>
+    <service id=".service_locator.9xZFgfK" alias=".service_locator.kOKowMA"/>
     <service id=".service_locator.BFrsqsn" alias=".service_locator.F9PKc.7"/>
     <service id=".service_locator.aV1TeId" alias=".service_locator.3Evl0Vj"/>
     <service id=".service_locator.c636JwQ" alias=".service_locator.19FHMl6"/>
@@ -12221,7 +12165,9 @@
     <service id=".service_locator.ICTRhpx" alias=".service_locator.rvMNZGh"/>
     <service id=".service_locator.3rMBXWx" alias=".service_locator.JwPLet6"/>
     <service id=".service_locator.9G5MUg3" alias=".service_locator.9MWgsgw"/>
+    <service id=".service_locator.s0wumrc" alias=".service_locator.INocORN"/>
     <service id=".service_locator.GNWkPaQ" alias=".service_locator.Hj5TzV9"/>
+    <service id=".service_locator.dlWsv0V" alias=".service_locator.5AHGn_n"/>
     <service id=".service_locator.aPq90D4" alias=".service_locator.4nATh_P"/>
     <service id=".service_locator.BZPp5GD" alias=".service_locator.FfisaAn"/>
     <service id=".service_locator.OBk_6QD" alias=".service_locator.HOE6MKh"/>

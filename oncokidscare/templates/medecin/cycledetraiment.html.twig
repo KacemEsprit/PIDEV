@@ -60,7 +60,7 @@
                     <td>{{ patient.id }}</td>
                     <td>{{ patient.nom }}</td>
                     <td>{{ patient.prenom }}</td>
-                    <td><img src="/uploads/user_pictures/{{ patient.picture }}" alt="Avatar" class="avatar"></td>
+                    <td><img width="50" height="50" src="{{ asset('uploads/user_pictures/' ~ patient.picture) }}" alt="Photo du patient" class="avatar"></td>
                     <td><a href="{{ path('app_patient_statistic', {'id': patient.id}) }}" class="btn btn-primary">View Statistic</a></td>
                 </tr>
                 {% endfor %}
