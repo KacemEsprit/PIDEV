@@ -1,0 +1,3 @@
+chatbot:
+    resource: ../../src/Controller/ChatbotController.php
+    type: attribute

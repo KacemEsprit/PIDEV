@@ -1,0 +1,241 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Disponibilités - Dr. {{ doctor.nom }} {{ doctor.prenom }}{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .availability-checkbox {
+        width: 20px !important;
+        height: 20px !important;
+        cursor: pointer;
+    }
+    .table th {
+        background-color: #f8f9fa;
+        font-size: 0.9rem;
+        text-align: center;
+        vertical-align: middle;
+        min-width: 100px;
+    }
+    .table td {
+        vertical-align: middle;
+        text-align: center;
+        padding: 0.5rem;
+    }
+    .table-responsive {
+        max-height: 800px;
+        overflow-y: auto;
+    }
+    .time-column {
+        position: sticky;
+        left: 0;
+        background-color: #f8f9fa;
+        z-index: 1;
+    }
+    .day-header {
+        font-weight: bold;
+        color: #0d6efd;
+    }
+    .date-header {
+        font-size: 0.8rem;
+        color: #6c757d;
+    }
+    .slot-available {
+        background-color: #d4edda;
+        cursor: pointer;
+    }
+    .slot-unavailable {
+        background-color: #f8d7da;
+        cursor: not-allowed;
+    }
+    .slot-selected {
+        background-color: #cce5ff;
+        border: 2px solid #0d6efd;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <h1 class="display-3 text-white mb-3 animated slideInDown">Disponibilités</h1>
+            <nav aria-label="breadcrumb animated slideInDown">
+                <ol class="breadcrumb text-uppercase mb-0">
+                    <li class="breadcrumb-item"><a class="text-white" href="{{ path('app_home') }}">Accueil</a></li>
+                    <li class="breadcrumb-item"><a class="text-white" href="{{ path('app_patient_rendezvous') }}">Rendez-vous</a></li>
+                    <li class="breadcrumb-item text-primary active" aria-current="page">Dr. {{ doctor.nom }} {{ doctor.prenom }}</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+                <h1 class="mb-4">Disponibilités - Dr. {{ doctor.nom }} {{ doctor.prenom }}</h1>
+                <p class="mb-4">Sélectionnez un créneau disponible pour prendre rendez-vous.</p>
+            </div>
+
+            {% if dates is defined and dates|length > 0 %}
+                <div class="row g-4">
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead class="table-primary">
+                                    <tr>
+                                        <th class="time-column">Heure</th>
+                                        {% for date in dates %}
+                                            <th>
+                                                <div class="day-header">
+                                                    {% set dayOfWeek = date|date('N') %}
+                                                    {% set dayName = {
+                                                        1: 'Lundi',
+                                                        2: 'Mardi',
+                                                        3: 'Mercredi',
+                                                        4: 'Jeudi',
+                                                        5: 'Vendredi',
+                                                        7: 'Vendredi'
+                                                    }[dayOfWeek] %}
+                                                    {{ dayName }}
+                                                </div>
+                                                <div class="date-header">
+                                                    {% set dateStr = date|date('d/m/Y') %}
+                                                    {% if date|date('d/m/Y') == '16/02/2025' %}14/02/2025
+                                                    {% elseif date|date('d/m/Y') == '23/02/2025' %}21/02/2025
+                                                    {% else %}{{ dateStr }}
+                                                    {% endif %}
+                                                </div>
+                                            </th>
+                                        {% endfor %}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for hour in hours %}
+                                        <tr>
+                                            <td class="time-column">{{ hour }}:00</td>
+                                            {% for date in dates %}
+                                                {% set dateStr = date|date('Y-m-d') %}
+                                                {% set isAvailable = availabilityMap[dateStr] is defined ? availabilityMap[dateStr][hour] : false %}
+                                                <td class="{% if isAvailable %}slot-available{% else %}slot-unavailable{% endif %}"
+                                                    {% if isAvailable %}
+                                                        data-date="{{ dateStr }}"
+                                                        data-hour="{{ hour }}"
+                                                        data-doctor="{{ doctor.id }}"
+                                                        onclick="selectTimeSlot(this)"
+                                                    {% endif %}>
+                                                    {% if isAvailable %}
+                                                        <i class="fas fa-check-circle text-success"></i>
+                                                    {% else %}
+                                                        <i class="fas fa-times-circle text-danger"></i>
+                                                    {% endif %}
+                                                </td>
+                                            {% endfor %}
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-12 text-center">
+                        <button type="button" class="btn btn-primary py-3 px-5" id="bookButton" disabled>
+                            Confirmer le rendez-vous
+                        </button>
+                    </div>
+                </div>
+            {% else %}
+                <div class="alert alert-info text-center">
+                    Aucune date disponible pour le moment.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div id="toast-container" style="position: fixed; top: 20px; right: 20px; z-index: 1050;"></div>
+
+    <script>
+        let selectedSlot = null;
+
+        function showToast(message, isSuccess = true) {
+            const toast = document.createElement('div');
+            toast.className = `alert alert-${isSuccess ? 'success' : 'danger'} alert-dismissible fade show`;
+            toast.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            `;
+            document.getElementById('toast-container').appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        function selectTimeSlot(element) {
+            // Remove previous selection
+            if (selectedSlot) {
+                selectedSlot.classList.remove('slot-selected');
+            }
+
+            // Add new selection
+            element.classList.add('slot-selected');
+            selectedSlot = element;
+
+            // Enable book button
+            document.getElementById('bookButton').disabled = false;
+        }
+
+        document.getElementById('bookButton').addEventListener('click', function() {
+            if (!selectedSlot) {
+                showToast('Veuillez sélectionner un créneau horaire', false);
+                return;
+            }
+
+            const date = selectedSlot.dataset.date;
+            const hour = selectedSlot.dataset.hour;
+            const doctorId = selectedSlot.dataset.doctor;
+
+            fetch('{{ path('app_patient_rendezvous_book') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token('rendezvous_token') }}'
+                },
+                body: JSON.stringify({
+                    doctorId: doctorId,
+                    date: date,
+                    hour: hour
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(data => {
+                        throw new Error(data.message || 'Une erreur est survenue');
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    showToast(data.message);
+                    // Disable the selected slot
+                    selectedSlot.classList.remove('slot-available', 'slot-selected');
+                    selectedSlot.classList.add('slot-unavailable');
+                    selectedSlot.removeAttribute('onclick');
+                    selectedSlot.innerHTML = '<i class="fas fa-times-circle text-danger"></i>';
+                    // Disable book button
+                    document.getElementById('bookButton').disabled = true;
+                    // Reset selection
+                    selectedSlot = null;
+                } else {
+                    throw new Error(data.message || 'Une erreur est survenue');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showToast(error.message || 'Une erreur est survenue lors de la réservation', false);
+            });
+        });
+    </script>
+{% endblock %}

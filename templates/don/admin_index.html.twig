@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration des Dons{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Administration des Dons</h1>
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Donateur</th>
+                        <th>Type</th>
+                        <th>Montant</th>
+                        <th>Description</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for don in dons %}
+                        <tr>
+                            <td>{{ don.dateDon|date('d/m/Y H:i') }}</td>
+                            <td>
+                                {{ don.donateur.nom }}
+                                {% if don.compagnies|length > 0 %}
+                                    ({{ don.compagnies|first.nom }})
+                                {% endif %}
+                            </td>
+                            <td>{{ don.typeDon }}</td>
+                            <td>{{ don.montant ? don.montant ~ ' €' : 'N/A' }}</td>
+                            <td>{{ don.descriptionMateriel }}</td>
+                            <td>
+                                <span class="badge bg-{{ don.statut == 'En attente' ? 'warning' : (don.statut == 'confirmé' ? 'success' : 'danger') }}">
+                                    {{ don.statut }}
+                                </span>
+                            </td>
+                            <td>
+                                {% if don.statut == 'En attente' %}
+                                    <form method="post" action="{{ path('app_don_confirm', {'id': don.id}) }}" style="display: inline;">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('confirm' ~ don.id) }}">
+                                        <button type="submit" class="btn btn-success btn-sm">Confirmer</button>
+                                    </form>
+                                    <form method="post" action="{{ path('app_don_reject', {'id': don.id}) }}" style="display: inline;">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('reject' ~ don.id) }}">
+                                        <button type="submit" class="btn btn-danger btn-sm">Rejeter</button>
+                                    </form>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="7">Aucun don trouvé</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

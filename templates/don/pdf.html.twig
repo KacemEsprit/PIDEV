@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Reçu de Don</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        h1 { color: #333; }
+        .don-info { margin-bottom: 20px; }
+        .don-info p { margin: 5px 0; }
+        .section-title { font-weight: bold; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Reçu de Don</h1>
+    <div class="don-info">
+        <p><strong>ID du Don :</strong> {{ don.id }}</p>
+        <p><strong>Type de Don :</strong> {{ don.typeDon }}</p>
+        <p><strong>Montant :</strong> {{ don.montant ?? 'N/A' }}</p>
+        <p><strong>Description du Matériel :</strong> {{ don.descriptionMateriel ?? 'N/A' }}</p>
+        <p><strong>Date du Don :</strong> {{ don.dateDon|date('d/m/Y H:i') }}</p>
+        <p><strong>Mode de Paiement :</strong> {{ don.modePaiement ?? 'N/A' }}</p>
+        <p><strong>Preuve du Don :</strong> {{ don.preuveDon ?? 'N/A' }}</p>
+    </div>
+
+    <div class="section-title">Informations du Donateur</div>
+    <div class="don-info">
+        <p><strong>Nom du Donateur :</strong> {{ don.donateur.nom ?? 'N/A' }}</p>
+        <p><strong>Email du Donateur :</strong> {{ don.donateur.email ?? 'N/A' }}</p>
+    </div>
+
+    <div class="section-title">Compagnies Associées</div>
+    <div class="don-info">
+        {% for compagnie in don.compagnies %}
+            <p><strong>Nom de la Compagnie :</strong> {{ compagnie.nom }}</p>
+        {% else %}
+            <p>Aucune compagnie associée.</p>
+        {% endfor %}
+    </div>
+
+    <div class="section-title">Campagne Associée</div>
+    <div class="don-info">
+        <p><strong>Nom de la Campagne :</strong> {{ don.campagne.nom ?? 'N/A' }}</p>
+    </div>
+</body>
+</html>

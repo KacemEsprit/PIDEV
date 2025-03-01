@@ -1,0 +1,59 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Manage Users{% endblock %}
+
+{% block body %}
+<body>
+  <div class="container mt-5">
+      <div class="card shadow mb-3">
+          <div class="card-header py-3">
+              <p class="text-primary m-0 fw-bold">User Settings</p>
+          </div>
+          <div class="card-body">
+              <form>
+                  <div class="row">
+                      <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
+                        <input type="file" style="display: none;" #fileInput (change)="SelectFile($event)">
+                        <img class="rounded-circle mb-3 mt-4 img-fluid" [src]="CurrentUser.userImage.url || 'assets/default.jpg'"  style="display: inline;max-height: 110px;"><br>
+                        <button class="btn btn-primary btn-sm" id="photoBtn" type="button" (click)="fileInput.click()" [disabled]="!isEditable">Change Photo</button>
+                      </div>
+                      <div class="col-sm-12 col-md-6 col-lg-8 col-xl-9">
+                          <div class="row">
+                              <div class="col-12">
+                                  <div class="mb-3"><label class="form-label" for="email"><strong>Email Address</strong></label><input class="form-control" type="email" id="email" placeholder="user@example.com" name="email"  [(ngModel)]="CurrentUser.userEmail" required="" [readonly]="!isEditable"></div>
+                              </div>
+
+                          </div>
+                      </div>
+                      <div class="col-sm-12 col-md-6">
+                          <div class="mb-3"><label class="form-label" for="username"><strong> New Password</strong></label><input class="form-control" type="password" id="password" placeholder="Password" [(ngModel)]="userPassword2" [ngModelOptions]="{standalone: true}" [readonly]="!isEditable"></div>
+                      </div>
+                      <div class="col-sm-12 col-md-6">
+                          <div class="mb-3"><label class="form-label" for="username"><strong>Confirm Password</strong></label><input class="form-control" type="password" id="verifyPassword" placeholder="Password" [(ngModel)]="confirmPassword" [ngModelOptions]="{standalone: true}"  [readonly]="!isEditable"></div>
+                      </div>
+                      <div class="col-sm-12 col-md-6">
+                          <div class="mb-3"><label class="form-label" for="first_name"><strong>First Name</strong></label><input class="form-control" type="text" placeholder="John" name="first_name" [(ngModel)]="CurrentUser.userFirstName" required="" [ngModelOptions]="{standalone: true}"[readonly]="!isEditable"></div>
+                      </div>
+                      <div class="col-sm-12 col-md-6">
+                          <div class="mb-3"><label class="form-label" for="last_name"><strong>Last Name</strong></label><input class="form-control" type="text" placeholder="Doe" name="last_name" [(ngModel)]="CurrentUser.userLastname" required="" [readonly]="!isEditable"></div>
+                      </div>
+                    <!--   <div class="col-12">
+                          <p id="emailErrorMsg" class="text-danger" style="display:none;"></p>
+                          <p id="passwordErrorMsg" class="text-danger" style="display:none;"></p>
+                      </div> -->
+                      <div class="col-12">
+                        <p id="emailErrorMsg" class="text-danger" style="display:none;"></p>
+                        <p id="passwordErrorMsg" class="text-danger" *ngIf="passwordMismatch">Passwords do not match.</p>
+                      </div>
+
+                      <div class="col-12 text-end">
+                        <button class="btn btn-primary btn-sm" id="editBtn" type="button" (click)="toggleEdit()" [disabled]="isEditable">Edit</button>
+                          <button class="btn btn-primary btn-sm" id="cancelBtn" type="button" (click)="CancelToggleEdit()" [disabled]="!isEditable">Cancel</button>
+                          <button class="btn btn-primary btn-sm" id="submitBtn" type="submit"  (click)="updateUser()" [disabled]="!isEditable">Save Settings</button>
+                      </div>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+</body>{% endblock %}

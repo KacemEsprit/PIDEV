@@ -1,0 +1,337 @@
+{{ form_start(form, {
+    'attr': {
+        'id': 'edit-rapport-form',
+        'class': 'needs-validation'
+    },
+    'action': path('app_medecin_edit_rapport', {'id': rapport.id}),
+    'method': 'POST'
+}) }}
+<div class="modal-content">
+
+    <div class="modal-header" style="background-color: #a9e6db;">
+        <h5 class="modal-title d-flex align-items-center text-dark">
+            <i class="fas fa-file-medical me-2"></i>
+            Modification du Rapport Médical
+
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        {% if form_errors(form) %}
+            <div class="alert alert-danger">
+                {{ form_errors(form) }}
+            </div>
+        {% endif %}
+        
+        {# Informations du patient #}
+        <div class="card mb-4">
+            <div class="card-header bg-light">
+                <h6 class="mb-0"><i class="fas fa-user me-2"></i>Informations du Patient</h6>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        {{ form_row(form.patient, {
+                            'label': 'Patient',
+                            'label_attr': {'class': 'form-label fw-bold'},
+                            'attr': {
+                                'class': 'form-control',
+                                'readonly': 'readonly'
+                            }
+                        }) }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form_row(form.dateRapport, {
+                            'label': 'Date du Rapport',
+                            'label_attr': {'class': 'form-label fw-bold'},
+                            'attr': {
+                                'class': 'form-control datepicker',
+                                'required': true
+                            }
+                        }) }}
+                    </div>
+                </div>
+                <div class="row g-3 mt-2">
+                    <div class="col-md-4">
+                        {{ form_row(form.age, {
+                            'label': 'Âge',
+                            'label_attr': {'class': 'form-label fw-bold'},
+                            'attr': {
+                                'class': 'form-control',
+                                'type': 'number',
+                                'min': '0',
+                                'required': true
+                            }
+                        }) }}
+                    </div>
+                    <div class="col-md-4">
+                        {{ form_row(form.sexe, {
+                            'label': 'Sexe',
+                            'label_attr': {'class': 'form-label fw-bold'},
+                            'attr': {'class': 'form-select'}
+                        }) }}
+                    </div>
+                    <div class="col-md-4">
+                        {{ form_row(form.imc, {
+                            'label': 'IMC',
+                            'label_attr': {'class': 'form-label fw-bold'},
+                            'attr': {
+                                'class': 'form-control',
+                                'type': 'number',
+                                'step': '0.1',
+                                'min': '0'
+                            }
+                        }) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Paramètres vitaux #}
+        <div class="card mb-4">
+            <div class="card-header bg-light">
+                <h6 class="mb-0"><i class="fas fa-heartbeat me-2"></i>Paramètres Vitaux</h6>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        {{ form_row(form.tensionArterielle, {
+                            'label': 'Tension Artérielle',
+                            'label_attr': {'class': 'form-label fw-bold'},
+                            'attr': {
+                                'class': 'form-control',
+                                'required': true,
+                                'placeholder': 'Ex: 120/80'
+                            }
+                        }) }}
+                    </div>
+                    <div class="col-md-4">
+                        {{ form_row(form.pouls, {
+                            'label': 'Pouls (bpm)',
+                            'label_attr': {'class': 'form-label fw-bold'},
+                            'attr': {
+                                'class': 'form-control',
+                                'type': 'number',
+                                'min': '0',
+                                'required': true
+                            }
+                        }) }}
+                    </div>
+                    <div class="col-md-4">
+                        {{ form_row(form.temperature, {
+                            'label': 'Température (°C)',
+                            'label_attr': {'class': 'form-label fw-bold'},
+                            'attr': {
+                                'class': 'form-control',
+                                'type': 'number',
+                                'step': '0.1',
+                                'required': true
+                            }
+                        }) }}
+                    </div>
+                </div>
+                <div class="row g-3 mt-2">
+                    <div class="col-md-6">
+                        {{ form_row(form.saturationOxygene, {
+                            'label': 'Saturation en oxygène (%)',
+                            'label_attr': {'class': 'form-label fw-bold'},
+                            'attr': {
+                                'class': 'form-control',
+                                'type': 'number',
+                                'min': '0',
+                                'max': '100',
+                                'required': true
+                            }
+                        }) }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form_row(form.niveauDouleur, {
+                            'label': 'Niveau de douleur (0-10)',
+                            'label_attr': {'class': 'form-label fw-bold'},
+                            'attr': {
+                                'class': 'form-control',
+                                'type': 'number',
+                                'min': '0',
+                                'max': '10',
+                                'required': true
+                            }
+                        }) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Traitement #}
+        <div class="card mb-4">
+            <div class="card-header bg-light">
+                <h6 class="mb-0"><i class="fas fa-pills me-2"></i>Traitement</h6>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        {{ form_row(form.traitement, {
+                            'label': 'Type de Traitement',
+                            'label_attr': {'class': 'form-label fw-bold'},
+                            'attr': {
+                                'class': 'form-select',
+                                'required': true
+                            }
+                        }) }}
+                    </div>
+                    <div class="col-md-4">
+                        {{ form_row(form.frequenceTraitement, {
+                            'label': 'Fréquence',
+                            'label_attr': {'class': 'form-label fw-bold'},
+                            'attr': {
+                                'class': 'form-select',
+                                'required': true
+                            }
+                        }) }}
+                    </div>
+                    <div class="col-md-4">
+                        {{ form_row(form.doseMedicament, {
+                            'label': 'Dose',
+                            'label_attr': {'class': 'form-label fw-bold'},
+                            'attr': {
+                                'class': 'form-control',
+                                'type': 'number',
+                                'min': '0',
+                                'required': true
+                            }
+                        }) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Interventions #}
+        <div class="card mb-4">
+            <div class="card-header bg-light">
+                <h6 class="mb-0"><i class="fas fa-procedures me-2"></i>Interventions</h6>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        {{ form_row(form.perteDeSang, {
+                            'label': 'Perte de sang (ml)',
+                            'label_attr': {'class': 'form-label fw-bold'},
+                            'attr': {
+                                'class': 'form-control',
+                                'type': 'number',
+                                'min': '0',
+                                'required': true
+                            }
+                        }) }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form_row(form.tempsOperation, {
+                            'label': 'Temps opération (min)',
+                            'label_attr': {'class': 'form-label fw-bold'},
+                            'attr': {
+                                'class': 'form-control',
+                                'type': 'number',
+                                'min': '0',
+                                'required': true
+                            }
+                        }) }}
+                    </div>
+                </div>
+                <div class="row g-3 mt-2">
+                    <div class="col-md-6">
+                        {{ form_row(form.dureeSeance, {
+                            'label': 'Durée séance (min)',
+                            'label_attr': {'class': 'form-label fw-bold'},
+                            'attr': {
+                                'class': 'form-control',
+                                'type': 'number',
+                                'min': '0',
+                                'required': true
+                            }
+                        }) }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form_row(form.filtrationSang, {
+                            'label': 'Filtration sang (%)',
+                            'label_attr': {'class': 'form-label fw-bold'},
+                            'attr': {
+                                'class': 'form-control',
+                                'type': 'number',
+                                'min': '0',
+                                'max': '100',
+                                'required': true
+                            }
+                        }) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Complications #}
+        <div class="card mb-4">
+            <div class="card-header bg-light">
+                <h6 class="mb-0"><i class="fas fa-exclamation-triangle me-2"></i>État du Patient</h6>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        {{ form_row(form.respirationAssistee, {
+                            'label': 'Respiration assistée',
+                            'label_attr': {'class': 'form-label fw-bold'},
+                            'attr': {
+                                'class': 'form-select',
+                                'required': true
+                            }
+                        }) }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form_row(form.scoreGlasgow, {
+                            'label': 'Score Glasgow',
+                            'label_attr': {'class': 'form-label fw-bold'},
+                            'attr': {
+                                'class': 'form-control',
+                                'type': 'number',
+                                'min': '3',
+                                'max': '15',
+                                'required': true
+                            }
+                        }) }}
+                    </div>
+                </div>
+                <div class="row g-3 mt-2">
+                    <div class="col-md-6">
+                        {{ form_row(form.creatinine, {
+                            'label': 'Créatinine',
+                            'label_attr': {'class': 'form-label fw-bold'},
+                            'attr': {
+                                'class': 'form-control',
+                                'type': 'number',
+                                'step': '0.01',
+                                'required': true
+                            }
+                        }) }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form_row(form.complications, {
+                            'label': 'Complications',
+                            'label_attr': {'class': 'form-label fw-bold'},
+                            'attr': {
+                                'class': 'form-control',
+                                'rows': 3,
+                                'placeholder': 'Description des complications éventuelles...'
+                            }
+                        }) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer bg-light">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <i class="fas fa-times me-2"></i>Annuler
+        </button>
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save me-2"></i>Enregistrer les modifications
+        </button>
+    </div>
+</div>
+{{ form_end(form) }}

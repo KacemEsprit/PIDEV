@@ -1,0 +1,14 @@
+{{ form_start(form, {'attr': {'class': 'publication-form', 'enctype': 'multipart/form-data'}}) }}
+<div class="form-group category-select">
+    <div class="input-group">
+        <span class="input-group-text">
+            <i class="fas fa-tag"></i>
+        </span>
+        {{ form_widget(form.category, {
+            'attr': {
+                'class': 'form-select custom-select',
+                'data-style': 'btn-primary'
+            }
+        }) }}
+    </div>
+</div>

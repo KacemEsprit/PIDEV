@@ -1,0 +1,485 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rapports Médicaux{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/themes/material_blue.css">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <!-- Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/l10n/fr.js"></script>
+{% endblock %}
+
+{% block body %}
+<style>
+  #patient-list {
+    max-height: 600px;
+    overflow-y: auto;
+  }
+  .patient-item {
+    display: block;
+    padding: 15px;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s, border-color 0.3s;
+    text-decoration: none;
+    color: inherit;
+  }
+  .patient-item:hover {
+    background-color: #f1f3f5;
+  }
+  .patient-item.active {
+    background-color: #e9f7fe;
+    border-color: #007bff;
+  }
+  .patient-avatar {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin-right: 15px;
+    border-radius: 50%;
+    border: 2px solid #007bff;
+  }
+
+  .report-content {
+    display: none;
+    margin-top: 20px;
+  }
+  .report-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    padding: 20px;
+  }
+  .report-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .report-header h2 {
+    font-size: 24px;
+    color: #007bff;
+  }
+  .report-header hr {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #f1f3f5;
+  }
+  .report-body p {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  .report-body strong {
+    color: #333;
+  }
+
+  .input-group-text {
+    background-color: #007bff;
+    color: #ffffff;
+  }
+
+  .list-group-item {
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    transition: background-color 0.3s, border-color 0.3s;
+  }
+  .list-group-item:hover {
+    background-color: #f1f3f5;
+  }
+
+  .modal-content {
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  }
+
+  .modal-header {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    padding: 1.5rem;
+  }
+
+  .modal-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  .modal-body {
+    padding: 2rem;
+  }
+
+  .modal-footer {
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    padding: 1.5rem;
+    background-color: #f8f9fa;
+  }
+
+  .form-control {
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    padding: 0.75rem;
+    transition: all 0.3s ease;
+  }
+
+  .form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+
+  .btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary {
+    background: #007bff;
+    border: none;
+  }
+
+  .btn-primary:hover {
+    background: #0056b3;
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    background: #6c757d;
+    border: none;
+  }
+
+  .btn-secondary:hover {
+    background: #545b62;
+    transform: translateY(-2px);
+  }
+</style>
+
+<div class="container-fluid page-header py-5 mb-5">
+  <div class="container py-5">
+    <h1 class="display-3 text-white mb-3">Rapports Médicaux des Patients</h1>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb text-uppercase mb-0">
+        <li class="breadcrumb-item"><a class="text-white" href="{{ path('app_home') }}">Accueil</a></li>
+        <li class="breadcrumb-item text-primary active">Rapport d'État</li>
+      </ol>
+    </nav>
+  </div>
+</div>
+
+<div class="container py-5">
+  <div class="row">
+    <!-- Liste des Patients -->
+    <div class="col-md-4">
+      <div class="input-group mb-3">
+        <span class="input-group-text bg-primary text-white"><i class="fas fa-search"></i></span>
+        <input type="text" id="patient-search" class="form-control" placeholder="Rechercher un patient">
+      </div>
+    <div class="list-group" id="patient-list">
+  {% for patient in patients %}
+
+    <a href="#" class="list-group-item patient-item" data-patient-id="{{ patient.id }}">
+      <div class="d-flex align-items-center">
+        <video autoplay loop muted class="patient-avatar" style="width: 50px; height: 50px;">
+          <source src="https://cdn-icons-mp4.flaticon.com/512/11688/11688509.mp4" type="video/mp4">
+          Votre navigateur ne supporte pas la balise vidéo.
+        </video>
+        <div>
+          <h6 class="mb-0">{{ patient.nom }} {{ patient.prenom }}</h6>
+          <small class="text-muted">{{ patient.adresse }}</small>
+        </div>
+      </div>
+    </a>
+  {% endfor %}
+</div>
+
+    </div>
+
+    <!-- Affichage des Rapports -->
+    <div class="col-md-8">
+      <div id="alert-no-report" class="alert alert-danger text-center" style="display: none;">
+        <p><strong>Aucun rapport trouvé pour ce patient.</strong></p>
+      </div>
+
+      <div class="mb-3">
+        <select id="rapport-select" class="form-select">
+          <option value="">Choisissez un rapport</option>
+        </select>
+      </div>
+
+      <div id="reports-container"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal d'édition -->
+<div class="modal fade" id="editRapportModal" tabindex="-1" aria-labelledby="editRapportModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div id="modalContent">
+            <!-- Le contenu sera chargé dynamiquement -->
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var patients = document.querySelectorAll('.patient-item');
+    var select = document.getElementById('rapport-select');
+    var reportsContainer = document.getElementById('reports-container');
+    var alertNoReport = document.getElementById('alert-no-report');
+
+    select.style.display = 'none';
+    alertNoReport.style.display = 'none';
+
+    patients.forEach(function(patient) {
+      patient.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          patients.forEach(p => p.classList.remove('active'));
+          this.classList.add('active');
+  
+          var patientId = this.getAttribute('data-patient-id');
+  
+          // Cacher tous les rapports
+          document.querySelectorAll('.report-content').forEach(report => {
+              report.style.display = 'none';
+          });
+  
+          // Réinitialiser le select
+          select.innerHTML = '<option value="">Choisissez un rapport</option>';
+          
+          // Vider le conteneur des rapports pour éviter les doublons
+          reportsContainer.innerHTML = '';
+  
+          // Trouver les rapports pour ce patient
+          var rapports = document.querySelectorAll('.report-content');
+          var found = false;
+  
+          rapports.forEach(function(rapport) {
+              if (rapport.getAttribute('data-patient-id') === patientId) {
+                  // Créer l'option dans le select
+                  var option = document.createElement('option');
+                  option.value = rapport.id;
+                  option.textContent = rapport.getAttribute('data-date');
+                  select.appendChild(option);
+  
+                  // Copier le rapport dans le container
+                  var rapportClone = rapport.cloneNode(true);
+                  reportsContainer.appendChild(rapportClone);
+                  found = true;
+              }
+          });
+  
+          if (!found) {
+              select.style.display = 'none';
+              alertNoReport.style.display = 'block';
+          } else {
+              select.style.display = 'block';
+              alertNoReport.style.display = 'none';
+          }
+      });
+  });
+
+    select.addEventListener('change', function() {
+        // Cacher tous les rapports dans le container
+        reportsContainer.querySelectorAll('.report-content').forEach(report => {
+            report.style.display = 'none';
+        });
+
+        if (this.value) {
+            // Afficher le rapport sélectionné dans le container
+            var selectedReport = reportsContainer.querySelector('#' + this.value);
+            if (selectedReport) {
+                selectedReport.style.display = 'block';
+            }
+        }
+    });
+
+    function showError(message) {
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'alert alert-danger mt-3';
+        errorDiv.textContent = message;
+        const modalBody = document.querySelector('.modal-body');
+        if (modalBody) {
+            const existingError = modalBody.querySelector('.alert-danger');
+            if (existingError) {
+                existingError.remove();
+            }
+            modalBody.insertBefore(errorDiv, modalBody.firstChild);
+        }
+    }
+
+    function serializeForm(form) {
+        const formData = new FormData(form);
+        const serialized = {
+            rapport_detat: {}
+        };
+        
+        formData.forEach((value, key) => {
+            const matches = key.match(/rapport_detat\[(.*?)\]/);
+            if (matches) {
+                const fieldName = matches[1];
+                if (!isNaN(value) && value !== '') {
+                    serialized.rapport_detat[fieldName] = Number(value);
+                } else if (value === 'true') {
+                    serialized.rapport_detat[fieldName] = true;
+                } else if (value === 'false') {
+                    serialized.rapport_detat[fieldName] = false;
+                } else {
+                    serialized.rapport_detat[fieldName] = value;
+                }
+            }
+        });
+        
+        return serialized;
+    }
+
+    function initFlatpickr(element) {
+        if (element && typeof flatpickr !== 'undefined') {
+            flatpickr(element, {
+                dateFormat: "Y-m-d",
+                locale: 'fr',
+                allowInput: true,
+                defaultDate: element.value || 'today'
+            });
+        }
+    }
+
+    window.ouvrirModalEdition = function(rapportId) {
+        const url = '{{ path("app_medecin_edit_rapport", {"id": "RAPPORT_ID"}) }}'.replace('RAPPORT_ID', rapportId);
+        const modal = new bootstrap.Modal(document.getElementById('editRapportModal'));
+        
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erreur lors du chargement du formulaire');
+            }
+            return response.text();
+        })
+        .then(html => {
+            const modalContent = document.getElementById('modalContent');
+            modalContent.innerHTML = html;
+            
+            setTimeout(() => {
+                const dateInput = modalContent.querySelector('.datepicker');
+                initFlatpickr(dateInput);
+            }, 100);
+
+            const form = modalContent.querySelector('#edit-rapport-form');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const formData = serializeForm(this);
+                    console.log('Données envoyées:', formData);
+
+                    fetch(form.action, {
+                        method: 'POST',
+                        body: JSON.stringify(formData),
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        }
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.json().then(data => {
+                                throw new Error(data.errors ? data.errors.join('\n') : 'Erreur lors de la modification');
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.success) {
+                            modal.hide();
+                            window.location.reload();
+                        } else {
+                            throw new Error(data.errors ? data.errors.join('\n') : 'Erreur lors de la modification');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erreur:', error);
+                        showError(error.message || 'Une erreur est survenue lors de la modification');
+                    });
+                });
+            }
+
+            modal.show();
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+            showError(error.message || 'Une erreur est survenue lors du chargement du formulaire');
+        });
+    };
+
+    window.confirmerSuppression = function(rapportId) {
+        if (confirm('Êtes-vous sûr de vouloir supprimer ce rapport ?')) {
+            const url = '{{ path("app_medecin_delete_rapport", {"id": "RAPPORT_ID"}) }}'.replace('RAPPORT_ID', rapportId);
+            
+            fetch(url, {
+                method: 'DELETE',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    window.location.reload();
+                }
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                alert('Une erreur est survenue lors de la suppression du rapport');
+            });
+        }
+    };
+});
+</script>
+
+{% for rapport in rapports %}
+  <div id="report{{ rapport.id }}" class="report-content report-card" style="display: none;" data-patient-id="{{ rapport.patient.id }}" data-date="{{ rapport.dateRapport|date('d/m/Y') }}">
+    <div class="report-header">
+      <div class="d-flex justify-content-between align-items-center">
+        <h2 class="text-primary">Rapport Médical de {{ rapport.patient.nom }} {{ rapport.patient.prenom }}</h2>
+       <div class="report-actions">
+  <button type="button" class="bg-primary text-white btn  ms-2" onclick="ouvrirModalEdition({{ rapport.id }})">
+    <i class="fas fa-edit "></i> Modifier
+  </button>
+  <button type="button" class="btn btn-danger ms-2" onclick="confirmerSuppression({{ rapport.id }})">
+    <i class="fas fa-trash"></i> Supprimer
+  </button>
+</div>
+
+      </div>
+      <hr>
+    </div>
+    <div class="report-body">
+      <p><strong>Âge :</strong> {{ rapport.age }}</p>
+      <p><strong>Sexe :</strong> {{ rapport.sexe }}</p>
+      <p><strong>Date du Rapport :</strong> {{ rapport.dateRapport|date('d/m/Y') }}</p>
+      <p><strong>Tension Artérielle :</strong> {{ rapport.tensionArterielle }}</p>
+      <p><strong>Pouls :</strong> {{ rapport.pouls }}</p>
+      <p><strong>Température :</strong> {{ rapport.temperature }}°C</p>
+      <p><strong>Saturation en Oxygène :</strong> {{ rapport.saturationOxygene }}%</p>
+      <p><strong>IMC :</strong> {{ rapport.imc }}</p>
+      <p><strong>Niveau de Douleur :</strong> {{ rapport.niveauDouleur }}</p>
+      <p><strong>Traitement :</strong> {{ rapport.traitement }}</p>
+      <p><strong>Complications :</strong> {{ rapport.complications|default('Aucune') }}</p>
+    </div>
+  </div>
+{% endfor %}
+
+{% endblock %}

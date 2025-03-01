@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Compagnies en attente de validation{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <h1 class="h3 mb-4">Compagnies en attente de validation</h1>
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        {% if compagnies is empty %}
+            <div class="alert alert-info">
+                Aucune compagnie en attente de validation.
+            </div>
+        {% else %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>SIRET</th>
+                            <th>Donateur</th>
+                            <th>Date de création</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for compagnie in compagnies %}
+                            <tr>
+                                <td>{{ compagnie.nom }}</td>
+                                <td>{{ compagnie.siret }}</td>
+                                <td>{{ compagnie.donateur.email }}</td>
+                                <td>{{ compagnie.dateCreation ? compagnie.dateCreation|date('d/m/Y H:i') : '' }}</td>
+                                <td>
+                                    <a href="{{ path('app_compagnie_validate', {'id': compagnie.id, 'action': 'approve'}) }}" 
+                                       class="btn btn-success btn-sm">
+                                        <i class="fas fa-check"></i> Approuver
+                                    </a>
+                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#rejectModal{{ compagnie.id }}">
+                                        <i class="fas fa-times"></i> Rejeter
+                                    </button>
+
+                                    <!-- Modal de rejet -->
+                                    <div class="modal fade" id="rejectModal{{ compagnie.id }}" tabindex="-1" aria-labelledby="rejectModalLabel{{ compagnie.id }}" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <form action="{{ path('app_compagnie_validate', {'id': compagnie.id, 'action': 'reject'}) }}" method="post">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="rejectModalLabel{{ compagnie.id }}">Motif du rejet</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="form-group">
+                                                            <label for="motif_rejet">Veuillez indiquer le motif du rejet :</label>
+                                                            <textarea class="form-control" id="motif_rejet" name="motif_rejet" rows="3" required></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                                        <button type="submit" class="btn btn-danger">Confirmer le rejet</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,240 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription - OncoKidsCare{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<div class="register-container">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="register-card">
+                    <div class="register-header">
+                        <h1 class="text-center mb-4">
+                            <i class="fas fa-user-plus text-primary"></i>
+                            Créer un compte
+                        </h1>
+                        <p class="text-center text-muted">Rejoignez notre communauté et commencez à faire la différence</p>
+                    </div>
+
+                    {{ form_start(registrationForm, {'attr': {'class': 'register-form'}}) }}
+                    
+                    {% if form_errors(registrationForm) %}
+                        <div class="alert alert-danger">
+                            {{ form_errors(registrationForm) }}
+                        </div>
+                    {% endif %}
+
+                    <div class="form-section">
+                        <div class="form-floating mb-3">
+                            {{ form_widget(registrationForm.email, {
+                                'attr': {
+                                    'class': 'form-control',
+                                    'placeholder': 'Email'
+                                }
+                            }) }}
+                            <label for="{{ registrationForm.email.vars.id }}">
+                                <i class="fas fa-envelope"></i> Email
+                            </label>
+                            {{ form_errors(registrationForm.email) }}
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    {{ form_widget(registrationForm.nom, {
+                                        'attr': {
+                                            'class': 'form-control',
+                                            'placeholder': 'Nom'
+                                        }
+                                    }) }}
+                                    <label for="{{ registrationForm.nom.vars.id }}">
+                                        <i class="fas fa-user"></i> Nom
+                                    </label>
+                                    {{ form_errors(registrationForm.nom) }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    {{ form_widget(registrationForm.prenom, {
+                                        'attr': {
+                                            'class': 'form-control',
+                                            'placeholder': 'Prénom'
+                                        }
+                                    }) }}
+                                    <label for="{{ registrationForm.prenom.vars.id }}">
+                                        <i class="fas fa-user"></i> Prénom
+                                    </label>
+                                    {{ form_errors(registrationForm.prenom) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            {{ form_widget(registrationForm.tel, {
+                                'attr': {
+                                    'class': 'form-control',
+                                    'placeholder': 'Téléphone'
+                                }
+                            }) }}
+                            <label for="{{ registrationForm.tel.vars.id }}">
+                                <i class="fas fa-phone"></i> Téléphone
+                            </label>
+                            {{ form_errors(registrationForm.tel) }}
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            {{ form_widget(registrationForm.adresse, {
+                                'attr': {
+                                    'class': 'form-control',
+                                    'placeholder': 'Adresse'
+                                }
+                            }) }}
+                            <label for="{{ registrationForm.adresse.vars.id }}">
+                                <i class="fas fa-map-marker-alt"></i> Adresse
+                            </label>
+                            {{ form_errors(registrationForm.adresse) }}
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label class="form-label">
+                                <i class="fas fa-user-tag"></i> Type de compte
+                            </label>
+                            {{ form_widget(registrationForm.role, {
+                                'attr': {
+                                    'class': 'form-select form-control',
+                                    'onchange': 'toggleDonateurType()'
+                                }
+                            }) }}
+                            {{ form_errors(registrationForm.role) }}
+                        </div>
+
+                        <div id="donateurTypeSection" class="form-section mb-4" style="display: none;">
+                            <label class="form-label required">
+                                <i class="fas fa-hand-holding-heart"></i> Type de Donateur
+                            </label>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="donor-type-card" onclick="selectDonorType('individuel')">
+                                        <input type="radio" id="type_individuel" 
+                                               name="donateurType" 
+                                               value="individuel" class="donor-type-input">
+                                        <div class="donor-type-content">
+                                            <i class="fas fa-user donor-icon"></i>
+                                            <h5>Donateur Individuel</h5>
+                                            <p>Pour les particuliers souhaitant faire des dons</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="donor-type-card" onclick="selectDonorType('compagnie')">
+                                        <input type="radio" id="type_compagnie" 
+                                               name="donateurType" 
+                                               value="compagnie" class="donor-type-input">
+                                        <div class="donor-type-content">
+                                            <i class="fas fa-building donor-icon"></i>
+                                            <h5>Donateur Compagnie</h5>
+                                            <p>Pour les entreprises et organisations</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            {{ form_widget(registrationForm.plainPassword, {
+                                'attr': {
+                                    'class': 'form-control',
+                                    'placeholder': 'Mot de passe'
+                                }
+                            }) }}
+                            <label for="{{ registrationForm.plainPassword.vars.id }}">
+                                <i class="fas fa-lock"></i> Mot de passe
+                            </label>
+                            {{ form_errors(registrationForm.plainPassword) }}
+                        </div>
+
+                        <div class="form-check mb-4">
+                            {{ form_widget(registrationForm.agreeTerms, {
+                                'attr': {'class': 'form-check-input'}
+                            }) }}
+                            <label class="form-check-label" for="{{ registrationForm.agreeTerms.vars.id }}">
+                                J'accepte les <a href="#" class="text-primary">conditions d'utilisation</a>
+                            </label>
+                            {{ form_errors(registrationForm.agreeTerms) }}
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-lg w-100">
+                            <i class="fas fa-user-plus"></i> S'inscrire
+                        </button>
+                    </div>
+
+                    {{ form_end(registrationForm) }}
+
+                    <div class="text-center mt-4">
+                        <p class="text-muted">
+                            Déjà inscrit ? 
+                            <a href="{{ path('app_login') }}" class="text-primary">
+                                Connectez-vous ici
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+function toggleDonateurType() {
+    const roleSelect = document.getElementById('{{ registrationForm.role.vars.id }}');
+    const donateurTypeSection = document.getElementById('donateurTypeSection');
+    
+    if (roleSelect.value === '{{ constant('App\\Entity\\User::ROLE_DONATEUR') }}') {
+        donateurTypeSection.style.display = 'block';
+        document.querySelectorAll('[name="donateurType"]').forEach(radio => {
+            radio.required = true;
+        });
+    } else {
+        donateurTypeSection.style.display = 'none';
+        document.querySelectorAll('[name="donateurType"]').forEach(radio => {
+            radio.required = false;
+            radio.checked = false;
+        });
+        document.querySelectorAll('.donor-type-card').forEach(card => {
+            card.classList.remove('selected');
+        });
+    }
+}
+
+function selectDonorType(type) {
+    // Déselectionner toutes les cartes
+    document.querySelectorAll('.donor-type-card').forEach(card => {
+        card.classList.remove('selected');
+    });
+    
+    // Sélectionner la carte cliquée
+    const radio = document.getElementById('type_' + type);
+    radio.checked = true;
+    radio.closest('.donor-type-card').classList.add('selected');
+}
+
+// Initialisation
+document.addEventListener('DOMContentLoaded', function() {
+    toggleDonateurType();
+    
+    // Vérifier si un type de donateur est déjà sélectionné
+    document.querySelectorAll('[name="donateurType"]').forEach(radio => {
+        if (radio.checked) {
+            radio.closest('.donor-type-card').classList.add('selected');
+        }
+    });
+});
+</script>
+{% endblock %}

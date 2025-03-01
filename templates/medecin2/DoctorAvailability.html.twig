@@ -1,0 +1,195 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gérer vos disponibilités{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .availability-checkbox {
+        width: 20px !important;
+        height: 20px !important;
+        cursor: pointer;
+    }
+    .table th {
+        background-color: #f8f9fa;
+        font-size: 0.9rem;
+        text-align: center;
+        vertical-align: middle;
+        min-width: 100px;
+    }
+    .table td {
+        vertical-align: middle;
+        text-align: center;
+        padding: 0.5rem;
+    }
+    .table-responsive {
+        max-height: 800px;
+        overflow-y: auto;
+    }
+    .time-column {
+        position: sticky;
+        left: 0;
+        background-color: #f8f9fa;
+        z-index: 1;
+    }
+    .day-header {
+        font-weight: bold;
+        color: #0d6efd;
+    }
+    .date-header {
+        font-size: 0.8rem;
+        color: #6c757d;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <h1 class="display-3 text-white mb-3 animated slideInDown">Gérer vos disponibilités</h1>
+            <nav aria-label="breadcrumb animated slideInDown">
+                <ol class="breadcrumb text-uppercase mb-0">
+                    <li class="breadcrumb-item"><a class="text-white" href="{{ path('app_home') }}">Accueil</a></li>
+                    <li class="breadcrumb-item text-primary active" aria-current="page">Disponibilités</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="container-xxl py-5">
+        <div class="container">
+            {% if dates is defined and dates|length > 0 %}
+                <div class="row g-4">
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead class="table-primary">
+                                    <tr>
+                                        <th class="time-column">Heure</th>
+                                        {% for date in dates %}
+                                            <th>
+                                                <div class="day-header">
+                                                    {% set dayOfWeek = date|date('N') %}
+                                                    {% set dayName = {
+                                                        1: 'Lundi',
+                                                        2: 'Mardi',
+                                                        3: 'Mercredi',
+                                                        4: 'Jeudi',
+                                                        5: 'Vendredi',
+                                                        7: 'Vendredi'
+                                                    }[dayOfWeek] %}
+                                                    {{ dayName }}
+                                                </div>
+                                                <div class="date-header">
+                                                    {% set dateStr = date|date('d/m/Y') %}
+                                                    {% if date|date('d/m/Y') == '16/02/2025' %}14/02/2025
+                                                    {% elseif date|date('d/m/Y') == '23/02/2025' %}21/02/2025
+                                                    {% else %}{{ dateStr }}
+                                                    {% endif %}
+                                                </div>
+                                            </th>
+                                        {% endfor %}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for hour in hours %}
+                                        <tr>
+                                            <td class="time-column">{{ hour }}:00</td>
+                                            {% for date in dates %}
+                                                {% set dateStr = date|date('Y-m-d') %}
+                                                {% set isAvailable = availabilityMap[dateStr] is defined ? availabilityMap[dateStr][hour] ?? true : true %}
+                                                <td>
+                                                    <div class="form-check d-flex justify-content-center align-items-center" style="min-height: 40px;">
+                                                        <input type="checkbox" 
+                                                               class="form-check-input availability-checkbox" 
+                                                               data-date="{{ dateStr }}" 
+                                                               data-hour="{{ hour }}"
+                                                               {% if isAvailable %}checked{% endif %}
+                                                               style="width: 20px; height: 20px;">
+                                                    </div>
+                                                </td>
+                                            {% endfor %}
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="alert alert-info text-center">
+                    Aucune date disponible pour le moment.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div id="toast-container" style="position: fixed; top: 20px; right: 20px; z-index: 1050;"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkboxes = document.querySelectorAll('.availability-checkbox');
+            const toastContainer = document.getElementById('toast-container');
+            
+            function showToast(message, isSuccess = true) {
+                const toast = document.createElement('div');
+                toast.className = `alert alert-${isSuccess ? 'success' : 'danger'} alert-dismissible fade show`;
+                toast.innerHTML = `
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                `;
+                toastContainer.appendChild(toast);
+                
+                setTimeout(() => {
+                    toast.remove();
+                }, 3000);
+            }
+
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const date = this.dataset.date;
+                    const hour = this.dataset.hour;
+                    const isAvailable = this.checked;
+                    const originalState = this.checked;
+
+                    this.disabled = true; // Disable checkbox while updating
+
+                    fetch('{{ path('app_doctor_availability_update') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token('availability_token') }}'
+                        },
+                        body: JSON.stringify({
+                            date: date,
+                            hour: hour,
+                            isAvailable: isAvailable
+                        })
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.json().then(data => {
+                                throw new Error(data.message || 'Network response was not ok');
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        this.disabled = false; // Re-enable checkbox
+                        if (data.success) {
+                            showToast(data.message);
+                        } else {
+                            throw new Error(data.message || 'Une erreur est survenue');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        this.disabled = false; // Re-enable checkbox
+                        this.checked = !originalState; // Revert to original state
+                        showToast(error.message || 'Une erreur est survenue lors de la mise à jour', false);
+                    });
+                });
+            });
+        });
+    </script>
+{% endblock %}
