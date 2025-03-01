@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 5c7aa9,127.0.0.1,GET,https://127.0.0.1:8000/admin/admin_dashboard,1740655054,37820a,500,request
 37820a,127.0.0.1,GET,https://127.0.0.1:8000/admin/admin_dashboard,1740655054,,500,request
 9f3542,127.0.0.1,GET,https://127.0.0.1:8000/login,1740655056,,302,request
@@ -88,3 +89,29 @@ e9da49,127.0.0.1,GET,https://127.0.0.1:8000/patient/profile,1740827471,,200,requ
 eded5b,127.0.0.1,GET,https://127.0.0.1:8000/login,1740827533,,200,request
 8c7fdb,127.0.0.1,POST,https://127.0.0.1:8000/login,1740827538,,302,request
 3d975a,127.0.0.1,GET,https://127.0.0.1:8000/compagnie/select-or-create,1740827539,,200,request
+=======
+80355d,127.0.0.1,GET,https://127.0.0.1:8000/publication/78,1740525235,,200,request
+18664d,127.0.0.1,GET,https://127.0.0.1:8000/publication/78,1740525246,,200,request
+c9e30a,127.0.0.1,GET,https://127.0.0.1:8000/publication/78,1740525266,,200,request
+2831bb,127.0.0.1,GET,https://127.0.0.1:8000/publication/78,1740525282,,200,request
+0c4689,127.0.0.1,GET,https://127.0.0.1:8000/chatbot/message,1740525287,01ab45,500,request
+01ab45,127.0.0.1,POST,https://127.0.0.1:8000/chatbot/message,1740525287,,500,request
+1ca79e,127.0.0.1,GET,https://127.0.0.1:8000/publication/78,1740525432,,200,request
+f5d444,127.0.0.1,GET,https://127.0.0.1:8000/publication/78,1740525654,,200,request
+3b062a,127.0.0.1,GET,https://127.0.0.1:8000/publication/78,1740525669,,200,request
+7d49fd,127.0.0.1,GET,https://127.0.0.1:8000/chatbot/message,1740525673,5011c5,500,request
+5011c5,127.0.0.1,POST,https://127.0.0.1:8000/chatbot/message,1740525674,,500,request
+08e82c,127.0.0.1,GET,https://127.0.0.1:8000/publication/78,1740526065,,200,request
+b75b3e,127.0.0.1,GET,https://127.0.0.1:8000/chatbot/message,1740526085,7821e2,500,request
+7821e2,127.0.0.1,POST,https://127.0.0.1:8000/chatbot/message,1740526085,,500,request
+dd6a15,127.0.0.1,GET,https://127.0.0.1:8000/publication/78,1740526195,,200,request
+035bda,127.0.0.1,GET,https://127.0.0.1:8000/chatbot/message,1740526220,c9c4b4,500,request
+c9c4b4,127.0.0.1,POST,https://127.0.0.1:8000/chatbot/message,1740526220,,500,request
+9926c5,127.0.0.1,GET,https://127.0.0.1:8000/publication/78/edit,1740526422,,200,request
+2877a5,127.0.0.1,POST,https://127.0.0.1:8000/publication/78/edit,1740526428,,303,request
+ae7526,127.0.0.1,GET,https://127.0.0.1:8000/publication/,1740526430,,200,request
+f20fa4,127.0.0.1,GET,https://127.0.0.1:8000/publication/78,1740526437,,200,request
+9d8bb8,127.0.0.1,GET,https://127.0.0.1:8000/publication/78,1740526583,,200,request
+493b16,127.0.0.1,POST,https://127.0.0.1:8000/chatbot/message,1740526588,,200,request
+af0b82,127.0.0.1,POST,https://127.0.0.1:8000/chatbot/message,1740526596,,200,request
+>>>>>>> 0fd897a2b57706ab4f374bccc96059ab4cc77ddf
