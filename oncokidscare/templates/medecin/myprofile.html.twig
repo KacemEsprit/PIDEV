@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mon Profil{% endblock %}
+{% block title %}My Profile{% endblock %}
 
 {% block body %}
 
@@ -24,9 +24,9 @@
         </div>
     {% endfor %}
     
-    <div class="card shadow mb-3">
+        <div class="card shadow mb-3">
         <div class="card-header py-3">
-            <p class="text-primary m-0 fw-bold">Profile </p>
+            <p class="text-primary text-center m-15  fw-bold" >Welcome {{ user.nom }} {{ user.prenom }}</p>
         </div>
         <div class="card-body">
             <form method="POST" enctype="multipart/form-data" action="{{ path('app_medecin_profile') }}">
@@ -99,10 +99,6 @@
                             {{ form_widget(form.password) }}
                             {{ form_errors(form.password) }}
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label"><strong>Role</strong></label>
-                            <input class="form-control" type="text" value="{{ user.role|replace({'ROLE_': ''}) }}" readonly>
-                        </div>
                     </div>
                     <div class="col-12">
                         <button class="btn btn-primary" type="submit">Save Settings</button>
@@ -118,26 +114,15 @@
 function previewImage(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
-        
         reader.onload = function(e) {
             document.getElementById('profile-picture-preview').src = e.target.result;
         }
-        
         reader.readAsDataURL(input.files[0]);
     }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.querySelector('form');
-    const password = document.getElementById('password');
-    const passwordConfirm = document.getElementById('password_confirm');
-
-    form.addEventListener('submit', function(e) {
-        if (password.value !== passwordConfirm.value) {
-            e.preventDefault();
-            alert('Passwords do not match!');
-        }
-    });
+document.querySelector('input[type="file"]').addEventListener('change', function() {
+    previewImage(this);
 });
 </script>
 {% endblock %}
