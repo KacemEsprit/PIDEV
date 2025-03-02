@@ -19,6 +19,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use App\Entity\Like;
 use App\Repository\LikeRepository;
+use Knp\Component\Pager\PaginatorInterface;
 
 #[Route('/publication')]
 #[IsGranted('ROLE_USER')]
@@ -89,34 +90,34 @@ class PublicationController extends AbstractController
             imagedestroy($source);
         }
     }
-private function handleImageUpload($imageFile, string $uploadDir): ?string
-{
-    try {
-        if (!is_dir($uploadDir)) {
-            mkdir($uploadDir, 0777, true);
+    private function handleImageUpload($imageFile, string $uploadDir): ?string
+    {
+        try {
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+
+            $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+            $safeFilename = $this->slugger->slug($originalFilename);
+            $newFilename = $safeFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
+
+            // Move uploaded file
+            $imageFile->move($uploadDir, $newFilename);
+
+            $this->addFlash('info', 'Image uploaded successfully: ' . $newFilename);
+
+            return '/uploads/publications/' . $newFilename;
+        } catch (\Exception $e) {
+            $this->addFlash('error', 'Error uploading image: ' . $e->getMessage());
+            return null;
         }
-
-        $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
-        $safeFilename = $this->slugger->slug($originalFilename);
-        $newFilename = $safeFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
-
-        // Move uploaded file
-        $imageFile->move($uploadDir, $newFilename);
-
-        $this->addFlash('info', 'Image uploaded successfully: ' . $newFilename);
-
-        return '/uploads/publications/' . $newFilename;
-    } catch (\Exception $e) {
-        $this->addFlash('error', 'Error uploading image: ' . $e->getMessage());
-        return null;
     }
-}
     public function __construct(
         private readonly SluggerInterface $slugger
     ) {}
 
     #[Route('/', name: 'app_publication_index', methods: ['GET', 'POST'])]
-    public function index(Request $request, PublicationRepository $publicationRepository): Response
+    public function index(Request $request, PublicationRepository $publicationRepository, PaginatorInterface $paginator): Response
     {
         $user = $this->getUser();
         if (!$user || (!in_array('ROLE_PATIENT', $user->getRoles()) && !in_array('ROLE_MEDECIN', $user->getRoles()) && !in_array('ROLE_ADMIN', $user->getRoles()))) {
@@ -146,69 +147,75 @@ private function handleImageUpload($imageFile, string $uploadDir): ?string
             $publication->setUser($user);
             $publication->setStatus('pending');
             $publicationRepository->save($publication, true);
-    $category = $request->query->get('category');
 
             $this->addFlash('info', 'Votre publication a été envoyée aux admins. Veuillez attendre l\'approbation.');
 
             return $this->redirectToRoute('app_publication_index');
         }
 
-$category = $request->query->get('category');
-return $this->render('publication/index.html.twig', [
-    'publications' => $category 
-        ? $publicationRepository->findByCategory($category)
-        : $publicationRepository->findAllOrderedByDate(),
-    'form' => $form->createView(),
-]);
-        
+        $category = $request->query->get('category');
+        $query = $category 
+            ? $publicationRepository->createQueryBuilderByCategory($category)
+            : $publicationRepository->createQueryBuilderOrderedByDate();
+
+        $pagination = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1),
+            6 // Nombre d'éléments par page
+        );
+
+        return $this->render('publication/index.html.twig', [
+            'publications' => $pagination,
+            'form' => $form->createView(),
+        ]);
     }
 
-#[Route('/new', name: 'app_publication_new', methods: ['GET', 'POST'])]
-public function new(Request $request, PublicationRepository $publicationRepository): Response
-{
-    $publication = new Publication();
-    $form = $this->createForm(PublicationType::class, $publication);
-    $form->handleRequest($request);
+    #[Route('/new', name: 'app_publication_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, PublicationRepository $publicationRepository): Response
+    {
+        $publication = new Publication();
+        $form = $this->createForm(PublicationType::class, $publication);
+        $form->handleRequest($request);
 
-    if ($form->isSubmitted() && $form->isValid()) {
-        /** @var UploadedFile[] $imageFiles */
-        $imageFiles = $form->get('imageFiles')->getData();
-        
-        if ($imageFiles) {
-            $uploadDir = $this->getParameter('kernel.project_dir') . '/public/uploads/publications';
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile[] $imageFiles */
+            $imageFiles = $form->get('imageFiles')->getData();
             
-            if (!is_dir($uploadDir)) {
-                mkdir($uploadDir, 0777, true);
-            }
+            if ($imageFiles) {
+                $uploadDir = $this->getParameter('kernel.project_dir') . '/public/uploads/publications';
 
-            foreach ($imageFiles as $imageFile) {
-                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $newFilename = $originalFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
-                
-                try {
-                    $imageFile->move($uploadDir, $newFilename);
-                    $publication->addImageUrl('/uploads/publications/' . $newFilename);
-                } catch (\Exception $e) {
-                    $this->addFlash('error', 'Error uploading file: ' . $e->getMessage());
-                    continue;
+                if (!is_dir($uploadDir)) {
+                    mkdir($uploadDir, 0777, true);
+                }
+
+                foreach ($imageFiles as $imageFile) {
+                    $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                    $newFilename = $originalFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
+                    
+                    try {
+                        $imageFile->move($uploadDir, $newFilename);
+                        $publication->addImageUrl('/uploads/publications/' . $newFilename);
+                    } catch (\Exception $e) {
+                        $this->addFlash('error', 'Error uploading file: ' . $e->getMessage());
+                        continue;
+                    }
                 }
             }
+
+            $publication->setUser($this->getUser());
+            $publication->setDatePb(new \DateTime());
+            $publication->setStatus('pending');
+            
+            $publicationRepository->save($publication, true);
+
+            return $this->redirectToRoute('app_publication_index');
         }
 
-        $publication->setUser($this->getUser());
-        $publication->setDatePb(new \DateTime());
-        $publication->setStatus('pending');
-        
-        $publicationRepository->save($publication, true);
-
-        return $this->redirectToRoute('app_publication_index');
+        return $this->render('publication/new.html.twig', [
+            'publication' => $publication,
+            'form' => $form->createView(),
+        ]);
     }
-
-    return $this->render('publication/new.html.twig', [
-        'publication' => $publication,
-        'form' => $form->createView(),
-    ]);
-}
 
     #[Route('/{id}', name: 'app_publication_show', methods: ['GET', 'POST'])]
     public function show(Request $request, Publication $publication, CommentRepository $commentRepository): Response
@@ -237,76 +244,76 @@ public function new(Request $request, PublicationRepository $publicationReposito
         ]);
     }
 
-#[Route('/{id}/edit', name: 'app_publication_edit', methods: ['GET', 'POST'])]
-#[IsGranted(PublicationVoter::EDIT, subject: 'publication')]
-public function edit(Request $request, Publication $publication, PublicationRepository $publicationRepository): Response
-{
-    $user = $this->getUser();
-    if (!$user || (!in_array('ROLE_PATIENT', $user->getRoles()) && !in_array('ROLE_MEDECIN', $user->getRoles()) && !in_array('ROLE_ADMIN', $user->getRoles()))) {
-        throw new AccessDeniedException('Accès réservé aux patients, médecins et administrateurs.');
-    }
-
-    if ($publication->getUser() !== $this->getUser()) {
-        throw $this->createAccessDeniedException('Vous ne pouvez pas modifier cette publication.');
-    }
-
-    $form = $this->createForm(PublicationType::class, $publication);
-    $form->handleRequest($request);
-
-    if ($form->isSubmitted() && $form->isValid()) {
-        $imageFiles = $form->get('imageFiles')->getData();
-
-        $this->addFlash('info', 'Number of image files uploaded: ' . count($imageFiles));
-
-        if ($imageFiles) {
-            $uploadDir = $this->getParameter('kernel.project_dir') . '/public/uploads/publications';
-
-            // Delete old images
-            foreach ($publication->getImageUrls() as $oldImageUrl) {
-                $oldImagePath = $this->getParameter('kernel.project_dir') . '/public' . $oldImageUrl;
-                if (file_exists($oldImagePath)) {
-                    unlink($oldImagePath);
-                }
-            }
-            $publication->setImageUrls([]);
-
-            foreach ($imageFiles as $imageFile) {
-                $imageUrl = $this->handleImageUpload($imageFile, $uploadDir);
-                if ($imageUrl) {
-                    $publication->addImageUrl($imageUrl);
-                }
-            }
+    #[Route('/{id}/edit', name: 'app_publication_edit', methods: ['GET', 'POST'])]
+    #[IsGranted(PublicationVoter::EDIT, subject: 'publication')]
+    public function edit(Request $request, Publication $publication, PublicationRepository $publicationRepository): Response
+    {
+        $user = $this->getUser();
+        if (!$user || (!in_array('ROLE_PATIENT', $user->getRoles()) && !in_array('ROLE_MEDECIN', $user->getRoles()) && !in_array('ROLE_ADMIN', $user->getRoles()))) {
+            throw new AccessDeniedException('Accès réservé aux patients, médecins et administrateurs.');
         }
 
-        $publicationRepository->save($publication, true);
-        return $this->redirectToRoute('app_publication_index', [], Response::HTTP_SEE_OTHER);
-    }
-
-    return $this->render('publication/edit.html.twig', [
-        'publication' => $publication,
-        'form' => $form->createView(),
-    ]);
-}
-
-#[Route('/{id}/delete-image', name: 'app_publication_delete_image', methods: ['POST'])]
-public function deleteImage(Request $request, Publication $publication, string $imageUrl, PublicationRepository $publicationRepository): Response
-{
-    $user = $this->getUser();
-    if (!$user || $publication->getUser() !== $user) {
-        throw new AccessDeniedException('Vous ne pouvez pas supprimer cette image.');
-    }
-
-    if ($this->isCsrfTokenValid('delete_image'.$publication->getId(), $request->request->get('_token'))) {
-        $imagePath = $this->getParameter('kernel.project_dir') . '/public' . $imageUrl;
-        if (file_exists($imagePath)) {
-            unlink($imagePath);
+        if ($publication->getUser() !== $this->getUser()) {
+            throw $this->createAccessDeniedException('Vous ne pouvez pas modifier cette publication.');
         }
-        $publication->removeImageUrl($imageUrl);
-        $publicationRepository->save($publication, true);
+
+        $form = $this->createForm(PublicationType::class, $publication);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $imageFiles = $form->get('imageFiles')->getData();
+
+            $this->addFlash('info', 'Number of image files uploaded: ' . count($imageFiles));
+
+            if ($imageFiles) {
+                $uploadDir = $this->getParameter('kernel.project_dir') . '/public/uploads/publications';
+
+                // Delete old images
+                foreach ($publication->getImageUrls() as $oldImageUrl) {
+                    $oldImagePath = $this->getParameter('kernel.project_dir') . '/public' . $oldImageUrl;
+                    if (file_exists($oldImagePath)) {
+                        unlink($oldImagePath);
+                    }
+                }
+                $publication->setImageUrls([]);
+
+                foreach ($imageFiles as $imageFile) {
+                    $imageUrl = $this->handleImageUpload($imageFile, $uploadDir);
+                    if ($imageUrl) {
+                        $publication->addImageUrl($imageUrl);
+                    }
+                }
+            }
+
+            $publicationRepository->save($publication, true);
+            return $this->redirectToRoute('app_publication_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('publication/edit.html.twig', [
+            'publication' => $publication,
+            'form' => $form->createView(),
+        ]);
     }
 
-    return $this->redirectToRoute('app_publication_edit', ['id' => $publication->getId()]);
-}
+    #[Route('/{id}/delete-image', name: 'app_publication_delete_image', methods: ['POST'])]
+    public function deleteImage(Request $request, Publication $publication, string $imageUrl, PublicationRepository $publicationRepository): Response
+    {
+        $user = $this->getUser();
+        if (!$user || $publication->getUser() !== $user) {
+            throw new AccessDeniedException('Vous ne pouvez pas supprimer cette image.');
+        }
+
+        if ($this->isCsrfTokenValid('delete_image'.$publication->getId(), $request->request->get('_token'))) {
+            $imagePath = $this->getParameter('kernel.project_dir') . '/public' . $imageUrl;
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+            $publication->removeImageUrl($imageUrl);
+            $publicationRepository->save($publication, true);
+        }
+
+        return $this->redirectToRoute('app_publication_edit', ['id' => $publication->getId()]);
+    }
 
     #[Route('/{id}/like', name: 'app_publication_like', methods: ['GET'])]
     public function like(Publication $publication, EntityManagerInterface $entityManager, LikeRepository $likeRepository): Response
