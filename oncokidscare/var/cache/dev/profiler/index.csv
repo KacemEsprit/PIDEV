@@ -498,3 +498,9 @@ de2673,127.0.0.1,GET,https://127.0.0.1:8000/admin/users,1740947387,,200,request
 f4fc85,127.0.0.1,GET,https://127.0.0.1:8000/admin/profile,1740947389,,200,request
 773981,127.0.0.1,GET,https://127.0.0.1:8000/admin/publications,1740947390,,200,request
 82921f,127.0.0.1,GET,https://127.0.0.1:8000/admin/patient,1740947392,,200,request
+341b65,127.0.0.1,GET,https://127.0.0.1:8000/,1740953700,,200,request
+76aaff,127.0.0.1,GET,https://127.0.0.1:8000/login,1740953704,,200,request
+65467d,127.0.0.1,POST,https://127.0.0.1:8000/login,1740953716,,302,request
+c69a27,127.0.0.1,GET,https://127.0.0.1:8000/medecin/profile,1740953718,,200,request
+58a9b2,127.0.0.1,GET,https://127.0.0.1:8000/medecin/patients/rapports,1740953726,,200,request
+666021,127.0.0.1,GET,https://127.0.0.1:8000/medecin/create,1740953737,,200,request
