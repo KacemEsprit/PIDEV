@@ -102,6 +102,8 @@ return array(
     'Masterminds\\' => array($vendorDir . '/masterminds/html5/src'),
     'Lcobucci\\JWT\\' => array($vendorDir . '/lcobucci/jwt/src'),
     'Lcobucci\\Clock\\' => array($vendorDir . '/lcobucci/clock/src'),
+    'Knp\\Component\\' => array($vendorDir . '/knplabs/knp-components/src/Knp/Component'),
+    'Knp\\Bundle\\PaginatorBundle\\' => array($vendorDir . '/knplabs/knp-paginator-bundle/src'),
     'Flasher\\Symfony\\' => array($vendorDir . '/php-flasher/flasher-symfony'),
     'Flasher\\Prime\\' => array($vendorDir . '/php-flasher/flasher'),
     'Endroid\\QrCode\\' => array($vendorDir . '/endroid/qr-code/src'),

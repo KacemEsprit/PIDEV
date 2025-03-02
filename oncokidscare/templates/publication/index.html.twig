@@ -273,6 +273,10 @@
             </div>
         {% endfor %}
     </div>
+
+    <div class="navigation">
+        {{ knp_pagination_render(publications) }}
+    </div>
 </div>
 
 <!-- Modal for likes -->
@@ -322,6 +326,42 @@
     </div>
 </div>
 <style>
+.navigation {
+        margin: 2rem 0;
+        text-align: center;
+    }
+    
+    .pagination {
+        display: inline-flex;
+        gap: 5px;
+        background: white;
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .pagination span, .pagination a {
+        padding: 8px 16px;
+        border-radius: 6px;
+        color: #666;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .pagination .current {
+        background: #4a90e2;
+        color: white;
+        font-weight: bold;
+    }
+
+    .pagination a:hover {
+        background: #e0f3f8;
+        color: #4a90e2;
+    }
+
+    .pagination .next, .pagination .last, .pagination .first, .pagination .previous {
+        background: #f8f9fa;
+    }
     .language-selector {
     display: inline-flex;
     align-items: center;
