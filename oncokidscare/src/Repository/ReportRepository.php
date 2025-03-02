@@ -22,14 +22,16 @@ class ReportRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
-    public function findReportByIdPatient($id){
-        $result = $this->createQueryBuilder('r')
+    public function findByPatientId($id){
+        return $this->createQueryBuilder('r')
             ->andWhere('r.patient = :id')
             ->setParameter('id', $id)
             ->getQuery()
             ->getResult();
-
-            return !empty($result) ? $result : null;
     }
+    
+
+ 
+    
+    
 }

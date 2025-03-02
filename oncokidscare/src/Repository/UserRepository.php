@@ -37,4 +37,12 @@ class UserRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    public function findPatientByName(string $searchValue): array
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.prenom LIKE :search OR p.nom LIKE :search')
+            ->setParameter('search', '%' . $searchValue . '%')
+            ->getQuery()
+            ->getResult();
+    }
 }

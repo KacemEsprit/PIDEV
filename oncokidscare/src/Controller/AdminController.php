@@ -22,7 +22,7 @@ use App\Repository\ChatGroupRepository;
 use App\Repository\CommentRepository;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use Symfony\UX\Chartjs\Model\Chart;
-
+use App\Repository\RapportDetatRepository;
 
 
 #[Route('/admin')]
@@ -178,8 +178,46 @@ class AdminController extends AbstractController
 
 
 
+    #[Route('/patient', name: 'admin_rapports_patient')]
+    public function patients(UserRepository $userRepository, RapportDetatRepository $rapportRepo): Response
+    {
+        $currentUser = $this->getUser();
+        $patients = $userRepository->findPatients(); // À adapter selon votre code
+        $rapports = $rapportRepo->findAll();
+
+        return $this->render('admin_home/CrudUsers/patient_rapports.html.twig', [
+            'allUsers' => $patients,
+            'rapports' => $rapports,
+            'user'     => $currentUser,
+        ]);
+    }
+
+    #[Route('/patient/{id}/rapports', name: 'admin_patient_rapports')]
+    public function showPatientRapports(int $id, RapportDetatRepository $rapportRepo, UserRepository $userRepo): Response
+    {
+        $patient = $userRepo->find($id);
+    
+        if (!$patient) {
+            throw $this->createNotFoundException('Patient non trouvé');
+        }
+    
+        $rapports = $rapportRepo->findBy(['patient' => $patient]);
+    
+        return $this->render('admin_home/CrudUsers/rapports_patient.html.twig', [
+            'user' => $patient,
+            'rapports' => $rapports,
+        ]);
+    }
 
 
+    #[Route('/patient/search', name: 'patient_search')]
+    public function searchPatients(Request $request, NormalizerInterface $normalizer, PatientRepository $repository): JsonResponse
+    {
+        $searchValue = $request->get('searchValue');
+        $patients = $repository->findPatientByName($searchValue);
+        $jsonContent = $normalizer->normalize($patients, 'json', ['groups' => 'patients']);
+        return new JsonResponse($jsonContent);
+    }
 
 
 
