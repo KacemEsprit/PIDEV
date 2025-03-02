@@ -56,41 +56,43 @@
         </div>
     {% endfor %}
 
-    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-        <div class="new-publication-form">
-            <div class="form-header">
-                <img src="{{ asset('images/img2.png') }}" class="user-avatar" alt="{{ app.user.prenom }}">
-                <h2>Créer une publication</h2>
-            </div>
+{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+    <div class="new-publication-form">
+        <div class="form-header">
+            <img src="{{ asset('images/img2.png') }}" class="user-avatar" alt="{{ app.user.prenom }}">
+            <h2>Créer une publication</h2>
+        </div>
 
-            {{ form_start(form, {'attr': {'class': 'publication-form'}}) }}
-                <div class="form-group">
-                    {{ form_widget(form.contenu, {
+        {{ form_start(form, {'attr': {'class': 'publication-form'}}) }}
+          <div class="form-group">
+    {{ form_widget(form.contenu, {
+        'attr': {
+            'id': 'publication-contenu',
+            'placeholder': 'Partagez votre expérience ou posez une question...',
+            'class': 'form-control',
+            'maxlength': 120,
+            'oninput': 'debounceSuggestText(this, 1000)'
+        }
+    }) }}
+    <div id="text-suggestions" class="suggestions-box"></div>
+</div>
+            
+            <div class="form-group">
+                <label class="file-input-label">
+                    <i class="fas fa-camera"></i> Photos (maximum 5)
+                    {{ form_widget(form.imageFiles, {
                         'attr': {
-                            'placeholder': 'Partagez votre expérience ou posez une question...',
-                            'class': 'form-control',
-                                'maxlength': 120,
-        'oninput': 'this.value = this.value.slice(0, 120)'
+                            'class': 'form-control-file',
+                            'accept': 'image/*',
+                            'multiple': true,
+                            'data-max-files': 5
                         }
                     }) }}
-                </div>
-                
-                <div class="form-group">
-                    <label class="file-input-label">
-                        <i class="fas fa-camera"></i> Photos (maximum 5)
-                        {{ form_widget(form.imageFiles, {
-                            'attr': {
-                                'class': 'form-control-file',
-                                'accept': 'image/*',
-                                'multiple': true,
-                                'data-max-files': 5
-                            }
-                        }) }}
-                    </label>
-                </div>
-            </br></br>
+                </label>
+            </div>
+            <br><br>
 
-        <div class="form-group category-select">
+            <div class="form-group category-select">
                 <div class="input-group">
                     <span class="input-group-text">
                         <i class="fas fa-tag"></i>
@@ -102,24 +104,23 @@
                     }) }}
                 </div>
             </div> 
-                <div class="form-actions">
-                    <div class="anonymous-option">
-                        <label class="anonymous-toggle">
-                            {{ form_widget(form.isAnonymous) }}
-                            <span class="toggle-slider"></span>
-                            <span class="toggle-label">
-                                <i class="fas fa-user-secret"></i> Publier en anonyme
-                            </span>
-                        </label>
-                    </div>
-                    
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-paper-plane"></i> Publier
-                    </button>
+            <div class="form-actions">
+                <div class="anonymous-option">
+                    <label class="anonymous-toggle">
+                        {{ form_widget(form.isAnonymous) }}
+                        <span class="toggle-slider"></span>
+                        <span class="toggle-label">
+                            <i class="fas fa-user-secret"></i> Publier en anonyme
+                        </span>
+                    </label>
                 </div>
-            {{ form_end(form) }}
-        </div>
-    {% endif %}
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-paper-plane"></i> Publier
+                </button>
+            </div>
+        {{ form_end(form) }}
+    </div>
+{% endif %}
 <div class="category-filters mb-4">
     <div class="btn-group" role="group">
         <a href="{{ path('app_publication_index') }}" 
@@ -1294,8 +1295,139 @@ display: grid;
         height: 300px;
     }
 }
+.suggestions-box {
+    margin-top: 5px;
+    font-size: 0.9rem;
+    color: #555;
+    background: #f8f9fa;
+    padding: 5px 10px;
+    border-radius: 4px;
+    display: none;
+    max-height: 150px;
+    overflow-y: auto;
+}
+.suggestions-box.visible {
+    display: block;
+}
+.suggestion-item {
+    margin: 5px 0;
+}
+.suggestion-full {
+    font-weight: bold;
+    color: #4a90e2;
+    cursor: pointer;
+    text-decoration: underline;
+    margin-bottom: 10px;
+}
+.suggestion-full:hover {
+    color: #236161;
+}
+.suggestion {
+    cursor: pointer;
+    color: #95E1D3;
+    text-decoration: underline;
+}
+.suggestion:hover {
+    color: #236161;
+}
 </style>
 <script>
+function debounce(func, delay) {
+    let timeoutId;
+    return function (...args) {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => func.apply(this, args), delay);
+    };
+}
+
+const debounceSuggestText = debounce(suggestText, 1000);
+
+async function suggestText(element) {
+    const text = element.value;
+    const suggestionBox = document.getElementById('text-suggestions');
+    const languageSelect = document.getElementById('language-select');
+    const language = languageSelect ? languageSelect.value : 'fr';
+
+    if (!text) {
+        suggestionBox.classList.remove('visible');
+        suggestionBox.innerHTML = '';
+        return;
+    }
+
+    try {
+        // Appel à /correct pour la phrase entière
+        const correctResponse = await fetch('https://api.textgears.com/correct', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({
+                'key': 'Pr1cEkzqkMfjbwNM',
+                'text': text,
+                'language': language === 'fr' ? 'fr-FR' : 'en-US'
+            })
+        });
+        if (!correctResponse.ok) throw new Error('Correct API error: ' + correctResponse.status);
+        const correctData = await correctResponse.json();
+
+        // Appel à /grammar pour les erreurs individuelles
+        const grammarResponse = await fetch('https://api.textgears.com/grammar', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({
+                'key': 'Pr1cEkzqkMfjbwNM',
+                'text': text,
+                'language': language === 'fr' ? 'fr-FR' : 'en-US'
+            })
+        });
+        if (!grammarResponse.ok) throw new Error('Grammar API error: ' + grammarResponse.status);
+        const grammarData = await grammarResponse.json();
+
+        suggestionBox.innerHTML = ''; // Réinitialise
+
+        // Suggestion pour la phrase entière
+        if (correctData.response && correctData.response.corrected && correctData.response.corrected !== text) {
+            suggestionBox.innerHTML = `<div class="suggestion-item">Phrase corrigée: <span class="suggestion-full" onclick="applySuggestion(this, '${element.id}', '${correctData.response.corrected}')">${correctData.response.corrected}</span></div>`;
+        }
+
+        // Suggestions pour les erreurs individuelles
+        if (grammarData.response.errors && grammarData.response.errors.length > 0) {
+            grammarData.response.errors.forEach((error, index) => {
+                if (error.better && error.better.length > 0) {
+                    error.better.forEach((suggestion, suggestionIndex) => {
+                        const suggestionHtml = `<div class="suggestion-item">Erreur: "${error.bad}" → <span class="suggestion" onclick="applySuggestion(this, '${element.id}', '${suggestion}')">${suggestion}</span></div>`;
+                        suggestionBox.innerHTML += suggestionHtml;
+                    });
+                }
+            });
+            suggestionBox.classList.add('visible');
+        } else if (!correctData.response.corrected) {
+            suggestionBox.classList.remove('visible');
+            suggestionBox.innerHTML = 'Aucune suggestion disponible.';
+        } else {
+            suggestionBox.classList.add('visible');
+        }
+
+        console.log('Correct API response:', correctData);
+        console.log('Grammar API response:', grammarData);
+    } catch (error) {
+        console.error('Failed to fetch suggestions:', error);
+        suggestionBox.classList.remove('visible');
+        suggestionBox.innerHTML = 'Erreur lors de la récupération des suggestions.';
+    }
+}
+
+function applySuggestion(suggestionElement, inputId, suggestionText) {
+    const inputElement = document.getElementById(inputId);
+    if (suggestionElement.classList.contains('suggestion-full')) {
+        // Appliquer la phrase entière
+        inputElement.value = suggestionText;
+    } else {
+        // Appliquer une suggestion individuelle
+        const currentText = inputElement.value;
+        const errorText = suggestionElement.parentElement.textContent.match(/Erreur: "([^"]+)"/)[1];
+        inputElement.value = currentText.replace(errorText, suggestionText);
+    }
+    document.getElementById('text-suggestions').classList.remove('visible');
+}
     document.addEventListener('DOMContentLoaded', function() {
         // Explicitly target only publication likes
         document.querySelectorAll('.publication-card .like-publication-btn').forEach(button => {
