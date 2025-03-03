@@ -798,7 +798,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
       <tag priority="-50" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">controller.argument_value_resolver</tag>
-      <argument type="service" id=".service_locator.oyLgKNu"/>
+      <argument type="service" id=".service_locator.64Z3kdk"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">
       <tag priority="-100" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">controller.argument_value_resolver</tag>
@@ -3896,7 +3896,7 @@
     </service>
     <service id="argument_resolver.not_tagged_controller" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
       <tag name="controller.argument_value_resolver" priority="-200"/>
-      <argument type="service" id=".service_locator.oyLgKNu"/>
+      <argument type="service" id=".service_locator.64Z3kdk"/>
     </service>
     <service id="debug.log_processor" class="Symfony\Bridge\Monolog\Processor\DebugProcessor">
       <tag name="kernel.reset" method="reset"/>
@@ -9413,6 +9413,15 @@
         <argument key="loader" type="service_closure" id=".errored..service_locator.y4_Zrx..Symfony\Component\Config\Loader\LoaderInterface"/>
       </argument>
     </service>
+    <service id=".service_locator.UOelExD" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="commentRepository" type="service_closure" id="App\Repository\CommentRepository"/>
+        <argument key="entityManager" type="service_closure" id="doctrine.orm.default_entity_manager"/>
+        <argument key="publicationRepository" type="service_closure" id="App\Repository\PublicationRepository"/>
+        <argument key="userRepository" type="service_closure" id="App\Repository\UserRepository"/>
+      </argument>
+    </service>
     <service id=".service_locator.kPUOGb8" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -9488,11 +9497,24 @@
         <argument key="report" type="service_closure" id=".errored..service_locator.ijiClT8.App\Entity\CommentReport"/>
       </argument>
     </service>
-    <service id=".service_locator.fZeA1vv" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".errored.Iuat.vj" class="App\Controller\RapportDetatRepository">
+      <tag name="container.error" message="Cannot determine controller argument for &quot;App\Controller\AdminController::patients()&quot;: the $rapportRepo argument is type-hinted with the non-existent class or interface: &quot;App\Controller\RapportDetatRepository&quot;. Did you forget to add a use statement?"/>
+    </service>
+    <service id=".service_locator.p6tgopT" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
-        <argument key="rapportRepo" type="service_closure" id="App\Repository\RapportDetatRepository"/>
+        <argument key="rapportRepo" type="service_closure" id=".errored.Iuat.vj"/>
         <argument key="userRepository" type="service_closure" id="App\Repository\UserRepository"/>
+      </argument>
+    </service>
+    <service id=".errored.xpXgB4k" class="App\Controller\RapportDetatRepository">
+      <tag name="container.error" message="Cannot determine controller argument for &quot;App\Controller\AdminController::showPatientRapports()&quot;: the $rapportRepo argument is type-hinted with the non-existent class or interface: &quot;App\Controller\RapportDetatRepository&quot;. Did you forget to add a use statement?"/>
+    </service>
+    <service id=".service_locator.Su7kH5A" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="rapportRepo" type="service_closure" id=".errored.xpXgB4k"/>
+        <argument key="userRepo" type="service_closure" id="App\Repository\UserRepository"/>
       </argument>
     </service>
     <service id=".service_locator.IP5NWq." class="Symfony\Component\DependencyInjection\ServiceLocator">
@@ -9699,6 +9721,13 @@
         <argument key="rapport" type="service_closure" id=".errored..service_locator.5AHGn_n.App\Entity\RapportDetat"/>
       </argument>
     </service>
+    <service id=".service_locator.fZeA1vv" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="rapportRepo" type="service_closure" id="App\Repository\RapportDetatRepository"/>
+        <argument key="userRepository" type="service_closure" id="App\Repository\UserRepository"/>
+      </argument>
+    </service>
     <service id=".service_locator.7qTMv7A" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -9815,7 +9844,7 @@
         <argument key="ligneCommandeRepository" type="service_closure" id="App\Repository\LigneCommandeRepository"/>
       </argument>
     </service>
-    <service id=".service_locator.oyLgKNu" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.64Z3kdk" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Controller\AdminController::annulerCommande" type="service_closure" id=".service_locator.iR5i4O4"/>
@@ -9828,16 +9857,16 @@
         <argument key="App\Controller\AdminController::delete" type="service_closure" id=".service_locator.FiBwT5O"/>
         <argument key="App\Controller\AdminController::espaceCom" type="service_closure" id=".service_locator.0Rj3I2A"/>
         <argument key="App\Controller\AdminController::handleCommentReport" type="service_closure" id=".service_locator.ijiClT8"/>
-        <argument key="App\Controller\AdminController::index" type="service_closure" id=".service_locator.kPUOGb8"/>
+        <argument key="App\Controller\AdminController::index" type="service_closure" id=".service_locator.UOelExD"/>
         <argument key="App\Controller\AdminController::indexx" type="service_closure" id=".service_locator.kPUOGb8"/>
         <argument key="App\Controller\AdminController::manageCommandes" type="service_closure" id=".service_locator.RXaRRrV"/>
         <argument key="App\Controller\AdminController::manageCommentReports" type="service_closure" id=".service_locator.X.jSAzP"/>
         <argument key="App\Controller\AdminController::managePublications" type="service_closure" id=".service_locator.dH_7bkl"/>
         <argument key="App\Controller\AdminController::myprofile" type="service_closure" id=".service_locator.NjUBG3v"/>
-        <argument key="App\Controller\AdminController::patients" type="service_closure" id=".service_locator.fZeA1vv"/>
+        <argument key="App\Controller\AdminController::patients" type="service_closure" id=".service_locator.p6tgopT"/>
         <argument key="App\Controller\AdminController::rejectPublication" type="service_closure" id=".service_locator.TyGfL3f"/>
         <argument key="App\Controller\AdminController::searchPatients" type="service_closure" id=".service_locator.IP5NWq."/>
-        <argument key="App\Controller\AdminController::showPatientRapports" type="service_closure" id=".service_locator.9MWgsgw"/>
+        <argument key="App\Controller\AdminController::showPatientRapports" type="service_closure" id=".service_locator.Su7kH5A"/>
         <argument key="App\Controller\AdminController::validerCommande" type="service_closure" id=".service_locator.iR5i4O4"/>
         <argument key="App\Controller\ChatGroupController::addMember" type="service_closure" id=".service_locator.OfNm3iN"/>
         <argument key="App\Controller\ChatGroupController::deleteMessage" type="service_closure" id=".service_locator.2Jrofw5"/>
@@ -9937,16 +9966,16 @@
         <argument key="App\Controller\AdminController:delete" type="service_closure" id=".service_locator.FiBwT5O"/>
         <argument key="App\Controller\AdminController:espaceCom" type="service_closure" id=".service_locator.0Rj3I2A"/>
         <argument key="App\Controller\AdminController:handleCommentReport" type="service_closure" id=".service_locator.ijiClT8"/>
-        <argument key="App\Controller\AdminController:index" type="service_closure" id=".service_locator.kPUOGb8"/>
+        <argument key="App\Controller\AdminController:index" type="service_closure" id=".service_locator.UOelExD"/>
         <argument key="App\Controller\AdminController:indexx" type="service_closure" id=".service_locator.kPUOGb8"/>
         <argument key="App\Controller\AdminController:manageCommandes" type="service_closure" id=".service_locator.RXaRRrV"/>
         <argument key="App\Controller\AdminController:manageCommentReports" type="service_closure" id=".service_locator.X.jSAzP"/>
         <argument key="App\Controller\AdminController:managePublications" type="service_closure" id=".service_locator.dH_7bkl"/>
         <argument key="App\Controller\AdminController:myprofile" type="service_closure" id=".service_locator.NjUBG3v"/>
-        <argument key="App\Controller\AdminController:patients" type="service_closure" id=".service_locator.fZeA1vv"/>
+        <argument key="App\Controller\AdminController:patients" type="service_closure" id=".service_locator.p6tgopT"/>
         <argument key="App\Controller\AdminController:rejectPublication" type="service_closure" id=".service_locator.TyGfL3f"/>
         <argument key="App\Controller\AdminController:searchPatients" type="service_closure" id=".service_locator.IP5NWq."/>
-        <argument key="App\Controller\AdminController:showPatientRapports" type="service_closure" id=".service_locator.9MWgsgw"/>
+        <argument key="App\Controller\AdminController:showPatientRapports" type="service_closure" id=".service_locator.Su7kH5A"/>
         <argument key="App\Controller\AdminController:validerCommande" type="service_closure" id=".service_locator.iR5i4O4"/>
         <argument key="App\Controller\ChatGroupController:addMember" type="service_closure" id=".service_locator.OfNm3iN"/>
         <argument key="App\Controller\ChatGroupController:deleteMessage" type="service_closure" id=".service_locator.2Jrofw5"/>
@@ -12676,7 +12705,7 @@
     <service id="Knp\Component\Pager\ArgumentAccess\ArgumentAccessInterface" alias="Knp\Component\Pager\ArgumentAccess\RequestArgumentAccess"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.w7.f4fT" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.oyLgKNu"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.64Z3kdk"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.KLVvNIq"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="Psr\Log\LoggerInterface $requestLogger" alias="monolog.logger.request"/>
@@ -12704,11 +12733,12 @@
     <service id=".service_locator.ZBZXtOS" alias=".service_locator.NZdAz3P"/>
     <service id=".service_locator.XDGmiR3" alias=".1_ServiceLocator~7o6Uxup"/>
     <service id=".service_locator.bJ.4HC5" alias=".service_locator.w7.f4fT"/>
+    <service id=".service_locator.cuYZijT" alias=".service_locator.UOelExD"/>
     <service id=".service_locator.8IbU9zc" alias=".service_locator.NjUBG3v"/>
     <service id=".service_locator.n.7.wCW" alias=".service_locator.TyGfL3f"/>
     <service id=".service_locator.9Ed3r3l" alias=".service_locator.0Rj3I2A"/>
     <service id=".service_locator.woEzOjx" alias=".service_locator.ijiClT8"/>
-    <service id=".service_locator.uh7LI4r" alias=".service_locator.fZeA1vv"/>
+    <service id=".service_locator.LISDYrW" alias=".service_locator.p6tgopT"/>
     <service id=".service_locator.HT9d8oK" alias=".service_locator.8DdbnkF"/>
     <service id=".service_locator.yXBDPyu" alias=".service_locator.Gz2kAjl"/>
     <service id=".service_locator.MVWHApc" alias=".service_locator.OfNm3iN"/>
@@ -12721,6 +12751,7 @@
     <service id=".service_locator.LhNm6zJ" alias=".service_locator.9MWgsgw"/>
     <service id=".service_locator.qOsU01r" alias=".service_locator.Hj5TzV9"/>
     <service id=".service_locator.mW1JK4w" alias=".service_locator.5AHGn_n"/>
+    <service id=".service_locator.uh7LI4r" alias=".service_locator.fZeA1vv"/>
     <service id=".service_locator.7ZIMj5F" alias=".service_locator.FfisaAn"/>
     <service id=".service_locator.oSe7oGN" alias=".service_locator.3pq_oSJ"/>
     <service id=".service_locator.th5i6eU" alias=".service_locator.iUig0G9"/>
@@ -12729,7 +12760,7 @@
     <service id=".service_locator.HLUlteY" alias=".service_locator.O8GioWl"/>
     <service id=".service_locator.GeA0det" alias=".service_locator.k448V7w"/>
     <service id=".service_locator.V6D1oJY" alias=".service_locator.e_4zbH4"/>
-    <service id=".service_locator.hJs1xWW" alias=".service_locator.oyLgKNu"/>
+    <service id=".service_locator.wsBigtc" alias=".service_locator.64Z3kdk"/>
     <service id=".service_locator.BFrsqsn" alias=".service_locator.F9PKc.7"/>
     <service id=".service_locator.aV1TeId" alias=".service_locator.3Evl0Vj"/>
     <service id=".service_locator.c636JwQ" alias=".service_locator.19FHMl6"/>
@@ -12757,6 +12788,7 @@
     <service id="doctrine.orm.default_metadata_driver" alias=".doctrine.orm.default_metadata_driver"/>
     <service id="security.event_dispatcher.main" alias="debug.security.event_dispatcher.main"/>
     <service id=".service_locator.gFlme_s" alias=".service_locator.y4_Zrx."/>
+    <service id=".service_locator.WyG6opV" alias=".service_locator.UOelExD"/>
     <service id=".service_locator.025Wi8b" alias=".service_locator.kPUOGb8"/>
     <service id=".service_locator.SPFAmCQ" alias=".service_locator.NjUBG3v"/>
     <service id=".service_locator.4UW8Cbs" alias=".service_locator.dH_7bkl"/>
@@ -12768,7 +12800,8 @@
     <service id=".service_locator.X1XU41a" alias=".service_locator.0Rj3I2A"/>
     <service id=".service_locator.YZ9QLMO" alias=".service_locator.X.jSAzP"/>
     <service id=".service_locator.MPrPr4x" alias=".service_locator.ijiClT8"/>
-    <service id=".service_locator.o6bE8DT" alias=".service_locator.fZeA1vv"/>
+    <service id=".service_locator.IuUCgrL" alias=".service_locator.p6tgopT"/>
+    <service id=".service_locator.yWF3OC6" alias=".service_locator.Su7kH5A"/>
     <service id=".service_locator.pg52dYR" alias=".service_locator.IP5NWq."/>
     <service id=".service_locator.EPa_xhx" alias=".service_locator.2KIFyBM"/>
     <service id=".service_locator.gaTSUXr" alias=".service_locator.9kKwU2t"/>
@@ -12798,6 +12831,7 @@
     <service id=".service_locator.s0wumrc" alias=".service_locator.INocORN"/>
     <service id=".service_locator.GNWkPaQ" alias=".service_locator.Hj5TzV9"/>
     <service id=".service_locator.dlWsv0V" alias=".service_locator.5AHGn_n"/>
+    <service id=".service_locator.o6bE8DT" alias=".service_locator.fZeA1vv"/>
     <service id=".service_locator.crjPp.X" alias=".service_locator.7qTMv7A"/>
     <service id=".service_locator.aPq90D4" alias=".service_locator.4nATh_P"/>
     <service id=".service_locator.BZPp5GD" alias=".service_locator.FfisaAn"/>

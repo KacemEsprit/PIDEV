@@ -3,12 +3,13 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
 <div class="container-fluid pt-4 px-4">
+    <!-- Quick Stats Cards -->
     <div class="row g-4">
-        <!-- Cartes de statistiques rapides -->
         <div class="col-sm-6 col-xl-3">
             <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
                 <i class="fas fa-hand-holding-heart fa-3x text-primary"></i>
@@ -47,8 +48,9 @@
         </div>
     </div>
 
+    <!-- Charts Row 1 -->
     <div class="row g-4 mt-4">
-        <!-- Distribution des utilisateurs -->
+        <!-- User Distribution -->
         <div class="col-sm-12 col-xl-6">
             <div class="bg-light rounded h-100 p-4">
                 <h6 class="mb-4">Distribution des utilisateurs</h6>
@@ -58,7 +60,7 @@
             </div>
         </div>
         
-        <!-- Distribution des types de donateurs -->
+        <!-- Donateur Types -->
         <div class="col-sm-12 col-xl-6">
             <div class="bg-light rounded h-100 p-4">
                 <h6 class="mb-4">Types de donateurs</h6>
@@ -68,87 +70,234 @@
             </div>
         </div>
     </div>
+
+    <!-- Charts Row 2 -->
+    <div class="row g-4 mt-4">
+        <!-- Monthly Registrations -->
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-light rounded h-100 p-4">
+                <h6 class="mb-4">Inscriptions mensuelles</h6>
+                <div style="position: relative; height: 300px; width: 100%">
+                    <canvas id="registrationChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Geographical Distribution -->
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-light rounded h-100 p-4">
+                <h6 class="mb-4">Distribution géographique</h6>
+                <div style="position: relative; height: 300px; width: 100%">
+                    <canvas id="geoDistributionChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Row 3 -->
+    <div class="row g-4 mt-4">
+        <!-- Top Users Activity -->
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-light rounded h-100 p-4">
+                <h6 class="mb-4">Utilisateurs les plus actifs</h6>
+                <div style="position: relative; height: 300px; width: 100%">
+                    <canvas id="userActivityChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Role Activity Analysis -->
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-light rounded h-100 p-4">
+                <h6 class="mb-4">Activité par rôle</h6>
+                <div style="position: relative; height: 300px; width: 100%">
+                    <canvas id="roleActivityChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script type="text/javascript">
-    document.addEventListener('DOMContentLoaded', function() {
-        // User Distribution Pie Chart
-        var userCtx = document.getElementById('userDistributionChart').getContext('2d');
-        new Chart(userCtx, {
-            type: 'pie',
-            data: {
-                labels: ['Admins', 'Médecins', 'Patients', 'Donateurs'],
-                datasets: [{
-                    data: [
-                        {{ admins|length }},
-                        {{ medecins|length }},
-                        {{ patients|length }},
-                        {{ donateurs|length }}
-                    ],
-                    backgroundColor: [
-                        '#e74a3b',
-                        '#1cc88a',
-                        '#4e73df',
-                        '#f6c23e'
-                    ]
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    title: {
-                        display: true,
-                        text: 'Répartition des utilisateurs'
-                    }
-                }
-            }
-        });
-
-        // Donateur Types Distribution
-        var donateurCtx = document.getElementById('donateurTypesChart').getContext('2d');
-        new Chart(donateurCtx, {
-            type: 'doughnut',
-            data: {
-                labels: [
-                    {% for label, count in donateur_type_counts %}
-                        '{{ label }}'{% if not loop.last %},{% endif %}
-                    {% endfor %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // User Distribution Chart
+    new Chart(document.getElementById('userDistributionChart').getContext('2d'), {
+        type: 'pie',
+        data: {
+            labels: ['Admins', 'Médecins', 'Patients', 'Donateurs'],
+            datasets: [{
+                data: [
+                    {{ admins|length }},
+                    {{ medecins|length }},
+                    {{ patients|length }},
+                    {{ donateurs|length }}
                 ],
-                datasets: [{
-                    data: [
-                        {% for label, count in donateur_type_counts %}
-                            {{ count }}{% if not loop.last %},{% endif %}
-                        {% endfor %}
-                    ],
-                    backgroundColor: [
-                        '#4e73df',
-                        '#1cc88a',
-                        '#f6c23e',
-                        '#e74a3b',
-                        '#36b9cc'
-                    ]
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'top'
-                    },
-                    title: {
-                        display: true,
-                        text: 'Types de donateurs'
-                    }
+                backgroundColor: ['#e74a3b', '#1cc88a', '#4e73df', '#f6c23e']
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'top' }
+            }
+        }
+    });
+
+    // Donateur Types Chart
+    new Chart(document.getElementById('donateurTypesChart').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: {{ donateur_type_labels|json_encode|raw }},
+            datasets: [{
+                data: {{ donateur_type_counts|json_encode|raw }},
+                backgroundColor: ['#4e73df', '#1cc88a', '#f6c23e', '#e74a3b', '#36b9cc']
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'top' }
+            }
+        }
+    });
+
+    // Monthly Registrations Chart
+    var monthlyStats = {{ monthly_stats|json_encode|raw }};
+    new Chart(document.getElementById('registrationChart').getContext('2d'), {
+        type: 'line',
+        data: {
+            labels: Object.keys(monthlyStats),
+            datasets: [{
+                label: 'Nouvelles inscriptions',
+                data: Object.values(monthlyStats),
+                borderColor: '#4e73df',
+                tension: 0.1,
+                fill: false
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { stepSize: 1 }
                 }
             }
-        });
+        }
     });
+
+    // Geographical Distribution Chart
+    var regions = {{ regions|json_encode|raw }};
+    new Chart(document.getElementById('geoDistributionChart').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: Object.keys(regions),
+            datasets: [{
+                label: 'Utilisateurs par région',
+                data: Object.values(regions),
+                backgroundColor: '#1cc88a'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { stepSize: 1 }
+                }
+            }
+        }
+    });
+
+    // User Activity Chart
+    new Chart(document.getElementById('userActivityChart').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: {{ user_activity|map(u => u.name)|json_encode|raw }},
+            datasets: [
+                {
+                    label: 'Publications',
+                    data: {{ user_activity|map(u => u.publications)|json_encode|raw }},
+                    backgroundColor: '#4e73df'
+                },
+                {
+                    label: 'Commentaires',
+                    data: {{ user_activity|map(u => u.comments)|json_encode|raw }},
+                    backgroundColor: '#1cc88a'
+                },
+                {
+                    label: 'Likes',
+                    data: {{ user_activity|map(u => u.likes)|json_encode|raw }},
+                    backgroundColor: '#f6c23e'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    stacked: true
+                },
+                x: {
+                    stacked: true
+                }
+            }
+        }
+    });
+
+    // Role Activity Chart
+    new Chart(document.getElementById('roleActivityChart').getContext('2d'), {
+        type: 'radar',
+        data: {
+            labels: ['Publications', 'Commentaires'],
+            datasets: [
+                {
+                    label: 'Médecins',
+                    data: [
+                        {{ role_activity['ROLE_MEDECIN'].publications }},
+                        {{ role_activity['ROLE_MEDECIN'].comments }}
+                    ],
+                    backgroundColor: 'rgba(28, 200, 138, 0.2)',
+                    borderColor: '#1cc88a'
+                },
+                {
+                    label: 'Patients',
+                    data: [
+                        {{ role_activity['ROLE_PATIENT'].publications }},
+                        {{ role_activity['ROLE_PATIENT'].comments }}
+                    ],
+                    backgroundColor: 'rgba(78, 115, 223, 0.2)',
+                    borderColor: '#4e73df'
+                },
+                {
+                    label: 'Donateurs',
+                    data: [
+                        {{ role_activity['ROLE_DONATEUR'].publications }},
+                        {{ role_activity['ROLE_DONATEUR'].comments }}
+                    ],
+                    backgroundColor: 'rgba(246, 194, 62, 0.2)',
+                    borderColor: '#f6c23e'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                r: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+});
 </script>
 
 <style>

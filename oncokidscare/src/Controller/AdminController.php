@@ -11,15 +11,12 @@ use App\Form\CompagnieType;
 use App\Form\ProfileFormType;
 use App\Repository\ChatGroupRepository;
 use App\Repository\CommentRepository;
-use App\Entity\Don;
-use Symfony\Component\Validator\Constraints\DateTime;
-
 use App\Repository\CommentReportRepository;
 use App\Repository\CompagnieRepository;
 use App\Repository\CommandeRepository;
+use App\Repository\PublicationRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Repository\PatientRepository;
-use App\Repository\PublicationRepository;
 use App\Repository\UserRepository;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -30,7 +27,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use Symfony\UX\Chartjs\Model\Chart;
-use App\Repository\RapportDetatRepository;
+
 /**
  * @Route("/admin")
  */
@@ -40,7 +37,10 @@ class AdminController extends AbstractController
 {
     #[Route('/admin_dashboard', name: 'app_admin_index')]
     public function index(
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        PublicationRepository $publicationRepository,
+        CommentRepository $commentRepository,
+        EntityManagerInterface $entityManager
     ): Response {
         /** @var User $currentUser */
         $currentUser = $this->getUser();
@@ -58,9 +58,81 @@ class AdminController extends AbstractController
             $donateurTypes[$type] = ($donateurTypes[$type] ?? 0) + 1;
         }
 
-        // Convert to arrays for the chart
-        $donateurTypeLabels = array_keys($donateurTypes);
-        $donateurTypeCounts = array_values($donateurTypes);
+        // Get user activity metrics
+        $userActivity = [];
+        $users = $userRepository->findAll();
+        foreach ($users as $user) {
+            $publications = count($user->getPublications());
+            $comments = count($user->getComments());
+            $likes = count($user->getLikes());
+            
+            if ($publications > 0 || $comments > 0 || $likes > 0) {
+                $userActivity[] = [
+                    'name' => $user->getNom() . ' ' . $user->getPrenom(),
+                    'publications' => $publications,
+                    'comments' => $comments,
+                    'likes' => $likes,
+                    'total' => $publications + $comments + $likes
+                ];
+            }
+        }
+
+        // Sort by total activity
+        usort($userActivity, function($a, $b) {
+            return $b['total'] - $a['total'];
+        });
+        $userActivity = array_slice($userActivity, 0, 5); // Top 5 most active users
+
+        // Get geographical distribution
+        $regions = [];
+        foreach ($users as $user) {
+            $address = $user->getAdresse();
+            $region = explode(',', $address);
+            $region = end($region); // Get the last part of the address (assuming it's the region/city)
+            $region = trim($region);
+            $regions[$region] = ($regions[$region] ?? 0) + 1;
+        }
+        arsort($regions);
+        $regions = array_slice($regions, 0, 5); // Top 5 regions
+
+        // Get monthly registration stats
+        $monthlyStats = [];
+        for ($i = 5; $i >= 0; $i--) {
+            $month = (new \DateTime())->modify("-$i months")->format('Y-m');
+            $monthlyStats[$month] = 0;
+        }
+
+        // Get all users created in the last 6 months
+        $sixMonthsAgo = new \DateTime('-6 months');
+        $recentUsers = $userRepository->createQueryBuilder('u')
+            ->where('u.createdAt >= :sixMonthsAgo')
+            ->setParameter('sixMonthsAgo', $sixMonthsAgo)
+            ->getQuery()
+            ->getResult();
+
+        // Group users by month
+        foreach ($recentUsers as $user) {
+            $month = $user->getCreatedAt()->format('Y-m');
+            if (isset($monthlyStats[$month])) {
+                $monthlyStats[$month]++;
+            }
+        }
+
+        // Role-based activity analysis
+        $roleActivity = [
+            'ROLE_MEDECIN' => [
+                'publications' => count($publicationRepository->findBy(['user' => $medecins])),
+                'comments' => count($commentRepository->findBy(['user' => $medecins]))
+            ],
+            'ROLE_PATIENT' => [
+                'publications' => count($publicationRepository->findBy(['user' => $patients])),
+                'comments' => count($commentRepository->findBy(['user' => $patients]))
+            ],
+            'ROLE_DONATEUR' => [
+                'publications' => count($publicationRepository->findBy(['user' => $donateurs])),
+                'comments' => count($commentRepository->findBy(['user' => $donateurs]))
+            ]
+        ];
 
         return $this->render('admin_home/index.html.twig', [
             'user' => $currentUser,
@@ -68,8 +140,12 @@ class AdminController extends AbstractController
             'medecins' => $medecins,
             'patients' => $patients,
             'donateurs' => $donateurs,
-            'donateur_type_labels' => $donateurTypeLabels,
-            'donateur_type_counts' => $donateurTypeCounts
+            'donateur_type_labels' => array_keys($donateurTypes),
+            'donateur_type_counts' => array_values($donateurTypes),
+            'user_activity' => $userActivity,
+            'regions' => $regions,
+            'monthly_stats' => $monthlyStats,
+            'role_activity' => $roleActivity
         ]);
     }
 
