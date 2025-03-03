@@ -79,14 +79,31 @@
         <i class="bi bi-people"></i> Gérer Users
     </a>
     <a href="{{ path('app_admin_profile') }}" class="nav-item nav-link {{ app.request.get('_route') == 'app_admin_profile' ? 'active' : '' }}">
-        <i class="bi bi-person"></i> My Profile
+        <i class="bi bi-person"></i> Mon profil
     </a>
+    
         <a href="{{ path('admin_publications') }}" class="nav-item nav-link {{ app.request.get('_route') == 'admin_publications' ? 'active' : '' }}">
                 <i class="bi bi-journal-text"></i> Gérer Publications
             </a>
+    <a href="{{ path('admin_espace_com') }}" class="nav-item nav-link {{ app.request.get('_route') == 'admin_espace_com' ? 'active' : '' }}">
+        <i class="bi bi-bar-chart-line me-2"></i> Statistiques Communautaires
+    </a>
+    <a href="{{ path('admin_comment_reports') }}" class="nav-item nav-link {{ app.request.get('_route') == 'admin_comment_reports' ? 'active' : '' }}">
+        <i class="bi bi-exclamation-triangle me-2"></i> Signalements Commentaires
+    </a>
           <a href="{{ path('admin_rapports_patient') }}" class="nav-item nav-link {{ app.request.get('_route') == 'admin_rapports_patient' ? 'active' : '' }}">
     <i class="bi bi-file-earmark-text"></i> Consulter Rapports
 </a>
+   <a href="{{ path('admin_commandes') }}" class="nav-item nav-link {{ app.request.get('_route') == 'admin_commandes' ? 'active' : '' }}">
+    <i class="bi bi-file-earmark-text"></i> Commandes 
+</a>
+</a>
+   <a href="{{ path('app_medicament_new') }}" class="nav-item nav-link {{ app.request.get('_route') == 'app_medicament_new' ? 'active' : '' }}">
+    <i class="bi bi-file-earmark-text"></i> medicaments
+</a>
+    <a href="{{ path('app_statistique') }}" class="nav-item nav-link {{ app.request.get('_route') == 'app_statistique' ? 'active' : '' }}">
+    <i class="bi bi-file-earmark-text"></i> statistiques medicaments
+</a>     
 
 </div>
             

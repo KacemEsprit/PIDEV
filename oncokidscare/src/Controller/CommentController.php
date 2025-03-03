@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Entity\Publication;
+use App\Entity\CommentReport;
 use App\Form\CommentType;
 use App\Repository\CommentRepository;
+use App\Repository\CommentReportRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -89,6 +91,41 @@ class CommentController extends AbstractController
             $this->addFlash('success', 'Commentaire supprimé avec succès.');
             
             return $this->redirectToRoute('app_publication_show', ['id' => $publication->getId()]);
+        }
+
+        throw new AccessDeniedException('Token CSRF invalide.');
+    }
+
+    #[Route('/{id}/report', name: 'app_comment_report', methods: ['POST'])]
+    public function report(
+        Request $request, 
+        Comment $comment, 
+        EntityManagerInterface $em,
+        CommentReportRepository $reportRepository
+    ): Response {
+        // Vérifier que l'utilisateur ne signale pas son propre commentaire
+        if ($this->getUser() === $comment->getUser()) {
+            throw new AccessDeniedException('Vous ne pouvez pas signaler votre propre commentaire.');
+        }
+
+        // Vérifier si l'utilisateur a déjà signalé ce commentaire
+        if ($reportRepository->hasUserReportedComment($this->getUser()->getId(), $comment->getId())) {
+            $this->addFlash('warning', 'Vous avez déjà signalé ce commentaire.');
+            return $this->redirectToRoute('app_publication_show', ['id' => $comment->getPublication()->getId()]);
+        }
+
+        if ($this->isCsrfTokenValid('report'.$comment->getId(), $request->request->get('_token'))) {
+            $report = new CommentReport();
+            $report->setComment($comment);
+            $report->setReporter($this->getUser());
+            $report->setReason($request->request->get('reason'));
+            
+            $em->persist($report);
+            $em->flush();
+
+            $this->addFlash('success', 'Le commentaire a été signalé.');
+            
+            return $this->redirectToRoute('app_publication_show', ['id' => $comment->getPublication()->getId()]);
         }
 
         throw new AccessDeniedException('Token CSRF invalide.');

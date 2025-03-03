@@ -35,10 +35,24 @@ class Commande
     #[ORM\Column]
     private ?float $montant_total = 0.0;
 
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $rate = null;
+
     public function __construct()
     {
         $this->ligneCommandes = new ArrayCollection();
         $this->date_commande = new \DateTime();
+    }
+    
+    public function getRate(): ?int
+    {
+        return $this->rate;
+    }
+
+    public function setRate(?int $rate): self
+    {
+        $this->rate = $rate;
+        return $this;
     }
 
     public function getId(): ?int

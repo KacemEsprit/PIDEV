@@ -725,6 +725,83 @@ pre, code, a {
     margin-right: 0.5rem;
     color: #236161;
 }
+        .btn-report {
+            background: #ffc107;
+            color: #000;
+            padding: 0.25rem 0.5rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-report:hover {
+            background: #e0a800;
+        }
+
+        .reported-badge {
+            background: #dc3545;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            margin-left: 0.5rem;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            right: 10px;
+            top: 5px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #aaa;
+        }
+
+        .close-modal:hover {
+            color: black;
+        }
+
+        .report-reason {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .report-reason:hover {
+            background-color: #f8f9fa;
+        }
+
+        .report-reason.selected {
+            background-color: #e9ecef;
+            border-color: #95E1D3;
+        }
     </style>
 {% endblock %}
 {% block javascripts %}
@@ -985,18 +1062,65 @@ document.addEventListener('DOMContentLoaded', function() {
                             {% endif %}
                         {% endif %}
                         
+                        <div class="comment-actions">
+                            {% if app.user != comment.user %}
+                                {% set hasReported = false %}
+                                {% for report in comment.reports %}
+                                    {% if report.reporter == app.user %}
+                                        {% set hasReported = true %}
+                                    {% endif %}
+                                {% endfor %}
+
+                                {% if not hasReported %}
+                                    <button type="button" class="btn-report" title="Signaler ce commentaire" onclick="openReportModal({{ comment.id }})">
+                                        <i class="fas fa-flag"></i>
+                                    </button>
+                                    
+                                    <!-- Modal de signalement -->
+                                    <div id="reportModal{{ comment.id }}" class="modal">
+                                        <div class="modal-content">
+                                            <span class="close-modal" onclick="closeReportModal({{ comment.id }})">&times;</span>
+                                            <h3>Signaler ce commentaire</h3>
+                                            <p>Veuillez sélectionner la raison du signalement :</p>
+                                            <form method="post" action="{{ path('app_comment_report', {'id': comment.id}) }}" id="reportForm{{ comment.id }}">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('report' ~ comment.id) }}">
+                                                <input type="hidden" name="reason" id="selectedReason{{ comment.id }}">
+                                                
+                                                <div class="report-reason" onclick="selectReason({{ comment.id }}, 'spam')">
+                                                    <i class="fas fa-exclamation-circle"></i> Spam
+                                                </div>
+                                                <div class="report-reason" onclick="selectReason({{ comment.id }}, 'contenu_inapproprie')">
+                                                    <i class="fas fa-ban"></i> Contenu inapproprié
+                                                </div>
+                                                <div class="report-reason" onclick="selectReason({{ comment.id }}, 'harcelement')">
+                                                    <i class="fas fa-angry"></i> Harcèlement
+                                                </div>
+                                                <div class="report-reason" onclick="selectReason({{ comment.id }}, 'fausse_information')">
+                                                    <i class="fas fa-info-circle"></i> Fausse information
+                                                </div>
+                                                
+                                                <button type="submit" class="btn btn-danger mt-3" style="width: 100%;">
+                                                    Signaler
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <span class="reported-badge" title="Vous avez signalé ce commentaire">
+                                        <i class="fas fa-flag"></i> Signalé
+                                    </span>
+                                {% endif %}
+                            {% endif %}
+                        </div>
                     </div>
-                    <div class="comment-content">
-                        {% if comment.type == 'voice' %}
-                            <audio controls>
-                                <source src="{{ comment.voiceUrl }}" type="audio/webm">
-                                Votre navigateur ne supporte pas l'audio
-                            </audio>
-                            <span class="duration">{{ comment.duration }} sec</span>
-                        {% else %}
-                            {{ comment.contenuCom|nl2br }}
-                        {% endif %}
-                    </div>
+                    {% if comment.type == 'voice' %}
+                        <div class="voice-comment">
+                            <audio controls src="{{ comment.voiceUrl }}"></audio>
+                            <span class="voice-duration">{{ comment.duration }}s</span>
+                        </div>
+                    {% else %}
+                        <div class="comment-content">{{ comment.contenuCom }}</div>
+                    {% endif %}
                 </div>
             {% else %}
                 <div class="no-comments">
@@ -1379,5 +1503,32 @@ document.addEventListener('DOMContentLoaded', function() {
         stopRecordingBtn.addEventListener('click', stopRecording);
     }
 });
-</script>
+
+function openReportModal(commentId) {
+    document.getElementById('reportModal' + commentId).style.display = 'block';
+}
+
+function closeReportModal(commentId) {
+    document.getElementById('reportModal' + commentId).style.display = 'none';
+}
+
+function selectReason(commentId, reason) {
+    // Remove selected class from all reasons
+    const reasons = document.querySelectorAll('#reportModal' + commentId + ' .report-reason');
+    reasons.forEach(r => r.classList.remove('selected'));
+    
+    // Add selected class to clicked reason
+    event.currentTarget.classList.add('selected');
+    
+    // Set the selected reason in hidden input
+    document.getElementById('selectedReason' + commentId).value = reason;
+}
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+    if (event.target.classList.contains('modal')) {
+        event.target.style.display = 'none';
+    }
+}
+    </script>
 {% endblock %}

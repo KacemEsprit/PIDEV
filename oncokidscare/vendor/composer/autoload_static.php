@@ -43,6 +43,7 @@ class ComposerStaticInit405c2c10fdd454e24035942686ccb95e
         ),
         'T' => 
         array (
+            'Twilio\\' => 7,
             'Twig\\Extra\\TwigExtraBundle\\' => 27,
             'Twig\\' => 5,
         ),
@@ -85,6 +86,7 @@ class ComposerStaticInit405c2c10fdd454e24035942686ccb95e
             'Symfony\\Component\\Process\\' => 26,
             'Symfony\\Component\\PasswordHasher\\' => 33,
             'Symfony\\Component\\OptionsResolver\\' => 34,
+            'Symfony\\Component\\Notifier\\Bridge\\Twilio\\' => 41,
             'Symfony\\Component\\Notifier\\' => 27,
             'Symfony\\Component\\Mime\\' => 23,
             'Symfony\\Component\\Messenger\\Bridge\\Doctrine\\' => 44,
@@ -215,6 +217,10 @@ class ComposerStaticInit405c2c10fdd454e24035942686ccb95e
         'Vich\\UploaderBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/vich/uploader-bundle/src',
+        ),
+        'Twilio\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/twilio/sdk/src/Twilio',
         ),
         'Twig\\Extra\\TwigExtraBundle\\' => 
         array (
@@ -371,6 +377,10 @@ class ComposerStaticInit405c2c10fdd454e24035942686ccb95e
         'Symfony\\Component\\OptionsResolver\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/options-resolver',
+        ),
+        'Symfony\\Component\\Notifier\\Bridge\\Twilio\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/twilio-notifier',
         ),
         'Symfony\\Component\\Notifier\\' => 
         array (
