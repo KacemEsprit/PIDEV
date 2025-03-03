@@ -274,9 +274,13 @@ public function setLongitude(?float $longitude): self
         $roles = ['ROLE_USER'];
 
         // Ajouter le rôle spécifique de l'utilisateur
-        if ($this->role) {
+       /* if ($this->role) {
             $roles[] = $this->role;
-        }
+        }*/
+         // Ajouter le rôle spécifique de l'utilisateur
+        if ($this->role) {
+            $roles[] = strtoupper($this->role);
+        } 
 
         return array_unique($roles);
     }

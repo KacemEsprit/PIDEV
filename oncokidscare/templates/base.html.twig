@@ -66,15 +66,14 @@
                     </div>
                 </div>
                              {% if is_granted('ROLE_MEDECIN') %}
-
- <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Médecins</a>
-                    <div class="dropdown-menu rounded-0 rounded-bottom m-0">
-                        <a href="{{ path('app_doctor_availability') }}" class="dropdown-item">Disponibilités</a>
-                     
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Médecins</a>
+                        <div class="dropdown-menu rounded-0 rounded-bottom m-0">
+                            <a href="{{ path('app_doctor_availability') }}" class="dropdown-item">Disponibilités</a>
+                            <a href="{{ path('app_doctor_appointments') }}" class="dropdown-item">Mes Rendez-vous</a>
                             <a href="{{ path('app_doctor_reports') }}" class="dropdown-item">Rapport Rendez-vous</a>
+                        </div>
                     </div>
-                </div>
                                         {% endif %}
 
        {% if is_granted('ROLE_USER') and (is_granted('ROLE_PATIENT') or is_granted('ROLE_MEDECIN'))  %}
@@ -116,13 +115,13 @@
                             </a>
                             <div class="dropdown-menu rounded-0 rounded-bottom m-0">
                             {% if is_granted('ROLE_PATIENT') %}
-                               <a href="{{ path('app_patient_profile') }}"  class="dropdown-item">My Profile</a>
+                               <a href="{{ path('app_patient_profile') }}"  class="dropdown-item">Mon profil</a>
                              {% endif %}
                              {% if is_granted('ROLE_DONATEUR') %}
-                               <a href="{{ path('app_donateur_profile') }}"  class="dropdown-item">My Profile</a>
+                               <a href="{{ path('app_donateur_profile') }}"  class="dropdown-item">Mon profil</a>
                              {% endif %}
                              {% if is_granted('ROLE_MEDECIN') %}
-                               <a href="{{ path('app_medecin_profile') }}"  class="dropdown-item">My Profile</a>
+                               <a href="{{ path('app_medecin_profile') }}"  class="dropdown-item">Mon profil</a>
                              {% endif %}
                                 <a href="{{ path('app_logout') }}" class="dropdown-item">Déconnexion</a>
                             

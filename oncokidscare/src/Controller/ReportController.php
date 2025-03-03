@@ -26,7 +26,9 @@ class ReportController extends AbstractController
             ->leftJoin('App\Entity\Report', 'r', 'WITH', 'r.rendezvous = rv')
             ->where('rv.doctor = :doctor')
             ->andWhere('r.id IS NULL')
+            ->andWhere('rv.status = :status')
             ->setParameter('doctor', $doctor)
+            ->setParameter('status', 'confirmed')
             ->orderBy('rv.dateTime', 'DESC')
             ->getQuery()
             ->getResult();

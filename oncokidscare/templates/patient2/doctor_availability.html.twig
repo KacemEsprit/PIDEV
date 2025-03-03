@@ -1,171 +1,146 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Disponibilités - Dr. {{ doctor.nom }} {{ doctor.prenom }}{% endblock %}
-
-{% block stylesheets %}
-{{ parent() }}
-<style>
-    .availability-checkbox {
-        width: 20px !important;
-        height: 20px !important;
-        cursor: pointer;
-    }
-    .table th {
-        background-color: #f8f9fa;
-        font-size: 0.9rem;
-        text-align: center;
-        vertical-align: middle;
-        min-width: 100px;
-    }
-    .table td {
-        vertical-align: middle;
-        text-align: center;
-        padding: 0.5rem;
-    }
-    .table-responsive {
-        max-height: 800px;
-        overflow-y: auto;
-    }
-    .time-column {
-        position: sticky;
-        left: 0;
-        background-color: #f8f9fa;
-        z-index: 1;
-    }
-    .day-header {
-        font-weight: bold;
-        color: #0d6efd;
-    }
-    .date-header {
-        font-size: 0.8rem;
-        color: #6c757d;
-    }
-    .slot-available {
-        background-color: #d4edda;
-        cursor: pointer;
-    }
-    .slot-unavailable {
-        background-color: #f8d7da;
-        cursor: not-allowed;
-    }
-    .slot-selected {
-        background-color: #cce5ff;
-        border: 2px solid #0d6efd;
-    }
-</style>
-{% endblock %}
+{% block title %}Disponibilités{% endblock %}
 
 {% block body %}
+    <input type="hidden" name="csrf_token" id="csrf_token" value="{{ csrf_token('rendezvous_token') }}">
+
     <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container py-5">
             <h1 class="display-3 text-white mb-3 animated slideInDown">Disponibilités</h1>
             <nav aria-label="breadcrumb animated slideInDown">
                 <ol class="breadcrumb text-uppercase mb-0">
-                    <li class="breadcrumb-item"><a class="text-white" href="{{ path('app_home') }}">Accueil</a></li>
-                    <li class="breadcrumb-item"><a class="text-white" href="{{ path('app_patient_rendezvous') }}">Rendez-vous</a></li>
-                    <li class="breadcrumb-item text-primary active" aria-current="page">Dr. {{ doctor.nom }} {{ doctor.prenom }}</li>
+                    <li class="breadcrumb-item"><a class="text-white" href="#">Accueil</a></li>
+                    <li class="breadcrumb-item text-primary active" aria-current="page">Disponibilités</li>
                 </ol>
             </nav>
         </div>
     </div>
 
-    <div class="container-xxl py-5">
+    <div class="container-fluid py-5">
         <div class="container">
-            <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
-                <h1 class="mb-4">Disponibilités - Dr. {{ doctor.nom }} {{ doctor.prenom }}</h1>
-                <p class="mb-4">Sélectionnez un créneau disponible pour prendre rendez-vous.</p>
-            </div>
-
-            {% if dates is defined and dates|length > 0 %}
-                <div class="row g-4">
-                    <div class="col-12">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="text-center mb-4">Disponibilité du Dr. {{ doctor.nom }} {{ doctor.prenom }}</h2>
+                    
+                    <div id="toast-container" class="position-fixed top-0 end-0 p-3" style="z-index: 1050;"></div>
+                    
+                    {% if dates is defined and dates|length > 0 %}
                         <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead class="table-primary">
+                            <table class="table table-bordered text-center">
+                                <thead>
                                     <tr>
-                                        <th class="time-column">Heure</th>
+                                        <th>Heure</th>
                                         {% for date in dates %}
-                                            <th>
-                                                <div class="day-header">
-                                                    {% set dayOfWeek = date|date('N') %}
-                                                    {% set dayName = {
-                                                        1: 'Lundi',
-                                                        2: 'Mardi',
-                                                        3: 'Mercredi',
-                                                        4: 'Jeudi',
-                                                        5: 'Vendredi',
-                                                        7: 'Vendredi'
-                                                    }[dayOfWeek] %}
-                                                    {{ dayName }}
-                                                </div>
-                                                <div class="date-header">
-                                                    {% set dateStr = date|date('d/m/Y') %}
-                                                    {% if date|date('d/m/Y') == '16/02/2025' %}14/02/2025
-                                                    {% elseif date|date('d/m/Y') == '23/02/2025' %}21/02/2025
-                                                    {% else %}{{ dateStr }}
-                                                    {% endif %}
-                                                </div>
-                                            </th>
+                                            {% set dayOfWeek = date|date('N') %}
+                                            {% if dayOfWeek <= 5 %}
+                                                {% set dayName = date|date('l')|replace({
+                                                    'Monday': 'Lundi',
+                                                    'Tuesday': 'Mardi',
+                                                    'Wednesday': 'Mercredi',
+                                                    'Thursday': 'Jeudi',
+                                                    'Friday': 'Vendredi'
+                                                }) %}
+                                                <th>{{ dayName }}<br>{{ date|date('d/m/Y') }}</th>
+                                            {% endif %}
                                         {% endfor %}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for hour in hours %}
                                         <tr>
-                                            <td class="time-column">{{ hour }}:00</td>
+                                            <td>{{ hour }}:00</td>
                                             {% for date in dates %}
-                                                {% set dateStr = date|date('Y-m-d') %}
-                                                {% set isAvailable = availabilityMap[dateStr] is defined ? availabilityMap[dateStr][hour] : false %}
-                                                <td class="{% if isAvailable %}slot-available{% else %}slot-unavailable{% endif %}"
-                                                    {% if isAvailable %}
-                                                        data-date="{{ dateStr }}"
-                                                        data-hour="{{ hour }}"
-                                                        data-doctor="{{ doctor.id }}"
-                                                        onclick="selectTimeSlot(this)"
-                                                    {% endif %}>
-                                                    {% if isAvailable %}
-                                                        <i class="fas fa-check-circle text-success"></i>
-                                                    {% else %}
-                                                        <i class="fas fa-times-circle text-danger"></i>
-                                                    {% endif %}
-                                                </td>
+                                                {% set dayOfWeek = date|date('N') %}
+                                                {% if dayOfWeek <= 5 %}
+                                                    {% set dateStr = date|date('Y-m-d') %}
+                                                    {% set isAvailable = true %}
+                                                    
+                                                    {# Check existing appointments #}
+                                                    {% for rdv in rendezvous %}
+                                                        {% if rdv.dateTime|date('Y-m-d') == date|date('Y-m-d') and rdv.dateTime|date('H') == hour %}
+                                                            {% set isAvailable = false %}
+                                                        {% endif %}
+                                                    {% endfor %}
+
+                                                    {# Check doctor availability #}
+                                                    {% for availability in doctorAvailability %}
+                                                        {% if availability.date|date('Y-m-d') == date|date('Y-m-d') and availability.hour == hour %}
+                                                            {% set isAvailable = availability.isAvailable %}
+                                                        {% endif %}
+                                                    {% endfor %}
+
+                                                    <td>
+                                                        {% if isAvailable %}
+                                                            <div class="slot-available" 
+                                                                onclick="selectTimeSlot(this)"
+                                                                data-date="{{ date|date('Y-m-d') }}"
+                                                                data-hour="{{ hour }}"
+                                                                data-doctor="{{ doctor.id }}">
+                                                                <i class="fas fa-check-circle text-success"></i>
+                                                            </div>
+                                                        {% else %}
+                                                            <div class="slot-unavailable">
+                                                                <i class="fas fa-times-circle text-danger"></i>
+                                                            </div>
+                                                        {% endif %}
+                                                    </td>
+                                                {% endif %}
                                             {% endfor %}
                                         </tr>
                                     {% endfor %}
                                 </tbody>
                             </table>
                         </div>
-                    </div>
+                        
+                        <div class="text-center mt-4">
+                            <button id="bookButton" class="btn btn-primary" disabled>Confirmer le rendez-vous</button>
+                        </div>
+                    {% else %}
+                        <p class="text-center">Aucune disponibilité trouvée.</p>
+                    {% endif %}
                 </div>
-
-                <div class="row mt-4">
-                    <div class="col-12 text-center">
-                        <button type="button" class="btn btn-primary py-3 px-5" id="bookButton" disabled>
-                            Confirmer le rendez-vous
-                        </button>
-                    </div>
-                </div>
-            {% else %}
-                <div class="alert alert-info text-center">
-                    Aucune date disponible pour le moment.
-                </div>
-            {% endif %}
+            </div>
         </div>
     </div>
 
-    <div id="toast-container" style="position: fixed; top: 20px; right: 20px; z-index: 1050;"></div>
-
     <script>
         let selectedSlot = null;
+        const bookButton = document.getElementById('bookButton');
+
+        async function bookAppointment(date, hour, doctorId) {
+            try {
+                const csrfToken = document.getElementById('csrf_token').value;
+                const response = await fetch('{{ path('app_patient_rendezvous_book') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    body: JSON.stringify({ date, hour, doctorId })
+                });
+
+                const data = await response.json();
+                if (!response.ok) {
+                    throw new Error(data.message || 'Server error');
+                }
+
+                return data;
+            } catch (error) {
+                console.error('Booking error:', error);
+                throw error;
+            }
+        }
 
         function showToast(message, isSuccess = true) {
+            const toastContainer = document.getElementById('toast-container');
             const toast = document.createElement('div');
             toast.className = `alert alert-${isSuccess ? 'success' : 'danger'} alert-dismissible fade show`;
             toast.innerHTML = `
                 ${message}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             `;
-            document.getElementById('toast-container').appendChild(toast);
+            toastContainer.appendChild(toast);
             
             setTimeout(() => {
                 toast.remove();
@@ -173,69 +148,64 @@
         }
 
         function selectTimeSlot(element) {
-            // Remove previous selection
             if (selectedSlot) {
                 selectedSlot.classList.remove('slot-selected');
             }
-
-            // Add new selection
             element.classList.add('slot-selected');
             selectedSlot = element;
-
-            // Enable book button
-            document.getElementById('bookButton').disabled = false;
+            bookButton.disabled = false;
         }
 
-        document.getElementById('bookButton').addEventListener('click', function() {
+        bookButton.addEventListener('click', async function() {
             if (!selectedSlot) {
                 showToast('Veuillez sélectionner un créneau horaire', false);
                 return;
             }
 
-            const date = selectedSlot.dataset.date;
-            const hour = selectedSlot.dataset.hour;
-            const doctorId = selectedSlot.dataset.doctor;
+            bookButton.disabled = true;
 
-            fetch('{{ path('app_patient_rendezvous_book') }}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token('rendezvous_token') }}'
-                },
-                body: JSON.stringify({
-                    doctorId: doctorId,
-                    date: date,
-                    hour: hour
-                })
-            })
-            .then(response => {
-                if (!response.ok) {
-                    return response.json().then(data => {
-                        throw new Error(data.message || 'Une erreur est survenue');
-                    });
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.success) {
-                    showToast(data.message);
-                    // Disable the selected slot
+            try {
+                const result = await bookAppointment(
+                    selectedSlot.dataset.date,
+                    parseInt(selectedSlot.dataset.hour),
+                    selectedSlot.dataset.doctor
+                );
+
+                if (result.success) {
+                    showToast(result.message, true);
                     selectedSlot.classList.remove('slot-available', 'slot-selected');
                     selectedSlot.classList.add('slot-unavailable');
                     selectedSlot.removeAttribute('onclick');
                     selectedSlot.innerHTML = '<i class="fas fa-times-circle text-danger"></i>';
-                    // Disable book button
-                    document.getElementById('bookButton').disabled = true;
-                    // Reset selection
                     selectedSlot = null;
                 } else {
-                    throw new Error(data.message || 'Une erreur est survenue');
+                    throw new Error(result.message);
                 }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showToast(error.message || 'Une erreur est survenue lors de la réservation', false);
-            });
+            } catch (error) {
+                showToast(error.message || 'Une erreur est survenue', false);
+                bookButton.disabled = false;
+            }
         });
     </script>
+
+    <style>
+        .slot-available {
+            cursor: pointer;
+            padding: 10px;
+            transition: all 0.3s;
+        }
+        
+        .slot-available:hover {
+            background-color: rgba(40, 167, 69, 0.1);
+        }
+        
+        .slot-selected {
+            background-color: rgba(40, 167, 69, 0.2);
+        }
+        
+        .slot-unavailable {
+            padding: 10px;
+            opacity: 0.5;
+        }
+    </style>
 {% endblock %}

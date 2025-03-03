@@ -35,6 +35,7 @@ security:
   access_control:
     - { path: ^/admin, roles: ROLE_ADMIN }
     - { path: ^/publications, roles: [ROLE_MEDECIN, ROLE_PATIENT] }
+    - { path: ^/medecin2, roles: ROLE_MEDECIN }
     - { path: ^/donations, roles: [ROLE_DONATEUR, ROLE_PATIENT] }
     - { path: ^/login, roles: PUBLIC_ACCESS }
     - { path: ^/register, roles: PUBLIC_ACCESS }

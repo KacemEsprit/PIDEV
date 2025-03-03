@@ -67,27 +67,24 @@
                                     <tr>
                                         <th class="time-column">Heure</th>
                                         {% for date in dates %}
-                                            <th>
-                                                <div class="day-header">
-                                                    {% set dayOfWeek = date|date('N') %}
-                                                    {% set dayName = {
-                                                        1: 'Lundi',
-                                                        2: 'Mardi',
-                                                        3: 'Mercredi',
-                                                        4: 'Jeudi',
-                                                        5: 'Vendredi',
-                                                        7: 'Vendredi'
-                                                    }[dayOfWeek] %}
-                                                    {{ dayName }}
-                                                </div>
-                                                <div class="date-header">
-                                                    {% set dateStr = date|date('d/m/Y') %}
-                                                    {% if date|date('d/m/Y') == '16/02/2025' %}14/02/2025
-                                                    {% elseif date|date('d/m/Y') == '23/02/2025' %}21/02/2025
-                                                    {% else %}{{ dateStr }}
-                                                    {% endif %}
-                                                </div>
-                                            </th>
+                                            {% set dayOfWeek = date|date('N') %}
+                                            {% if dayOfWeek <= 5 %}
+                                                <th>
+                                                    <div class="day-header">
+                                                        {% set dayName = date|date('l')|replace({
+                                                            'Monday': 'Lundi',
+                                                            'Tuesday': 'Mardi',
+                                                            'Wednesday': 'Mercredi',
+                                                            'Thursday': 'Jeudi',
+                                                            'Friday': 'Vendredi'
+                                                        }) %}
+                                                        {{ dayName }}
+                                                    </div>
+                                                    <div class="date-header">
+                                                        {{ date|date('d/m/Y') }}
+                                                    </div>
+                                                </th>
+                                            {% endif %}
                                         {% endfor %}
                                     </tr>
                                 </thead>
@@ -96,18 +93,21 @@
                                         <tr>
                                             <td class="time-column">{{ hour }}:00</td>
                                             {% for date in dates %}
-                                                {% set dateStr = date|date('Y-m-d') %}
-                                                {% set isAvailable = availabilityMap[dateStr] is defined ? availabilityMap[dateStr][hour] ?? true : true %}
-                                                <td>
-                                                    <div class="form-check d-flex justify-content-center align-items-center" style="min-height: 40px;">
-                                                        <input type="checkbox" 
-                                                               class="form-check-input availability-checkbox" 
-                                                               data-date="{{ dateStr }}" 
-                                                               data-hour="{{ hour }}"
-                                                               {% if isAvailable %}checked{% endif %}
-                                                               style="width: 20px; height: 20px;">
-                                                    </div>
-                                                </td>
+                                                {% set dayOfWeek = date|date('N') %}
+                                                {% if dayOfWeek <= 5 %}
+                                                    {% set dateStr = date|date('Y-m-d') %}
+                                                    {% set isAvailable = availabilityMap[dateStr] is defined ? availabilityMap[dateStr][hour] ?? true : true %}
+                                                    <td>
+                                                        <div class="form-check d-flex justify-content-center align-items-center" style="min-height: 40px;">
+                                                            <input type="checkbox" 
+                                                                   class="form-check-input availability-checkbox" 
+                                                                   data-date="{{ dateStr }}" 
+                                                                   data-hour="{{ hour }}"
+                                                                   {% if isAvailable %}checked{% endif %}
+                                                                   style="width: 20px; height: 20px;">
+                                                        </div>
+                                                    </td>
+                                                {% endif %}
                                             {% endfor %}
                                         </tr>
                                     {% endfor %}

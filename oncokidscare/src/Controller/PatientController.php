@@ -34,4 +34,13 @@ class PatientController extends AbstractController
             'user' => $user,
         ]);
     }
+
+    #[Route('/rendezvous', name: 'app_patient_rendezvous')]
+    public function rendezvous(): Response
+    {
+        // Implement the logic for the rendezvous page
+        return $this->render('patient/rendezvous.html.twig', [
+            // Pass necessary data to the template
+        ]);
+    }
 }

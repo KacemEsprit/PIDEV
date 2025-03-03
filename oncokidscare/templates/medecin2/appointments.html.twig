@@ -1,0 +1,153 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes Rendez-vous{% endblock %}
+
+{% block body %}
+    <!-- Page Header Start -->
+    <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <h1 class="display-3 text-white mb-3 animated slideInDown">Mes Rendez-vous</h1>
+            <nav aria-label="breadcrumb animated slideInDown">
+                <ol class="breadcrumb text-uppercase mb-0">
+                    <li class="breadcrumb-item"><a class="text-white" href="{{ path('app_home') }}">Accueil</a></li>
+                    <li class="breadcrumb-item text-primary active" aria-current="page">Mes Rendez-vous</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <!-- Page Header End -->
+
+    <!-- Appointments Table Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+                <p class="d-inline-block border rounded-pill py-1 px-4">Rendez-vous</p>
+                <h1>Gérer Mes Rendez-vous</h1>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-12 wow fadeInUp" data-wow-delay="0.1s">
+                    {% if appointments|length > 0 %}
+                        <div class="bg-light rounded h-100 d-flex align-items-center p-5">
+                            <div class="table-responsive w-100">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Patient</th>
+                                            <th>Date</th>
+                                            <th>Heure</th>
+                                            <th>Statut</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for appointment in appointments %}
+                                            <tr>
+                                                <td>{{ appointment.patient.nom }} {{ appointment.patient.prenom }}</td>
+                                                <td>{{ appointment.dateTime|date('d/m/Y') }}</td>
+                                                <td>{{ appointment.dateTime|date('H:i') }}</td>
+                                                <td>
+                                                    <span class="badge {% if appointment.status == 'confirmed' %}bg-success{% else %}bg-danger{% endif %} rounded-pill">
+                                                        {{ appointment.status == 'confirmed' ? 'Confirmé' : 'Annulé' }}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    {% if appointment.status == 'confirmed' %}
+                                                        <button class="btn btn-outline-danger btn-sm rounded-pill cancel-appointment" 
+                                                                data-appointment-id="{{ appointment.id }}">
+                                                            <i class="fas fa-times"></i> Annuler
+                                                        </button>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="bg-light rounded h-100 d-flex align-items-center p-5">
+                            <div class="alert alert-info text-center w-100 mb-0">
+                                <i class="fas fa-info-circle me-2"></i>Aucun rendez-vous trouvé.
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Appointments Table End -->
+
+    <div id="toast-container" class="position-fixed top-0 end-0 p-3" style="z-index: 1050;"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toastContainer = document.getElementById('toast-container');
+            const csrfToken = '{{ csrf_token }}';
+            
+            function showToast(message, isSuccess = true) {
+                const toast = document.createElement('div');
+                toast.className = `alert alert-${isSuccess ? 'success' : 'danger'} alert-dismissible fade show`;
+                toast.innerHTML = `
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                `;
+                toastContainer.appendChild(toast);
+                
+                setTimeout(() => {
+                    toast.remove();
+                }, 3000);
+            }
+
+            document.querySelectorAll('.cancel-appointment').forEach(button => {
+                button.addEventListener('click', async function() {
+                    if (!confirm('Êtes-vous sûr de vouloir annuler ce rendez-vous ?')) {
+                        return;
+                    }
+
+                    const appointmentId = this.dataset.appointmentId;
+                    
+                    try {
+                        const response = await fetch('{{ path('app_doctor_cancel_appointment') }}', {
+                            method: 'POST',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': csrfToken
+                            },
+                            body: JSON.stringify({ appointmentId })
+                        });
+
+                        let data;
+                        const contentType = response.headers.get('content-type');
+                        if (contentType && contentType.includes('application/json')) {
+                            data = await response.json();
+                        } else {
+                            throw new Error('Response was not JSON');
+                        }
+
+                        if (!response.ok) {
+                            throw new Error(data.message || 'Une erreur est survenue');
+                        }
+
+                        showToast(data.message, true);
+                        
+                        // Update the UI
+                        const row = this.closest('tr');
+                        const statusCell = row.querySelector('td:nth-child(4)');
+                        statusCell.innerHTML = '<span class="badge bg-danger rounded-pill">Annulé</span>';
+                        this.remove();
+
+                        // Reload the page after a short delay to ensure everything is in sync
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 1000);
+                    } catch (error) {
+                        console.error('Error:', error);
+                        showToast(error.message || 'Une erreur est survenue lors de l\'annulation', false);
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

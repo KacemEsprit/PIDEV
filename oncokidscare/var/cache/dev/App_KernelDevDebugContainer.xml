@@ -504,6 +504,13 @@
         <argument type="service" id=".service_locator.O2p6Lk7.App\Controller\CompagnieController"/>
       </call>
     </service>
+    <service id="App\Controller\DoctorAppointmentsController" class="App\Controller\DoctorAppointmentsController" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+      <tag name="container.service_subscriber"/>
+      <call method="setContainer">
+        <argument type="service" id=".service_locator.O2p6Lk7.App\Controller\DoctorAppointmentsController"/>
+      </call>
+    </service>
     <service id="App\Controller\DoctorAvailabilityController" class="App\Controller\DoctorAvailabilityController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
@@ -585,6 +592,14 @@
         <argument type="service" id=".service_locator.O2p6Lk7.App\Controller\MedecinController"/>
       </call>
     </service>
+    <service id="App\Controller\MedecinRendezvousController" class="App\Controller\MedecinRendezvousController" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+      <tag name="container.service_subscriber"/>
+      <argument type="service" id="security.csrf.token_manager"/>
+      <call method="setContainer">
+        <argument type="service" id=".service_locator.O2p6Lk7.App\Controller\MedecinRendezvousController"/>
+      </call>
+    </service>
     <service id="App\Controller\MedicamentController" class="App\Controller\MedicamentController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
@@ -617,7 +632,6 @@
     <service id="App\Controller\RendezvousController" class="App\Controller\RendezvousController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
-      <argument type="service" id="security.csrf.token_manager"/>
       <call method="setContainer">
         <argument type="service" id=".service_locator.O2p6Lk7.App\Controller\RendezvousController"/>
       </call>
@@ -801,6 +815,9 @@
       <tag name="security.voter"/>
       <argument type="service" id="security.helper"/>
     </service>
+    <service id="App\Service\EmailService" class="App\Service\EmailService" autowire="true" autoconfigure="true">
+      <argument type="service" id="mailer.mailer"/>
+    </service>
     <service id="App\Service\GeocodingService" class="App\Service\GeocodingService" autowire="true" autoconfigure="true">
       <argument type="service" id=".debug.http_client"/>
     </service>
@@ -836,7 +853,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
       <tag priority="-50" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">controller.argument_value_resolver</tag>
-      <argument type="service" id=".service_locator.pU9mDYP"/>
+      <argument type="service" id=".service_locator.TZRZhfo"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">
       <tag priority="-100" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">controller.argument_value_resolver</tag>
@@ -1576,6 +1593,50 @@
       </call>
       <call method="setDescription">
         <argument>Stop workers after their current message</argument>
+      </call>
+    </service>
+    <service id="console.command.messenger_failed_messages_retry" class="Symfony\Component\Messenger\Command\FailedMessagesRetryCommand">
+      <tag name="console.command"/>
+      <tag name="monolog.logger" channel="messenger"/>
+      <tag name="container.no_preload"/>
+      <argument>failed</argument>
+      <argument type="service" id=".service_locator.Y4J.A.e"/>
+      <argument type="service" id="messenger.routable_message_bus"/>
+      <argument type="service" id="debug.event_dispatcher"/>
+      <argument type="service" id="monolog.logger.messenger" on-invalid="null"/>
+      <argument type="service" id="messenger.transport.native_php_serializer" on-invalid="null"/>
+      <argument>null</argument>
+      <call method="setName">
+        <argument>messenger:failed:retry</argument>
+      </call>
+      <call method="setDescription">
+        <argument>Retry one or more messages from the failure transport</argument>
+      </call>
+    </service>
+    <service id="console.command.messenger_failed_messages_show" class="Symfony\Component\Messenger\Command\FailedMessagesShowCommand">
+      <tag name="console.command"/>
+      <tag name="container.no_preload"/>
+      <argument>failed</argument>
+      <argument type="service" id=".service_locator.Y4J.A.e"/>
+      <argument type="service" id="messenger.transport.native_php_serializer" on-invalid="null"/>
+      <call method="setName">
+        <argument>messenger:failed:show</argument>
+      </call>
+      <call method="setDescription">
+        <argument>Show one or more messages from the failure transport</argument>
+      </call>
+    </service>
+    <service id="console.command.messenger_failed_messages_remove" class="Symfony\Component\Messenger\Command\FailedMessagesRemoveCommand">
+      <tag name="console.command"/>
+      <tag name="container.no_preload"/>
+      <argument>failed</argument>
+      <argument type="service" id=".service_locator.Y4J.A.e"/>
+      <argument type="service" id="messenger.transport.native_php_serializer" on-invalid="null"/>
+      <call method="setName">
+        <argument>messenger:failed:remove</argument>
+      </call>
+      <call method="setDescription">
+        <argument>Remove given messages from the failure transport</argument>
       </call>
     </service>
     <service id="console.command.messenger_stats" class="Symfony\Component\Messenger\Command\StatsCommand">
@@ -3644,6 +3705,14 @@
         <argument>200</argument>
       </call>
       <call method="addListener">
+        <argument>Symfony\Component\Messenger\Event\WorkerMessageFailedEvent</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="messenger.failure.send_failed_message_to_failure_transport_listener"/>
+          <argument>onMessageFailed</argument>
+        </argument>
+        <argument>-100</argument>
+      </call>
+      <call method="addListener">
         <argument>Symfony\Component\Messenger\Event\WorkerStartedEvent</argument>
         <argument type="collection">
           <argument type="service_closure" id="messenger.listener.stop_worker_on_restart_signal_listener"/>
@@ -3977,7 +4046,7 @@
     </service>
     <service id="argument_resolver.not_tagged_controller" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
       <tag name="controller.argument_value_resolver" priority="-200"/>
-      <argument type="service" id=".service_locator.pU9mDYP"/>
+      <argument type="service" id=".service_locator.TZRZhfo"/>
     </service>
     <service id="debug.log_processor" class="Symfony\Bridge\Monolog\Processor\DebugProcessor">
       <tag name="kernel.reset" method="reset"/>
@@ -4077,7 +4146,7 @@
     <service id="router.default" class="Symfony\Bundle\FrameworkBundle\Routing\Router">
       <tag name="monolog.logger" channel="router"/>
       <tag name="container.service_subscriber" id="routing.loader"/>
-      <argument type="service" id=".service_locator.iD.GLrW.router.default"/>
+      <argument type="service" id=".service_locator.bN.V_Nq.router.default"/>
       <argument>kernel::loadRoutes</argument>
       <argument type="collection">
         <argument key="cache_dir">D:\PIDEV\oncokidscare\var\cache\dev</argument>
@@ -5040,6 +5109,12 @@
     <service id="messenger.failure.add_error_details_stamp_listener" class="Symfony\Component\Messenger\EventListener\AddErrorDetailsStampListener">
       <tag name="kernel.event_subscriber"/>
     </service>
+    <service id="messenger.failure.send_failed_message_to_failure_transport_listener" class="Symfony\Component\Messenger\EventListener\SendFailedMessageToFailureTransportListener">
+      <tag name="monolog.logger" channel="messenger"/>
+      <tag name="kernel.event_subscriber"/>
+      <argument type="service" id=".service_locator.v4buNEb"/>
+      <argument type="service" id="monolog.logger.messenger" on-invalid="ignore"/>
+    </service>
     <service id="messenger.listener.dispatch_pcntl_signal_listener" class="Symfony\Component\Messenger\EventListener\DispatchPcntlSignalListener">
       <tag name="kernel.event_subscriber"/>
     </service>
@@ -5087,7 +5162,7 @@
       <argument>0</argument>
     </service>
     <service id="messenger.transport.failed" class="Symfony\Component\Messenger\Transport\TransportInterface">
-      <tag name="messenger.receiver" alias="failed" is_failure_transport=""/>
+      <tag name="messenger.receiver" alias="failed" is_failure_transport="1"/>
       <argument>doctrine://default?queue_name=failed</argument>
       <argument type="collection">
         <argument key="transport_name">failed</argument>
@@ -5125,6 +5200,14 @@
         <argument key="messenger.transport.failed" type="service_closure" id="messenger.transport.failed"/>
         <argument key="messenger.transport.sync" type="service_closure" id="messenger.transport.sync"/>
         <argument key="sync" type="service_closure" id="messenger.transport.sync"/>
+      </argument>
+    </service>
+    <service id=".service_locator.v4buNEb" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="async" type="service_closure" id="messenger.transport.failed"/>
+        <argument key="failed" type="service_closure" id="messenger.transport.failed"/>
+        <argument key="sync" type="service_closure" id="messenger.transport.failed"/>
       </argument>
     </service>
     <service id="notifier" class="Symfony\Component\Notifier\Notifier">
@@ -7205,6 +7288,13 @@
         <argument>null</argument>
       </call>
       <call method="add">
+        <argument type="service" id=".security.request_matcher.h3oiTO7"/>
+        <argument type="collection">
+          <argument>ROLE_MEDECIN</argument>
+        </argument>
+        <argument>null</argument>
+      </call>
+      <call method="add">
         <argument type="service" id=".security.request_matcher.O0V6ORW"/>
         <argument type="collection">
           <argument>ROLE_DONATEUR</argument>
@@ -7871,6 +7961,14 @@
     <service id=".security.request_matcher.Oggic2J" class="Symfony\Component\HttpFoundation\ChainRequestMatcher">
       <argument type="collection">
         <argument type="service" id=".security.request_matcher.alxXwNj"/>
+      </argument>
+    </service>
+    <service id=".security.request_matcher._JSAcD1" class="Symfony\Component\HttpFoundation\RequestMatcher\PathRequestMatcher">
+      <argument>^/medecin2</argument>
+    </service>
+    <service id=".security.request_matcher.h3oiTO7" class="Symfony\Component\HttpFoundation\ChainRequestMatcher">
+      <argument type="collection">
+        <argument type="service" id=".security.request_matcher._JSAcD1"/>
       </argument>
     </service>
     <service id=".security.request_matcher.phGyaTt" class="Symfony\Component\HttpFoundation\RequestMatcher\PathRequestMatcher">
@@ -8963,6 +9061,9 @@
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\CompagnieController" class="App\Controller\CompagnieController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\CompagnieController" class="App\Controller\CompagnieController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\CompagnieController" class="App\Controller\CompagnieController" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\DoctorAppointmentsController" class="App\Controller\DoctorAppointmentsController" autowire="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\DoctorAppointmentsController" class="App\Controller\DoctorAppointmentsController" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Controller\DoctorAppointmentsController" class="App\Controller\DoctorAppointmentsController" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\DoctorAvailabilityController" class="App\Controller\DoctorAvailabilityController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\DoctorAvailabilityController" class="App\Controller\DoctorAvailabilityController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\DoctorAvailabilityController" class="App\Controller\DoctorAvailabilityController" autowire="true" autoconfigure="true" abstract="true"/>
@@ -8996,6 +9097,9 @@
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\MedecinController" class="App\Controller\MedecinController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\MedecinController" class="App\Controller\MedecinController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\MedecinController" class="App\Controller\MedecinController" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\MedecinRendezvousController" class="App\Controller\MedecinRendezvousController" autowire="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\MedecinRendezvousController" class="App\Controller\MedecinRendezvousController" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Controller\MedecinRendezvousController" class="App\Controller\MedecinRendezvousController" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\MedicamentController" class="App\Controller\MedicamentController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\MedicamentController" class="App\Controller\MedicamentController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\MedicamentController" class="App\Controller\MedicamentController" autowire="true" autoconfigure="true" abstract="true"/>
@@ -9933,6 +10037,13 @@
         <argument key="entityManager" type="service_closure" id="doctrine.orm.default_entity_manager"/>
       </argument>
     </service>
+    <service id=".service_locator.t17gQHh" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="emailService" type="service_closure" id="App\Service\EmailService"/>
+        <argument key="entityManager" type="service_closure" id="doctrine.orm.default_entity_manager"/>
+      </argument>
+    </service>
     <service id=".service_locator.O8GioWl" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -9973,7 +10084,7 @@
         <argument key="ligneCommandeRepository" type="service_closure" id="App\Repository\LigneCommandeRepository"/>
       </argument>
     </service>
-    <service id=".service_locator.pU9mDYP" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.TZRZhfo" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Controller\AdminController::annulerCommande" type="service_closure" id=".service_locator.iR5i4O4"/>
@@ -10030,6 +10141,8 @@
         <argument key="App\Controller\CompagnieController::selectOrCreate" type="service_closure" id=".service_locator.0N7jZFz"/>
         <argument key="App\Controller\CompagnieController::show" type="service_closure" id=".service_locator.elXdKcM"/>
         <argument key="App\Controller\CompagnieController::validateCompagnie" type="service_closure" id=".service_locator.FiBwT5O"/>
+        <argument key="App\Controller\DoctorAppointmentsController::cancelAppointment" type="service_closure" id=".service_locator.CsMkqUa"/>
+        <argument key="App\Controller\DoctorAppointmentsController::index" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\DoctorAvailabilityController::doctorAvailability" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\DoctorAvailabilityController::index" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\DoctorAvailabilityController::update" type="service_closure" id=".service_locator.CsMkqUa"/>
@@ -10063,6 +10176,8 @@
         <argument key="App\Controller\MedecinController::prediction" type="service_closure" id=".service_locator.7qTMv7A"/>
         <argument key="App\Controller\MedecinController::profile" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\MedecinController::showAllRapports" type="service_closure" id=".service_locator.9MWgsgw"/>
+        <argument key="App\Controller\MedecinRendezvousController::cancelAppointment" type="service_closure" id=".service_locator.CsMkqUa"/>
+        <argument key="App\Controller\MedecinRendezvousController::index" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\MedicamentController::delete" type="service_closure" id=".service_locator.FfisaAn"/>
         <argument key="App\Controller\MedicamentController::edit" type="service_closure" id=".service_locator.FfisaAn"/>
         <argument key="App\Controller\MedicamentController::index" type="service_closure" id=".service_locator.4nATh_P"/>
@@ -10079,7 +10194,7 @@
         <argument key="App\Controller\PublicationController::new" type="service_closure" id=".service_locator.dH_7bkl"/>
         <argument key="App\Controller\PublicationController::reject" type="service_closure" id=".service_locator.TyGfL3f"/>
         <argument key="App\Controller\PublicationController::show" type="service_closure" id=".service_locator.iUig0G9"/>
-        <argument key="App\Controller\RendezvousController::bookAppointment" type="service_closure" id=".service_locator.CsMkqUa"/>
+        <argument key="App\Controller\RendezvousController::bookAppointment" type="service_closure" id=".service_locator.t17gQHh"/>
         <argument key="App\Controller\RendezvousController::doctorAvailability" type="service_closure" id=".service_locator.da3JNsy"/>
         <argument key="App\Controller\RendezvousController::index" type="service_closure" id=".service_locator.kPUOGb8"/>
         <argument key="App\Controller\ReportController::edit" type="service_closure" id=".service_locator.k448V7w"/>
@@ -10150,6 +10265,8 @@
         <argument key="App\Controller\CompagnieController:selectOrCreate" type="service_closure" id=".service_locator.0N7jZFz"/>
         <argument key="App\Controller\CompagnieController:show" type="service_closure" id=".service_locator.elXdKcM"/>
         <argument key="App\Controller\CompagnieController:validateCompagnie" type="service_closure" id=".service_locator.FiBwT5O"/>
+        <argument key="App\Controller\DoctorAppointmentsController:cancelAppointment" type="service_closure" id=".service_locator.CsMkqUa"/>
+        <argument key="App\Controller\DoctorAppointmentsController:index" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\DoctorAvailabilityController:doctorAvailability" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\DoctorAvailabilityController:index" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\DoctorAvailabilityController:update" type="service_closure" id=".service_locator.CsMkqUa"/>
@@ -10183,6 +10300,8 @@
         <argument key="App\Controller\MedecinController:prediction" type="service_closure" id=".service_locator.7qTMv7A"/>
         <argument key="App\Controller\MedecinController:profile" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\MedecinController:showAllRapports" type="service_closure" id=".service_locator.9MWgsgw"/>
+        <argument key="App\Controller\MedecinRendezvousController:cancelAppointment" type="service_closure" id=".service_locator.CsMkqUa"/>
+        <argument key="App\Controller\MedecinRendezvousController:index" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\MedicamentController:delete" type="service_closure" id=".service_locator.FfisaAn"/>
         <argument key="App\Controller\MedicamentController:edit" type="service_closure" id=".service_locator.FfisaAn"/>
         <argument key="App\Controller\MedicamentController:index" type="service_closure" id=".service_locator.4nATh_P"/>
@@ -10199,7 +10318,7 @@
         <argument key="App\Controller\PublicationController:new" type="service_closure" id=".service_locator.dH_7bkl"/>
         <argument key="App\Controller\PublicationController:reject" type="service_closure" id=".service_locator.TyGfL3f"/>
         <argument key="App\Controller\PublicationController:show" type="service_closure" id=".service_locator.iUig0G9"/>
-        <argument key="App\Controller\RendezvousController:bookAppointment" type="service_closure" id=".service_locator.CsMkqUa"/>
+        <argument key="App\Controller\RendezvousController:bookAppointment" type="service_closure" id=".service_locator.t17gQHh"/>
         <argument key="App\Controller\RendezvousController:doctorAvailability" type="service_closure" id=".service_locator.da3JNsy"/>
         <argument key="App\Controller\RendezvousController:index" type="service_closure" id=".service_locator.kPUOGb8"/>
         <argument key="App\Controller\ReportController:edit" type="service_closure" id=".service_locator.k448V7w"/>
@@ -10436,9 +10555,11 @@
         <argument key="messenger.bus.default" type="service_closure" id="debug.traced.messenger.bus.default"/>
       </argument>
     </service>
-    <service id=".service_locator.Xbsa8iG" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.Y4J.A.e" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
-      <argument type="collection"/>
+      <argument type="collection">
+        <argument key="failed" type="service_closure" id="messenger.transport.failed"/>
+      </argument>
     </service>
     <service id=".messenger.handler_descriptor.QXXNQ9d" class="Symfony\Component\Messenger\Handler\HandlerDescriptor">
       <argument type="service" id="process.messenger.process_message_handler"/>
@@ -10982,6 +11103,12 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.O2p6Lk7" method="withContext"/>
     </service>
+    <service id=".service_locator.O2p6Lk7.App\Controller\DoctorAppointmentsController" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\DoctorAppointmentsController"/>
+      <argument>App\Controller\DoctorAppointmentsController</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.O2p6Lk7" method="withContext"/>
+    </service>
     <service id=".service_locator.O2p6Lk7.App\Controller\DoctorAvailabilityController" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="App\Controller\DoctorAvailabilityController"/>
       <argument>App\Controller\DoctorAvailabilityController</argument>
@@ -11045,6 +11172,12 @@
     <service id=".service_locator.O2p6Lk7.App\Controller\MedecinController" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="App\Controller\MedecinController"/>
       <argument>App\Controller\MedecinController</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.O2p6Lk7" method="withContext"/>
+    </service>
+    <service id=".service_locator.O2p6Lk7.App\Controller\MedecinRendezvousController" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\MedecinRendezvousController"/>
+      <argument>App\Controller\MedecinRendezvousController</argument>
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.O2p6Lk7" method="withContext"/>
     </service>
@@ -11120,17 +11253,17 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.fuYM_Z." method="withContext"/>
     </service>
-    <service id=".service_locator.iD.GLrW" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.bN.V_Nq" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="routing.loader" type="service_closure" id="routing.loader"/>
       </argument>
     </service>
-    <service id=".service_locator.iD.GLrW.router.default" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.bN.V_Nq.router.default" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="router.default"/>
       <argument>router.default</argument>
       <argument type="service" id="service_container"/>
-      <factory service=".service_locator.iD.GLrW" method="withContext"/>
+      <factory service=".service_locator.bN.V_Nq" method="withContext"/>
     </service>
     <service id=".service_locator.cUcW89y" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
@@ -11180,6 +11313,10 @@
       <argument type="collection">
         <argument key="reverse_container" type="service_closure" id="reverse_container" on-invalid="ignore_uninitialized"/>
       </argument>
+    </service>
+    <service id=".service_locator.Xbsa8iG" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection"/>
     </service>
     <service id=".service_locator.NBUFN6A" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
@@ -11297,6 +11434,7 @@
           <argument>App\Controller\CommandeController</argument>
           <argument>App\Controller\CommentController</argument>
           <argument>App\Controller\CompagnieController</argument>
+          <argument>App\Controller\DoctorAppointmentsController</argument>
           <argument>App\Controller\DoctorAvailabilityController</argument>
           <argument>App\Controller\DonController</argument>
           <argument>App\Controller\DonPaymentController</argument>
@@ -11308,6 +11446,7 @@
           <argument>App\Controller\MailingController</argument>
           <argument>App\Controller\ManageUsersController</argument>
           <argument>App\Controller\MedecinController</argument>
+          <argument>App\Controller\MedecinRendezvousController</argument>
           <argument>App\Controller\MedicamentController</argument>
           <argument>App\Controller\PatientController</argument>
           <argument>App\Controller\ProfileController</argument>
@@ -11771,6 +11910,27 @@
       <argument>Stop workers after their current message</argument>
       <argument>false</argument>
       <argument type="service_closure" id="console.command.messenger_stop_workers"/>
+    </service>
+    <service id=".console.command.messenger_failed_messages_retry.lazy" class="Symfony\Component\Console\Command\LazyCommand">
+      <argument>messenger:failed:retry</argument>
+      <argument type="collection"/>
+      <argument>Retry one or more messages from the failure transport</argument>
+      <argument>false</argument>
+      <argument type="service_closure" id="console.command.messenger_failed_messages_retry"/>
+    </service>
+    <service id=".console.command.messenger_failed_messages_show.lazy" class="Symfony\Component\Console\Command\LazyCommand">
+      <argument>messenger:failed:show</argument>
+      <argument type="collection"/>
+      <argument>Show one or more messages from the failure transport</argument>
+      <argument>false</argument>
+      <argument type="service_closure" id="console.command.messenger_failed_messages_show"/>
+    </service>
+    <service id=".console.command.messenger_failed_messages_remove.lazy" class="Symfony\Component\Console\Command\LazyCommand">
+      <argument>messenger:failed:remove</argument>
+      <argument type="collection"/>
+      <argument>Remove given messages from the failure transport</argument>
+      <argument>false</argument>
+      <argument type="service_closure" id="console.command.messenger_failed_messages_remove"/>
     </service>
     <service id=".console.command.messenger_stats.lazy" class="Symfony\Component\Console\Command\LazyCommand">
       <argument>messenger:stats</argument>
@@ -12290,7 +12450,7 @@
     </service>
     <service id="console.command_loader" class="Symfony\Component\Console\CommandLoader\ContainerCommandLoader" public="true">
       <tag name="container.no_preload"/>
-      <argument type="service" id=".service_locator.tJ1iWfz"/>
+      <argument type="service" id=".service_locator.rKTjXIn"/>
       <argument type="collection">
         <argument key="about">console.command.about</argument>
         <argument key="assets:install">console.command.assets_install</argument>
@@ -12312,6 +12472,9 @@
         <argument key="messenger:setup-transports">console.command.messenger_setup_transports</argument>
         <argument key="debug:messenger">console.command.messenger_debug</argument>
         <argument key="messenger:stop-workers">console.command.messenger_stop_workers</argument>
+        <argument key="messenger:failed:retry">console.command.messenger_failed_messages_retry</argument>
+        <argument key="messenger:failed:show">console.command.messenger_failed_messages_show</argument>
+        <argument key="messenger:failed:remove">console.command.messenger_failed_messages_remove</argument>
         <argument key="messenger:stats">console.command.messenger_stats</argument>
         <argument key="debug:router">console.command.router_debug</argument>
         <argument key="router:match">console.command.router_match</argument>
@@ -12410,7 +12573,7 @@
         <argument key="make:webhook">maker.auto_command.make_webhook</argument>
       </argument>
     </service>
-    <service id=".service_locator.tJ1iWfz" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.rKTjXIn" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="console.command.about" type="service_closure" id=".console.command.about.lazy"/>
@@ -12433,6 +12596,9 @@
         <argument key="console.command.messenger_setup_transports" type="service_closure" id=".console.command.messenger_setup_transports.lazy"/>
         <argument key="console.command.messenger_debug" type="service_closure" id=".console.command.messenger_debug.lazy"/>
         <argument key="console.command.messenger_stop_workers" type="service_closure" id=".console.command.messenger_stop_workers.lazy"/>
+        <argument key="console.command.messenger_failed_messages_retry" type="service_closure" id=".console.command.messenger_failed_messages_retry.lazy"/>
+        <argument key="console.command.messenger_failed_messages_show" type="service_closure" id=".console.command.messenger_failed_messages_show.lazy"/>
+        <argument key="console.command.messenger_failed_messages_remove" type="service_closure" id=".console.command.messenger_failed_messages_remove.lazy"/>
         <argument key="console.command.messenger_stats" type="service_closure" id=".console.command.messenger_stats.lazy"/>
         <argument key="console.command.router_debug" type="service_closure" id=".console.command.router_debug.lazy"/>
         <argument key="console.command.router_match" type="service_closure" id=".console.command.router_match.lazy"/>
@@ -12783,6 +12949,7 @@
     </service>
     <service id="messenger.default_bus" alias="debug.traced.messenger.bus.default" public="true"/>
     <service id="Symfony\Component\Messenger\MessageBusInterface" alias="debug.traced.messenger.bus.default"/>
+    <service id="messenger.failure_transports.default" alias="messenger.transport.failed"/>
     <service id="Symfony\Component\Notifier\NotifierInterface" alias="notifier"/>
     <service id="Symfony\Component\Notifier\TexterInterface" alias="texter"/>
     <service id="notifier.logger_notification_listener" alias="notifier.notification_logger_listener">
@@ -12885,7 +13052,7 @@
     <service id="SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface" alias="symfonycasts.reset_password.helper"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.w7.f4fT" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.pU9mDYP"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.TZRZhfo"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.KLVvNIq"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="Psr\Log\LoggerInterface $requestLogger" alias="monolog.logger.request"/>
@@ -12938,10 +13105,11 @@
     <service id=".service_locator.th5i6eU" alias=".service_locator.iUig0G9"/>
     <service id=".service_locator.52JxNpb" alias=".service_locator.1BDjvx9"/>
     <service id=".service_locator.dQiUxUs" alias=".service_locator.BXW8zd5"/>
+    <service id=".service_locator.HkoFiKd" alias=".service_locator.t17gQHh"/>
     <service id=".service_locator.HLUlteY" alias=".service_locator.O8GioWl"/>
     <service id=".service_locator.GeA0det" alias=".service_locator.k448V7w"/>
     <service id=".service_locator.DE9xMpG" alias=".service_locator.yiuvTsW"/>
-    <service id=".service_locator.4RCFHlj" alias=".service_locator.pU9mDYP"/>
+    <service id=".service_locator.PI5spyN" alias=".service_locator.TZRZhfo"/>
     <service id=".service_locator.BFrsqsn" alias=".service_locator.F9PKc.7"/>
     <service id=".service_locator.BL6QklO" alias=".service_locator.jEU_4gK"/>
     <service id=".service_locator.c636JwQ" alias=".service_locator.19FHMl6"/>
@@ -13026,6 +13194,7 @@
     <service id=".service_locator.ftB.Q1V" alias=".service_locator.1BDjvx9"/>
     <service id=".service_locator.hhyIYxO" alias=".service_locator.BXW8zd5"/>
     <service id=".service_locator.FCghrHv" alias=".service_locator.da3JNsy"/>
+    <service id=".service_locator..QyvMwt" alias=".service_locator.t17gQHh"/>
     <service id=".service_locator.pgCpuwM" alias=".service_locator.O8GioWl"/>
     <service id=".service_locator.rU2jjvD" alias=".service_locator.k448V7w"/>
     <service id=".service_locator.W47vLMj" alias=".service_locator.Mhqdd2r"/>

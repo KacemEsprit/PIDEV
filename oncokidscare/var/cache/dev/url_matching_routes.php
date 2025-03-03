@@ -68,7 +68,6 @@ return [
         '/testimonial' => [[['_route' => 'app_testimonial', '_controller' => 'App\\Controller\\HomeController::index_testimonial'], null, null, null, false, false, null]],
         '/contact' => [[['_route' => 'app_contact', '_controller' => 'App\\Controller\\HomeController::index_contact'], null, null, null, false, false, null]],
         '/404' => [[['_route' => 'app_404', '_controller' => 'App\\Controller\\HomeController::index_404'], null, null, null, false, false, null]],
-        '/rendez-vous' => [[['_route' => 'app_rendezvous', '_controller' => 'App\\Controller\\HomeController::index_rendezvous'], null, null, null, false, false, null]],
         '/admin/users' => [[['_route' => 'app_admin_users', '_controller' => 'App\\Controller\\ManageUsersController::index'], null, ['GET' => 0], null, false, false, null]],
         '/admin/users/search' => [[['_route' => 'user_search', '_controller' => 'App\\Controller\\ManageUsersController::search'], null, ['GET' => 0], null, false, false, null]],
         '/medecin/dashboardd' => [[['_route' => 'app_medecin_dashboard', '_controller' => 'App\\Controller\\MedecinController::dashboard'], null, null, null, false, false, null]],
@@ -77,6 +76,8 @@ return [
         '/medecin/create' => [[['_route' => 'app_create_rapport', '_controller' => 'App\\Controller\\MedecinController::createRapport'], null, null, null, false, false, null]],
         '/medecin/patients/rapports' => [[['_route' => 'app_medecin_rapports', '_controller' => 'App\\Controller\\MedecinController::showAllRapports'], null, ['GET' => 0], null, false, false, null]],
         '/medecin/DoctorAvailability' => [[['_route' => 'app_doctor_availability_legacy', '_controller' => 'App\\Controller\\MedecinController::doctorAvailabilityLegacy'], null, null, null, false, false, null]],
+        '/medecin2/appointments' => [[['_route' => 'app_doctor_appointments', '_controller' => 'App\\Controller\\MedecinRendezvousController::index'], null, null, null, false, false, null]],
+        '/medecin2/cancel-appointment' => [[['_route' => 'app_doctor_cancel_appointment', '_controller' => 'App\\Controller\\MedecinRendezvousController::cancelAppointment'], null, ['POST' => 0], null, false, false, null]],
         '/admin/medicament' => [[['_route' => 'app_medicament_index', '_controller' => 'App\\Controller\\MedicamentController::index'], null, ['GET' => 0], null, true, false, null]],
         '/admin/medicament/new' => [[['_route' => 'app_medicament_new', '_controller' => 'App\\Controller\\MedicamentController::new'], null, ['GET' => 0, 'POST' => 1], null, false, false, null]],
         '/patient/dashboard' => [[['_route' => 'app_patient_dashboard', '_controller' => 'App\\Controller\\PatientController::dashboard'], null, null, null, false, false, null]],
@@ -85,7 +86,7 @@ return [
         '/donateur/profile' => [[['_route' => 'app_donateur_profile', '_controller' => 'App\\Controller\\ProfileController::donateurProfile'], null, null, null, false, false, null]],
         '/publication' => [[['_route' => 'app_publication_index', '_controller' => 'App\\Controller\\PublicationController::index'], null, ['GET' => 0, 'POST' => 1], null, true, false, null]],
         '/publication/new' => [[['_route' => 'app_publication_new', '_controller' => 'App\\Controller\\PublicationController::new'], null, ['GET' => 0, 'POST' => 1], null, false, false, null]],
-        '/patient2/rendezvous' => [[['_route' => 'app_patient_rendezvous', '_controller' => 'App\\Controller\\RendezvousController::index'], null, ['GET' => 0], null, false, false, null]],
+        '/patient2/rendezvous' => [[['_route' => 'app_rendezvous', '_controller' => 'App\\Controller\\RendezvousController::index'], null, null, null, false, false, null]],
         '/patient2/rendezvous/book' => [[['_route' => 'app_patient_rendezvous_book', '_controller' => 'App\\Controller\\RendezvousController::bookAppointment'], null, ['POST' => 0], null, false, false, null]],
         '/medecin2/reports' => [[['_route' => 'app_doctor_reports', '_controller' => 'App\\Controller\\ReportController::index'], null, null, null, false, false, null]],
         '/reset-password' => [[['_route' => 'app_reset_password_request', '_controller' => 'App\\Controller\\ResetPasswordController::request'], null, ['GET' => 0, 'POST' => 1], null, false, false, null]],
@@ -97,6 +98,7 @@ return [
         '/chatbot/test' => [[['_route' => 'chatbot_test', '_controller' => 'App\\Controller\\ChatbotController::test'], null, ['GET' => 0], null, false, false, null]],
         '/chatbot/message' => [[['_route' => 'chatbot_message', '_controller' => 'App\\Controller\\ChatbotController::message'], null, ['POST' => 0], null, false, false, null]],
         '/admin/pharmacie' => [[['_route' => 'admin_pharmacie_index', '_controller' => 'App\\Controller\\AdminController::pharmacie'], null, ['GET' => 0], null, false, false, null]],
+        '/patient/rendezvous' => [[['_route' => 'app_patient_rendezvous', '_controller' => 'App\\Controller\\PatientController::rendezvous'], null, null, null, false, false, null]],
     ],
     [ // $regexpList
         0 => '{^(?'
