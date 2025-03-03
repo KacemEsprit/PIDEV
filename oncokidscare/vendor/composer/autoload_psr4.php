@@ -55,6 +55,7 @@ return array(
     'Symfony\\Component\\Messenger\\Bridge\\Doctrine\\' => array($vendorDir . '/symfony/doctrine-messenger'),
     'Symfony\\Component\\Messenger\\' => array($vendorDir . '/symfony/messenger'),
     'Symfony\\Component\\Mercure\\' => array($vendorDir . '/symfony/mercure/src'),
+    'Symfony\\Component\\Mailer\\Bridge\\Brevo\\' => array($vendorDir . '/symfony/brevo-mailer'),
     'Symfony\\Component\\Mailer\\' => array($vendorDir . '/symfony/mailer'),
     'Symfony\\Component\\Lock\\' => array($vendorDir . '/symfony/lock'),
     'Symfony\\Component\\Intl\\' => array($vendorDir . '/symfony/intl'),

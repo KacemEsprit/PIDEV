@@ -92,6 +92,7 @@ class ComposerStaticInit405c2c10fdd454e24035942686ccb95e
             'Symfony\\Component\\Messenger\\Bridge\\Doctrine\\' => 44,
             'Symfony\\Component\\Messenger\\' => 28,
             'Symfony\\Component\\Mercure\\' => 26,
+            'Symfony\\Component\\Mailer\\Bridge\\Brevo\\' => 38,
             'Symfony\\Component\\Mailer\\' => 25,
             'Symfony\\Component\\Lock\\' => 23,
             'Symfony\\Component\\Intl\\' => 23,
@@ -401,6 +402,10 @@ class ComposerStaticInit405c2c10fdd454e24035942686ccb95e
         'Symfony\\Component\\Mercure\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/mercure/src',
+        ),
+        'Symfony\\Component\\Mailer\\Bridge\\Brevo\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/brevo-mailer',
         ),
         'Symfony\\Component\\Mailer\\' => 
         array (
