@@ -45,20 +45,17 @@ class AdminController extends AbstractController
         /** @var User $currentUser */
         $currentUser = $this->getUser();
     
-        // Get user counts by role
         $admins = $userRepository->findBy(['role' => User::ROLE_ADMIN]);
         $medecins = $userRepository->findBy(['role' => User::ROLE_MEDECIN]);
         $patients = $userRepository->findBy(['role' => User::ROLE_PATIENT]);
         $donateurs = $userRepository->findBy(['role' => User::ROLE_DONATEUR]);
 
-        // Get donateur types distribution
         $donateurTypes = [];
         foreach ($donateurs as $donateur) {
             $type = $donateur->getDonateurType() ?: 'Non spécifié';
             $donateurTypes[$type] = ($donateurTypes[$type] ?? 0) + 1;
         }
 
-        // Get user activity metrics
         $userActivity = [];
         $users = $userRepository->findAll();
         foreach ($users as $user) {
@@ -77,13 +74,11 @@ class AdminController extends AbstractController
             }
         }
 
-        // Sort by total activity
         usort($userActivity, function($a, $b) {
             return $b['total'] - $a['total'];
         });
         $userActivity = array_slice($userActivity, 0, 5); // Top 5 most active users
 
-        // Get geographical distribution
         $regions = [];
         foreach ($users as $user) {
             $address = $user->getAdresse();
@@ -102,7 +97,6 @@ class AdminController extends AbstractController
             $monthlyStats[$month] = 0;
         }
 
-        // Get all users created in the last 6 months
         $sixMonthsAgo = new \DateTime('-6 months');
         $recentUsers = $userRepository->createQueryBuilder('u')
             ->where('u.createdAt >= :sixMonthsAgo')
@@ -110,7 +104,6 @@ class AdminController extends AbstractController
             ->getQuery()
             ->getResult();
 
-        // Group users by month
         foreach ($recentUsers as $user) {
             $month = $user->getCreatedAt()->format('Y-m');
             if (isset($monthlyStats[$month])) {
@@ -118,7 +111,6 @@ class AdminController extends AbstractController
             }
         }
 
-        // Role-based activity analysis
         $roleActivity = [
             'ROLE_MEDECIN' => [
                 'publications' => count($publicationRepository->findBy(['user' => $medecins])),

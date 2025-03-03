@@ -91,8 +91,8 @@ class ComposerStaticInit405c2c10fdd454e24035942686ccb95e
             'Symfony\\Component\\Mime\\' => 23,
             'Symfony\\Component\\Messenger\\Bridge\\Doctrine\\' => 44,
             'Symfony\\Component\\Messenger\\' => 28,
-            'Symfony\\Component\\Mailer\\Bridge\\Google\\' => 39,
             'Symfony\\Component\\Mercure\\' => 26,
+            'Symfony\\Component\\Mailer\\Bridge\\Google\\' => 39,
             'Symfony\\Component\\Mailer\\Bridge\\Brevo\\' => 38,
             'Symfony\\Component\\Mailer\\' => 25,
             'Symfony\\Component\\Lock\\' => 23,
@@ -129,6 +129,7 @@ class ComposerStaticInit405c2c10fdd454e24035942686ccb95e
             'Symfony\\Bridge\\PhpUnit\\' => 23,
             'Symfony\\Bridge\\Monolog\\' => 23,
             'Symfony\\Bridge\\Doctrine\\' => 24,
+            'SymfonyCasts\\Bundle\\ResetPassword\\' => 34,
             'StellaMaris\\Clock\\' => 18,
         ),
         'P' => 
@@ -400,13 +401,13 @@ class ComposerStaticInit405c2c10fdd454e24035942686ccb95e
         array (
             0 => __DIR__ . '/..' . '/symfony/messenger',
         ),
-        'Symfony\\Component\\Mailer\\Bridge\\Google\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/google-mailer',
-        ),
         'Symfony\\Component\\Mercure\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/mercure/src',
+        ),
+        'Symfony\\Component\\Mailer\\Bridge\\Google\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/google-mailer',
         ),
         'Symfony\\Component\\Mailer\\Bridge\\Brevo\\' => 
         array (
@@ -551,6 +552,10 @@ class ComposerStaticInit405c2c10fdd454e24035942686ccb95e
         'Symfony\\Bridge\\Doctrine\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/doctrine-bridge',
+        ),
+        'SymfonyCasts\\Bundle\\ResetPassword\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfonycasts/reset-password-bundle/src',
         ),
         'StellaMaris\\Clock\\' => 
         array (
@@ -1373,7 +1378,7 @@ class ComposerStaticInit405c2c10fdd454e24035942686ccb95e
         'TheSeer\\Tokenizer\\TokenCollectionException' => __DIR__ . '/..' . '/theseer/tokenizer/src/TokenCollectionException.php',
         'TheSeer\\Tokenizer\\Tokenizer' => __DIR__ . '/..' . '/theseer/tokenizer/src/Tokenizer.php',
         'TheSeer\\Tokenizer\\XMLSerializer' => __DIR__ . '/..' . '/theseer/tokenizer/src/XMLSerializer.php',
-        'ï¿½' => __DIR__ . '/..' . '/symfony/cache/Traits/ValueWrapper.php',
+        '©' => __DIR__ . '/..' . '/symfony/cache/Traits/ValueWrapper.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

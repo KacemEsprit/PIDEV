@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\ResetPasswordFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -65,7 +66,7 @@ class ResetPasswordController extends AbstractController
                 $this->logger->debug('Preparing email');
                 $emailMessage = (new Email())
                     ->from('kacem.benbrahim07@gmail.com')
-                    ->to($email) // Send to the actual user's email
+                    ->to($email)
                     ->subject('Password Reset Request - OncoKidsCare')
                     ->html($this->renderView('reset_password/email.html.twig', [
                         'resetUrl' => $resetUrl,
@@ -111,20 +112,18 @@ class ResetPasswordController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        if ($request->isMethod('POST')) {
-            $password = $request->request->get('password');
-            $confirmPassword = $request->request->get('confirm_password');
+        $form = $this->createForm(ResetPasswordFormType::class);
+        $form->handleRequest($request);
 
-            if ($password !== $confirmPassword) {
-                $this->addFlash('danger', 'The passwords do not match.');
-                return $this->render('reset_password/reset.html.twig', ['token' => $token]);
-            }
-
+        if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $this->logger->info('Resetting password for user: ' . $user->getEmail());
                 
                 // Hash the new password
-                $hashedPassword = $passwordHasher->hashPassword($user, $password);
+                $hashedPassword = $passwordHasher->hashPassword(
+                    $user, 
+                    $form->get('plainPassword')->getData()
+                );
                 $user->setPassword($hashedPassword);
                 
                 // Clear the reset token
@@ -146,6 +145,9 @@ class ResetPasswordController extends AbstractController
             }
         }
 
-        return $this->render('reset_password/reset.html.twig', ['token' => $token]);
+        return $this->render('reset_password/reset.html.twig', [
+            'resetForm' => $form->createView(),
+            'token' => $token
+        ]);
     }
 }

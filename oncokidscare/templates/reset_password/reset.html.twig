@@ -16,36 +16,26 @@
                         </div>
                     {% endfor %}
 
-                    <form method="post">
+                    {{ form_start(resetForm) }}
                         <div class="form-group">
-                            <label for="password">New Password</label>
-                            <input type="password" name="password" id="password" class="form-control" required>
+                            <label class="form-label"><strong>{{ form_label(resetForm.plainPassword.first) }}</strong></label>
+                            {{ form_widget(resetForm.plainPassword.first) }}
+                            {{ form_errors(resetForm.plainPassword.first) }}
                         </div>
 
                         <div class="form-group mt-3">
-                            <label for="confirm_password">Confirm Password</label>
-                            <input type="password" name="confirm_password" id="confirm_password" class="form-control" required>
+                            <label class="form-label"><strong>{{ form_label(resetForm.plainPassword.second) }}</strong></label>
+                            {{ form_widget(resetForm.plainPassword.second) }}
+                            {{ form_errors(resetForm.plainPassword.second) }}
                         </div>
 
                         <button class="btn btn-primary w-100 mt-3" type="submit">
                             Reset Password
                         </button>
-                    </form>
+                    {{ form_end(resetForm) }}
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<script>
-document.querySelector('form').addEventListener('submit', function(e) {
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirm_password').value;
-    
-    if (password !== confirmPassword) {
-        e.preventDefault();
-        alert('Passwords do not match!');
-    }
-});
-</script>
 {% endblock %}

@@ -155,6 +155,9 @@
                             <label for="{{ registrationForm.plainPassword.vars.id }}">
                                 <i class="fas fa-lock"></i> Mot de passe
                             </label>
+                            <small class="form-text text-muted">
+                                Le mot de passe doit contenir au moins 6 caractères, une lettre et un chiffre.
+                            </small>
                             {{ form_errors(registrationForm.plainPassword) }}
                         </div>
 
@@ -162,7 +165,7 @@
                             {{ form_widget(registrationForm.agreeTerms, {
                                 'attr': {'class': 'form-check-input'}
                             }) }}
-                            <label class="form-check-label" for="{{ registrationForm.agreeTerms.vars.id }}">
+                            <label class="form-check-label required" for="{{ registrationForm.agreeTerms.vars.id }}">
                                 J'accepte les <a href="#" class="text-primary">conditions d'utilisation</a>
                             </label>
                             {{ form_errors(registrationForm.agreeTerms) }}
@@ -188,8 +191,6 @@
         </div>
     </div>
 </div>
-
-
 
 <script>
 function toggleDonateurType() {
