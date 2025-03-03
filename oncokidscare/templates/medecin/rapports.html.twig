@@ -424,6 +424,26 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     };
 
+
+//recherche Patient 
+document.getElementById('patient-search').addEventListener('input', function() {
+    var filter = this.value.toLowerCase().trim();
+    document.querySelectorAll('.patient-item').forEach(function(patient) {
+        // Récupération de l'ID et du nom complet (nom + prénom)
+        var patientId = patient.getAttribute('data-patient-id').toLowerCase();
+        var patientName = patient.querySelector('h6').textContent.toLowerCase();
+        
+        // Si la recherche correspond à l'ID ou au nom complet, on affiche l'item, sinon on le masque
+        if (patientId.includes(filter) || patientName.includes(filter)) {
+            patient.style.display = '';
+        } else {
+            patient.style.display = 'none';
+        }
+    });
+});
+
+
+
     window.confirmerSuppression = function(rapportId) {
         if (confirm('Êtes-vous sûr de vouloir supprimer ce rapport ?')) {
             const url = '{{ path("app_medecin_delete_rapport", {"id": "RAPPORT_ID"}) }}'.replace('RAPPORT_ID', rapportId);

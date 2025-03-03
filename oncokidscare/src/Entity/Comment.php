@@ -35,6 +35,9 @@ class Comment
     #[ORM\OneToMany(mappedBy: 'comment', targetEntity: Like::class, orphanRemoval: true)]
     private Collection $likes;
 
+    #[ORM\OneToMany(mappedBy: 'comment', targetEntity: CommentReport::class, orphanRemoval: true)]
+    private Collection $reports;
+
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $voiceUrl = null;
 
@@ -44,9 +47,16 @@ class Comment
     #[ORM\Column(nullable: true)]
     private ?int $duration = null;
 
+    #[ORM\Column(options: ["default" => false])]
+    private bool $reported = false;
+
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $reportReason = null;
+
     public function __construct()
     {
         $this->likes = new ArrayCollection();
+        $this->reports = new ArrayCollection();
         $this->createdAt = new \DateTimeImmutable();
     }
 
@@ -147,6 +157,33 @@ class Comment
         return false;
     }
 
+    /**
+     * @return Collection<int, CommentReport>
+     */
+    public function getReports(): Collection
+    {
+        return $this->reports;
+    }
+
+    public function addReport(CommentReport $report): self
+    {
+        if (!$this->reports->contains($report)) {
+            $this->reports->add($report);
+            $report->setComment($this);
+        }
+        return $this;
+    }
+
+    public function removeReport(CommentReport $report): self
+    {
+        if ($this->reports->removeElement($report)) {
+            if ($report->getComment() === $this) {
+                $report->setComment(null);
+            }
+        }
+        return $this;
+    }
+
     public function getVoiceUrl(): ?string
     {
         return $this->voiceUrl;
@@ -177,6 +214,28 @@ class Comment
     public function setDuration(?int $duration): self
     {
         $this->duration = $duration;
+        return $this;
+    }
+
+    public function isReported(): bool
+    {
+        return $this->reported;
+    }
+
+    public function setReported(bool $reported): self
+    {
+        $this->reported = $reported;
+        return $this;
+    }
+
+    public function getReportReason(): ?string
+    {
+        return $this->reportReason;
+    }
+
+    public function setReportReason(?string $reportReason): self
+    {
+        $this->reportReason = $reportReason;
         return $this;
     }
 }

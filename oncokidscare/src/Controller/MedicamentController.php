@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-
 #[Route('/admin/medicament')]
 #[IsGranted('ROLE_ADMIN')]
 class MedicamentController extends AbstractController
@@ -20,8 +19,10 @@ class MedicamentController extends AbstractController
     #[Route('/', name: 'app_medicament_index', methods: ['GET'])]
     public function index(MedicamentRepository $medicamentRepository): Response
     {
+        $currentUser = $this->getUser();
         return $this->render('medicament/index.html.twig', [
             'medicaments' => $medicamentRepository->findAll(),
+            'user' => $currentUser,
         ]);
     }
 
@@ -43,6 +44,7 @@ class MedicamentController extends AbstractController
         return $this->render('medicament/new.html.twig', [
             'medicament' => $medicament,
             'form' => $form,
+               'user' => $this->getUser()
         ]);
     }
 
@@ -58,10 +60,11 @@ class MedicamentController extends AbstractController
             $this->addFlash('success', 'Le médicament a été modifié avec succès.');
             return $this->redirectToRoute('app_medicament_index');
         }
-
+$currentUser = $this->getUser();
         return $this->render('medicament/edit.html.twig', [
             'medicament' => $medicament,
             'form' => $form,
+            'user' => $currentUser,
         ]);
     }
 
@@ -83,4 +86,5 @@ public function delete(Request $request, Medicament $medicament, EntityManagerIn
 
     return $this->redirectToRoute('app_medicament_index');
 }
+
 }

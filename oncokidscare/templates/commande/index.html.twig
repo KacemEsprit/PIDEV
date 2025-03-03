@@ -2,144 +2,452 @@
 
 {% block title %}Mes Commandes{% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
+{% block css %}
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Animation pour l'apparition des cartes */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        :root {
+            --pharmacy-primary: #00BFA5;
+            --pharmacy-secondary: rgb(156, 238, 224);
+            --pharmacy-bg-gradient: linear-gradient(135deg, #e3f2fd, #f0f4c3);
+            --pharmacy-card-bg: rgba(255, 255, 255, 0.95);
+            --pharmacy-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
-        /* Style pour les cartes */
-        .card {
+        .pharmacy-page {
+            background: var(--pharmacy-bg-gradient);
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            padding-top: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .floating-pills {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .pill {
+            position: absolute;
+            width: 50px;
+            height: 25px;
+            background: linear-gradient(90deg, #ff4b4b 50%, #ffd700 50%);
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            animation: float 10s infinite ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .pill::before {
+            content: '';
+            width: 100%;
+            height: 3px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 2px;
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+        }
+
+        .pill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
+            border-radius: 50px;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-20px) rotate(10deg); }
+            50% { transform: translateY(20px) rotate(-10deg); }
+            75% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        .pharmacy-container {
+            animation: fadeIn 1s ease-in-out;
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .pharmacy-title {
+            color: var(--pharmacy-primary);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+        }
+
+        .pharmacy-card {
+            background: var(--pharmacy-card-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--pharmacy-shadow);
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+
+        .pharmacy-card:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .pharmacy-card-header {
+            background: linear-gradient(45deg, var(--pharmacy-primary), var(--pharmacy-secondary));
+            color: white;
+            padding: 1rem;
+            border-radius: 15px 15px 0 0;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .pharmacy-card-body {
+            padding: 1.5rem;
+        }
+
+        .pharmacy-status {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: capitalize;
+        }
+
+        .pharmacy-status.en_attente {
+            background: #f39c12;
+            color: white;
+        }
+
+        .pharmacy-status.validée {
+            background: #28a745;
+            color: white;
+        }
+
+        .pharmacy-med-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 1rem 0;
+        }
+
+        .pharmacy-med-item {
+            background: #f1f1f1;
+            border-radius: 5px;
+            padding: 0.5rem 1rem;
+            margin-bottom: 0.5rem;
+            color: #555;
+        }
+
+        .pharmacy-btn-primary {
+            background: linear-gradient(45deg, var(--pharmacy-primary), var(--pharmacy-secondary));
             border: none;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-            animation: fadeIn 0.5s ease-in-out;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .card-header {
-            background-color: #007bff;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
             color: white;
-            font-weight: bold;
-            border-radius: 10px 10px 0 0;
-            padding: 15px;
-        }
-
-        .card-body {
-            padding: 20px;
-        }
-
-        .card-body p {
-            margin: 0;
-            font-size: 16px;
-        }
-
-        .card-body .badge {
-            font-size: 14px;
-            margin-right: 5px;
-        }
-
-        .btn {
-            margin: 5px;
             transition: all 0.3s ease;
+            box-shadow: var(--pharmacy-shadow);
         }
 
-        .btn:hover {
-            transform: scale(1.05);
+        .pharmacy-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(26, 115, 232, 0.3);
         }
 
-        .btn-primary {
-            background-color: #007bff;
+        .pharmacy-btn-warning {
+            background: #f39c12;
             border: none;
+            border-radius: 10px;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            color: white;
+           
         }
 
-        .btn-warning {
-            background-color: #ffc107;
+        
+
+        .pharmacy-btn-danger {
+            background: #e74c3c;
             border: none;
+            border-radius: 10px;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            color: white;
+            
         }
 
-        .btn-danger {
-            background-color: #dc3545;
-            border: none;
+       
+        .star-rating {
+            display: flex;
+            justify-content: center;
+            font-size: 2rem;
+            gap: 5px;
+            color: #ccc;
+            cursor: pointer;
         }
 
-        .status {
+        .star {
+            transition: color 0.2s;
+        }
+
+        .star:hover,
+        .star.hovered,
+        .star.selected {
+            color: #ffc700;
+        }
+
+        .success-message {
+            color: #28a745;
             font-weight: bold;
-            padding: 5px 10px;
-            border-radius: 5px;
+            text-align: center;
+            margin-top: 10px;
+            opacity: 1;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .success-message.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .pagination a,
+        .pagination span {
             display: inline-block;
+            width: 35px;
+            height: 35px;
+            line-height: 35px;
+            text-align: center;
+            background: var(--pharmacy-card-bg);
+            border: 2px solid var(--pharmacy-primary);
+            border-radius: 8px;
+            color: var(--pharmacy-primary);
+            font-weight: 500;
+            text-decoration: none;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
-        .status.en_attente {
-            background-color: #ffc107;
-            color: #000;
+        .pagination a:hover {
+            background: var(--pharmacy-primary);
+            color: white;
         }
 
-        .status.valide {
-            background-color: #28a745;
-            color: #fff;
+        .pagination .current {
+            background: var(--pharmacy-primary);
+            color: white;
+            border-color: var(--pharmacy-primary);
         }
 
-        .status.annule {
-            background-color: #dc3545;
-            color: #fff;
-        }
+        .pagination .disabled {
+            background: #e0e0e0;
+            border-color: #ccc;
+            color: #999;
+            cursor: not-allowed;}
     </style>
 {% endblock %}
 
 {% block body %}
-    <div class="container mt-5">
-        <h1 class="mb-4">Mes Commandes</h1>
-
-        <a href="{{ path('app_commande_new') }}" class="btn btn-primary mb-4">Nouvelle commande</a>
-
-        <div class="row">
-            {% for commande in commandes %}
-                <div class="col-md-6 col-lg-4 mb-4">
-                    <div class="card">
-                        <div class="card-header">
-                            Commande du {{ commande.dateCommande|date('d/m/Y') }}
-                        </div>
-                        <div class="card-body">
-                            <p><strong>Médicaments :</strong></p>
-                            <ul class="list-unstyled">
-                                {% for ligneCommande in commande.ligneCommandes %}
-                                    <li>
-                                        <span class="badge bg-secondary">{{ ligneCommande.medicament.nom }} ({{ ligneCommande.quantite }})</span>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                            <p><strong>Quantité totale :</strong> {{ commande.quantiteTotal }}</p>
-                            <p><strong>Montant total :</strong> {{ commande.montantTotal|number_format(2, ',', ' ') }} €</p>
-                            <p><strong>Statut :</strong> <span class="status {{ commande.status|lower }}">{{ commande.status }}</span></p>
-                            {% if commande.status == 'en_attente' %}
-                                <div class="mt-3">
-                                    <a href="{{ path('app_commande_edit', {'id': commande.id}) }}" class="btn btn-sm btn-warning">Modifier</a>
-                                    <form method="post" action="{{ path('app_commande_delete', {'id': commande.id}) }}" style="display: inline-block">
-                                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ commande.id) }}">
-                                        <button class="btn btn-sm btn-danger">Annuler</button>
-                                    </form>
-                                </div>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
+    <div class="pharmacy-page">
+        <!-- Comprimés flottants -->
+        <div class="floating-pills">
+            {% for i in 1..50 %}
+                <div class="pill" style="
+                    top: {{ random(0, 100) }}%;
+                    left: {{ random(0, 100) }}%;
+                    animation-delay: -{{ random(0, 10) }}s;
+                    animation-duration: {{ random(5, 15) }}s;
+                    opacity: {{ random(5, 10) * 0.1 }};
+                "></div>
             {% endfor %}
         </div>
+
+        <!-- Contenu principal -->
+        <div class="pharmacy-container container mt-4">
+            <h1 class="pharmacy-title">Mes Commandes</h1>
+            <div class="text-center mb-4">
+                <a href="{{ path('app_commande_new') }}" class="pharmacy-btn-primary">
+                    <i class="fas fa-plus"></i> Nouvelle commande
+                </a>
+            </div>
+            {% if pagination|length == 0 %}
+        <p>Aucune commande trouvée.</p>
+    {% else %}
+            <div class="row">
+                {% for commande in pagination %}
+               
+                    <div class="col-md-6 col-lg-4">
+                        <div class="pharmacy-card">
+                            <div class="pharmacy-card-header">
+                                Commande du {{ commande.dateCommande|date('d/m/Y') }}
+                            </div>
+                            <div class="pharmacy-card-body">
+                                <p><strong>Médicaments :</strong></p>
+                                <ul class="pharmacy-med-list">
+                                    {% for ligneCommande in commande.ligneCommandes %}
+                                        <li class="pharmacy-med-item">
+                                            {{ ligneCommande.medicament.nom }} (x{{ ligneCommande.quantite }})
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                                <p><strong>Quantité totale :</strong> {{ commande.quantiteTotal }}</p>
+                                <p><strong>Montant total :</strong> {{ commande.montantTotal|number_format(2, ',', ' ') }} dt</p>
+                                <p><strong>Statut :</strong> 
+                                    <span class="pharmacy-status {{ commande.status|lower }}">{{ commande.status }}</span>
+                                </p>
+
+                                {% if commande.status == 'en_attente' %}
+                                    <div class="mt-3">
+                                        <a href="{{ path('app_commande_edit', {'id': commande.id}) }}" class="pharmacy-btn-warning">
+                                            <i class="fas fa-edit"></i> Modifier
+                                        </a>
+                                        <form method="post" action="{{ path('app_commande_delete', {'id': commande.id}) }}" style="display: inline-block">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ commande.id) }}">
+                                            <button class="pharmacy-btn-danger">
+                                                <i class="fas fa-trash"></i> Annuler
+                                            </button>
+                                        </form>
+                                    </div>
+                                {% endif %}
+
+                                {% if commande.status == 'Validée' %}
+                                    <p><strong>Note :</strong></p>
+                                    <div class="star-rating" data-commande-id="{{ commande.id }}">
+                                        {% for i in 1..5 %}
+                                            <span 
+                                                class="star {% if commande.rate and i <= commande.rate %}selected{% endif %}" 
+                                                data-value="{{ i }}"
+                                            >
+                                                ★
+                                            </span>
+                                        {% endfor %}
+                                    </div>
+                                    <p class="success-message hidden" id="success-message-{{ commande.id }}"></p>
+                                {% endif %}
+                                
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                {% endfor %}
+                {% endif %}
+                {{ knp_pagination_render(pagination) }}
+
+                
+            </div>
+        </div>
     </div>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const starContainers = document.querySelectorAll('.star-rating');
+
+        starContainers.forEach(container => {
+            const stars = container.querySelectorAll('.star');
+            const commandeId = container.getAttribute('data-commande-id');
+            let selectedRating = container.querySelector('.selected') ? container.querySelectorAll('.selected').length : 0;
+
+            stars.forEach(star => {
+                star.addEventListener('mouseover', () => {
+                    resetStars(stars);
+                    highlightStars(stars, star.getAttribute('data-value'));
+                });
+
+                star.addEventListener('mouseleave', () => {
+                    resetStars(stars);
+                    highlightStars(stars, selectedRating);
+                });
+
+                star.addEventListener('click', () => {
+                    selectedRating = star.getAttribute('data-value');
+
+                    fetch(`/commande/${commandeId}/rate`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        body: new URLSearchParams({
+                            'rate': selectedRating
+                        })
+                    }).then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        return response.json();
+                    }).then(data => {
+                        if (data.success) {
+                            highlightStars(stars, selectedRating);
+                            showSuccessMessage(commandeId, 'Noté avec succès !');
+                        } else {
+                            console.error('Failed to submit rating: ', data.message);
+                        }
+                    }).catch(error => {
+                        console.error('Request failed', error);
+                    });
+                });
+            });
+
+            function resetStars(stars) {
+                stars.forEach(star => {
+                    star.classList.remove('hovered', 'selected');
+                    star.style.color = '#ccc';
+                });
+            }
+
+            function highlightStars(stars, rating) {
+                stars.forEach(star => {
+                    if (star.getAttribute('data-value') <= rating) {
+                        star.classList.add('selected');
+                        star.style.color = '#ffc700';
+                    } else {
+                        star.classList.remove('selected');
+                        star.style.color = '#ccc';
+                    }
+                });
+            }
+
+            function showSuccessMessage(commandeId, message) {
+                const messageElement = document.getElementById(`success-message-${commandeId}`);
+                if (messageElement) {
+                    messageElement.textContent = message;
+                    messageElement.classList.remove('hidden');
+                    setTimeout(() => {
+                        messageElement.classList.add('hidden');
+                    }, 3000);
+                }
+            }
+
+            if (selectedRating > 0) {
+                highlightStars(stars, selectedRating);
+            }
+        });
+    });
+</script>
 {% endblock %}

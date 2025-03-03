@@ -2,58 +2,339 @@
 
 {% block title %}Nouvelle Commande{% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
+{% block css %}
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        .medicament-card {
-            margin-bottom: 20px;
+        :root {
+            --pharmacy-primary: #00BFA5;
+            --pharmacy-secondary: rgb(156, 238, 224);
+            --pharmacy-bg-gradient: linear-gradient(135deg, #e3f2fd, #f0f4c3);
+            --pharmacy-card-bg: rgba(230, 243, 244, 0.95);
+            --pharmacy-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            --pharmacy-border:rgb(0, 180, 165);
+        }
+
+        .pharmacy-page {
+            background: var(--pharmacy-bg-gradient);
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            padding-top: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .floating-pills {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .pill {
+            position: absolute;
+            width: 50px;
+            height: 25px;
+            background: linear-gradient(90deg, #ff4b4b 50%, #ffd700 50%);
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            animation: float 10s infinite ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .pill::before {
+            content: '';
+            width: 100%;
+            height: 3px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 2px;
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+        }
+
+        .pill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
+            border-radius: 50px;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-20px) rotate(10deg); }
+            50% { transform: translateY(20px) rotate(-10deg); }
+            75% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        .pharmacy-container {
+            animation: fadeIn 1s ease-in-out;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .pharmacy-title {
+            color: var(--pharmacy-primary);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 2.5rem;
+        }
+
+        .pharmacy-subtitle {
+            color: #666;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .pharmacy-card {
+            background: var(--pharmacy-card-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--pharmacy-shadow);
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border: 2px solid var(--pharmacy-border); /* Bordure subtile */
+            position: relative; /* Pour la bande décorative */
+            overflow: hidden;
+        }
+
+        .pharmacy-card:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+        .pharmacy-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            width: 40px;
+            height: 40px;
+            border-top: 2px solid var(--pharmacy-primary);
+            border-left: 2px solid var(--pharmacy-primary);
+            border-radius: 15px 0 0 0; /* Suivre la courbure de la carte */
+            z-index: 1;
+        }
+        .pharmacy-card::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            right: -2px;
+            width: 40px;
+            height: 40px;
+            border-bottom: 2px solid var(--pharmacy-primary);
+            border-right: 2px solid var(--pharmacy-primary);
+            border-radius: 0 0 15px 0; /* Suivre la courbure de la carte */
+            z-index: 1;
+        }
+
+        .pharmacy-card-title {
+            color: var(--pharmacy-primary);
+            font-weight: 600;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .pharmacy-card-text {
+            color: #555;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .pharmacy-price {
+            color: var(--pharmacy-secondary);
+            font-weight: bold;
+            font-size: 1.2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .pharmacy-form-group label {
+            font-weight: 500;
+            color: var(--pharmacy-primary);
+            margin-bottom: 0.5rem;
+        }
+        .pharmacy-form-group {
+            position: relative;
+            z-index: 1; /* Au-dessus de la bande décorative */
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .quantity-btn {
+            background: var(--pharmacy-primary);
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative; /* Ajouté pour éviter les problèmes de positionnement */
+            z-index: 1; /* Assure que le bouton est au-dessus des autres éléments */
+        }
+
+        .quantity-btn:hover {
+            background: var(--pharmacy-secondary);
+            transform: scale(1.1);
+        }
+
+        .quantity-btn:active {
+            transform: scale(0.9);
+        }
+
+        .pharmacy-quantite-input {
+            max-width: 60px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            padding: 0.5rem;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: bold;
+            color: var(--pharmacy-primary);
+            background: var(--pharmacy-card-bg);
+            pointer-events: none;
+        }
+
+        .pharmacy-btn-primary {
+            background: linear-gradient(45deg, var(--pharmacy-primary), var(--pharmacy-secondary));
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: var(--pharmacy-shadow);
+        }
+
+        .pharmacy-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(26, 115, 232, 0.3);
+        }
+
+        .pharmacy-btn-secondary {
+            background: #95a5a6;
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            color: white;
             transition: all 0.3s ease;
         }
-        .medicament-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+
+        .pharmacy-btn-secondary:hover {
+            background: #7f8c8d;
+            transform: translateY(-2px);
         }
-        .quantite-input {
-            max-width: 100px;
+
+        .pharmacy-alert-danger {
+            background-color: #e74c3c;
+            color: white;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
         }
+        
     </style>
 {% endblock %}
 
 {% block body %}
-    <div class="container mt-4">
-        <h1>Créer une nouvelle commande</h1>
-        <p class="text-muted">Sélectionnez les médicaments et leurs quantités</p>
+    <div class="pharmacy-page">
+        <!-- Comprimés flottants -->
+        <div class="floating-pills">
+            {% for i in 1..50 %}
+                <div class="pill" style="
+                    top: {{ random(0, 100) }}%;
+                    left: {{ random(0, 100) }}%;
+                    animation-delay: -{{ random(0, 10) }}s;
+                    animation-duration: {{ random(5, 15) }}s;
+                    opacity: {{ random(5, 10) * 0.1 }};
+                "></div>
+            {% endfor %}
+        </div>
 
-        {{ form_start(form, {'attr': {'class': 'needs-validation'}}) }}
-            <div class="row">
-                {% for medicament in medicaments %}
-                    <div class="col-md-4">
-                        <div class="card medicament-card">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ medicament.nom }}</h5>
-                                <p class="card-text">{{ medicament.description }}</p>
-                                <p class="card-text">
-                                    <strong>Prix : </strong>
-                                    <span class="text-primary">{{ medicament.prix }} dt</span>
-                                </p>
-                                <div class="form-group">
+        <!-- Contenu principal -->
+        <div class="pharmacy-container container mt-4">
+            <h1 class="pharmacy-title">Créer une nouvelle commande</h1>
+            <p class="pharmacy-subtitle">Sélectionnez les médicaments et leurs quantités</p>
+
+            {% for message in app.flashes('error') %}
+                <div class="pharmacy-alert-danger">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+            {{ form_start(form, {'attr': {'class': 'needs-validation'}}) }}
+                <div class="row">
+                    {% for medicament in medicaments %}
+                        <div class="col-md-4">
+                            <div class="pharmacy-card">
+                                <div class="card-body">
+                                <i class="fas fa-pills" style="font-size: 2rem; color: var(--pharmacy-primary); opacity: 0.7; margin-bottom: 1rem;"></i>
+                                    <h5 class="pharmacy-card-title">{{ medicament.nom }}</h5>
+                                    <p class="pharmacy-card-text">{{ medicament.description }}</p>
+                                    <p class="pharmacy-card-text">
+                                        <strong>Prix : </strong>
+                                        <span class="pharmacy-price">{{ medicament.prix }} dt</span>
+                                    </p>
+                                    <div class="form-group">
                                     <label>Quantité :</label>
                                     {{ form_widget(form['quantite_' ~ medicament.id]) }}
                                 </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                {% endfor %}
-            </div>
+                    {% endfor %}
+                </div>
 
-            <div class="mt-4">
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-shopping-cart"></i> Créer la commande
-                </button>
-                <a href="{{ path('app_commande_index') }}" class="btn btn-secondary">
-                    <i class="fas fa-arrow-left"></i> Retour à la liste
-                </a>
-            </div>
-        {{ form_end(form) }}
+                <div class="mt-4 text-center">
+                    <button type="submit" class="pharmacy-btn-primary">
+                        <i class="fas fa-shopping-cart"></i> COMMANDER
+                    </button>
+                    <a href="{{ path('app_commande_index') }}" class="pharmacy-btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Retour à la liste
+                    </a>
+                </div>
+            {{ form_end(form) }}
+        </div>
     </div>
-{% endblock %} 
+   
+{% endblock %}

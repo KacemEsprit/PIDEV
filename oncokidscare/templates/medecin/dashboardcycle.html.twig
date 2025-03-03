@@ -4,36 +4,484 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/themes/material_blue.css">
-{% endblock %}
+    <!-- Bootstrap 5 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Font Awesome (icônes) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 
-{% block javascripts %}
-    {{ parent() }}
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/l10n/fr.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+    <style>
+        .card-hover:hover {
+            transform: scale(1.02);
+            transition: 0.3s;
+        }
+        /* Style pour rendre les boutons ronds (circulaires) */
+        .btn-circle {
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 0.25rem;
+        }
+    </style>
 {% endblock %}
 
 {% block body %}
-
-
-<div class="container-fluid page-header py-5 mb-5">
-    <div class="container py-5">
-        <h1 class="display-3 bold text-white mb-3"> Dashboard {{patient.nom}} {{patient.prenom}} </h1>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb text-uppercase mb-0">
-                <li class="breadcrumb-item"><a class="text-white" href="{{ path('app_home') }}">Accueil</a></li>
-                <li class="breadcrumb-item text-primary active">statistique  traitement</li>
-            </ol>
-        </nav>
+<!-- HEADER DASHBOARD -->
+<div>
+    <div class="container-fluid page-header py-5 mb-5">
+        <div class="container py-5 text-center">
+            <h1 class="display-3 bold text-white mb-3">Dashboard : {{ patient.nom }} {{ patient.prenom }}</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb text-uppercase mb-0 justify-content-center">
+                    <li class="breadcrumb-item">
+                        <a class="text-white" href="{{ path('app_home') }}">Accueil</a>
+                    </li>
+                    <li class="breadcrumb-item text-primary active">Statistique traitement</li>
+                </ol>
+            </nav>
+        </div>
     </div>
 </div>
 
-<div class="container py-5">
-   
+<!-- SECTION STATISTIQUES -->
+<div class="container">
+    <h3 class="text-center mb-4">
+        <i class="fas fa-chart-line"></i> Évolution des Signes Vitaux & Traitements
+    </h3>
+
+    <!-- CARTE 1: PREDICTION ETAT -->
+    <div class="card shadow-lg card-hover mb-4">
+        <div class="card-header bg-warning text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">
+                <i class="fas fa-heartbeat"></i> Prediction Etat With AI
+            </h5>
+            <!-- Groupe de boutons (icône Info + Afficher/Masquer) -->
+            <div class="d-flex">
+                <!-- Bouton INFO (modale) -->
+                <button 
+                    class="btn btn-light btn-circle me-2" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#predictionModal"  
+                    data-bs-toggle="tooltip" 
+                    data-bs-placement="top" 
+                    title="Informations sur cette IA">
+                    <i class="fas fa-info-circle"></i>
+                </button>
+                <!-- Bouton Afficher / Masquer (si tu veux cacher la vidéo) -->
+                <button 
+                    class="btn btn-light btn-circle" 
+                    onclick="toggleChart('prediction')" 
+                    data-bs-toggle="tooltip" 
+                    data-bs-placement="top" 
+                    title="Afficher / Masquer la vidéo">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Corps de la carte : on affiche la vidéo et un bouton “Je peux vous aider” -->
+        <div class="card-body text-center" id="prediction">
+            <!-- Vidéo d’animation (penser à mettre autoplay, loop, muted) -->
+           {% if prediction == 'Stable' %}
+            <video src="https://cdn-icons-mp4.flaticon.com/512/18497/18497930.mp4" autoplay loop muted playsinline style="width: 200px; height: auto;"></video>
+            <p class="mt-3">État stable.</p>
+        {% elseif prediction == 'Modéré' %}
+            <video src="https://cdn-icons-mp4.flaticon.com/512/14684/14684489.mp4" autoplay loop muted playsinline style="width: 200px; height: auto;"></video>
+            <p class="mt-3">État modéré.</p>
+             {% elseif prediction == 'Critique' %}
+            <video src="https://cdn-icons-mp4.flaticon.com/512/16678/16678367.mp4" autoplay loop muted playsinline style="width: 200px; height: auto;"></video>
+            <p class="mt-3">État Critique.</p>
+             {% elseif prediction == 'Sévère' %}
+            <video src="https://cdn-icons-mp4.flaticon.com/512/18818/18818387.mp4" autoplay loop muted playsinline style="width: 200px; height: auto;"></video>
+            <p class="mt-3">État Sévère.</p>
+
+        {% else %}
+            <!-- Par défaut (si 'prediction' = 'Aucune' ou autre) -->
+            <video src="https://cdn-icons-mp4.flaticon.com/512/14684/14684489.mp4" 
+                   autoplay loop muted playsinline style="width: 200px; height: auto;">
+            </video>
+           <p class="mt-3">
+                Besoin d’une aide pour diagnostiquer l’état du patient ?
+            </p>
+        {% endif %}
+            
+            
+            
+            <!-- Bouton pour déclencher la logique IA -->
+            <button class="btn btn-primary btn-lg" 
+        onclick="window.location.href='{{ path('app_medecin_prediction', {'id': patient.id}) }}'">
+    <i class="fas fa-robot"></i> Je peux vous aider
+</button>
+
+        </div>
+    </div>
+
+    <!-- CARTE 2: SIGNES VITAUX -->
+    <div class="card shadow-lg card-hover mb-4">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">
+                <i class="fas fa-heartbeat"></i> Analyse des Signes Vitaux
+            </h5>
+            <!-- Groupe de boutons (icône Info + icône Afficher/Masquer) -->
+            <div class="d-flex">
+                <!-- Bouton INFO (modale) -->
+                <button 
+                    class="btn btn-light btn-circle me-2" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#infoSignesVitauxModal" 
+                    data-bs-toggle="tooltip" 
+                    data-bs-placement="top" 
+                    title="Informations sur ce graphique">
+                    <i class="fas fa-info-circle"></i>
+                </button>
+                <!-- Bouton Afficher / Masquer -->
+                <button 
+                    class="btn btn-light btn-circle" 
+                    onclick="toggleChart('vitalSignsChartContainer')" 
+                    data-bs-toggle="tooltip" 
+                    data-bs-placement="top" 
+                    title="Afficher / Masquer le graphique">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-body" id="vitalSignsChartContainer">
+            <canvas id="vitalSignsChart" style="width:100%; height:400px;"></canvas>
+        </div>
+    </div>
+
+    <!-- CARTE 3: FRÉQUENCES DE TRAITEMENT & PERTE DE SANG -->
+    <div class="card shadow-lg card-hover mb-4">
+        <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">
+                <i class="fas fa-pills"></i> Distribution Fréquence / Perte de Sang
+            </h5>
+            <div class="d-flex">
+                <button 
+                    class="btn btn-light btn-circle me-2" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#infoTraitementModal"
+                    data-bs-toggle="tooltip" 
+                    data-bs-placement="top" 
+                    title="Informations sur ce graphique">
+                    <i class="fas fa-info-circle"></i>
+                </button>
+                <button 
+                    class="btn btn-light btn-circle" 
+                    onclick="toggleChart('traitementChartContainer')"
+                    data-bs-toggle="tooltip" 
+                    data-bs-placement="top" 
+                    title="Afficher / Masquer le graphique">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-body" id="traitementChartContainer">
+            <canvas id="traitementChart" style="width:100%; height:400px;"></canvas>
+        </div>
+    </div>
+
+    <!-- CARTE 4: EWS POUR LE DERNIER RAPPORT -->
+    <div class="card shadow-lg card-hover">
+        <div class="card-header bg-danger text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">
+                <i class="fas fa-exclamation-triangle"></i> Early Warning Score (Dernier Rapport)
+            </h5>
+            <div class="d-flex">
+                <button 
+                    class="btn btn-light btn-circle me-2" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#infoEwsModal"
+                    data-bs-toggle="tooltip" 
+                    data-bs-placement="top" 
+                    title="Informations sur ce score">
+                    <i class="fas fa-info-circle"></i>
+                </button>
+                <button 
+                    class="btn btn-light btn-circle" 
+                    onclick="toggleChart('ewsContainer')"
+                    data-bs-toggle="tooltip" 
+                    data-bs-placement="top" 
+                    title="Afficher / Masquer la carte">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-body" id="ewsContainer">
+            <p>
+                <strong>Date du dernier rapport :</strong> {{ lastReportDate }}
+            </p>
+            <p>
+                <strong>Score EWS :</strong> {{ ewsScore }}
+            </p>
+            {% if ewsScore > 5 %}
+                <span class="badge bg-danger">ALERTE</span>
+            {% else %}
+                <span class="badge bg-success">OK</span>
+            {% endif %}
+        </div>
+    </div>
 </div>
 
+<!-- Modal pour les signes vitaux -->
+<div class="modal fade" id="infoSignesVitauxModal" tabindex="-1" aria-labelledby="infoSignesVitauxModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Header de la modale -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="infoSignesVitauxModalLabel">Signes Vitaux - Explications</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <!-- Contenu de la modale -->
+      <div class="modal-body">
+        <p><strong>But :</strong> Visualiser l’évolution de la tension, du pouls, de la température et de la saturation O2.</p>
+        <ul>
+          <li><strong>Tension artérielle :</strong> Contrôle la pression du sang dans les artères.</li>
+          <li><strong>Pouls :</strong> Nombre de battements cardiaques par minute.</li>
+          <li><strong>Température :</strong> Permet de détecter fièvre ou hypothermie.</li>
+          <li><strong>Saturation O2 :</strong> Indique la capacité de transport de l’oxygène dans le sang.</li>
+        </ul>
+        <p>Des valeurs trop élevées ou trop basses peuvent signaler une anomalie et nécessiter un suivi.</p>
+      </div>
+    </div>
+  </div>
+</div>
 
+<!-- Modal pour les fréquences de traitement -->
+<div class="modal fade" id="infoTraitementModal" tabindex="-1" aria-labelledby="infoTraitementModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="infoTraitementModalLabel">Fréquence vs Perte de Sang</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Ce graphique compare :</p>
+        <ul>
+          <li><strong>La fréquence de traitement</strong> (quotidien, hebdomadaire, mensuel, etc.).</li>
+          <li><strong>La perte de sang moyenne</strong> associée à cette fréquence.</li>
+        </ul>
+        <p>But : détecter si un protocole trop fréquent augmente la perte de sang.</p>
+      </div>
+    </div>
+  </div>
+</div>
 
+<!-- Modal pour l'Early Warning Score (EWS) -->
+<div class="modal fade" id="infoEwsModal" tabindex="-1" aria-labelledby="infoEwsModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="infoEwsModalLabel">Early Warning Score (EWS)</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          L’EWS est un indicateur de détérioration de l’état du patient.
+          Il est calculé à partir de la tension, du pouls, de la température et de la saturation O<sub>2</sub>.
+        </p>
+        <ul>
+          <li>Tension anormale = 3 points</li>
+          <li>Pouls anormal = 2 points</li>
+          <li>Température anormale = 2 points</li>
+          <li>Saturation O<sub>2</sub> &lt; 92% = 3 points</li>
+        </ul>
+        <p>
+          Score total &gt; 5 = <strong>Alerte Clinique</strong>.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal pour la prédiction IA -->
+<div class="modal fade" id="predictionModal" tabindex="-1" aria-labelledby="predictionLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- En-tête de la modale -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="predictionLabel">Prédiction - Intelligence Artificielle</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <!-- Corps de la modale -->
+      <div class="modal-body">
+        <p>
+          Cette IA analyse différents paramètres du patient (tension, pouls, température, saturation O<sub>2</sub>, etc.)
+          afin d’<strong>estimer le risque de complication</strong> ou de <strong>prédire l’évolution de l’état de santé</strong>.
+        </p>
+        <ul>
+          <li><strong>Collecte des données :</strong> L’IA utilise les valeurs vitales et historiques de traitement.</li>
+          <li><strong>Analyse :</strong> Un algorithme de machine learning détecte des tendances et des anomalies.</li>
+          <li><strong>Résultat :</strong> L’IA fournit un score ou une recommandation pour aider le médecin à prendre une décision.</li>
+        </ul>
+        <p>
+          <em>Note :</em> Cette prédiction n’est qu’un outil d’aide à la décision et ne remplace pas l’expertise d’un professionnel de santé.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Scripts Bootstrap et Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // Fonction pour afficher / masquer un bloc
+    function toggleChart(containerId) {
+        const chartContainer = document.getElementById(containerId);
+        if (chartContainer.style.display === "none") {
+            chartContainer.style.display = "block";
+        } else {
+            chartContainer.style.display = "none";
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialisation des tooltips
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+
+        /**
+         * 1) Graphique des SIGNES VITAUX
+         */
+        const vitalSignsData = {
+            labels: {{ dates|json_encode|raw }},
+            datasets: [
+                {
+                    label: 'Tension Artérielle (mmHg)',
+                    data: {{ tensions|json_encode|raw }},
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderWidth: 2,
+                    fill: false
+                },
+                {
+                    label: 'Pouls (BPM)',
+                    data: {{ pouls|json_encode|raw }},
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderWidth: 2,
+                    fill: false
+                },
+                {
+                    label: 'Température (°C)',
+                    data: {{ temperatures|json_encode|raw }},
+                    borderColor: 'rgba(255, 206, 86, 1)',
+                    backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                    borderWidth: 2,
+                    fill: false
+                },
+                {
+                    label: 'Saturation O2 (%)',
+                    data: {{ saturations|json_encode|raw }},
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderWidth: 2,
+                    fill: false
+                }
+            ]
+        };
+
+        const vitalSignsConfig = {
+            type: 'line',
+            data: vitalSignsData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'top' },
+                    title: { display: true, text: 'Évolution des Signes Vitaux' }
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Date des rapports' }
+                    },
+                    y: {
+                        title: { display: true, text: 'Valeurs' },
+                        beginAtZero: false
+                    }
+                }
+            }
+        };
+
+        const vitalCtx = document.getElementById('vitalSignsChart').getContext('2d');
+        new Chart(vitalCtx, vitalSignsConfig);
+
+        /**
+         * 2) Graphique FREQUENCE & PERTE DE SANG (Bar Chart avec double axe Y)
+         */
+        const freqLabels = ['Quotidien', 'Hebdomadaire', 'Mensuel', 'Autre'];
+        const freqValues = Object.values({{ frequences|json_encode|raw }});
+        const bloodLossValues = Object.values({{ pertesSang|json_encode|raw }});
+
+        const traitementData = {
+            labels: freqLabels,
+            datasets: [
+                {
+                    label: 'Nombre de traitements',
+                    data: freqValues,
+                    backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 2,
+                    yAxisID: 'y'
+                },
+                {
+                    label: 'Perte de Sang (mL)',
+                    data: bloodLossValues,
+                    backgroundColor: 'rgba(255, 99, 132, 0.7)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 2,
+                    yAxisID: 'y1'
+                }
+            ]
+        };
+
+        const traitementConfig = {
+            type: 'bar',
+            data: traitementData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: true },
+                    title: { display: true, text: 'Fréquence vs Perte de Sang' }
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Fréquence de Traitement' }
+                    },
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'Nombre de traitements'
+                        },
+                        beginAtZero: true
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text: 'Perte de Sang (mL)'
+                        },
+                        beginAtZero: true,
+                        grid: {
+                            drawOnChartArea: false
+                        }
+                    }
+                }
+            }
+        };
+
+        const traitementCtx = document.getElementById('traitementChart').getContext('2d');
+        new Chart(traitementCtx, traitementConfig);
+    });
+</script>
 {% endblock %}

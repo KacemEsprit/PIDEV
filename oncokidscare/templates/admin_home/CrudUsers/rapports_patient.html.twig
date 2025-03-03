@@ -1,0 +1,52 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Rapports du Patient{% endblock %}
+
+{% block body %}
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-12">
+            <div class="bg-light rounded h-100 p-4">
+                <h6 class="mb-4">Rapports du Patient : {{ user.prenom }} {{ user.nom }}</h6>
+                
+                {% if rapports is empty %}
+                    <p class="text-center">Aucun rapport trouvé pour ce patient.</p>
+                {% else %}
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Âge</th>
+                                <th>Sexe</th>
+                                <th>Tension Artérielle</th>
+                                <th>Pouls</th>
+                                <th>Température</th>
+                                <th>IMC</th>
+                                <th>Traitement</th>
+                                <th>Complications</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for rapport in rapports %}
+                            <tr>
+                                <td>{{ rapport.dateRapport|date('d/m/Y') }}</td>
+                                <td>{{ rapport.age }}</td>
+                                <td>{{ rapport.sexe }}</td>
+                                <td>{{ rapport.tensionArterielle }}</td>
+                                <td>{{ rapport.pouls }}</td>
+                                <td>{{ rapport.temperature }}°C</td>
+                                <td>{{ rapport.imc }}</td>
+                                <td>{{ rapport.traitement }}</td>
+                                <td>{{ rapport.complications|default('Aucune') }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+                
+                <a href="{{ path('admin_rapports_patient') }}" class="btn btn-secondary mt-3">Retour</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

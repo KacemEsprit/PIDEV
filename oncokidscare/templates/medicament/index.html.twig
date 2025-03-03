@@ -43,7 +43,7 @@
                                 </td>
                                 <td>{{ medicament.description }}</td>
                                 <td>{{ medicament.quantiteStock }}</td>
-                                <td>{{ medicament.prix|number_format(2, ',', ' ') }} €</td>
+                                <td>{{ medicament.prix|number_format(2, ',', ' ') }} dt</td>
                                 <td>
                                     <a href="{{ path('app_medicament_edit', {'id': medicament.id}) }}" class="btn btn-warning btn-sm">
                                         <i class="fas fa-edit"></i> Modifier

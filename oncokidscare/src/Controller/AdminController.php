@@ -3,26 +3,37 @@
 namespace App\Controller;
 
 use App\Entity\Compagnie;
-use App\Form\CompagnieType;
-use App\Repository\CompagnieRepository;
-use App\Entity\User;
-use App\Entity\Publication;
-use App\Repository\UserRepository;
-use App\Repository\PublicationRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Entity\Commande;
-use App\Repository\CommandeRepository;
-use Symfony\Component\HttpFoundation\Request;
+use App\Entity\CommentReport;
+use App\Entity\Publication;
+use App\Entity\User;
+use App\Form\CompagnieType;
 use App\Form\ProfileFormType;
 use App\Repository\ChatGroupRepository;
 use App\Repository\CommentRepository;
 use App\Entity\Don;
 use Symfony\Component\Validator\Constraints\DateTime;
 
+use App\Repository\CommentReportRepository;
+use App\Repository\CompagnieRepository;
+use App\Repository\CommandeRepository;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Repository\PatientRepository;
+use App\Repository\PublicationRepository;
+use App\Repository\UserRepository;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
+use Symfony\UX\Chartjs\Model\Chart;
+use App\Repository\RapportDetatRepository;
+/**
+ * @Route("/admin")
+ */
 #[Route('/admin')]
 #[IsGranted('ROLE_ADMIN')]
 class AdminController extends AbstractController
@@ -184,9 +195,11 @@ class AdminController extends AbstractController
     public function manageCommandes(CommandeRepository $commandeRepository): Response
     {
         $commandes = $commandeRepository->findAll();
+    $currentUser = $this->getUser();
 
         return $this->render('admin_home/commandes.html.twig', [
             'commandes' => $commandes,
+            'user' => $currentUser,
         ]);
     }
 
@@ -327,4 +340,78 @@ public function espaceCom(
         'user' => $this->getUser()
     ]);
 }
+
+#[Route('/comment-reports', name: 'admin_comment_reports')]
+public function manageCommentReports(CommentReportRepository $reportRepository): Response
+{
+    $user = $this->getUser();
+    $reports = $reportRepository->findAll();
+
+    return $this->render('admin_home/comment_reports.html.twig', [
+        'reports' => $reports,
+        'user' => $user,
+    ]);
+}
+
+#[Route('/comment-reports/{id}/handle', name: 'admin_handle_comment_report', methods: ['POST'])]
+public function handleCommentReport(
+    CommentReport $report,
+    Request $request,
+    EntityManagerInterface $entityManager,
+    CommentRepository $commentRepository
+): Response {
+    $action = $request->request->get('action');
+    
+    if ($action === 'delete_comment') {
+        $comment = $report->getComment();
+        $entityManager->remove($comment);
+        $entityManager->remove($report);
+        $this->addFlash('success', 'Comment has been deleted and report resolved.');
+    } elseif ($action === 'dismiss_report') {
+        $entityManager->remove($report);
+        $this->addFlash('success', 'Report has been dismissed.');
+    }
+    
+    $entityManager->flush();
+    
+    return $this->redirectToRoute('admin_comment_reports');
+}
+ #[Route('/patient', name: 'admin_rapports_patient')]
+    public function patients(UserRepository $userRepository, RapportDetatRepository $rapportRepo): Response
+    {
+        $currentUser = $this->getUser();
+        $patients = $userRepository->findPatients(); // À adapter selon votre code
+        $rapports = $rapportRepo->findAll();
+
+        return $this->render('admin_home/CrudUsers/patient_rapports.html.twig', [
+            'allUsers' => $patients,
+            'rapports' => $rapports,
+            'user'     => $currentUser,
+        ]);
+    }
+    #[Route('/patient/{id}/rapports', name: 'admin_patient_rapports')]
+    public function showPatientRapports(int $id, RapportDetatRepository $rapportRepo, UserRepository $userRepo): Response
+    {
+        $patient = $userRepo->find($id);
+    
+        if (!$patient) {
+            throw $this->createNotFoundException('Patient non trouvé');
+        }
+    
+        $rapports = $rapportRepo->findBy(['patient' => $patient]);
+    
+        return $this->render('admin_home/CrudUsers/rapports_patient.html.twig', [
+            'user' => $patient,
+            'rapports' => $rapports,
+        ]);
+    }
+    #[Route('/patient/search', name: 'patient_search')]
+    public function searchPatients(Request $request, NormalizerInterface $normalizer, UserRepository $repository): JsonResponse
+    {
+        $searchValue = $request->get('searchValue');
+        $patients = $repository->findPatientByName($searchValue);
+        $jsonContent = $normalizer->normalize($patients, 'json', ['groups' => 'patients']);
+        return new JsonResponse($jsonContent);
+    }
+
 }

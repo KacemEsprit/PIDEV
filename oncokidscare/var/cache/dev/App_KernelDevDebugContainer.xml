@@ -30,6 +30,7 @@
       <parameter key="WebpackEncoreBundle">Symfony\WebpackEncoreBundle\WebpackEncoreBundle</parameter>
       <parameter key="FlasherSymfonyBundle">Flasher\Symfony\FlasherSymfonyBundle</parameter>
       <parameter key="EndroidQrCodeBundle">Endroid\QrCodeBundle\EndroidQrCodeBundle</parameter>
+      <parameter key="MercureBundle">Symfony\Bundle\MercureBundle\MercureBundle</parameter>
       <parameter key="KnpPaginatorBundle">Knp\Bundle\PaginatorBundle\KnpPaginatorBundle</parameter>
     </parameter>
     <parameter key="kernel.bundles_metadata" type="collection">
@@ -101,6 +102,10 @@
         <parameter key="path">C:\Users\21693\PidevMars\PIDEV\oncokidscare\vendor\endroid\qr-code-bundle\src</parameter>
         <parameter key="namespace">Endroid\QrCodeBundle</parameter>
       </parameter>
+      <parameter key="MercureBundle" type="collection">
+        <parameter key="path">C:\Users\21693\PidevMars\PIDEV\oncokidscare\vendor\symfony\mercure-bundle\src</parameter>
+        <parameter key="namespace">Symfony\Bundle\MercureBundle</parameter>
+      </parameter>
       <parameter key="KnpPaginatorBundle" type="collection">
         <parameter key="path">C:\Users\21693\PidevMars\PIDEV\oncokidscare\vendor\knplabs\knp-paginator-bundle</parameter>
         <parameter key="namespace">Knp\Bundle\PaginatorBundle</parameter>
@@ -110,6 +115,7 @@
     <parameter key="kernel.container_class">App_KernelDevDebugContainer</parameter>
     <parameter key="images_directory">C:\Users\21693\PidevMars\PIDEV\oncokidscare/public/images</parameter>
     <parameter key="voice_messages_directory">C:\Users\21693\PidevMars\PIDEV\oncokidscare/public/uploads/voice-messages</parameter>
+    <parameter key="admin_phone_number">%env(ADMIN_PHONE_NUMBER)%</parameter>
     <parameter key="event_dispatcher.event_aliases" type="collection">
       <parameter key="Symfony\Component\Console\Event\ConsoleCommandEvent">console.command</parameter>
       <parameter key="Symfony\Component\Console\Event\ConsoleErrorEvent">console.error</parameter>
@@ -300,6 +306,10 @@
     </parameter>
     <parameter key="vich_uploader.use_flysystem_to_resolve_uri">false</parameter>
     <parameter key="vich_uploader.file_injector.class">Vich\UploaderBundle\Injector\FileInjector</parameter>
+    <parameter key="mercure.hubs" type="collection">
+      <parameter key="default">%env(MERCURE_URL)%</parameter>
+    </parameter>
+    <parameter key="mercure.default_hub">%env(MERCURE_URL)%</parameter>
     <parameter key="knp_paginator.template.pagination">@KnpPaginator/Pagination/sliding.html.twig</parameter>
     <parameter key="knp_paginator.template.rel_links">@KnpPaginator/Pagination/rel_links.html.twig</parameter>
     <parameter key="knp_paginator.template.filtration">@KnpPaginator/Pagination/filtration.html.twig</parameter>
@@ -401,6 +411,10 @@
         <parameter>vich_uploader.mapping_collector</parameter>
         <parameter>@VichUploader/Collector/mapping_collector.html.twig</parameter>
       </parameter>
+      <parameter key="data_collector.mercure" type="collection">
+        <parameter>mercure</parameter>
+        <parameter>@Mercure/Collector/mercure.html.twig</parameter>
+      </parameter>
       <parameter key="data_collector.config" type="collection">
         <parameter>config</parameter>
         <parameter>@WebProfiler/Collector/config.html.twig</parameter>
@@ -442,6 +456,7 @@
     <service id="App\Controller\ChatGroupController" class="App\Controller\ChatGroupController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
+      <argument type="service" id="mercure.hub.default.traceable"/>
       <call method="setContainer">
         <argument type="service" id=".service_locator.O2p6Lk7.App\Controller\ChatGroupController"/>
       </call>
@@ -458,6 +473,8 @@
     <service id="App\Controller\CommandeController" class="App\Controller\CommandeController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
+      <argument type="service" id="notifier"/>
+      <argument>%env(ADMIN_PHONE_NUMBER)%</argument>
       <call method="setContainer">
         <argument type="service" id=".service_locator.O2p6Lk7.App\Controller\CommandeController"/>
       </call>
@@ -526,6 +543,13 @@
         <argument type="service" id=".service_locator.O2p6Lk7.App\Controller\LikeController"/>
       </call>
     </service>
+    <service id="App\Controller\MailingController" class="App\Controller\MailingController" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+      <tag name="container.service_subscriber"/>
+      <call method="setContainer">
+        <argument type="service" id=".service_locator.O2p6Lk7.App\Controller\MailingController"/>
+      </call>
+    </service>
     <service id="App\Controller\ManageUsersController" class="App\Controller\ManageUsersController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
@@ -538,6 +562,7 @@
     <service id="App\Controller\MedecinController" class="App\Controller\MedecinController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
+      <argument type="service" id=".debug.http_client"/>
       <call method="setContainer">
         <argument type="service" id=".service_locator.O2p6Lk7.App\Controller\MedecinController"/>
       </call>
@@ -604,6 +629,13 @@
         <argument type="service" id=".service_locator.O2p6Lk7.App\Controller\SecurityController"/>
       </call>
     </service>
+    <service id="App\Controller\StatistiqueController" class="App\Controller\StatistiqueController" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+      <tag name="container.service_subscriber"/>
+      <call method="setContainer">
+        <argument type="service" id=".service_locator.O2p6Lk7.App\Controller\StatistiqueController"/>
+      </call>
+    </service>
     <service id="App\Form\ChatGroupType" class="App\Form\ChatGroupType" autowire="true" autoconfigure="true">
       <tag name="form.type"/>
     </service>
@@ -665,6 +697,10 @@
       <argument type="service" id="doctrine"/>
     </service>
     <service id="App\Repository\CommandeRepository" class="App\Repository\CommandeRepository" autowire="true" autoconfigure="true">
+      <tag name="doctrine.repository_service"/>
+      <argument type="service" id="doctrine"/>
+    </service>
+    <service id="App\Repository\CommentReportRepository" class="App\Repository\CommentReportRepository" autowire="true" autoconfigure="true">
       <tag name="doctrine.repository_service"/>
       <argument type="service" id="doctrine"/>
     </service>
@@ -762,7 +798,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
       <tag priority="-50" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">controller.argument_value_resolver</tag>
-      <argument type="service" id=".service_locator.jKLDPp6"/>
+      <argument type="service" id=".service_locator.oyLgKNu"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">
       <tag priority="-100" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">controller.argument_value_resolver</tag>
@@ -1475,6 +1511,12 @@
           <argument key="Symfony\Component\Notifier\Message\PushMessage" type="collection">
             <argument type="collection">
               <argument>texter.messenger.push_handler</argument>
+              <argument type="collection"/>
+            </argument>
+          </argument>
+          <argument key="Symfony\Component\Mercure\Update" type="collection">
+            <argument type="collection">
+              <argument>mercure.hub.default.message_handler</argument>
               <argument type="collection"/>
             </argument>
           </argument>
@@ -2360,6 +2402,12 @@
       <argument type="service" id=".debug.http_client" on-invalid="ignore"/>
       <argument type="service" id="monolog.logger.mailer" on-invalid="ignore"/>
     </service>
+    <service id="mailer.transport_factory.brevo" class="Symfony\Component\Mailer\Bridge\Brevo\Transport\BrevoTransportFactory">
+      <tag name="mailer.transport_factory"/>
+      <argument type="service" id="debug.event_dispatcher"/>
+      <argument type="service" id=".debug.http_client" on-invalid="ignore"/>
+      <argument type="service" id="monolog.logger.mailer" on-invalid="ignore"/>
+    </service>
     <service id="mailer.transport_factory.gmail" class="Symfony\Component\Mailer\Bridge\Google\Transport\GmailTransportFactory">
       <tag name="mailer.transport_factory"/>
       <argument type="service" id="debug.event_dispatcher"/>
@@ -2804,6 +2852,7 @@
           <argument>C:\Users\21693\PidevMars\PIDEV\oncokidscare\vendor\symfony\ux-chartjs/translations</argument>
           <argument>C:\Users\21693\PidevMars\PIDEV\oncokidscare\vendor\symfony\webpack-encore-bundle\src/translations</argument>
           <argument>C:\Users\21693\PidevMars\PIDEV\oncokidscare\vendor\endroid\qr-code-bundle\src/translations</argument>
+          <argument>C:\Users\21693\PidevMars\PIDEV\oncokidscare\vendor\symfony\mercure-bundle\src/translations</argument>
         </argument>
         <argument key="cache_vary" type="collection">
           <argument key="scanned_directories" type="collection">
@@ -2829,6 +2878,7 @@
             <argument>C:\Users\21693\PidevMars\PIDEV\oncokidscare\vendor\symfony\ux-chartjs/translations</argument>
             <argument>C:\Users\21693\PidevMars\PIDEV\oncokidscare\vendor\symfony\webpack-encore-bundle\src/translations</argument>
             <argument>C:\Users\21693\PidevMars\PIDEV\oncokidscare\vendor\endroid\qr-code-bundle\src/translations</argument>
+            <argument>C:\Users\21693\PidevMars\PIDEV\oncokidscare\vendor\symfony\mercure-bundle\src/translations</argument>
           </argument>
         </argument>
       </argument>
@@ -3769,6 +3819,14 @@
         <argument>0</argument>
       </call>
       <call method="addListener">
+        <argument>kernel.response</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="Symfony\Component\Mercure\EventSubscriber\SetCookieSubscriber"/>
+          <argument>onKernelResponse</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListener">
         <argument>knp_pager.before</argument>
         <argument type="collection">
           <argument type="service_closure" id="knp_paginator.subscriber.paginate"/>
@@ -3838,7 +3896,7 @@
     </service>
     <service id="argument_resolver.not_tagged_controller" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
       <tag name="controller.argument_value_resolver" priority="-200"/>
-      <argument type="service" id=".service_locator.jKLDPp6"/>
+      <argument type="service" id=".service_locator.oyLgKNu"/>
     </service>
     <service id="debug.log_processor" class="Symfony\Bridge\Monolog\Processor\DebugProcessor">
       <tag name="kernel.reset" method="reset"/>
@@ -4999,9 +5057,11 @@
       <argument type="collection">
         <argument key="urgent" type="collection">
           <argument>email</argument>
+          <argument>sms</argument>
         </argument>
         <argument key="high" type="collection">
           <argument>email</argument>
+          <argument>sms</argument>
         </argument>
         <argument key="medium" type="collection">
           <argument>email</argument>
@@ -5057,8 +5117,15 @@
       <tag name="messenger.message_handler" handles="Symfony\Component\Notifier\Message\ChatMessage"/>
       <argument type="service" id="chatter.transports"/>
     </service>
+    <service id="texter" class="Symfony\Component\Notifier\Texter">
+      <argument type="service" id="texter.transports"/>
+      <argument type="service" id="debug.traced.messenger.bus.default" on-invalid="null"/>
+      <argument type="service" id="debug.event_dispatcher" on-invalid="ignore"/>
+    </service>
     <service id="texter.transports" class="Symfony\Component\Notifier\Transport\Transports">
-      <argument type="collection"/>
+      <argument type="collection">
+        <argument key="twilio">%env(TWILIO_DSN)%</argument>
+      </argument>
       <factory service="texter.transport_factory" method="fromStrings"/>
     </service>
     <service id="texter.transport_factory" class="Symfony\Component\Notifier\Transport">
@@ -5076,6 +5143,11 @@
       <tag name="kernel.event_subscriber"/>
     </service>
     <service id="notifier.transport_factory.abstract" class="Symfony\Component\Notifier\Transport\AbstractTransportFactory" abstract="true">
+      <argument type="service" id="debug.event_dispatcher"/>
+      <argument type="service" id=".debug.http_client" on-invalid="ignore"/>
+    </service>
+    <service id="notifier.transport_factory.twilio" class="Symfony\Component\Notifier\Bridge\Twilio\TwilioTransportFactory">
+      <tag name="texter.transport_factory"/>
       <argument type="service" id="debug.event_dispatcher"/>
       <argument type="service" id=".debug.http_client" on-invalid="ignore"/>
     </service>
@@ -5164,6 +5236,9 @@
       </call>
       <call method="add">
         <argument type="service" id="Vich\UploaderBundle\DataCollector\MappingCollector"/>
+      </call>
+      <call method="add">
+        <argument type="service" id="data_collector.mercure"/>
       </call>
       <call method="add">
         <argument type="service" id="data_collector.config"/>
@@ -5673,7 +5748,7 @@
     <service id="doctrine.orm.configuration" class="Doctrine\ORM\Configuration" abstract="true"/>
     <service id="doctrine.orm.entity_manager.abstract" class="Doctrine\ORM\EntityManager" lazy="true" abstract="true"/>
     <service id="doctrine.orm.container_repository_factory" class="Doctrine\Bundle\DoctrineBundle\Repository\ContainerRepositoryFactory">
-      <argument type="service" id=".service_locator.k9PYK7v"/>
+      <argument type="service" id=".service_locator.ewCuL81"/>
     </service>
     <service id="doctrine.orm.manager_configurator.abstract" class="Doctrine\Bundle\DoctrineBundle\ManagerConfigurator" abstract="true">
       <argument type="collection"/>
@@ -6365,6 +6440,9 @@
         <argument type="service" id="Endroid\QrCodeBundle\Twig\QrCodeExtension"/>
       </call>
       <call method="addExtension">
+        <argument type="service" id="Symfony\Component\Mercure\Twig\MercureExtension"/>
+      </call>
+      <call method="addExtension">
         <argument type="service" id="knp_paginator.twig.extension.pagination"/>
       </call>
       <call method="addExtension">
@@ -6501,6 +6579,14 @@
       <call method="addPath">
         <argument>C:\Users\21693\PidevMars\PIDEV\oncokidscare\vendor\vich\uploader-bundle/templates</argument>
         <argument>!VichUploader</argument>
+      </call>
+      <call method="addPath">
+        <argument>C:\Users\21693\PidevMars\PIDEV\oncokidscare\vendor\symfony\mercure-bundle\src/Resources/views</argument>
+        <argument>Mercure</argument>
+      </call>
+      <call method="addPath">
+        <argument>C:\Users\21693\PidevMars\PIDEV\oncokidscare\vendor\symfony\mercure-bundle\src/Resources/views</argument>
+        <argument>!Mercure</argument>
       </call>
       <call method="addPath">
         <argument>C:\Users\21693\PidevMars\PIDEV\oncokidscare\vendor\knplabs\knp-paginator-bundle/templates</argument>
@@ -6792,7 +6878,7 @@
     </service>
     <service id="turbo.twig.extension" class="Symfony\UX\Turbo\Twig\TwigExtension">
       <tag name="twig.extension"/>
-      <argument type="service" id=".service_locator.Xbsa8iG"/>
+      <argument type="service" id=".service_locator.oCJKkwf"/>
       <argument>default</argument>
     </service>
     <service id="turbo.doctrine.event_listener" class="Symfony\UX\Turbo\Doctrine\BroadcastListener">
@@ -8618,6 +8704,80 @@
         <argument>false</argument>
       </call>
     </service>
+    <service id="mercure.hub.default.jwt.factory" class="Symfony\Component\Mercure\Jwt\LcobucciFactory">
+      <tag name="mercure.jwt.factory"/>
+      <argument>%env(MERCURE_JWT_SECRET)%</argument>
+      <argument>hmac.sha256</argument>
+      <argument>null</argument>
+      <argument></argument>
+    </service>
+    <service id="mercure.hub.default.jwt.provider" class="Symfony\Component\Mercure\Jwt\FactoryTokenProvider">
+      <tag name="mercure.jwt.factory"/>
+      <argument type="service" id="mercure.hub.default.jwt.factory"/>
+      <argument type="collection">
+        <argument>*</argument>
+      </argument>
+      <argument type="collection">
+        <argument>*</argument>
+      </argument>
+    </service>
+    <service id="mercure.hub.default.message_handler" class="Symfony\Component\Mercure\Messenger\UpdateHandler">
+      <tag name="messenger.message_handler"/>
+      <argument type="service" id="mercure.hub.default.traceable"/>
+    </service>
+    <service id="mercure.hub.default.publisher.traceable" class="Symfony\Component\Mercure\Debug\TraceablePublisher">
+      <tag name="mercure.publisher"/>
+      <tag name="container.decorator" id="mercure.hub.default.publisher" inner="mercure.hub.default.publisher.traceable.inner"/>
+      <argument type="service" id="mercure.hub.default.publisher.traceable.inner"/>
+      <argument type="service" id="debug.stopwatch"/>
+      <deprecated package="symfony/mercure-bundle" version="0.2">The "%service_id%" service is deprecated. Use "mercure.hub.default.traceable" instead.</deprecated>
+    </service>
+    <service id="mercure.hub.default.traceable" class="Symfony\Component\Mercure\Debug\TraceableHub">
+      <tag name="mercure.hub"/>
+      <tag name="container.decorator" id="mercure.hub.default" inner="mercure.hub.default.traceable.inner"/>
+      <argument type="service" id="mercure.hub.default.traceable.inner"/>
+      <argument type="service" id="debug.stopwatch"/>
+    </service>
+    <service id="turbo.mercure.default.renderer" class="Symfony\UX\Turbo\Bridge\Mercure\TurboStreamListenRenderer">
+      <tag name="turbo.renderer.stream_listen" transport="default"/>
+      <argument type="service" id="mercure.hub.default.traceable"/>
+      <argument type="service" id="stimulus.helper"/>
+      <argument type="service" id="turbo.id_accessor"/>
+    </service>
+    <service id="turbo.mercure.default.broadcaster" class="Symfony\UX\Turbo\Bridge\Mercure\Broadcaster">
+      <tag name="turbo.broadcaster"/>
+      <argument>default</argument>
+      <argument type="service" id="mercure.hub.default.traceable"/>
+    </service>
+    <service id="data_collector.mercure" class="Symfony\Bundle\MercureBundle\DataCollector\MercureDataCollector">
+      <tag name="data_collector" template="@Mercure/Collector/mercure.html.twig" id="mercure"/>
+      <argument type="iterator">
+        <argument key="default" type="service" id="mercure.hub.default.traceable"/>
+      </argument>
+    </service>
+    <service id="Symfony\Component\Mercure\HubRegistry" class="Symfony\Component\Mercure\HubRegistry">
+      <argument type="service" id="mercure.hub.default.traceable"/>
+      <argument type="collection">
+        <argument key="default" type="service" id="mercure.hub.default.traceable"/>
+      </argument>
+    </service>
+    <service id="Symfony\Component\Mercure\Authorization" class="Symfony\Component\Mercure\Authorization">
+      <argument type="service" id="Symfony\Component\Mercure\HubRegistry"/>
+      <argument>null</argument>
+    </service>
+    <service id="Symfony\Component\Mercure\Discovery" class="Symfony\Component\Mercure\Discovery">
+      <argument type="service" id="Symfony\Component\Mercure\HubRegistry"/>
+    </service>
+    <service id="Symfony\Component\Mercure\EventSubscriber\SetCookieSubscriber" class="Symfony\Component\Mercure\EventSubscriber\SetCookieSubscriber">
+      <tag name="kernel.event_subscriber" priority="-10"/>
+      <tag name="container.hot_path"/>
+    </service>
+    <service id="Symfony\Component\Mercure\Twig\MercureExtension" class="Symfony\Component\Mercure\Twig\MercureExtension">
+      <tag name="twig.extension"/>
+      <argument type="service" id="Symfony\Component\Mercure\HubRegistry"/>
+      <argument type="service" id="Symfony\Component\Mercure\Authorization"/>
+      <argument type="service" id="request_stack"/>
+    </service>
     <service id="knp_paginator" class="Knp\Component\Pager\Paginator" public="true" lazy="true">
       <tag name="proxy" interface="Knp\Component\Pager\PaginatorInterface"/>
       <argument type="service" id="debug.event_dispatcher"/>
@@ -8718,6 +8878,9 @@
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\LikeController" class="App\Controller\LikeController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\LikeController" class="App\Controller\LikeController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\LikeController" class="App\Controller\LikeController" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\MailingController" class="App\Controller\MailingController" autowire="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\MailingController" class="App\Controller\MailingController" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Controller\MailingController" class="App\Controller\MailingController" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\ManageUsersController" class="App\Controller\ManageUsersController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\ManageUsersController" class="App\Controller\ManageUsersController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\ManageUsersController" class="App\Controller\ManageUsersController" autowire="true" autoconfigure="true" abstract="true"/>
@@ -8748,6 +8911,9 @@
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\SecurityController" class="App\Controller\SecurityController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\SecurityController" class="App\Controller\SecurityController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\SecurityController" class="App\Controller\SecurityController" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\StatistiqueController" class="App\Controller\StatistiqueController" autowire="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\StatistiqueController" class="App\Controller\StatistiqueController" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Controller\StatistiqueController" class="App\Controller\StatistiqueController" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\ChatGroupType" class="App\Form\ChatGroupType" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Form\ChatGroupType" class="App\Form\ChatGroupType" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\CommandeType" class="App\Form\CommandeType" autowire="true" abstract="true"/>
@@ -8788,6 +8954,8 @@
     <service id=".abstract.instanceof.App\Repository\ChatGroupRepository" class="App\Repository\ChatGroupRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\CommandeRepository" class="App\Repository\CommandeRepository" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Repository\CommandeRepository" class="App\Repository\CommandeRepository" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\CommentReportRepository" class="App\Repository\CommentReportRepository" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Repository\CommentReportRepository" class="App\Repository\CommentReportRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\CommentRepository" class="App\Repository\CommentRepository" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Repository\CommentRepository" class="App\Repository\CommentRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\CompagnieRepository" class="App\Repository\CompagnieRepository" autowire="true" abstract="true"/>
@@ -9306,6 +9474,34 @@
         <argument key="userRepository" type="service_closure" id="App\Repository\UserRepository"/>
       </argument>
     </service>
+    <service id=".service_locator.X.jSAzP" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="reportRepository" type="service_closure" id="App\Repository\CommentReportRepository"/>
+      </argument>
+    </service>
+    <service id=".service_locator.ijiClT8" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="commentRepository" type="service_closure" id="App\Repository\CommentRepository"/>
+        <argument key="entityManager" type="service_closure" id="doctrine.orm.default_entity_manager"/>
+        <argument key="report" type="service_closure" id=".errored..service_locator.ijiClT8.App\Entity\CommentReport"/>
+      </argument>
+    </service>
+    <service id=".service_locator.fZeA1vv" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="rapportRepo" type="service_closure" id="App\Repository\RapportDetatRepository"/>
+        <argument key="userRepository" type="service_closure" id="App\Repository\UserRepository"/>
+      </argument>
+    </service>
+    <service id=".service_locator.IP5NWq." class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="normalizer" type="service_closure" id="debug.serializer"/>
+        <argument key="repository" type="service_closure" id="App\Repository\UserRepository"/>
+      </argument>
+    </service>
     <service id=".service_locator.2KIFyBM" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -9318,11 +9514,12 @@
         <argument key="em" type="service_closure" id="doctrine.orm.default_entity_manager"/>
       </argument>
     </service>
-    <service id=".service_locator.hOeesGW" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.8DdbnkF" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="em" type="service_closure" id="doctrine.orm.default_entity_manager"/>
-        <argument key="group" type="service_closure" id=".errored..service_locator.hOeesGW.App\Entity\ChatGroup"/>
+        <argument key="group" type="service_closure" id=".errored..service_locator.8DdbnkF.App\Entity\ChatGroup"/>
+        <argument key="hub" type="service_closure" id="mercure.hub.default.traceable"/>
         <argument key="messageRepository" type="service_closure" id="App\Repository\GroupMessageRepository"/>
       </argument>
     </service>
@@ -9346,6 +9543,13 @@
       <argument type="collection">
         <argument key="em" type="service_closure" id="doctrine.orm.default_entity_manager"/>
         <argument key="message" type="service_closure" id=".errored..service_locator.2Jrofw5.App\Entity\GroupMessage"/>
+      </argument>
+    </service>
+    <service id=".service_locator.G1qvMh8" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="commandeRepository" type="service_closure" id="App\Repository\CommandeRepository"/>
+        <argument key="paginator" type="service_closure" id="knp_paginator"/>
       </argument>
     </service>
     <service id=".service_locator.CsMkqUa" class="Symfony\Component\DependencyInjection\ServiceLocator">
@@ -9384,6 +9588,14 @@
       <argument type="collection">
         <argument key="comment" type="service_closure" id=".errored..service_locator.sE8VhYE.App\Entity\Comment"/>
         <argument key="entityManager" type="service_closure" id="doctrine.orm.default_entity_manager"/>
+      </argument>
+    </service>
+    <service id=".service_locator.vJ7r6mI" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="comment" type="service_closure" id=".errored..service_locator.vJ7r6mI.App\Entity\Comment"/>
+        <argument key="em" type="service_closure" id="doctrine.orm.default_entity_manager"/>
+        <argument key="reportRepository" type="service_closure" id="App\Repository\CommentReportRepository"/>
       </argument>
     </service>
     <service id=".service_locator.cZbSAvB" class="Symfony\Component\DependencyInjection\ServiceLocator">
@@ -9434,6 +9646,15 @@
         <argument key="donRepository" type="service_closure" id="App\Repository\DonRepository"/>
       </argument>
     </service>
+    <service id=".service_locator.PyN5AhU" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="commande" type="service_closure" id=".errored..service_locator.PyN5AhU.App\Entity\Commande"/>
+        <argument key="ligneCommandeRepository" type="service_closure" id="App\Repository\LigneCommandeRepository"/>
+        <argument key="logger" type="service_closure" id="monolog.logger"/>
+        <argument key="mailer" type="service_closure" id="mailer.mailer"/>
+      </argument>
+    </service>
     <service id=".service_locator.rvMNZGh" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -9478,6 +9699,12 @@
         <argument key="rapport" type="service_closure" id=".errored..service_locator.5AHGn_n.App\Entity\RapportDetat"/>
       </argument>
     </service>
+    <service id=".service_locator.7qTMv7A" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="rapportRepo" type="service_closure" id="App\Repository\RapportDetatRepository"/>
+      </argument>
+    </service>
     <service id=".service_locator.4nATh_P" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -9503,6 +9730,13 @@
         <argument key="entityManager" type="service_closure" id="doctrine.orm.default_entity_manager"/>
         <argument key="passwordHasher" type="service_closure" id="security.user_password_hasher"/>
         <argument key="slugger" type="service_closure" id="slugger"/>
+      </argument>
+    </service>
+    <service id=".service_locator.3pq_oSJ" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="paginator" type="service_closure" id="knp_paginator"/>
+        <argument key="publicationRepository" type="service_closure" id="App\Repository\PublicationRepository"/>
       </argument>
     </service>
     <service id=".service_locator.iUig0G9" class="Symfony\Component\DependencyInjection\ServiceLocator">
@@ -9575,7 +9809,13 @@
         <argument key="userPasswordHasher" type="service_closure" id="security.user_password_hasher"/>
       </argument>
     </service>
-    <service id=".service_locator.jKLDPp6" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.YFCVwWF" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="ligneCommandeRepository" type="service_closure" id="App\Repository\LigneCommandeRepository"/>
+      </argument>
+    </service>
+    <service id=".service_locator.oyLgKNu" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Controller\AdminController::annulerCommande" type="service_closure" id=".service_locator.iR5i4O4"/>
@@ -9587,12 +9827,17 @@
         <argument key="App\Controller\AdminController::compagnieValidate" type="service_closure" id=".service_locator.FiBwT5O"/>
         <argument key="App\Controller\AdminController::delete" type="service_closure" id=".service_locator.FiBwT5O"/>
         <argument key="App\Controller\AdminController::espaceCom" type="service_closure" id=".service_locator.0Rj3I2A"/>
+        <argument key="App\Controller\AdminController::handleCommentReport" type="service_closure" id=".service_locator.ijiClT8"/>
         <argument key="App\Controller\AdminController::index" type="service_closure" id=".service_locator.kPUOGb8"/>
         <argument key="App\Controller\AdminController::indexx" type="service_closure" id=".service_locator.kPUOGb8"/>
         <argument key="App\Controller\AdminController::manageCommandes" type="service_closure" id=".service_locator.RXaRRrV"/>
+        <argument key="App\Controller\AdminController::manageCommentReports" type="service_closure" id=".service_locator.X.jSAzP"/>
         <argument key="App\Controller\AdminController::managePublications" type="service_closure" id=".service_locator.dH_7bkl"/>
         <argument key="App\Controller\AdminController::myprofile" type="service_closure" id=".service_locator.NjUBG3v"/>
+        <argument key="App\Controller\AdminController::patients" type="service_closure" id=".service_locator.fZeA1vv"/>
         <argument key="App\Controller\AdminController::rejectPublication" type="service_closure" id=".service_locator.TyGfL3f"/>
+        <argument key="App\Controller\AdminController::searchPatients" type="service_closure" id=".service_locator.IP5NWq."/>
+        <argument key="App\Controller\AdminController::showPatientRapports" type="service_closure" id=".service_locator.9MWgsgw"/>
         <argument key="App\Controller\AdminController::validerCommande" type="service_closure" id=".service_locator.iR5i4O4"/>
         <argument key="App\Controller\ChatGroupController::addMember" type="service_closure" id=".service_locator.OfNm3iN"/>
         <argument key="App\Controller\ChatGroupController::deleteMessage" type="service_closure" id=".service_locator.2Jrofw5"/>
@@ -9602,19 +9847,21 @@
         <argument key="App\Controller\ChatGroupController::join" type="service_closure" id=".service_locator.Gz2kAjl"/>
         <argument key="App\Controller\ChatGroupController::new" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\ChatGroupController::removeMember" type="service_closure" id=".service_locator.OfNm3iN"/>
-        <argument key="App\Controller\ChatGroupController::show" type="service_closure" id=".service_locator.hOeesGW"/>
+        <argument key="App\Controller\ChatGroupController::show" type="service_closure" id=".service_locator.8DdbnkF"/>
         <argument key="App\Controller\ChatGroupController::uploadVoiceMessage" type="service_closure" id=".service_locator.Gz2kAjl"/>
         <argument key="App\Controller\CommandeController::adminIndex" type="service_closure" id=".service_locator.RXaRRrV"/>
         <argument key="App\Controller\CommandeController::confirm" type="service_closure" id=".service_locator.iR5i4O4"/>
         <argument key="App\Controller\CommandeController::delete" type="service_closure" id=".service_locator.iR5i4O4"/>
         <argument key="App\Controller\CommandeController::edit" type="service_closure" id=".service_locator.iR5i4O4"/>
-        <argument key="App\Controller\CommandeController::index" type="service_closure" id=".service_locator.RXaRRrV"/>
+        <argument key="App\Controller\CommandeController::index" type="service_closure" id=".service_locator.G1qvMh8"/>
         <argument key="App\Controller\CommandeController::new" type="service_closure" id=".service_locator.CsMkqUa"/>
+        <argument key="App\Controller\CommandeController::rate" type="service_closure" id=".service_locator.iR5i4O4"/>
         <argument key="App\Controller\CommandeController::show" type="service_closure" id=".service_locator.TqIg1ou"/>
         <argument key="App\Controller\CommentController::delete" type="service_closure" id=".service_locator.sE8VhYE"/>
         <argument key="App\Controller\CommentController::edit" type="service_closure" id=".service_locator.Xz_hH6b"/>
         <argument key="App\Controller\CommentController::index" type="service_closure" id=".service_locator.C15PbZX"/>
         <argument key="App\Controller\CommentController::new" type="service_closure" id=".service_locator.C15PbZX"/>
+        <argument key="App\Controller\CommentController::report" type="service_closure" id=".service_locator.vJ7r6mI"/>
         <argument key="App\Controller\CommentController::show" type="service_closure" id=".service_locator.hAGYStx"/>
         <argument key="App\Controller\CommentController::uploadVoiceComment" type="service_closure" id=".service_locator.cZbSAvB"/>
         <argument key="App\Controller\CompagnieController::delete" type="service_closure" id=".service_locator.FiBwT5O"/>
@@ -9637,15 +9884,17 @@
         <argument key="App\Controller\DonateurDashboardController::index" type="service_closure" id=".service_locator.N4bc6a8"/>
         <argument key="App\Controller\LikeController::likeComment" type="service_closure" id=".service_locator.sE8VhYE"/>
         <argument key="App\Controller\LikeController::likePublication" type="service_closure" id=".service_locator.TyGfL3f"/>
+        <argument key="App\Controller\MailingController::sendMail" type="service_closure" id=".service_locator.PyN5AhU"/>
         <argument key="App\Controller\ManageUsersController::delete" type="service_closure" id=".service_locator.JwPLet6"/>
         <argument key="App\Controller\ManageUsersController::edit" type="service_closure" id=".service_locator.rvMNZGh"/>
         <argument key="App\Controller\ManageUsersController::index" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\ManageUsersController::search" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\MedecinController::createRapport" type="service_closure" id=".service_locator.INocORN"/>
         <argument key="App\Controller\MedecinController::cycle" type="service_closure" id=".service_locator.9MWgsgw"/>
-        <argument key="App\Controller\MedecinController::dashboardPatient" type="service_closure" id=".service_locator.9MWgsgw"/>
+        <argument key="App\Controller\MedecinController::dashboardPatient" type="service_closure" id=".service_locator.fZeA1vv"/>
         <argument key="App\Controller\MedecinController::deleteRapport" type="service_closure" id=".service_locator.5AHGn_n"/>
         <argument key="App\Controller\MedecinController::editRapport" type="service_closure" id=".service_locator.Hj5TzV9"/>
+        <argument key="App\Controller\MedecinController::prediction" type="service_closure" id=".service_locator.7qTMv7A"/>
         <argument key="App\Controller\MedecinController::profile" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\MedecinController::showAllRapports" type="service_closure" id=".service_locator.9MWgsgw"/>
         <argument key="App\Controller\MedicamentController::delete" type="service_closure" id=".service_locator.FfisaAn"/>
@@ -9659,7 +9908,7 @@
         <argument key="App\Controller\PublicationController::delete" type="service_closure" id=".service_locator.BXW8zd5"/>
         <argument key="App\Controller\PublicationController::deleteImage" type="service_closure" id=".service_locator.md.U7iW"/>
         <argument key="App\Controller\PublicationController::edit" type="service_closure" id=".service_locator.md.U7iW"/>
-        <argument key="App\Controller\PublicationController::index" type="service_closure" id=".service_locator.dH_7bkl"/>
+        <argument key="App\Controller\PublicationController::index" type="service_closure" id=".service_locator.3pq_oSJ"/>
         <argument key="App\Controller\PublicationController::like" type="service_closure" id=".service_locator.1BDjvx9"/>
         <argument key="App\Controller\PublicationController::new" type="service_closure" id=".service_locator.dH_7bkl"/>
         <argument key="App\Controller\PublicationController::reject" type="service_closure" id=".service_locator.TyGfL3f"/>
@@ -9673,6 +9922,7 @@
         <argument key="App\Controller\ResetPasswordController::reset" type="service_closure" id=".service_locator.Mhqdd2r"/>
         <argument key="App\Controller\SecurityController::login" type="service_closure" id=".service_locator.rSTd.nA"/>
         <argument key="App\Controller\SecurityController::register" type="service_closure" id=".service_locator.e_4zbH4"/>
+        <argument key="App\Controller\StatistiqueController::getData" type="service_closure" id=".service_locator.YFCVwWF"/>
         <argument key="App\Kernel::loadRoutes" type="service_closure" id=".service_locator.y4_Zrx."/>
         <argument key="App\Kernel::registerContainerConfiguration" type="service_closure" id=".service_locator.y4_Zrx."/>
         <argument key="kernel::loadRoutes" type="service_closure" id=".service_locator.y4_Zrx."/>
@@ -9686,12 +9936,17 @@
         <argument key="App\Controller\AdminController:compagnieValidate" type="service_closure" id=".service_locator.FiBwT5O"/>
         <argument key="App\Controller\AdminController:delete" type="service_closure" id=".service_locator.FiBwT5O"/>
         <argument key="App\Controller\AdminController:espaceCom" type="service_closure" id=".service_locator.0Rj3I2A"/>
+        <argument key="App\Controller\AdminController:handleCommentReport" type="service_closure" id=".service_locator.ijiClT8"/>
         <argument key="App\Controller\AdminController:index" type="service_closure" id=".service_locator.kPUOGb8"/>
         <argument key="App\Controller\AdminController:indexx" type="service_closure" id=".service_locator.kPUOGb8"/>
         <argument key="App\Controller\AdminController:manageCommandes" type="service_closure" id=".service_locator.RXaRRrV"/>
+        <argument key="App\Controller\AdminController:manageCommentReports" type="service_closure" id=".service_locator.X.jSAzP"/>
         <argument key="App\Controller\AdminController:managePublications" type="service_closure" id=".service_locator.dH_7bkl"/>
         <argument key="App\Controller\AdminController:myprofile" type="service_closure" id=".service_locator.NjUBG3v"/>
+        <argument key="App\Controller\AdminController:patients" type="service_closure" id=".service_locator.fZeA1vv"/>
         <argument key="App\Controller\AdminController:rejectPublication" type="service_closure" id=".service_locator.TyGfL3f"/>
+        <argument key="App\Controller\AdminController:searchPatients" type="service_closure" id=".service_locator.IP5NWq."/>
+        <argument key="App\Controller\AdminController:showPatientRapports" type="service_closure" id=".service_locator.9MWgsgw"/>
         <argument key="App\Controller\AdminController:validerCommande" type="service_closure" id=".service_locator.iR5i4O4"/>
         <argument key="App\Controller\ChatGroupController:addMember" type="service_closure" id=".service_locator.OfNm3iN"/>
         <argument key="App\Controller\ChatGroupController:deleteMessage" type="service_closure" id=".service_locator.2Jrofw5"/>
@@ -9701,19 +9956,21 @@
         <argument key="App\Controller\ChatGroupController:join" type="service_closure" id=".service_locator.Gz2kAjl"/>
         <argument key="App\Controller\ChatGroupController:new" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\ChatGroupController:removeMember" type="service_closure" id=".service_locator.OfNm3iN"/>
-        <argument key="App\Controller\ChatGroupController:show" type="service_closure" id=".service_locator.hOeesGW"/>
+        <argument key="App\Controller\ChatGroupController:show" type="service_closure" id=".service_locator.8DdbnkF"/>
         <argument key="App\Controller\ChatGroupController:uploadVoiceMessage" type="service_closure" id=".service_locator.Gz2kAjl"/>
         <argument key="App\Controller\CommandeController:adminIndex" type="service_closure" id=".service_locator.RXaRRrV"/>
         <argument key="App\Controller\CommandeController:confirm" type="service_closure" id=".service_locator.iR5i4O4"/>
         <argument key="App\Controller\CommandeController:delete" type="service_closure" id=".service_locator.iR5i4O4"/>
         <argument key="App\Controller\CommandeController:edit" type="service_closure" id=".service_locator.iR5i4O4"/>
-        <argument key="App\Controller\CommandeController:index" type="service_closure" id=".service_locator.RXaRRrV"/>
+        <argument key="App\Controller\CommandeController:index" type="service_closure" id=".service_locator.G1qvMh8"/>
         <argument key="App\Controller\CommandeController:new" type="service_closure" id=".service_locator.CsMkqUa"/>
+        <argument key="App\Controller\CommandeController:rate" type="service_closure" id=".service_locator.iR5i4O4"/>
         <argument key="App\Controller\CommandeController:show" type="service_closure" id=".service_locator.TqIg1ou"/>
         <argument key="App\Controller\CommentController:delete" type="service_closure" id=".service_locator.sE8VhYE"/>
         <argument key="App\Controller\CommentController:edit" type="service_closure" id=".service_locator.Xz_hH6b"/>
         <argument key="App\Controller\CommentController:index" type="service_closure" id=".service_locator.C15PbZX"/>
         <argument key="App\Controller\CommentController:new" type="service_closure" id=".service_locator.C15PbZX"/>
+        <argument key="App\Controller\CommentController:report" type="service_closure" id=".service_locator.vJ7r6mI"/>
         <argument key="App\Controller\CommentController:show" type="service_closure" id=".service_locator.hAGYStx"/>
         <argument key="App\Controller\CommentController:uploadVoiceComment" type="service_closure" id=".service_locator.cZbSAvB"/>
         <argument key="App\Controller\CompagnieController:delete" type="service_closure" id=".service_locator.FiBwT5O"/>
@@ -9736,15 +9993,17 @@
         <argument key="App\Controller\DonateurDashboardController:index" type="service_closure" id=".service_locator.N4bc6a8"/>
         <argument key="App\Controller\LikeController:likeComment" type="service_closure" id=".service_locator.sE8VhYE"/>
         <argument key="App\Controller\LikeController:likePublication" type="service_closure" id=".service_locator.TyGfL3f"/>
+        <argument key="App\Controller\MailingController:sendMail" type="service_closure" id=".service_locator.PyN5AhU"/>
         <argument key="App\Controller\ManageUsersController:delete" type="service_closure" id=".service_locator.JwPLet6"/>
         <argument key="App\Controller\ManageUsersController:edit" type="service_closure" id=".service_locator.rvMNZGh"/>
         <argument key="App\Controller\ManageUsersController:index" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\ManageUsersController:search" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\MedecinController:createRapport" type="service_closure" id=".service_locator.INocORN"/>
         <argument key="App\Controller\MedecinController:cycle" type="service_closure" id=".service_locator.9MWgsgw"/>
-        <argument key="App\Controller\MedecinController:dashboardPatient" type="service_closure" id=".service_locator.9MWgsgw"/>
+        <argument key="App\Controller\MedecinController:dashboardPatient" type="service_closure" id=".service_locator.fZeA1vv"/>
         <argument key="App\Controller\MedecinController:deleteRapport" type="service_closure" id=".service_locator.5AHGn_n"/>
         <argument key="App\Controller\MedecinController:editRapport" type="service_closure" id=".service_locator.Hj5TzV9"/>
+        <argument key="App\Controller\MedecinController:prediction" type="service_closure" id=".service_locator.7qTMv7A"/>
         <argument key="App\Controller\MedecinController:profile" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\MedecinController:showAllRapports" type="service_closure" id=".service_locator.9MWgsgw"/>
         <argument key="App\Controller\MedicamentController:delete" type="service_closure" id=".service_locator.FfisaAn"/>
@@ -9758,7 +10017,7 @@
         <argument key="App\Controller\PublicationController:delete" type="service_closure" id=".service_locator.BXW8zd5"/>
         <argument key="App\Controller\PublicationController:deleteImage" type="service_closure" id=".service_locator.md.U7iW"/>
         <argument key="App\Controller\PublicationController:edit" type="service_closure" id=".service_locator.md.U7iW"/>
-        <argument key="App\Controller\PublicationController:index" type="service_closure" id=".service_locator.dH_7bkl"/>
+        <argument key="App\Controller\PublicationController:index" type="service_closure" id=".service_locator.3pq_oSJ"/>
         <argument key="App\Controller\PublicationController:like" type="service_closure" id=".service_locator.1BDjvx9"/>
         <argument key="App\Controller\PublicationController:new" type="service_closure" id=".service_locator.dH_7bkl"/>
         <argument key="App\Controller\PublicationController:reject" type="service_closure" id=".service_locator.TyGfL3f"/>
@@ -9772,6 +10031,7 @@
         <argument key="App\Controller\ResetPasswordController:reset" type="service_closure" id=".service_locator.Mhqdd2r"/>
         <argument key="App\Controller\SecurityController:login" type="service_closure" id=".service_locator.rSTd.nA"/>
         <argument key="App\Controller\SecurityController:register" type="service_closure" id=".service_locator.e_4zbH4"/>
+        <argument key="App\Controller\StatistiqueController:getData" type="service_closure" id=".service_locator.YFCVwWF"/>
         <argument key="kernel:loadRoutes" type="service_closure" id=".service_locator.y4_Zrx."/>
         <argument key="kernel:registerContainerConfiguration" type="service_closure" id=".service_locator.y4_Zrx."/>
       </argument>
@@ -10031,6 +10291,10 @@
       <argument type="service" id="texter.messenger.push_handler"/>
       <argument type="collection"/>
     </service>
+    <service id=".messenger.handler_descriptor.oFKCS4G" class="Symfony\Component\Messenger\Handler\HandlerDescriptor">
+      <argument type="service" id="mercure.hub.default.message_handler"/>
+      <argument type="collection"/>
+    </service>
     <service id="messenger.bus.default.messenger.handlers_locator" class="Symfony\Component\Messenger\Handler\HandlersLocator">
       <argument type="collection">
         <argument key="Symfony\Component\Process\Messenger\RunProcessMessage" type="iterator">
@@ -10057,6 +10321,9 @@
         <argument key="Symfony\Component\Notifier\Message\PushMessage" type="iterator">
           <argument type="service" id=".messenger.handler_descriptor.Lml2ICs"/>
         </argument>
+        <argument key="Symfony\Component\Mercure\Update" type="iterator">
+          <argument type="service" id=".messenger.handler_descriptor.oFKCS4G"/>
+        </argument>
       </argument>
     </service>
     <service id=".debug.http_client" class="Symfony\Component\HttpClient\TraceableHttpClient">
@@ -10081,12 +10348,13 @@
         <argument key="vich_uploader.listener.upload.user_pictures" type="service_closure" id="vich_uploader.listener.upload.user_pictures"/>
       </argument>
     </service>
-    <service id=".service_locator.k9PYK7v" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.ewCuL81" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Repository\CampagneRepository" type="service_closure" id="App\Repository\CampagneRepository"/>
         <argument key="App\Repository\ChatGroupRepository" type="service_closure" id="App\Repository\ChatGroupRepository"/>
         <argument key="App\Repository\CommandeRepository" type="service_closure" id="App\Repository\CommandeRepository"/>
+        <argument key="App\Repository\CommentReportRepository" type="service_closure" id="App\Repository\CommentReportRepository"/>
         <argument key="App\Repository\CommentRepository" type="service_closure" id="App\Repository\CommentRepository"/>
         <argument key="App\Repository\CompagnieRepository" type="service_closure" id="App\Repository\CompagnieRepository"/>
         <argument key="App\Repository\DoctorAvailabilityRepository" type="service_closure" id="App\Repository\DoctorAvailabilityRepository"/>
@@ -10575,6 +10843,12 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.O2p6Lk7" method="withContext"/>
     </service>
+    <service id=".service_locator.O2p6Lk7.App\Controller\MailingController" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\MailingController"/>
+      <argument>App\Controller\MailingController</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.O2p6Lk7" method="withContext"/>
+    </service>
     <service id=".service_locator.O2p6Lk7.App\Controller\ManageUsersController" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="App\Controller\ManageUsersController"/>
       <argument>App\Controller\ManageUsersController</argument>
@@ -10632,6 +10906,12 @@
     <service id=".service_locator.O2p6Lk7.App\Controller\SecurityController" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="App\Controller\SecurityController"/>
       <argument>App\Controller\SecurityController</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.O2p6Lk7" method="withContext"/>
+    </service>
+    <service id=".service_locator.O2p6Lk7.App\Controller\StatistiqueController" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\StatistiqueController"/>
+      <argument>App\Controller\StatistiqueController</argument>
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.O2p6Lk7" method="withContext"/>
     </service>
@@ -10754,6 +11034,12 @@
         <argument key="sms" type="service_closure" id="notifier.channel.sms"/>
       </argument>
     </service>
+    <service id=".service_locator.oCJKkwf" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="default" type="service_closure" id="turbo.mercure.default.renderer"/>
+      </argument>
+    </service>
     <service id=".service_locator.LcVn9Hr" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -10825,6 +11111,7 @@
           <argument>App\Controller\DonationController</argument>
           <argument>App\Controller\HomeController</argument>
           <argument>App\Controller\LikeController</argument>
+          <argument>App\Controller\MailingController</argument>
           <argument>App\Controller\ManageUsersController</argument>
           <argument>App\Controller\MedecinController</argument>
           <argument>App\Controller\MedicamentController</argument>
@@ -10835,6 +11122,7 @@
           <argument>App\Controller\ReportController</argument>
           <argument>App\Controller\ResetPasswordController</argument>
           <argument>App\Controller\SecurityController</argument>
+          <argument>App\Controller\StatistiqueController</argument>
           <argument>Doctrine\Bundle\DoctrineBundle\Controller\ProfilerController</argument>
           <argument>Endroid\QrCodeBundle\Controller\GenerateController</argument>
         </argument>
@@ -11018,6 +11306,19 @@
     <service id="debug.security.firewall.authenticator.main.inner" class="Symfony\Component\Security\Http\Firewall\AuthenticatorManagerListener">
       <argument type="service" id="security.authenticator.manager.main"/>
     </service>
+    <service id="mercure.hub.default.publisher.traceable.inner" class="Symfony\Component\Mercure\Publisher">
+      <argument>%env(MERCURE_URL)%</argument>
+      <argument type="service" id="mercure.hub.default.jwt.provider"/>
+      <argument type="service" id=".debug.http_client" on-invalid="ignore"/>
+      <deprecated package="symfony/mercure-bundle" version="0.2">The "%service_id%" service is deprecated. You should stop using it, as it will be removed in the future, use "mercure.hub.default" instead.</deprecated>
+    </service>
+    <service id="mercure.hub.default.traceable.inner" class="Symfony\Component\Mercure\Hub">
+      <argument>%env(MERCURE_URL)%</argument>
+      <argument type="service" id="mercure.hub.default.jwt.provider"/>
+      <argument type="service" id="mercure.hub.default.jwt.factory"/>
+      <argument>%env(MERCURE_PUBLIC_URL)%</argument>
+      <argument type="service" id=".debug.http_client" on-invalid="ignore"/>
+    </service>
     <service id="debug.traced.messenger.bus.default.inner" class="Symfony\Component\Messenger\MessageBus">
       <argument type="iterator">
         <argument type="service" id="messenger.bus.default.middleware.traceable"/>
@@ -11052,8 +11353,11 @@
     <service id=".errored..service_locator.FiBwT5O.App\Entity\Compagnie" class="App\Entity\Compagnie">
       <tag name="container.error" message="Cannot autowire service &quot;.service_locator.FiBwT5O&quot;: it needs an instance of &quot;App\Entity\Compagnie&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
     </service>
-    <service id=".errored..service_locator.hOeesGW.App\Entity\ChatGroup" class="App\Entity\ChatGroup">
-      <tag name="container.error" message="Cannot autowire service &quot;.service_locator.hOeesGW&quot;: it needs an instance of &quot;App\Entity\ChatGroup&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
+    <service id=".errored..service_locator.ijiClT8.App\Entity\CommentReport" class="App\Entity\CommentReport">
+      <tag name="container.error" message="Cannot autowire service &quot;.service_locator.ijiClT8&quot;: it needs an instance of &quot;App\Entity\CommentReport&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
+    </service>
+    <service id=".errored..service_locator.8DdbnkF.App\Entity\ChatGroup" class="App\Entity\ChatGroup">
+      <tag name="container.error" message="Cannot autowire service &quot;.service_locator.8DdbnkF&quot;: it needs an instance of &quot;App\Entity\ChatGroup&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
     </service>
     <service id=".errored..service_locator.Gz2kAjl.App\Entity\ChatGroup" class="App\Entity\ChatGroup">
       <tag name="container.error" message="Cannot autowire service &quot;.service_locator.Gz2kAjl&quot;: it needs an instance of &quot;App\Entity\ChatGroup&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
@@ -11076,6 +11380,9 @@
     <service id=".errored..service_locator.sE8VhYE.App\Entity\Comment" class="App\Entity\Comment">
       <tag name="container.error" message="Cannot autowire service &quot;.service_locator.sE8VhYE&quot;: it needs an instance of &quot;App\Entity\Comment&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
     </service>
+    <service id=".errored..service_locator.vJ7r6mI.App\Entity\Comment" class="App\Entity\Comment">
+      <tag name="container.error" message="Cannot autowire service &quot;.service_locator.vJ7r6mI&quot;: it needs an instance of &quot;App\Entity\Comment&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
+    </service>
     <service id=".errored..service_locator.cZbSAvB.App\Entity\Publication" class="App\Entity\Publication">
       <tag name="container.error" message="Cannot autowire service &quot;.service_locator.cZbSAvB&quot;: it needs an instance of &quot;App\Entity\Publication&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
     </service>
@@ -11090,6 +11397,9 @@
     </service>
     <service id=".errored..service_locator.8S_oN2w.App\Entity\Don" class="App\Entity\Don">
       <tag name="container.error" message="Cannot autowire service &quot;.service_locator.8S_oN2w&quot;: it needs an instance of &quot;App\Entity\Don&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
+    </service>
+    <service id=".errored..service_locator.PyN5AhU.App\Entity\Commande" class="App\Entity\Commande">
+      <tag name="container.error" message="Cannot autowire service &quot;.service_locator.PyN5AhU&quot;: it needs an instance of &quot;App\Entity\Commande&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
     </service>
     <service id=".errored..service_locator.rvMNZGh.App\Entity\User" class="App\Entity\User">
       <tag name="container.error" message="Cannot autowire service &quot;.service_locator.rvMNZGh&quot;: it needs an instance of &quot;App\Entity\User&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
@@ -12266,6 +12576,7 @@
     <service id="messenger.default_bus" alias="debug.traced.messenger.bus.default" public="true"/>
     <service id="Symfony\Component\Messenger\MessageBusInterface" alias="debug.traced.messenger.bus.default"/>
     <service id="Symfony\Component\Notifier\NotifierInterface" alias="notifier"/>
+    <service id="Symfony\Component\Notifier\TexterInterface" alias="texter"/>
     <service id="notifier.logger_notification_listener" alias="notifier.notification_logger_listener">
       <deprecated package="symfony/framework-bundle" version="6.3">The "%alias_id%" service is deprecated, use "notifier.notification_logger_listener" instead.</deprecated>
     </service>
@@ -12348,11 +12659,24 @@
     <service id="Endroid\QrCode\Builder\BuilderInterface" alias="Endroid\QrCode\Builder\Builder"/>
     <service id="Endroid\QrCode\Builder\BuilderRegistryInterface" alias="Endroid\QrCode\Builder\BuilderRegistry"/>
     <service id="Endroid\QrCode\Builder\BuilderInterface $defaultQrCodeBuilder" alias="endroid_qr_code.default_builder"/>
+    <service id="Symfony\Component\Mercure\Jwt\TokenFactoryInterface $default" alias="mercure.hub.default.jwt.factory"/>
+    <service id="Symfony\Component\Mercure\Jwt\TokenFactoryInterface $defaultFactory" alias="mercure.hub.default.jwt.factory"/>
+    <service id="Symfony\Component\Mercure\Jwt\TokenFactoryInterface $defaultTokenFactory" alias="mercure.hub.default.jwt.factory"/>
+    <service id="Symfony\Component\Mercure\Jwt\TokenProviderInterface $default" alias="mercure.hub.default.jwt.provider"/>
+    <service id="Symfony\Component\Mercure\Jwt\TokenProviderInterface $defaultProvider" alias="mercure.hub.default.jwt.provider"/>
+    <service id="Symfony\Component\Mercure\Jwt\TokenProviderInterface $defaultTokenProvider" alias="mercure.hub.default.jwt.provider"/>
+    <service id="Symfony\Component\Mercure\HubInterface $defaultHub" alias="mercure.hub.default.traceable"/>
+    <service id="Symfony\Component\Mercure\HubInterface $default" alias="mercure.hub.default.traceable"/>
+    <service id="Symfony\Component\Mercure\PublisherInterface $defaultPublisher" alias="mercure.hub.default.publisher.traceable"/>
+    <service id="Symfony\Component\Mercure\PublisherInterface $default" alias="mercure.hub.default.publisher.traceable"/>
+    <service id="Symfony\Component\Mercure\HubInterface" alias="mercure.hub.default.traceable"/>
+    <service id="Symfony\Component\Mercure\Publisher" alias="mercure.hub.default.publisher.traceable"/>
+    <service id="Symfony\Component\Mercure\PublisherInterface" alias="mercure.hub.default.publisher.traceable"/>
     <service id="Knp\Component\Pager\PaginatorInterface" alias="knp_paginator"/>
     <service id="Knp\Component\Pager\ArgumentAccess\ArgumentAccessInterface" alias="Knp\Component\Pager\ArgumentAccess\RequestArgumentAccess"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.w7.f4fT" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.jKLDPp6"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.oyLgKNu"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.KLVvNIq"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="Psr\Log\LoggerInterface $requestLogger" alias="monolog.logger.request"/>
@@ -12374,6 +12698,7 @@
     <service id="Psr\Log\LoggerInterface $debugLogger" alias="monolog.logger.debug"/>
     <service id="Psr\Log\LoggerInterface $securityLogger" alias="monolog.logger.security"/>
     <service id="Psr\Log\LoggerInterface $deprecationLogger" alias="monolog.logger.deprecation"/>
+    <service id="turbo.mercure.stimulus_helper" alias="stimulus.helper"/>
     <service id=".service_locator.GsIjbjK" alias="messenger.receiver_locator"/>
     <service id=".service_locator.Q7if2wv" alias="messenger.retry_strategy_locator"/>
     <service id=".service_locator.ZBZXtOS" alias=".service_locator.NZdAz3P"/>
@@ -12382,25 +12707,29 @@
     <service id=".service_locator.8IbU9zc" alias=".service_locator.NjUBG3v"/>
     <service id=".service_locator.n.7.wCW" alias=".service_locator.TyGfL3f"/>
     <service id=".service_locator.9Ed3r3l" alias=".service_locator.0Rj3I2A"/>
-    <service id=".service_locator.bm45aso" alias=".service_locator.hOeesGW"/>
+    <service id=".service_locator.woEzOjx" alias=".service_locator.ijiClT8"/>
+    <service id=".service_locator.uh7LI4r" alias=".service_locator.fZeA1vv"/>
+    <service id=".service_locator.HT9d8oK" alias=".service_locator.8DdbnkF"/>
     <service id=".service_locator.yXBDPyu" alias=".service_locator.Gz2kAjl"/>
     <service id=".service_locator.MVWHApc" alias=".service_locator.OfNm3iN"/>
     <service id=".service_locator.Q8ft3I9" alias=".service_locator.2Jrofw5"/>
     <service id=".service_locator.Fx3F2I." alias=".service_locator.cZbSAvB"/>
     <service id=".service_locator.ni7uMIz" alias=".service_locator.N4bc6a8"/>
+    <service id=".service_locator.wuGwpEo" alias=".service_locator.PyN5AhU"/>
     <service id=".service_locator.R0Sb2kd" alias=".service_locator.rvMNZGh"/>
     <service id=".service_locator.d_bTr6e" alias=".service_locator.JwPLet6"/>
     <service id=".service_locator.LhNm6zJ" alias=".service_locator.9MWgsgw"/>
     <service id=".service_locator.qOsU01r" alias=".service_locator.Hj5TzV9"/>
     <service id=".service_locator.mW1JK4w" alias=".service_locator.5AHGn_n"/>
     <service id=".service_locator.7ZIMj5F" alias=".service_locator.FfisaAn"/>
+    <service id=".service_locator.oSe7oGN" alias=".service_locator.3pq_oSJ"/>
     <service id=".service_locator.th5i6eU" alias=".service_locator.iUig0G9"/>
     <service id=".service_locator.52JxNpb" alias=".service_locator.1BDjvx9"/>
     <service id=".service_locator.dQiUxUs" alias=".service_locator.BXW8zd5"/>
     <service id=".service_locator.HLUlteY" alias=".service_locator.O8GioWl"/>
     <service id=".service_locator.GeA0det" alias=".service_locator.k448V7w"/>
     <service id=".service_locator.V6D1oJY" alias=".service_locator.e_4zbH4"/>
-    <service id=".service_locator.QV3_BQd" alias=".service_locator.jKLDPp6"/>
+    <service id=".service_locator.hJs1xWW" alias=".service_locator.oyLgKNu"/>
     <service id=".service_locator.BFrsqsn" alias=".service_locator.F9PKc.7"/>
     <service id=".service_locator.aV1TeId" alias=".service_locator.3Evl0Vj"/>
     <service id=".service_locator.c636JwQ" alias=".service_locator.19FHMl6"/>
@@ -12422,6 +12751,8 @@
     <service id="turbo.broadcaster.imux" alias="turbo.broadcaster.action_renderer"/>
     <service id="security.access.decision_manager" alias="debug.security.access.decision_manager"/>
     <service id="security.firewall.authenticator.main" alias="debug.security.firewall.authenticator.main"/>
+    <service id="mercure.hub.default.publisher" alias="mercure.hub.default.publisher.traceable"/>
+    <service id="mercure.hub.default" alias="mercure.hub.default.traceable"/>
     <service id="messenger.bus.default" alias="debug.traced.messenger.bus.default"/>
     <service id="doctrine.orm.default_metadata_driver" alias=".doctrine.orm.default_metadata_driver"/>
     <service id="security.event_dispatcher.main" alias="debug.security.event_dispatcher.main"/>
@@ -12435,18 +12766,24 @@
     <service id=".service_locator.uH_G8LR" alias=".service_locator.0N7jZFz"/>
     <service id=".service_locator.5IOpeaI" alias=".service_locator.FiBwT5O"/>
     <service id=".service_locator.X1XU41a" alias=".service_locator.0Rj3I2A"/>
+    <service id=".service_locator.YZ9QLMO" alias=".service_locator.X.jSAzP"/>
+    <service id=".service_locator.MPrPr4x" alias=".service_locator.ijiClT8"/>
+    <service id=".service_locator.o6bE8DT" alias=".service_locator.fZeA1vv"/>
+    <service id=".service_locator.pg52dYR" alias=".service_locator.IP5NWq."/>
     <service id=".service_locator.EPa_xhx" alias=".service_locator.2KIFyBM"/>
     <service id=".service_locator.gaTSUXr" alias=".service_locator.9kKwU2t"/>
-    <service id=".service_locator.w.lYNAF" alias=".service_locator.hOeesGW"/>
+    <service id=".service_locator.mU1XJoP" alias=".service_locator.8DdbnkF"/>
     <service id=".service_locator.OZ8m2G1" alias=".service_locator.Gz2kAjl"/>
     <service id=".service_locator.eCB.056" alias=".service_locator.OfNm3iN"/>
     <service id=".service_locator.K_hF3fe" alias=".service_locator.2Jrofw5"/>
+    <service id=".service_locator.WeDQzXu" alias=".service_locator.G1qvMh8"/>
     <service id=".service_locator.9e2t_lq" alias=".service_locator.CsMkqUa"/>
     <service id=".service_locator.QOx9IOW" alias=".service_locator.TqIg1ou"/>
     <service id=".service_locator.lboLcqS" alias=".service_locator.C15PbZX"/>
     <service id=".service_locator.jvkdxbJ" alias=".service_locator.hAGYStx"/>
     <service id=".service_locator.5IsqsLt" alias=".service_locator.Xz_hH6b"/>
     <service id=".service_locator.kXuNxP5" alias=".service_locator.sE8VhYE"/>
+    <service id=".service_locator.kpyGbNy" alias=".service_locator.vJ7r6mI"/>
     <service id=".service_locator.eZE9ZdI" alias=".service_locator.cZbSAvB"/>
     <service id=".service_locator.lUJI3Z8" alias=".service_locator.LNwsF6h"/>
     <service id=".service_locator.K7vCwQL" alias=".service_locator.elXdKcM"/>
@@ -12454,16 +12791,19 @@
     <service id=".service_locator.HwMM78K" alias=".service_locator.dLTLrdo"/>
     <service id=".service_locator.Q1RtfZS" alias=".service_locator.8S_oN2w"/>
     <service id=".service_locator.W3tohKh" alias=".service_locator.N4bc6a8"/>
+    <service id=".service_locator.OsVB1bI" alias=".service_locator.PyN5AhU"/>
     <service id=".service_locator.ICTRhpx" alias=".service_locator.rvMNZGh"/>
     <service id=".service_locator.3rMBXWx" alias=".service_locator.JwPLet6"/>
     <service id=".service_locator.9G5MUg3" alias=".service_locator.9MWgsgw"/>
     <service id=".service_locator.s0wumrc" alias=".service_locator.INocORN"/>
     <service id=".service_locator.GNWkPaQ" alias=".service_locator.Hj5TzV9"/>
     <service id=".service_locator.dlWsv0V" alias=".service_locator.5AHGn_n"/>
+    <service id=".service_locator.crjPp.X" alias=".service_locator.7qTMv7A"/>
     <service id=".service_locator.aPq90D4" alias=".service_locator.4nATh_P"/>
     <service id=".service_locator.BZPp5GD" alias=".service_locator.FfisaAn"/>
     <service id=".service_locator.OBk_6QD" alias=".service_locator.HOE6MKh"/>
     <service id=".service_locator.HAp6Qyp" alias=".service_locator.H7hrCl."/>
+    <service id=".service_locator.2LXYDa3" alias=".service_locator.3pq_oSJ"/>
     <service id=".service_locator.fG6rZGG" alias=".service_locator.iUig0G9"/>
     <service id=".service_locator.FBAkYy6" alias=".service_locator.md.U7iW"/>
     <service id=".service_locator.ftB.Q1V" alias=".service_locator.1BDjvx9"/>
@@ -12474,6 +12814,7 @@
     <service id=".service_locator.W47vLMj" alias=".service_locator.Mhqdd2r"/>
     <service id=".service_locator.7NIAq8D" alias=".service_locator.rSTd.nA"/>
     <service id=".service_locator.qnm_CJ1" alias=".service_locator.e_4zbH4"/>
+    <service id=".service_locator.sTPDsov" alias=".service_locator.YFCVwWF"/>
     <service id=".service_locator.Q1z.f9O" alias=".service_locator.O2p6Lk7"/>
     <service id=".service_locator.dGUCsbe" alias=".service_locator.oR77BOj"/>
     <service id=".service_locator._kIAbz1" alias=".service_locator.TpoC7U9"/>

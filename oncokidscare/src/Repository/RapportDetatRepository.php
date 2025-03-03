@@ -88,5 +88,14 @@ class RapportDetatRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function findByPatientIdOrdered(int $id): array
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.patient = :id')
+            ->setParameter('id', $id)
+            ->orderBy('r.dateRapport', 'ASC') // Trier par date croissante
+            ->getQuery()
+            ->getResult();
+    }
 
 }
