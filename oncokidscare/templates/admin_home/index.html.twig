@@ -5,120 +5,174 @@
     {{ parent() }}
 {% endblock %}
 
-{% block javascripts %}
-    {{ parent() }}
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-    <script>
-        window.addEventListener('load', function() {
-            try {
-                const ctx = document.getElementById('userDistributionChart');
-                if (!ctx) {
-                    console.error('Canvas element not found');
-                    return;
-                }
+{% block body %}
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <!-- Cartes de statistiques rapides -->
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fas fa-hand-holding-heart fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Donateurs</p>
+                    <h6 class="mb-0">{{ donateurs|length }}</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fas fa-user-injured fa-3x text-success"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Patients</p>
+                    <h6 class="mb-0">{{ patients|length }}</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fas fa-user-md fa-3x text-warning"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Médecins</p>
+                    <h6 class="mb-0">{{ medecins|length }}</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fas fa-user-shield fa-3x text-danger"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Admins</p>
+                    <h6 class="mb-0">{{ admins|length }}</h6>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                const data = {
-                    labels: ['Admins', 'Médecins', 'Patients', 'Donateurs'],
-                    datasets: [{
-                        data: [
-                            {{ admins|length }},
-                            {{ medecins|length }},
-                            {{ patients|length }},
-                            {{ donateurs|length }}
-                        ],
-                        backgroundColor: [
-                            '#FF6384',
-                            '#36A2EB',
-                            '#FFCE56',
-                            '#4BC0C0'
-                        ]
-                    }]
-                };
+    <div class="row g-4 mt-4">
+        <!-- Distribution des utilisateurs -->
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-light rounded h-100 p-4">
+                <h6 class="mb-4">Distribution des utilisateurs</h6>
+                <div style="position: relative; height: 300px; width: 100%">
+                    <canvas id="userDistributionChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Distribution des types de donateurs -->
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-light rounded h-100 p-4">
+                <h6 class="mb-4">Types de donateurs</h6>
+                <div style="position: relative; height: 300px; width: 100%">
+                    <canvas id="donateurTypesChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-                const config = {
-                    type: 'pie',
-                    data: data,
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                position: 'top',
-                            },
-                            title: {
-                                display: true,
-                                text: 'User Distribution Overview'
-                            }
-                        }
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        // User Distribution Pie Chart
+        var userCtx = document.getElementById('userDistributionChart').getContext('2d');
+        new Chart(userCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Admins', 'Médecins', 'Patients', 'Donateurs'],
+                datasets: [{
+                    data: [
+                        {{ admins|length }},
+                        {{ medecins|length }},
+                        {{ patients|length }},
+                        {{ donateurs|length }}
+                    ],
+                    backgroundColor: [
+                        '#e74a3b',
+                        '#1cc88a',
+                        '#4e73df',
+                        '#f6c23e'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Répartition des utilisateurs'
                     }
-                };
-
-                new Chart(ctx, config);
-            } catch (error) {
-                console.error('Error creating chart:', error);
+                }
             }
         });
-    </script>
-{% endblock %}
 
-{% block body %}
-    <!-- Sale & Revenue Start -->
-    <div class="container-fluid pt-4 px-4">
-        <div class="row g-4">
-            <div class="col-sm-6 col-xl-3">
-                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                    <i class="fas fa-hand-holding-heart fa-3x text-primary"></i>
-                    <div class="ms-3">
-                        <p class="mb-2">Donateurs</p>
-                        <h6 class="mb-0">{{ donateurs|length }}</h6>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-xl-3">
-                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                    <i class="fas fa-user-injured fa-3x text-primary"></i>
-                    <div class="ms-3">
-                        <p class="mb-2">Patients</p>
-                        <h6 class="mb-0">{{ patients|length }}</h6>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-xl-3">
-                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                    <i class="fas fa-user-md fa-3x text-primary"></i>
-                    <div class="ms-3">
-                        <p class="mb-2">Médecins</p>
-                        <h6 class="mb-0">{{ medecins|length }}</h6>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-xl-3">
-                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                    <i class="fas fa-user-shield fa-3x text-primary"></i>
-                    <div class="ms-3">
-                        <p class="mb-2">Admins</p>
-                        <h6 class="mb-0">{{ admins|length }}</h6>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Sale & Revenue End -->
+        // Donateur Types Distribution
+        var donateurCtx = document.getElementById('donateurTypesChart').getContext('2d');
+        new Chart(donateurCtx, {
+            type: 'doughnut',
+            data: {
+                labels: [
+                    {% for label, count in donateur_type_counts %}
+                        '{{ label }}'{% if not loop.last %},{% endif %}
+                    {% endfor %}
+                ],
+                datasets: [{
+                    data: [
+                        {% for label, count in donateur_type_counts %}
+                            {{ count }}{% if not loop.last %},{% endif %}
+                        {% endfor %}
+                    ],
+                    backgroundColor: [
+                        '#4e73df',
+                        '#1cc88a',
+                        '#f6c23e',
+                        '#e74a3b',
+                        '#36b9cc'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Types de donateurs'
+                    }
+                }
+            }
+        });
+    });
+</script>
 
-    <!-- Charts Start -->
-    <div class="container-fluid pt-4 px-4">
-        <div class="row g-4">
-            <div class="col-sm-12 col-xl-6">
-                <div class="bg-light text-center rounded p-4">
-                    <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h6 class="mb-0">User Distribution</h6>
-                    </div>
-                    <div style="height: 300px;">
-                        <canvas id="userDistributionChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Charts End -->
+<style>
+.bg-light {
+    background-color: #f8f9fc !important;
+    border: none;
+    box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+}
+
+.text-primary { color: #4e73df !important; }
+.text-success { color: #1cc88a !important; }
+.text-warning { color: #f6c23e !important; }
+.text-danger { color: #e74a3b !important; }
+
+.fa-3x {
+    font-size: 3em;
+    opacity: 0.3;
+}
+
+.chart-container {
+    position: relative;
+    margin: auto;
+    height: 300px;
+    width: 100%;
+}
+</style>
 {% endblock %}

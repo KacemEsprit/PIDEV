@@ -20,10 +20,8 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Form\ProfileFormType;
 use App\Repository\ChatGroupRepository;
 use App\Repository\CommentRepository;
-use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
-use Symfony\UX\Chartjs\Model\Chart;
-
-
+use App\Entity\Don;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 #[Route('/admin')]
 #[IsGranted('ROLE_ADMIN')]
@@ -31,8 +29,7 @@ class AdminController extends AbstractController
 {
     #[Route('/admin_dashboard', name: 'app_admin_index')]
     public function index(
-        UserRepository $userRepository,
-        ChartBuilderInterface $chartBuilder
+        UserRepository $userRepository
     ): Response {
         /** @var User $currentUser */
         $currentUser = $this->getUser();
@@ -42,55 +39,28 @@ class AdminController extends AbstractController
         $medecins = $userRepository->findBy(['role' => User::ROLE_MEDECIN]);
         $patients = $userRepository->findBy(['role' => User::ROLE_PATIENT]);
         $donateurs = $userRepository->findBy(['role' => User::ROLE_DONATEUR]);
-    
-        // Create user distribution chart
-        $userDistributionChart = $chartBuilder->createChart(Chart::TYPE_PIE);
-        $userDistributionChart->setData([
-            'labels' => ['Admins', 'Médecins', 'Patients', 'Donateurs'],
-            'datasets' => [
-                [
-                    'label' => 'User Distribution',
-                    'data' => [
-                        count($admins),
-                        count($medecins),
-                        count($patients),
-                        count($donateurs)
-                    ],
-                    'backgroundColor' => [
-                        '#FF6384', // Red
-                        '#36A2EB', // Blue
-                        '#FFCE56', // Yellow
-                        '#4BC0C0'  // Teal
-                    ],
-                    'hoverOffset' => 4
-                ],
-            ],
-        ]);
-    
-        $userDistributionChart->setOptions([
-            'responsive' => true,
-            'plugins' => [
-                'legend' => [
-                    'position' => 'top',
-                ],
-                'title' => [
-                    'display' => true,
-                    'text' => 'User Distribution Overview'
-                ]
-            ]
-        ]);
-    
+
+        // Get donateur types distribution
+        $donateurTypes = [];
+        foreach ($donateurs as $donateur) {
+            $type = $donateur->getDonateurType() ?: 'Non spécifié';
+            $donateurTypes[$type] = ($donateurTypes[$type] ?? 0) + 1;
+        }
+
+        // Convert to arrays for the chart
+        $donateurTypeLabels = array_keys($donateurTypes);
+        $donateurTypeCounts = array_values($donateurTypes);
+
         return $this->render('admin_home/index.html.twig', [
             'user' => $currentUser,
             'admins' => $admins,
             'medecins' => $medecins,
             'patients' => $patients,
             'donateurs' => $donateurs,
-            'user_distribution_chart' => $userDistributionChart
+            'donateur_type_labels' => $donateurTypeLabels,
+            'donateur_type_counts' => $donateurTypeCounts
         ]);
     }
-
-    
 
     #[Route('/users', name: 'app_admin_users')]
     public function indexx(UserRepository $userRepository): Response
@@ -176,17 +146,6 @@ class AdminController extends AbstractController
         ]);
     }
 
-
-
-
-
-
-
-
-
-
-
-
     #[Route('/publications', name: 'admin_publications')]
     public function managePublications(PublicationRepository $publicationRepository): Response
     {
@@ -221,14 +180,6 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('admin_publications');
     }
     
-     /*  #[Route('/dashboard', name: 'app_dashboard')]
-    public function dashboard(): Response
-    {
-        return $this->render('admin_home/index.html.twig', [
-            'controller_name' => 'AdminHomeController',
-        ]);
-    } */
-
     #[Route('/commandes', name: 'admin_commandes')]
     public function manageCommandes(CommandeRepository $commandeRepository): Response
     {

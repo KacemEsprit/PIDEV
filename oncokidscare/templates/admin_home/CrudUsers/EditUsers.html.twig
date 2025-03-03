@@ -1,41 +1,134 @@
 {% extends 'base_admin.html.twig' %}
 
+{% block title %}Edit User{% endblock %}
+
 {% block body %}
 <div class="container-fluid pt-4 px-4">
     <div class="row g-4">
         <div class="col-12">
             <div class="bg-light rounded h-100 p-4">
-                <h6 class="mb-4">Edit User</h6>
-                {{ form_start(form) }}
-                    <div class="mb-3">
-                        <label class="form-label">First Name</label>
-                        {{ form_widget(form.prenom) }}
-                        {{ form_errors(form.prenom) }}
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h6 class="mb-0">Edit User</h6>
+                    <a href="{{ path('app_admin_users') }}" class="btn btn-sm btn-primary">
+                        <i class="fas fa-arrow-left me-2"></i>Back to Users
+                    </a>
+                </div>
+
+                {{ form_start(form, {'attr': {'class': 'needs-validation'}}) }}
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label text-primary"><strong>First Name</strong></label>
+                            {{ form_widget(form.prenom, {
+                                'attr': {
+                                    'class': 'form-control bg-light border-0',
+                                    'placeholder': 'Enter first name'
+                                }
+                            }) }}
+                            {{ form_errors(form.prenom, {'attr': {'class': 'text-danger'}}) }}
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Last Name</label>
-                        {{ form_widget(form.nom) }}
-                        {{ form_errors(form.nom) }}
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label text-primary"><strong>Last Name</strong></label>
+                            {{ form_widget(form.nom, {
+                                'attr': {
+                                    'class': 'form-control bg-light border-0',
+                                    'placeholder': 'Enter last name'
+                                }
+                            }) }}
+                            {{ form_errors(form.nom, {'attr': {'class': 'text-danger'}}) }}
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Email</label>
-                        {{ form_widget(form.email) }}
-                        {{ form_errors(form.email) }}
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label text-primary"><strong>Email</strong></label>
+                            {{ form_widget(form.email, {
+                                'attr': {
+                                    'class': 'form-control bg-light border-0',
+                                    'placeholder': 'Enter email address'
+                                }
+                            }) }}
+                            {{ form_errors(form.email, {'attr': {'class': 'text-danger'}}) }}
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Phone</label>
-                        {{ form_widget(form.tel) }}
-                        {{ form_errors(form.tel) }}
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label text-primary"><strong>Phone</strong></label>
+                            {{ form_widget(form.tel, {
+                                'attr': {
+                                    'class': 'form-control bg-light border-0',
+                                    'placeholder': 'Enter phone number'
+                                }
+                            }) }}
+                            {{ form_errors(form.tel, {'attr': {'class': 'text-danger'}}) }}
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Role</label>
-                        {{ form_widget(form.role) }}
-                        {{ form_errors(form.role) }}
-                    </div>
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label text-primary"><strong>Role</strong></label>
+                    {{ form_widget(form.role, {
+                        'attr': {
+                            'class': 'form-select bg-light border-0'
+                        }
+                    }) }}
+                    {{ form_errors(form.role, {'attr': {'class': 'text-danger'}}) }}
+                </div>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary px-4">
+                        <i class="fas fa-save me-2"></i>Save Changes
+                    </button>
+                </div>
                 {{ form_end(form) }}
             </div>
         </div>
     </div>
 </div>
+
+<style>
+.bg-light {
+    background-color: #f8f9fc !important;
+    border: none;
+    box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+}
+
+.form-control, .form-select {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+}
+
+.form-control:focus, .form-select:focus {
+    box-shadow: 0 0 0 0.25rem rgba(78, 115, 223, 0.25);
+    border-color: #4e73df;
+}
+
+.btn-primary {
+    background-color: #4e73df;
+    border-color: #4e73df;
+}
+
+.btn-primary:hover {
+    background-color: #2e59d9;
+    border-color: #2e59d9;
+}
+
+.text-primary {
+    color: #4e73df !important;
+}
+
+.form-label {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.invalid-feedback {
+    font-size: 80%;
+    color: #e74a3b;
+}
+</style>
 {% endblock %}

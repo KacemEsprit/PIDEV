@@ -46,8 +46,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank]
     private ?string $adresse = null;
 
-    
-  
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $donateurType = null;
 
@@ -56,6 +54,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private ?string $password = null;
+
+    #[ORM\Column(length: 100, nullable: true)]
+    private ?string $resetToken = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Publication::class, orphanRemoval: true)]
     private Collection $publications;
@@ -68,7 +69,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $picture = null;
-    
 
     #[ORM\ManyToMany(targetEntity: ChatGroup::class, mappedBy: 'members')]
     private Collection $chatGroups;
@@ -76,17 +76,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'owner', targetEntity: ChatGroup::class)]
     private Collection $ownedGroups;
 
-      /**
+    /**
      * @var Collection<int, RapportDetat>
      */
     #[ORM\OneToMany(targetEntity: RapportDetat::class, mappedBy: 'patient', orphanRemoval: true)]
     private Collection $rapportDetats;
 
-     /**
+    /**
      * @var Collection<int, Commande>
      */
     #[ORM\OneToMany(mappedBy: 'patient', targetEntity: Commande::class)]
     private Collection $commandes;
+
     public function __construct()
     {
         $this->publications = new ArrayCollection();
@@ -96,7 +97,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->ownedGroups = new ArrayCollection();
         $this->rapportDetats = new ArrayCollection();
         $this->commandes = new ArrayCollection();
-
     }
 
     public function getPicture(): ?string
@@ -136,8 +136,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->prenom = $prenom;
         return $this;
     }
-   
-      public function getDonateurType(): ?string
+
+    public function getDonateurType(): ?string
     {
         return $this->donateurType;
     }
@@ -230,7 +230,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // Tous les utilisateurs ont au minimum ROLE_USER
         $roles = ['ROLE_USER'];
-        
+
         // Ajouter le rôle spécifique de l'utilisateur
         if ($this->role) {
             $roles[] = $this->role;
@@ -335,7 +335,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-
     /**
      * @return Collection<int, ChatGroup>
      */
@@ -388,6 +387,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
         return $this;
     }
+
     /**
      * @return Collection<int, RapportDetat>
      */
@@ -417,7 +417,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-    
+
     /**
      * @return Collection<int, Commande>
      */
@@ -442,6 +442,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $commande->setPatient(null);
             }
         }
+        return $this;
+    }
+
+    public function getResetToken(): ?string
+    {
+        return $this->resetToken;
+    }
+
+    public function setResetToken(?string $resetToken): self
+    {
+        $this->resetToken = $resetToken;
         return $this;
     }
 }
