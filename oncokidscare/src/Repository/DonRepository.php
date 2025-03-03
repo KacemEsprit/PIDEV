@@ -96,4 +96,37 @@ class DonRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    public function getDonationStatistics(): array
+{
+    return $this->createQueryBuilder('d')
+        ->select('d.type_don, COUNT(d.id) as count, SUM(d.montant) as totalAmount')
+        ->groupBy('d.type_don')
+        ->getQuery()
+        ->getResult();
+}
+
+
+public function getDonationStatisticsByLocation(): array
+{
+    return $this->createQueryBuilder('d')
+        ->select('u.location AS location, COUNT(d.id) AS donationCount')
+        ->join('d.donateur', 'u') // Jointure avec l'entité Donateur
+        ->where('u.location IS NOT NULL')
+        ->groupBy('u.location')
+        ->getQuery()
+        ->getResult();
+}
+
+public function findByDonateurName(string $searchTerm): array
+    {
+        return $this->createQueryBuilder('d')
+            ->join('d.donateur', 'u') // Jointure avec l'entité User (donateur)
+            ->where('u.nom LIKE :searchTerm OR u.prenom LIKE :searchTerm')
+            ->setParameter('searchTerm', '%' . $searchTerm . '%')
+            ->getQuery()
+            ->getResult();
+    }
+
+
 }

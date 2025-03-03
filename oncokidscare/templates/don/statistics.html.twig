@@ -1,0 +1,75 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Statistiques des Donations{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Statistiques des Donations par Location</h2>
+                </div>
+                <div class="card-body">
+                    <canvas id="donationChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var ctx = document.getElementById('donationChart').getContext('2d');
+        
+        var labels = JSON.parse('{{ labels|raw }}');  // Récupération des labels depuis le contrôleur
+        var data = JSON.parse('{{ data|raw }}');  // Récupération des données depuis le contrôleur
+        
+        var backgroundColors = labels.map(() => `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.6)`);
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Nombre de Donations',
+                    data: data,
+                    backgroundColor: backgroundColors,
+                    borderColor: 'rgb(75, 192, 192)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Distribution des Donations par Localisation'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Nombre de Donations'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Location'
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
+
+{% endblock %}

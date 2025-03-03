@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Reçu de Don - OncoKidsCare</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 2px solid #4CAF50;
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: #4CAF50;
+            margin: 0;
+            font-size: 28px;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        .section-title {
+            color: #2E7D32;
+            font-size: 20px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #4CAF50;
+            padding-bottom: 5px;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        .info-item {
+            padding: 10px;
+            background-color: white;
+            border-radius: 5px;
+            border-left: 3px solid #4CAF50;
+        }
+        .info-item strong {
+            color: #1B5E20;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #4CAF50;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            {% if don.donateur is instanceof('App\Entity\Compagnie') and don.donateur.logo %}
+                <div class="company-logo">
+                    <img src="{{ asset(don.donateur.logo) }}" alt="Logo {{ don.donateur.nom }}" style="max-width: 200px; max-height: 100px; margin-bottom: 20px;">
+                </div>
+            {% endif %}
+            <h1>Reçu de Don - OncoKidsCare</h1>
+            <p style="color: #666;">Date d'émission: {{ "now"|date('d/m/Y') }}</p>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Informations du Don</div>
+            <div class="info-grid">
+                <div class="info-item">
+                    <strong>ID du Don</strong>
+                    {{ don.id }}
+                </div>
+                <div class="info-item">
+                    <strong>Type de Don</strong>
+                    {{ don.typeDon }}
+                </div>
+                <div class="info-item">
+                    <strong>Montant</strong>
+                    {{ don.montant ?? 'N/A' }}
+                </div>
+                <div class="info-item">
+                    <strong>Date du Don</strong>
+                    {{ don.dateDon|date('d/m/Y H:i') }}
+                </div>
+                <div class="info-item">
+                    <strong>Mode de Paiement</strong>
+                    {{ don.modePaiement ?? 'N/A' }}
+                </div>
+                {% if don.descriptionMateriel %}
+                <div class="info-item">
+                    <strong>Description du Matériel</strong>
+                    {{ don.descriptionMateriel }}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Informations du Donateur</div>
+            <div class="info-grid">
+                <div class="info-item">
+                    <strong>Nom du Donateur</strong>
+                    {{ don.donateur.nom ?? 'N/A' }}
+                </div>
+                <div class="info-item">
+                    <strong>Email du Donateur</strong>
+                    {{ don.donateur.email ?? 'N/A' }}
+                </div>
+            </div>
+        </div>
+
+        {% if don.compagnies|length > 0 %}
+        <div class="section">
+            <div class="section-title">Compagnies Associées</div>
+            <div class="info-grid">
+                {% for compagnie in don.compagnies %}
+                <div class="info-item">
+                    <strong>Nom de la Compagnie</strong>
+                    {{ compagnie.nom }}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="footer">
+            <p>Merci pour votre généreuse contribution à OncoKidsCare</p>
+            <p>Ensemble, nous faisons la différence dans la vie des enfants</p>
+        </div>
+    </div>
+</body>
+</html>

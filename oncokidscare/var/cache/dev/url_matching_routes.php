@@ -50,6 +50,11 @@ return [
         '/don/create' => [[['_route' => 'app_don_create', '_controller' => 'App\\Controller\\DonController::create'], null, ['GET' => 0, 'POST' => 1], null, false, false, null]],
         '/don' => [[['_route' => 'app_don_index', '_controller' => 'App\\Controller\\DonController::index'], null, ['GET' => 0], null, true, false, null]],
         '/don/new' => [[['_route' => 'app_don_new', '_controller' => 'App\\Controller\\DonController::new'], null, ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        '/don/admin/dons' => [[['_route' => 'don_admin_index', '_controller' => 'App\\Controller\\DonController::adminIndex'], null, ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        '/don/statics' => [[['_route' => 'donation_statics', '_controller' => 'App\\Controller\\DonController::donationStatics'], null, null, null, false, false, null]],
+        '/don/webhook/stripe' => [[['_route' => 'stripe_webhook', '_controller' => 'App\\Controller\\DonController::stripeWebhook'], null, ['POST' => 0], null, false, false, null]],
+        '/payment/success' => [[['_route' => 'app_don_payment_success', '_controller' => 'App\\Controller\\DonPaymentController::paymentSuccess'], null, null, null, false, false, null]],
+        '/payment/cancel' => [[['_route' => 'app_don_payment_cancel', '_controller' => 'App\\Controller\\DonPaymentController::paymentCancel'], null, null, null, false, false, null]],
         '/donateur/dashboard' => [[['_route' => 'app_donateur_dashboard', '_controller' => 'App\\Controller\\DonateurDashboardController::index'], null, null, null, true, false, null]],
         '/faire-don' => [[['_route' => 'app_faire_don', '_controller' => 'App\\Controller\\DonationController::faireDon'], null, null, null, false, false, null]],
         '/historique-don' => [[['_route' => 'app_historique_don', '_controller' => 'App\\Controller\\DonationController::historiqueDon'], null, null, null, false, false, null]],
@@ -223,30 +228,43 @@ return [
                     .')'
                     .'|ail/send/([^/]++)(?:/([^/]++))?(*:1460)'
                 .')'
-                .'|/don/([^/]++)(?'
-                    .'|(*:1486)'
-                    .'|/edit(*:1500)'
-                    .'|(*:1509)'
+                .'|/don/(?'
+                    .'|(\\d+)(*:1483)'
+                    .'|([^/]++)/(?'
+                        .'|pdf(*:1507)'
+                        .'|confirm(*:1523)'
+                    .')'
+                    .'|admin/dons/([^/]++)/reject(*:1559)'
                 .')'
                 .'|/p(?'
+                    .'|a(?'
+                        .'|yment/new/([^/]++)(*:1596)'
+                        .'|tient2/rendezvous/doctor/([^/]++)(*:1638)'
+                    .')'
                     .'|ublication/(?'
                         .'|([^/]++)(?'
-                            .'|(*:1549)'
+                            .'|(*:1673)'
                             .'|/(?'
-                                .'|edit(*:1566)'
+                                .'|edit(*:1690)'
                                 .'|delete(?'
-                                    .'|\\-image(*:1591)'
-                                    .'|(*:1600)'
+                                    .'|\\-image(*:1715)'
+                                    .'|(*:1724)'
                                 .')'
-                                .'|like(*:1614)'
+                                .'|like(*:1738)'
                             .')'
                         .')'
-                        .'|approve/([^/]++)(*:1641)'
-                        .'|reject/([^/]++)(*:1665)'
+                        .'|approve/([^/]++)(*:1765)'
+                        .'|reject/([^/]++)(*:1789)'
                     .')'
-                    .'|atient2/rendezvous/doctor/([^/]++)(*:1709)'
                 .')'
-                .'|/reset\\-password/confirm/([^/]++)(*:1752)'
+                .'|/reset\\-password/confirm/([^/]++)(*:1833)'
+                .'|/stripe/(?'
+                    .'|c(?'
+                        .'|reate\\-session/([^/]++)(*:1880)'
+                        .'|ancel/([^/]++)(*:1903)'
+                    .')'
+                    .'|success/([^/]++)(*:1929)'
+                .')'
             .')/?$}sDu',
     ],
     [ // $dynamicRoutes
@@ -312,19 +330,24 @@ return [
         1390 => [[['_route' => 'app_patient_statistic', '_controller' => 'App\\Controller\\MedecinController::dashboardPatient'], ['id'], null, null, false, true, null]],
         1418 => [[['_route' => 'app_medecin_prediction', '_controller' => 'App\\Controller\\MedecinController::prediction'], ['id'], null, null, false, true, null]],
         1460 => [[['_route' => 'app_mail_send', 'emailType' => 'default', '_controller' => 'App\\Controller\\MailingController::sendMail'], ['id', 'emailType'], ['GET' => 0], null, false, true, null]],
-        1486 => [[['_route' => 'app_don_show', '_controller' => 'App\\Controller\\DonController::show'], ['id'], ['GET' => 0], null, false, true, null]],
-        1500 => [[['_route' => 'app_don_edit', '_controller' => 'App\\Controller\\DonController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
-        1509 => [[['_route' => 'app_don_delete', '_controller' => 'App\\Controller\\DonController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
-        1549 => [[['_route' => 'app_publication_show', '_controller' => 'App\\Controller\\PublicationController::show'], ['id'], ['GET' => 0, 'POST' => 1], null, false, true, null]],
-        1566 => [[['_route' => 'app_publication_edit', '_controller' => 'App\\Controller\\PublicationController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
-        1591 => [[['_route' => 'app_publication_delete_image', '_controller' => 'App\\Controller\\PublicationController::deleteImage'], ['id'], ['POST' => 0], null, false, false, null]],
-        1600 => [[['_route' => 'app_publication_delete', '_controller' => 'App\\Controller\\PublicationController::delete'], ['id'], ['POST' => 0], null, false, false, null]],
-        1614 => [[['_route' => 'app_publication_like', '_controller' => 'App\\Controller\\PublicationController::like'], ['id'], ['GET' => 0], null, false, false, null]],
-        1641 => [[['_route' => 'publication_approve', '_controller' => 'App\\Controller\\PublicationController::approve'], ['id'], ['POST' => 0], null, false, true, null]],
-        1665 => [[['_route' => 'publication_reject', '_controller' => 'App\\Controller\\PublicationController::reject'], ['id'], ['POST' => 0], null, false, true, null]],
-        1709 => [[['_route' => 'app_patient_rendezvous_doctor', '_controller' => 'App\\Controller\\RendezvousController::doctorAvailability'], ['id'], ['GET' => 0], null, false, true, null]],
-        1752 => [
-            [['_route' => 'app_reset_password_confirm', '_controller' => 'App\\Controller\\ResetPasswordController::reset'], ['token'], ['GET' => 0, 'POST' => 1], null, false, true, null],
+        1483 => [[['_route' => 'app_don_show', '_controller' => 'App\\Controller\\DonController::show'], ['id'], ['GET' => 0], null, false, true, null]],
+        1507 => [[['_route' => 'app_don_pdf', '_controller' => 'App\\Controller\\DonController::generatePdf'], ['id'], ['GET' => 0], null, false, false, null]],
+        1523 => [[['_route' => 'app_don_confirm', '_controller' => 'App\\Controller\\DonController::confirmDon'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        1559 => [[['_route' => 'app_don_reject', '_controller' => 'App\\Controller\\DonController::rejectDon'], ['id'], ['POST' => 0], null, false, false, null]],
+        1596 => [[['_route' => 'app_don_payment', '_controller' => 'App\\Controller\\DonPaymentController::new'], ['donId'], ['GET' => 0, 'POST' => 1], null, false, true, null]],
+        1638 => [[['_route' => 'app_patient_rendezvous_doctor', '_controller' => 'App\\Controller\\RendezvousController::doctorAvailability'], ['id'], ['GET' => 0], null, false, true, null]],
+        1673 => [[['_route' => 'app_publication_show', '_controller' => 'App\\Controller\\PublicationController::show'], ['id'], ['GET' => 0, 'POST' => 1], null, false, true, null]],
+        1690 => [[['_route' => 'app_publication_edit', '_controller' => 'App\\Controller\\PublicationController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        1715 => [[['_route' => 'app_publication_delete_image', '_controller' => 'App\\Controller\\PublicationController::deleteImage'], ['id'], ['POST' => 0], null, false, false, null]],
+        1724 => [[['_route' => 'app_publication_delete', '_controller' => 'App\\Controller\\PublicationController::delete'], ['id'], ['POST' => 0], null, false, false, null]],
+        1738 => [[['_route' => 'app_publication_like', '_controller' => 'App\\Controller\\PublicationController::like'], ['id'], ['GET' => 0], null, false, false, null]],
+        1765 => [[['_route' => 'publication_approve', '_controller' => 'App\\Controller\\PublicationController::approve'], ['id'], ['POST' => 0], null, false, true, null]],
+        1789 => [[['_route' => 'publication_reject', '_controller' => 'App\\Controller\\PublicationController::reject'], ['id'], ['POST' => 0], null, false, true, null]],
+        1833 => [[['_route' => 'app_reset_password_confirm', '_controller' => 'App\\Controller\\ResetPasswordController::reset'], ['token'], ['GET' => 0, 'POST' => 1], null, false, true, null]],
+        1880 => [[['_route' => 'stripe_create_session', '_controller' => 'App\\Controller\\StripeController::createSession'], ['id'], null, null, false, true, null]],
+        1903 => [[['_route' => 'stripe_cancel', '_controller' => 'App\\Controller\\StripeController::cancel'], ['id'], null, null, false, true, null]],
+        1929 => [
+            [['_route' => 'stripe_success', '_controller' => 'App\\Controller\\StripeController::success'], ['id'], null, null, false, true, null],
             [null, null, null, null, false, false, 0],
         ],
     ],

@@ -96,7 +96,7 @@ class AdminController extends AbstractController
             $month = (new \DateTime())->modify("-$i months")->format('Y-m');
             $monthlyStats[$month] = 0;
         }
-
+/*
         $sixMonthsAgo = new \DateTime('-6 months');
         $recentUsers = $userRepository->createQueryBuilder('u')
             ->where('u.createdAt >= :sixMonthsAgo')
@@ -109,7 +109,7 @@ class AdminController extends AbstractController
             if (isset($monthlyStats[$month])) {
                 $monthlyStats[$month]++;
             }
-        }
+        }*/
 
         $roleActivity = [
             'ROLE_MEDECIN' => [
@@ -296,6 +296,7 @@ class AdminController extends AbstractController
     {
         return $this->render('admin_home/compagnie/index.html.twig', [
             'compagnies' => $compagnieRepository->findAll(),
+            'user' => $this->getUser(),
         ]);
     }
 

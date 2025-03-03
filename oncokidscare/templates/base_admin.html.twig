@@ -53,8 +53,8 @@
 </a>
         <div class="d-flex align-items-center ms-4 mb-4">
             <div class="position-relative">
-                {% if app.user and app.user.picture %}
-                    <img class="rounded-circle" src="{{ asset('uploads/user_pictures/' ~ app.user.picture) }}" alt="" style="width: 40px; height: 40px;">
+                {% if user %}
+                    <img class="rounded-circle" src="{{ asset('uploads/user_pictures/' ~ user.picture) }}" alt="" style="width: 40px; height: 40px;">
                 {% else %}
                     <img class="rounded-circle" src="{{ asset('uploads/user_pictures/default.png') }}" alt="" style="width: 40px; height: 40px;">
                 {% endif %}
@@ -102,7 +102,15 @@
     <a href="{{ path('app_statistique') }}" class="nav-item nav-link {{ app.request.get('_route') == 'app_statistique' ? 'active' : '' }}">
     <i class="bi bi-file-earmark-text"></i> statistiques medicaments
 </a>     
-
+<div class="navbar-nav w-100">
+<div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-pills me-2"></i>Dons</a>
+                <div class="dropdown-menu bg-transparent border-0">
+                    <a href="{{ path('don_admin_index') }}" class="dropdown-item">Validation</a>
+                    <a href="{{ path('donation_statics') }}" class="dropdown-item">Statics</a>
+                </div>
+    </div>
+</div>
 </div>
             
           {#   <div class="nav-item dropdown">
@@ -213,8 +221,8 @@
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             {# <img class="rounded-circle me-lg-2" src="{{ asset('uploads/user_pictures/' ~ app.user.picture) }}" alt="" style="width: 40px; height: 40px;"> #}
-                              {% if app.user and app.user.picture %}
-                    <img class="rounded-circle" src="{{ asset('uploads/user_pictures/' ~ app.user.picture) }}" alt="" style="width: 40px; height: 40px;">
+                              {% if user %}
+                    <img class="rounded-circle" src="{{ asset('uploads/user_pictures/' ~ user.picture) }}" alt="" style="width: 40px; height: 40px;">
                 {% else %}
                     <img class="rounded-circle" src="{{ asset('uploads/user_pictures/default.png') }}" alt="" style="width: 40px; height: 40px;">
                 {% endif %}

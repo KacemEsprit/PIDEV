@@ -59,9 +59,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 100, nullable: true)]
     private ?string $resetToken = null;
 
-    #[ORM\Column(type: 'datetime')]
-    private ?\DateTimeInterface $createdAt = null;
-
+    
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Publication::class, orphanRemoval: true)]
     private Collection $publications;
 
@@ -92,6 +90,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'patient', targetEntity: Commande::class)]
     private Collection $commandes;
 
+    #[ORM\Column(type: 'float', nullable: true)]
+    private ?float $latitude = null;
+    
+    #[ORM\Column(type: 'float', nullable: true)]
+    private ?float $longitude = null;
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $location = null;
+
     public function __construct()
     {
         $this->publications = new ArrayCollection();
@@ -101,26 +108,39 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->ownedGroups = new ArrayCollection();
         $this->rapportDetats = new ArrayCollection();
         $this->commandes = new ArrayCollection();
-        $this->createdAt = new \DateTime();
     }
 
-    #[ORM\PrePersist]
-    public function setCreatedAtValue(): void
-    {
-        $this->createdAt = new \DateTime();
+ 
+    public function getLatitude(): ?float
+{
+    return $this->latitude;
+}
+
+public function setLatitude(?float $latitude): self
+{
+    $this->latitude = $latitude;
+    return $this;
+}
+
+public function getLongitude(): ?float
+{
+    return $this->longitude;
+}
+
+public function setLongitude(?float $longitude): self
+{
+    $this->longitude = $longitude;
+    return $this;
+}
+  public function getLocation() {
+        return $this->location ; 
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function setLocation(?string $location): self
     {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
+        $this->location = $location;
         return $this;
     }
-
     public function getPicture(): ?string
     {
         return $this->picture;

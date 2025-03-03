@@ -37,6 +37,20 @@ class Don
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $preuve_don = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $stripeSessionId = null;
+
+    public function getStripeSessionId(): ?string
+    {        
+        return $this->stripeSessionId;
+    }
+
+    public function setStripeSessionId(?string $stripeSessionId): static
+    {        
+        $this->stripeSessionId = $stripeSessionId;
+        return $this;
+    }
+
     #[ORM\ManyToOne(inversedBy: 'dons')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $donateur = null;
@@ -180,4 +194,6 @@ class Don
         $this->campagne = $campagne;
         return $this;
     }
+    
 }
+

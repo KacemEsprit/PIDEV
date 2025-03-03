@@ -39,11 +39,19 @@
                 <div class="col-md-6">
                     {{ form_row(form.mode_paiement) }}
                     {{ form_row(form.preuve_don) }}
+
+                    <!-- Zone de paiement Stripe -->
+                    <div id="stripe-payment" style="display: none;">
+                        <h5>Entrez les détails de votre carte</h5>
+                        <div id="card-element"></div>
+                        <div id="card-errors" class="text-danger mt-2"></div>
+                        <button id="stripe-pay-button" class="btn btn-success mt-3">Payer avec Stripe</button>
+                    </div>
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary">Enregistrer</button>
             <a href="{{ path('app_don_index') }}" class="btn btn-secondary">Retour à la liste</a>
         {{ form_end(form) }}
     </div>
 {% endblock %}
+

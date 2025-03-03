@@ -12,9 +12,30 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use App\Service\GeocodingService;
 
 class SecurityController extends AbstractController
 {
+        private function getplace($lon,$lat) : String {
+        $url = "https://nominatim.openstreetmap.org/reverse?format=json&lat={$lat}&lon={$lon}";
+
+        $options = [
+            "http" => [
+                "header" => "User-Agent: MyCustomApp/1.0 (jasserhav@gmail.com)\r\n"
+            ]
+        ];
+        
+        $context = stream_context_create($options);
+
+        $response = file_get_contents($url, false, $context);
+
+        $data = json_decode($response, true);     
+
+        $location = $data['address']['country'] ; 
+
+        return $location ;
+    }
+
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils, SessionInterface $session): Response
     {
@@ -53,41 +74,56 @@ class SecurityController extends AbstractController
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 
+
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
-    {
-        $user = new User();
-        $form = $this->createForm(RegistrationFormType::class, $user);
-        $form->handleRequest($request);
+public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, GeocodingService $geocodingService): Response
+{
+    $user = new User();
+    $form = $this->createForm(RegistrationFormType::class, $user);
+    $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Récupérer le rôle sélectionné
-            $role = $form->get('role')->getData();
-            $user->setRole($role);
+    if ($form->isSubmitted() && $form->isValid()) {
+        // Récupérer le rôle sélectionné
+        $role = $form->get('role')->getData();
+        $user->setRole($role);
 
-            // Récupérer le type de donateur depuis la requête
-            $donateurType = $request->request->get('donateurType');
-            if ($role === User::ROLE_DONATEUR && $donateurType) {
-                $user->setDonateurType($donateurType);
-            }
-
-            // encode the plain password
-            $user->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
-
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            $this->addFlash('success', 'Votre compte a été créé avec succès!');
-            return $this->redirectToRoute('app_login');
+        // Récupérer le type de donateur
+        $donateurType = $request->request->get('donateurType');
+        if ($role === User::ROLE_DONATEUR && $donateurType) {
+            $user->setDonateurType($donateurType);
         }
 
-        return $this->render('security/register.html.twig', [
-            'registrationForm' => $form->createView(),
+        $latitude = $request->request->get('latitude');
+        $longitude = $request->request->get('longitude');
+        
+        if (!empty($latitude) && !empty($longitude)) {
+            $user->setLatitude($latitude);
+            $user->setLongitude($longitude);
+            $location = $this->getplace($longitude,$latitude) ; 
+            $user->setLocation($location); 
+        }
+        
+        // Encoder le mot de passe
+        $user->setPassword(
+            $userPasswordHasher->hashPassword(
+                $user,
+                $form->get('plainPassword')->getData()
+            )
+        );
+
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Votre compte a été créé avec succès!');
+        return $this->redirectToRoute('app_login');
+        }
+
+    return $this->render('security/register.html.twig', [
+        'registrationForm' => $form->createView(),
         ]);
+       
     }
 }
+
+
+    
