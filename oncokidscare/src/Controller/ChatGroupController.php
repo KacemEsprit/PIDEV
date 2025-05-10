@@ -24,6 +24,7 @@ class ChatGroupController extends AbstractController
     
     public function __construct(HubInterface $hub)
 {
+    
     $this->hub = $hub;
 }
     

@@ -60,10 +60,6 @@
                 {% endif %}
                 <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
             </div>
-            <div class="ms-3">
-                <h6 class="mb-0">{{ user.prenom }} {{ user.nom }}</h6>
-                <span>Admin</span>
-            </div>
         </div>
        {#  <div class="navbar-nav w-100">
             <a href="{{ path('app_admin_index') }}" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
@@ -79,38 +75,47 @@
     <a href="{{ path('app_admin_profile') }}" class="nav-item nav-link {{ app.request.get('_route') == 'app_admin_profile' ? 'active' : '' }}">
         <i class="bi bi-person"></i> Mon profil
     </a>
-    
-        <a href="{{ path('admin_publications') }}" class="nav-item nav-link {{ app.request.get('_route') == 'admin_publications' ? 'active' : '' }}">
-                <i class="bi bi-journal-text"></i> Gérer Publications
-            </a>
-    <a href="{{ path('admin_espace_com') }}" class="nav-item nav-link {{ app.request.get('_route') == 'admin_espace_com' ? 'active' : '' }}">
-        <i class="bi bi-bar-chart-line me-2"></i> Statistiques Communautaires
-    </a>
-    <a href="{{ path('admin_comment_reports') }}" class="nav-item nav-link {{ app.request.get('_route') == 'admin_comment_reports' ? 'active' : '' }}">
-        <i class="bi bi-exclamation-triangle me-2"></i> Signalements Commentaires
-    </a>
+    <div class="navbar-nav w-100">
+<div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-tachometer-alt me-2"></i>Espace com</a>
+                <div class="dropdown-menu bg-transparent border-0">
+                    <a href="{{ path('admin_publications') }}" class="dropdown-item"><i class="bi bi-journal-text"></i> Gérer Publications</a>
+                    <a href="{{ path('admin_espace_com') }}" class="dropdown-item"><i class="bi bi-bar-chart-line me-2"></i>Statistiques</a>
+                     <a href="{{ path('admin_comment_reports') }}" class="dropdown-item"> <i class="bi bi-exclamation-triangle me-2"></i>Signalements</a>
+
+                </div>
+    </div>
+</div>
+       
           <a href="{{ path('admin_rapports_patient') }}" class="nav-item nav-link {{ app.request.get('_route') == 'admin_rapports_patient' ? 'active' : '' }}">
     <i class="bi bi-file-earmark-text"></i> Consulter Rapports
 </a>
-   <a href="{{ path('admin_commandes') }}" class="nav-item nav-link {{ app.request.get('_route') == 'admin_commandes' ? 'active' : '' }}">
-    <i class="bi bi-file-earmark-text"></i> Commandes 
-</a>
-</a>
-   <a href="{{ path('app_medicament_index') }}" class="nav-item nav-link {{ app.request.get('_route') == 'app_medicament_new' ? 'active' : '' }}">
-    <i class="bi bi-file-earmark-text"></i> medicaments
-</a>
-    <a href="{{ path('app_statistique') }}" class="nav-item nav-link {{ app.request.get('_route') == 'app_statistique' ? 'active' : '' }}">
-    <i class="bi bi-file-earmark-text"></i> statistiques medicaments
-</a>     
+
+<div class="navbar-nav w-100">
+<div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-pills me-2"></i>Pharmacie</a>
+                <div class="dropdown-menu bg-transparent border-0">
+                    <a href="{{ path('admin_commandes') }}" class="dropdown-item"> <i class="bi bi-cart"></i> Commandes</a>
+                    <a href="{{ path('app_medicament_index') }}" class="dropdown-item">  <i class="bi bi-file-earmark-text"></i> medicaments</a>
+                                        <a href="{{ path('app_statistique') }}" class="dropdown-item"> <i class="bi bi-bar-chart-line me-2"></i>Vente Medicament</a>
+
+                </div>
+    </div>
+</div>
+
+
 <div class="navbar-nav w-100">
 <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-pills me-2"></i>Dons</a>
                 <div class="dropdown-menu bg-transparent border-0">
                     <a href="{{ path('don_admin_index') }}" class="dropdown-item">Validation</a>
-                    <a href="{{ path('donation_statics') }}" class="dropdown-item">Statics</a>
+                    <a href="{{ path('donation_statics') }}" class="dropdown-item">Statistiques</a>
+                    
                 </div>
     </div>
 </div>
+                    <a href="{{ path('admin_compagnie_index') }}" class="dropdown-item"><i class="bi bi-file-earmark-text"></i>Compagnies</a>
+
 </div>
             
           {#   <div class="nav-item dropdown">

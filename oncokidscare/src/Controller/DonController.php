@@ -59,13 +59,24 @@ class DonController extends AbstractController
             $entityManager->flush();
 
             // Pour les dons matériels, enregistrer directement sans passer par Stripe
-            if (strtolower($don->getTypeDon()) === 'materiel') {
+            if ($don->getTypeDon() === 'materiel') {
                 $this->addFlash('success', 'Votre don matériel a été enregistré avec succès! Merci pour votre générosité.');
                 return $this->redirectToRoute('app_donateur_dashboard');
             }
 
             // Pour les dons financiers, rediriger vers le paiement Stripe
+            if ($don->getTypeDon() === 'financier') {
+                try {
+                    $session = $stripeService->createCheckoutSession($don, $this->getUser());
+                    return $this->redirect($session->url);
+                } catch (\Exception $e) {
+                    $this->addFlash('error', 'Une erreur est survenue lors de l\'initialisation du paiement.');
+                    return $this->redirectToRoute('app_don_create');
+                }
+            }
+
             return $this->redirectToRoute('app_don_payment', ['donId' => $don->getId()]);
+
         }
 
         return $this->render('don/create.html.twig', [
@@ -382,11 +393,12 @@ public function new(Request $request, EntityManagerInterface $entityManager, Slu
         }
     
         $dons = $qb->getQuery()->getResult();
-    
+        $user = $this->getUser(); // Get the current user
+
         return $this->render('don/admin_index.html.twig', [
             'dons' => $dons,
             'search' => $search,
-            'user' => $this->getUser(),
+            'user' => $user, // Pass the user variable to the template
         ]);
     }
 
@@ -459,7 +471,6 @@ public function new(Request $request, EntityManagerInterface $entityManager, Slu
         return $this->render('don/statistics.html.twig', [
             'labels' => json_encode($labels),
             'data' => json_encode($data),
-            'user' => $this->getUser(), // Pass the user variable to the template
         ]);
     }
     
@@ -499,5 +510,42 @@ public function new(Request $request, EntityManagerInterface $entityManager, Slu
             }
         }
 
-        return new Response(null, 200);
-    }}
+        return new Response(null, 200);    }
+
+    #[Route('/{id}/edit', name: 'app_don_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function edit(Request $request, Don $don, EntityManagerInterface $entityManager): Response
+    {
+        $user = $this->getUser();
+        if ($don->getDonateur() !== $user && !$this->isGranted('ROLE_ADMIN')) {
+            throw $this->createAccessDeniedException('Vous n\'avez pas le droit de modifier ce don.');
+        }
+
+        $form = $this->createForm(DonType::class, $don);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+            $this->addFlash('success', 'Le don a été mis à jour avec succès.');
+            return $this->redirectToRoute('app_don_show', ['id' => $don->getId()]);
+        }
+
+        return $this->render('don/edit.html.twig', [
+            'don' => $don,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/{id}/delete', name: 'app_don_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function delete(Request $request, Don $don, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $don->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($don);
+            $entityManager->flush();
+            $this->addFlash('success', 'Le don a été supprimé avec succès.');
+        }
+
+        return $this->redirectToRoute('app_don_index');
+    }
+}

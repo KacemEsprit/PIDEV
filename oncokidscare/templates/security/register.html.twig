@@ -22,7 +22,8 @@
                     </div>
 
                     {{ form_start(registrationForm, {'attr': {'class': 'register-form'}}) }}
-                    
+                    <input type="hidden" id="latitude" />
+                    <input type="hidden" id="longitude">
                     {% if form_errors(registrationForm) %}
                         <div class="alert alert-danger">
                             {{ form_errors(registrationForm) }}

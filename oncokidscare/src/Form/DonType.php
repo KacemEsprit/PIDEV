@@ -8,7 +8,6 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -42,18 +41,13 @@ class DonType extends AbstractType
                 'choices' => [
                     'Stripe' => 'stripe'
                 ],
-                'required' => true,
-                'attr' => ['class' => 'form-control js-payment-mode'],
-                'data' => 'stripe'
+                'required' => false,
+                'attr' => ['class' => 'form-control js-payment-mode']
             ])
             ->add('preuve_don', FileType::class, [
                 'required' => false,
                 'mapped' => false,
                 'attr' => ['class' => 'form-control']
-            ])
-            ->add('submit', SubmitType::class, [
-                'label' => 'Enregistrer',
-                'attr' => ['class' => 'btn btn-primary']
             ]);
 
         // Ajout d'un écouteur d'événement pour gérer les validations conditionnelles
