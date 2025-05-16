@@ -1,5 +1,5 @@
 [build]
-  command = "composer install --no-dev --optimize-autoloader && npm install && npm run build"
+  command = "cd oncokidscare && composer install --no-dev --optimize-autoloader && npm install && npm run build"
   publish = "oncokidscare/public"
 
 [[redirects]]
