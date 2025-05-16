@@ -1,11 +1,11 @@
 [build]
   command = "composer install --no-dev --optimize-autoloader && npm install && npm run build"
-  publish = "public"
+  publish = "oncokidscare/public"
 
 [[redirects]]
-  from = "/*"
-  to = "/index.php"
-  status = 200
+from = "/*"
+to = "/index.php"
+status = 200
 
 [context.production.environment]
   APP_ENV = "prod"
