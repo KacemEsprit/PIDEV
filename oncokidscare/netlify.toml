@@ -1,8 +1,12 @@
 [build]
-  publish = "public"
   command = "composer install --no-dev --optimize-autoloader && npm install && npm run build"
+  publish = "public"
 
 [[redirects]]
   from = "/*"
   to = "/index.php"
   status = 200
+
+[context.production.environment]
+  APP_ENV = "prod"
+  APP_DEBUG = "0"
